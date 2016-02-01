@@ -33,10 +33,10 @@
             this.statusStrip_Main = new System.Windows.Forms.StatusStrip();
             this.loadingCircleToolStripMenuItem_Main = new MRG.Controls.UI.LoadingCircleToolStripMenuItem();
             this.toolStripStatusLabel_Progress = new System.Windows.Forms.ToolStripStatusLabel();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tableLayoutPanel_MainGroup.SuspendLayout();
             this.statusStrip_Main.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -48,13 +48,14 @@
             this.tableLayoutPanel_MainGroup.ColumnCount = 1;
             this.tableLayoutPanel_MainGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_MainGroup.Controls.Add(this.statusStrip_Main, 0, 1);
-            this.tableLayoutPanel_MainGroup.Location = new System.Drawing.Point(0, 27);
+            this.tableLayoutPanel_MainGroup.Location = new System.Drawing.Point(0, 30);
+            this.tableLayoutPanel_MainGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_MainGroup.Name = "tableLayoutPanel_MainGroup";
             this.tableLayoutPanel_MainGroup.RowCount = 2;
             this.tableLayoutPanel_MainGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_MainGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel_MainGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel_MainGroup.Size = new System.Drawing.Size(858, 654);
+            this.tableLayoutPanel_MainGroup.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel_MainGroup.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel_MainGroup.Size = new System.Drawing.Size(1287, 1012);
             this.tableLayoutPanel_MainGroup.TabIndex = 3;
             // 
             // statusStrip_Main
@@ -63,9 +64,10 @@
             this.statusStrip_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadingCircleToolStripMenuItem_Main,
             this.toolStripStatusLabel_Progress});
-            this.statusStrip_Main.Location = new System.Drawing.Point(0, 627);
+            this.statusStrip_Main.Location = new System.Drawing.Point(0, 990);
             this.statusStrip_Main.Name = "statusStrip_Main";
-            this.statusStrip_Main.Size = new System.Drawing.Size(858, 27);
+            this.statusStrip_Main.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
+            this.statusStrip_Main.Size = new System.Drawing.Size(1287, 22);
             this.statusStrip_Main.TabIndex = 3;
             this.statusStrip_Main.Text = "statusStrip_Main";
             // 
@@ -96,17 +98,7 @@
             // toolStripStatusLabel_Progress
             // 
             this.toolStripStatusLabel_Progress.Name = "toolStripStatusLabel_Progress";
-            this.toolStripStatusLabel_Progress.Size = new System.Drawing.Size(0, 22);
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(858, 24);
-            this.menuStrip1.TabIndex = 4;
-            this.menuStrip1.Text = "menuStrip1";
+            this.toolStripStatusLabel_Progress.Size = new System.Drawing.Size(0, 17);
             // 
             // fileToolStripMenuItem
             // 
@@ -114,33 +106,48 @@
             this.settingsToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 19);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.settingsToolStripMenuItem.Text = "Settings...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.exitToolStripMenuItem.Text = "Exit";
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
+            this.menuStrip1.Size = new System.Drawing.Size(1287, 25);
+            this.menuStrip1.TabIndex = 4;
+            this.menuStrip1.Text = "menuStrip1";
             // 
             // MainView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(858, 681);
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(1287, 1048);
             this.Controls.Add(this.tableLayoutPanel_MainGroup);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(640, 480);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(952, 717);
             this.Name = "MainView";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Dropbox Business Admin Toolkit";
             this.tableLayoutPanel_MainGroup.ResumeLayout(false);
             this.tableLayoutPanel_MainGroup.PerformLayout();
@@ -155,13 +162,13 @@
 
         #endregion
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_MainGroup;
-        private System.Windows.Forms.StatusStrip statusStrip_Main;
-        private MRG.Controls.UI.LoadingCircleToolStripMenuItem loadingCircleToolStripMenuItem_Main;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_Progress;
-        private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.StatusStrip statusStrip_Main;
+        private MRG.Controls.UI.LoadingCircleToolStripMenuItem loadingCircleToolStripMenuItem_Main;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel_Progress;
     }
 }
 

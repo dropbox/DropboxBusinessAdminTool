@@ -51,6 +51,19 @@ namespace DfBAdminToolkit.Common.Utils
             ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
         }
 
+        public static bool TokenCheck()
+        {
+            bool result = true;
+            string newValue = "";
+            Configuration config = ConfigurationManager.OpenExeConfiguration(GetAppPath() + "DfBAdminToolkit.exe");
+            newValue = config.AppSettings.Settings["DefaultAccessToken"].Value;
+            if (newValue.StartsWith("ENTER"))
+            {
+                result = false;
+            }
+            return result;
+        }
+
         public static void ResetConfigMechanism()
         {
             typeof(ConfigurationManager)

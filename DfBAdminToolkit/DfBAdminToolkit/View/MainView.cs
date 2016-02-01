@@ -73,6 +73,11 @@
             StartPosition = FormStartPosition.CenterScreen;
             ComponentEventsWired = false;
             RegisterTabPages();
+            bool checkToken = FileUtil.TokenCheck();
+            if (!checkToken)
+            {
+                MessageBox.Show("You must go to File->Settings to add your app tokens before performing any actions in the toolkit.", "Dropbox Business Toolkit", MessageBoxButtons.OK);
+            }
         }
 
         public void ShowView()
