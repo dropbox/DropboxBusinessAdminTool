@@ -1,8 +1,8 @@
-Dropbox Business | Administrator Toolkit
+Dropbox Business Administrator Toolkit
 
-Included here are code samples to serve as a base for common Dropbox Business and Dropbox Enterprise tasks.
+Included here is a code sample to serve as a base for common Dropbox Business and Dropbox Enterprise tasks. 
 
-If you are a current Dropbox Business or Enterprise customer please contact your account manager to engage the Dropbox Services team for requests for custom solutions for your environment. 
+It is an example of the types of tasks the Dropbox Services team get asked to work on with customers. 
 
 Licensing
 
@@ -15,6 +15,6 @@ Script Conventions
 
 Tip:
 
-The example requires an administrator of the Dropbox team create Dropbox authorization tokens for the application. The tokens will be encrpted by the sample tool. 
+The example requires an administrator of the Dropbox Business team to create authorization tokens for the application. 
 
-For a production ready application we would recommend that you implement full OAuth authentication. Our enterprise services team can help you with that. 
+For a production ready application we would recommend that you implement full OAuth authentication.
