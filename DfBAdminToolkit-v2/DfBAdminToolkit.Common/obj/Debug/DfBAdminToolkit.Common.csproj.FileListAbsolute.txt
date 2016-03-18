@@ -1,9 +1,0 @@
-C:\Users\jackb\Documents\Visual Studio 2015\Projects\DfBAdminToolkit-v2\DfBAdminToolkit.Common\bin\Debug\DfBAdminToolkit.Common.dll
-C:\Users\jackb\Documents\Visual Studio 2015\Projects\DfBAdminToolkit-v2\DfBAdminToolkit.Common\bin\Debug\DfBAdminToolkit.Common.pdb
-C:\Users\jackb\Documents\Visual Studio 2015\Projects\DfBAdminToolkit-v2\DfBAdminToolkit.Common\bin\Debug\Newtonsoft.Json.dll
-C:\Users\jackb\Documents\Visual Studio 2015\Projects\DfBAdminToolkit-v2\DfBAdminToolkit.Common\bin\Debug\RestSharp.dll
-C:\Users\jackb\Documents\Visual Studio 2015\Projects\DfBAdminToolkit-v2\DfBAdminToolkit.Common\bin\Debug\Newtonsoft.Json.xml
-C:\Users\jackb\Documents\Visual Studio 2015\Projects\DfBAdminToolkit-v2\DfBAdminToolkit.Common\bin\Debug\RestSharp.xml
-C:\Users\jackb\Documents\Visual Studio 2015\Projects\DfBAdminToolkit-v2\DfBAdminToolkit.Common\obj\Debug\DfBAdminToolkit.Common.csprojResolveAssemblyReference.cache
-C:\Users\jackb\Documents\Visual Studio 2015\Projects\DfBAdminToolkit-v2\DfBAdminToolkit.Common\obj\Debug\DfBAdminToolkit.Common.dll
-C:\Users\jackb\Documents\Visual Studio 2015\Projects\DfBAdminToolkit-v2\DfBAdminToolkit.Common\obj\Debug\DfBAdminToolkit.Common.pdb
