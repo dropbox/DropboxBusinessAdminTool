@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfBAdminToolkit", "DfBAdminToolkit\DfBAdminToolkit.csproj", "{EC2E5FEB-36F2-46E3-959B-CFF92360C202}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DBAdminToolkit.Setup", "DBAdminToolkit.Setup\DBAdminToolkit.Setup.vdproj", "{67F7291F-4179-4A69-8B74-40C5769A3ED1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfBAdminToolkit.Common", "DfBAdminToolkit.Common\DfBAdminToolkit.Common.csproj", "{1091B7C4-F32C-4219-B04A-A25BD4D0B928}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC2E5FEB-36F2-46E3-959B-CFF92360C202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC2E5FEB-36F2-46E3-959B-CFF92360C202}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC2E5FEB-36F2-46E3-959B-CFF92360C202}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC2E5FEB-36F2-46E3-959B-CFF92360C202}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67F7291F-4179-4A69-8B74-40C5769A3ED1}.Debug|Any CPU.ActiveCfg = Debug
+		{67F7291F-4179-4A69-8B74-40C5769A3ED1}.Release|Any CPU.ActiveCfg = Release
+		{1091B7C4-F32C-4219-B04A-A25BD4D0B928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1091B7C4-F32C-4219-B04A-A25BD4D0B928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1091B7C4-F32C-4219-B04A-A25BD4D0B928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1091B7C4-F32C-4219-B04A-A25BD4D0B928}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://dropbox-services.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = DBAdminToolkit.Setup\\DBAdminToolkit.Setup.vdproj
+		SccProjectName1 = DBAdminToolkit.Setup
+		SccLocalPath1 = DBAdminToolkit.Setup
+		SccProjectUniqueName2 = DfBAdminToolkit\\DfBAdminToolkit.csproj
+		SccProjectName2 = DfBAdminToolkit
+		SccLocalPath2 = DfBAdminToolkit
+		SccProjectUniqueName3 = DfBAdminToolkit.Common\\DfBAdminToolkit.Common.csproj
+		SccProjectName3 = DfBAdminToolkit.Common
+		SccLocalPath3 = DfBAdminToolkit.Common
+	EndGlobalSection
+EndGlobal
