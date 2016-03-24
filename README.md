@@ -2,12 +2,12 @@
 
 ## Features
 
-- [x] Search for content across the whole Dropbox Business team 
-- [x] Download and save content from any team members Dropbox 
-- [x] Provision or Deprovision bulk users from csv files
+- [x] Search for content across the entire Dropbox Business team by name or full text search
+- [x] Download and save content from any team members Dropbox for holding or audit purposes
+- [x] Provision & Deprovision bulk users from csv files
 - [x] Get accurate Dropbox usage numbers for the entire team
-- [x] Report on Device usage attached to Dropbox
-- [x] Take actions on Devices attached to your Dropbox team
+- [x] Report (and search) on Device usage associated Dropbox
+- [x] Take actions on Devices attached to your Dropbox team (remote wipe)
 - [x] Report on all files in your Dropbox team
 
 ## Requirements
@@ -16,9 +16,7 @@
 
 ## Notes
 
-Included here is a code sample to serve as a base for common Dropbox Business and Dropbox Enterprise tasks. 
-
-The toolkit is an example of the types of tasks the Dropbox Services team get asked to work on with customers. 
+The Admin toolkit is a showcase of the Dropbox Business and Dropbox Core API's. It should be seen as an example of what is possible rather than an end to end solution (frankly it only scratches the surface of API capabilites). If you are a Dropbox Business or Enterprise customer please talk to your Dropbox representative about ideas for custom solutions for your Dropbox team. The custom solution development team are able to assist with advisory or full solution work to help you leverage Dropbox as a platform in your business.  
 
 ## Licensing
 
