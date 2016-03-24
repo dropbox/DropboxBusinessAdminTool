@@ -1,7 +1,5 @@
 ![Dropbox Business Admin Toolkit] (https://dl.dropboxusercontent.com/u/354544978/MKTG-DEMO/static/dropbox.png)
 
-The Dropbox Business Admin Tookit lets Dropbox Business Admins easily do bulk operations and work with Dropbox content on behalf of their company.
-
 ## Features
 
 - [x] Search for content across the whole Dropbox Business team 
