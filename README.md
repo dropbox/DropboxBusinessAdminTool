@@ -9,6 +9,7 @@
 - [x] Report (and search) on Device usage associated Dropbox
 - [x] Take actions on Devices attached to your Dropbox team (remote wipe)
 - [x] Report on all files in your Dropbox team
+- [x] Export full team member list with status
 
 ## Requirements
 
