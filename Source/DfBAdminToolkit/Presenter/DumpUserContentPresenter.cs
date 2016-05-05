@@ -235,7 +235,7 @@
             int total = model.MemberList.Where(d => d.IsChecked && !string.IsNullOrEmpty(d.FileName)).ToList().Count;
             IMemberServices service = new MemberServices(ApplicationResource.ContentUrl, ApplicationResource.ApiVersion);
             service.FileDumpUrl = ApplicationResource.ActionFilesDownload;
-
+                
             foreach (TeamListViewItemModel lvItem in model.MemberList) {
                 if (lvItem.IsChecked && !string.IsNullOrEmpty(lvItem.FileName)) {
                     // notify progress
@@ -250,7 +250,8 @@
                             Email = lvItem.Email,
                             Path = lvItem.FilePath,
                             FileName = lvItem.FileName,
-                            MemberId = lvItem.TeamId
+                            MemberId = lvItem.TeamId,
+                            ZipFiles = model.ZipFiles
                         },
                         model.OutputFolder,
                         model.UserAccessToken
@@ -361,6 +362,7 @@
                     }, null);
                 } else {
                     // perform search
+                    //checked to see if we are zipping files
                     this.DumpFiles(model, presenter);
                     if (SyncContext != null) {
                         SyncContext.Post(delegate {

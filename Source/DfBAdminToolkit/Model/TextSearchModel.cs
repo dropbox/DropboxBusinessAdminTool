@@ -33,7 +33,8 @@
 
         public enum TextSearchMode : int {
             Filename_only = 0,
-            Filename_and_Content = 1
+            Filename_and_Content = 1,
+            Deleted_Filename = 2
         }
 
         public TextSearchModel() {
@@ -64,6 +65,10 @@
 
                 case TextSearchMode.Filename_and_Content:
                     converted = "filename_and_content";
+                    break;
+
+                case TextSearchMode.Deleted_Filename:
+                    converted = "deleted_filename";
                     break;
 
                 default:

@@ -66,6 +66,7 @@
             TeamListViewItemModel owner,
             IDataMigrationModel model,
             IMainPresenter presenter) {
+            bool SuppressStatus = ApplicationResource.SuppressFilenamesInStatus;
             try {
                 service.ListFolderUrl = ApplicationResource.ActionListFolder;
                 IDataResponse response = service.ListFolders(
@@ -138,9 +139,15 @@
                             {
                                 SyncContext.Post(delegate
                                 {
-                                    presenter.UpdateProgressInfo(
-                                        string.Format("Owner: [{0}] Item: [{1}] {2}/{3}", lvItem.Email, lvItem.ItemName, (++foundTotal), entryCount)
-                                    );
+                                    if (!SuppressStatus)
+                                    {
+                                        presenter.UpdateProgressInfo(string.Format("Owner: [{0}] Item: [{1}] {2}/{3}", lvItem.Email, lvItem.ItemName, (++foundTotal), entryCount));
+                                    }
+                                    else
+                                    {
+                                        presenter.UpdateProgressInfo(string.Format("Owner: [{0}] Item: [{1}] {2}/{3}", lvItem.Email, "Suppressing filename status", (++foundTotal), entryCount));
+                                    }
+                                    
                                 }, null);
                             }
                         }
@@ -221,9 +228,15 @@
                                 {
                                     SyncContext.Post(delegate
                                     {
-                                        presenter.UpdateProgressInfo(
-                                            string.Format("Owner: [{0}] Item: [{1}] {2}/{3}", lvItem.Email, lvItem.ItemName, (++foundTotalCont), entryCountCont)
-                                        );
+                                        if (!SuppressStatus)
+                                        {
+                                            presenter.UpdateProgressInfo(string.Format("Owner: [{0}] Item: [{1}] {2}/{3}", lvItem.Email, lvItem.ItemName, (++foundTotalCont), entryCountCont));
+                                        }
+                                        else
+                                        {
+                                            presenter.UpdateProgressInfo(string.Format("Owner: [{0}] Item: [{1}] {2}/{3}", lvItem.Email, "Suppressing filename status", (++foundTotalCont), entryCountCont));
+                                        }
+                                        
                                     }, null);
                                 }
                             }

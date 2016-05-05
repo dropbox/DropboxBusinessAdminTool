@@ -32,6 +32,8 @@
 
         public string[] ContextMenuItemText { get; set; }
 
+        public bool ZipFiles { get; set; }
+
         public enum OlvTeamIndex : int {
             Email,
             TeamId,
@@ -74,6 +76,7 @@
                 this.objectListView_MemberList.ItemChecked += ObjectListView_MemberList_ItemChecked;
                 this.objectListView_MemberList.HeaderCheckBoxChanging += ObjectListView_MemberList_HeaderCheckBoxChanging;
                 this.objectListView_MemberList.ItemCheck += ObjectListView_MemberList_ItemCheck;
+                this.checkBoxDumpToZip.CheckedChanged += CheckBoxDumpToZip_CheckedChanged;
                 ComponentEventsWired = true;
             }
         }
@@ -88,6 +91,7 @@
                 this.objectListView_MemberList.ItemChecked -= ObjectListView_MemberList_ItemChecked;
                 this.objectListView_MemberList.HeaderCheckBoxChanging -= ObjectListView_MemberList_HeaderCheckBoxChanging;
                 this.objectListView_MemberList.ItemCheck -= ObjectListView_MemberList_ItemCheck;
+                this.checkBoxDumpToZip.CheckedChanged -= CheckBoxDumpToZip_CheckedChanged;
                 ComponentEventsWired = false;
             }
         }
@@ -358,5 +362,17 @@
         }
 
         #endregion Events
+
+        private void CheckBoxDumpToZip_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBoxDumpToZip.Checked)
+            {
+                this.ZipFiles = true;
+            }
+            if (!this.checkBoxDumpToZip.Checked)
+            {
+                this.ZipFiles = false;
+            }
+        }
     }
 }

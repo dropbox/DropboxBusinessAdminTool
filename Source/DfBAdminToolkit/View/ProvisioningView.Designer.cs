@@ -430,8 +430,8 @@
             this.objectListView_ProvisioningMembers.EmptyListMsg = "No Result";
             this.objectListView_ProvisioningMembers.FullRowSelect = true;
             this.objectListView_ProvisioningMembers.HasCollapsibleGroups = false;
-            this.objectListView_ProvisioningMembers.SelectedBackColor = System.Drawing.Color.Empty;
-            this.objectListView_ProvisioningMembers.SelectedBackColor = System.Drawing.Color.Empty;
+            this.objectListView_ProvisioningMembers.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.objectListView_ProvisioningMembers.HighlightForegroundColor = System.Drawing.Color.Empty;
             this.objectListView_ProvisioningMembers.Location = new System.Drawing.Point(3, 3);
             this.objectListView_ProvisioningMembers.Name = "objectListView_ProvisioningMembers";
             this.objectListView_ProvisioningMembers.ShowGroups = false;

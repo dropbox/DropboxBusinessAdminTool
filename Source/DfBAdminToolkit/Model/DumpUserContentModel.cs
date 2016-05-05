@@ -11,6 +11,8 @@
 
         public string OutputFolder { get; set; }
 
+        public bool ZipFiles { get; set; }
+
         public DumpUserContentModel() {
             UserAccessToken = ApplicationResource.DefaultAccessToken;
             MemberList = new List<TeamListViewItemModel>();

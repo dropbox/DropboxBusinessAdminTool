@@ -41,6 +41,8 @@
 
         public string FileName { get; set; }
 
+        public bool ZipFiles { get; set; }
+
         #endregion Dump related
 
         #region Device related

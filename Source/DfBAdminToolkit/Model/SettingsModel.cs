@@ -13,6 +13,7 @@
         public string ApiBaseUrl { get; set; }
         public string ApiContentBaseUrl { get; set; }
         public string ApiVersion { get; set; }
+        public bool SuppressFilenamesInStatus { get; set; }
 
         public void Initialize() {
             DefaultAccessToken = ApplicationResource.DefaultAccessToken;
@@ -21,6 +22,7 @@
             ApiBaseUrl = ApplicationResource.BaseUrl;
             ApiContentBaseUrl = ApplicationResource.ContentUrl;
             ApiVersion = ApplicationResource.ApiVersion;
+            SuppressFilenamesInStatus = ApplicationResource.SuppressFilenamesInStatus;
         }
 
         public void CleanUp() {

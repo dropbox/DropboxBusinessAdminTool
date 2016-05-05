@@ -29,13 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DfBAdminToolkit.Common.Component.Office2010Blue office2010Blue1 = new DfBAdminToolkit.Common.Component.Office2010Blue();
-            DfBAdminToolkit.Common.Component.Office2010White office2010White1 = new DfBAdminToolkit.Common.Component.Office2010White();
+            DfBAdminToolkit.Common.Component.Office2010Blue office2010Blue2 = new DfBAdminToolkit.Common.Component.Office2010Blue();
+            DfBAdminToolkit.Common.Component.Office2010White office2010White2 = new DfBAdminToolkit.Common.Component.Office2010White();
             this.tableLayoutPanel_TextSearch = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel_TextSearchControlGroup = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel_TextSearchQueryString = new System.Windows.Forms.TableLayoutPanel();
             this.label_TextSearchQueryString = new System.Windows.Forms.Label();
-            this.textBox_TextSearchQueryString = new DfBAdminToolkit.Common.Component.TextBoxEx(this.components);
             this.tableLayoutPanel_TextSearchParamGroup = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel_TextSearchResultLimit = new System.Windows.Forms.TableLayoutPanel();
             this.label_TextSearchResultLimit = new System.Windows.Forms.Label();
@@ -44,11 +43,8 @@
             this.label_TextSearchMode = new System.Windows.Forms.Label();
             this.comboBox_TextSearchMode = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel_TextSearchToken = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox_TextSearchAccessToken = new DfBAdminToolkit.Common.Component.TextBoxEx(this.components);
             this.label_TextSearchAccessToken = new System.Windows.Forms.Label();
             this.tableLayoutPanel_TextSearchCommandButtonGroup = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonEx_TextSearchSearch = new DfBAdminToolkit.Common.Component.ButtonEx();
-            this.buttonEx_TextSearchClear = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.tableLayoutPanel_TextSearchSplitContainer = new System.Windows.Forms.TableLayoutPanel();
             this.label_TextSearchHorizontalSplitter = new System.Windows.Forms.Label();
             this.label_MemberSearchSearchResultHeader = new System.Windows.Forms.Label();
@@ -63,6 +59,10 @@
             this.label_TextSearchResultTotal = new System.Windows.Forms.Label();
             this.label_TextSearchMembersTotal = new System.Windows.Forms.Label();
             this.label_TextSearchMembersCount = new System.Windows.Forms.Label();
+            this.textBox_TextSearchQueryString = new DfBAdminToolkit.Common.Component.TextBoxEx(this.components);
+            this.textBox_TextSearchAccessToken = new DfBAdminToolkit.Common.Component.TextBoxEx(this.components);
+            this.buttonEx_TextSearchSearch = new DfBAdminToolkit.Common.Component.ButtonEx();
+            this.buttonEx_TextSearchClear = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.tableLayoutPanel_TextSearch.SuspendLayout();
             this.tableLayoutPanel_TextSearchControlGroup.SuspendLayout();
             this.tableLayoutPanel_TextSearchQueryString.SuspendLayout();
@@ -144,17 +144,6 @@
             this.label_TextSearchQueryString.Text = "Search For";
             this.label_TextSearchQueryString.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // textBox_TextSearchQueryString
-            // 
-            this.textBox_TextSearchQueryString.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox_TextSearchQueryString.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_TextSearchQueryString.FileFilter = null;
-            this.textBox_TextSearchQueryString.Location = new System.Drawing.Point(83, 3);
-            this.textBox_TextSearchQueryString.Margin = new System.Windows.Forms.Padding(3, 3, 1, 3);
-            this.textBox_TextSearchQueryString.Name = "textBox_TextSearchQueryString";
-            this.textBox_TextSearchQueryString.Size = new System.Drawing.Size(505, 20);
-            this.textBox_TextSearchQueryString.TabIndex = 0;
-            // 
             // tableLayoutPanel_TextSearchParamGroup
             // 
             this.tableLayoutPanel_TextSearchParamGroup.ColumnCount = 3;
@@ -181,7 +170,7 @@
             this.tableLayoutPanel_TextSearchResultLimit.Controls.Add(this.numericUpDown_TextSearchResultLimit, 1, 0);
             this.tableLayoutPanel_TextSearchResultLimit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_TextSearchResultLimit.Location = new System.Drawing.Point(461, 1);
-            this.tableLayoutPanel_TextSearchResultLimit.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tableLayoutPanel_TextSearchResultLimit.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel_TextSearchResultLimit.Name = "tableLayoutPanel_TextSearchResultLimit";
             this.tableLayoutPanel_TextSearchResultLimit.RowCount = 1;
             this.tableLayoutPanel_TextSearchResultLimit.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -262,17 +251,6 @@
             this.tableLayoutPanel_TextSearchToken.Size = new System.Drawing.Size(204, 24);
             this.tableLayoutPanel_TextSearchToken.TabIndex = 3;
             // 
-            // textBox_TextSearchAccessToken
-            // 
-            this.textBox_TextSearchAccessToken.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox_TextSearchAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_TextSearchAccessToken.FileFilter = null;
-            this.textBox_TextSearchAccessToken.Location = new System.Drawing.Point(93, 3);
-            this.textBox_TextSearchAccessToken.Name = "textBox_TextSearchAccessToken";
-            this.textBox_TextSearchAccessToken.Size = new System.Drawing.Size(108, 20);
-            this.textBox_TextSearchAccessToken.TabIndex = 0;
-            this.textBox_TextSearchAccessToken.Visible = false;
-            // 
             // label_TextSearchAccessToken
             // 
             this.label_TextSearchAccessToken.AutoSize = true;
@@ -300,64 +278,6 @@
             this.tableLayoutPanel_TextSearchCommandButtonGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_TextSearchCommandButtonGroup.Size = new System.Drawing.Size(592, 34);
             this.tableLayoutPanel_TextSearchCommandButtonGroup.TabIndex = 2;
-            // 
-            // buttonEx_TextSearchSearch
-            // 
-            office2010Blue1.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
-            office2010Blue1.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
-            office2010Blue1.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
-            office2010Blue1.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
-            office2010Blue1.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
-            office2010Blue1.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
-            office2010Blue1.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
-            office2010Blue1.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
-            office2010Blue1.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(97)))), ((int)(((byte)(181)))));
-            office2010Blue1.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(125)))), ((int)(((byte)(219)))));
-            office2010Blue1.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
-            office2010Blue1.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
-            office2010Blue1.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
-            office2010Blue1.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
-            office2010Blue1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            office2010Blue1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            office2010Blue1.TextColor = System.Drawing.Color.White;
-            this.buttonEx_TextSearchSearch.ColorTable = office2010Blue1;
-            this.buttonEx_TextSearchSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_TextSearchSearch.Location = new System.Drawing.Point(395, 3);
-            this.buttonEx_TextSearchSearch.Name = "buttonEx_TextSearchSearch";
-            this.buttonEx_TextSearchSearch.Size = new System.Drawing.Size(94, 28);
-            this.buttonEx_TextSearchSearch.TabIndex = 2;
-            this.buttonEx_TextSearchSearch.Text = "Search";
-            this.buttonEx_TextSearchSearch.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
-            this.buttonEx_TextSearchSearch.UseVisualStyleBackColor = true;
-            // 
-            // buttonEx_TextSearchClear
-            // 
-            office2010White1.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
-            office2010White1.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
-            office2010White1.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
-            office2010White1.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
-            office2010White1.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
-            office2010White1.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
-            office2010White1.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(154)))), ((int)(((byte)(154)))), ((int)(((byte)(154)))));
-            office2010White1.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            office2010White1.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
-            office2010White1.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            office2010White1.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
-            office2010White1.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
-            office2010White1.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
-            office2010White1.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
-            office2010White1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            office2010White1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            office2010White1.TextColor = System.Drawing.Color.Black;
-            this.buttonEx_TextSearchClear.ColorTable = office2010White1;
-            this.buttonEx_TextSearchClear.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_TextSearchClear.Location = new System.Drawing.Point(495, 3);
-            this.buttonEx_TextSearchClear.Name = "buttonEx_TextSearchClear";
-            this.buttonEx_TextSearchClear.Size = new System.Drawing.Size(94, 28);
-            this.buttonEx_TextSearchClear.TabIndex = 3;
-            this.buttonEx_TextSearchClear.Text = "Clear";
-            this.buttonEx_TextSearchClear.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
-            this.buttonEx_TextSearchClear.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel_TextSearchSplitContainer
             // 
@@ -438,8 +358,8 @@
             this.objectListView_Members.Dock = System.Windows.Forms.DockStyle.Fill;
             this.objectListView_Members.EmptyListMsg = "No Result";
             this.objectListView_Members.FullRowSelect = true;
-            this.objectListView_Members.SelectedBackColor = System.Drawing.Color.Empty;
-            this.objectListView_Members.SelectedBackColor = System.Drawing.Color.Empty;
+            this.objectListView_Members.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.objectListView_Members.HighlightForegroundColor = System.Drawing.Color.Empty;
             this.objectListView_Members.Location = new System.Drawing.Point(3, 3);
             this.objectListView_Members.Name = "objectListView_Members";
             this.objectListView_Members.ShowFilterMenuOnRightClick = false;
@@ -483,7 +403,7 @@
             this.tableLayoutPanel_TextSearch_MembersCount.Controls.Add(this.label_TextSearchMembersCount, 1, 0);
             this.tableLayoutPanel_TextSearch_MembersCount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_TextSearch_MembersCount.Location = new System.Drawing.Point(1, 212);
-            this.tableLayoutPanel_TextSearch_MembersCount.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tableLayoutPanel_TextSearch_MembersCount.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel_TextSearch_MembersCount.Name = "tableLayoutPanel_TextSearch_MembersCount";
             this.tableLayoutPanel_TextSearch_MembersCount.RowCount = 1;
             this.tableLayoutPanel_TextSearch_MembersCount.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -531,6 +451,86 @@
             this.label_TextSearchMembersCount.TabIndex = 1;
             this.label_TextSearchMembersCount.Text = "0";
             this.label_TextSearchMembersCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox_TextSearchQueryString
+            // 
+            this.textBox_TextSearchQueryString.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox_TextSearchQueryString.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox_TextSearchQueryString.FileFilter = null;
+            this.textBox_TextSearchQueryString.Location = new System.Drawing.Point(83, 3);
+            this.textBox_TextSearchQueryString.Margin = new System.Windows.Forms.Padding(3, 3, 1, 3);
+            this.textBox_TextSearchQueryString.Name = "textBox_TextSearchQueryString";
+            this.textBox_TextSearchQueryString.Size = new System.Drawing.Size(505, 20);
+            this.textBox_TextSearchQueryString.TabIndex = 0;
+            // 
+            // textBox_TextSearchAccessToken
+            // 
+            this.textBox_TextSearchAccessToken.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox_TextSearchAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox_TextSearchAccessToken.FileFilter = null;
+            this.textBox_TextSearchAccessToken.Location = new System.Drawing.Point(93, 3);
+            this.textBox_TextSearchAccessToken.Name = "textBox_TextSearchAccessToken";
+            this.textBox_TextSearchAccessToken.Size = new System.Drawing.Size(108, 20);
+            this.textBox_TextSearchAccessToken.TabIndex = 0;
+            this.textBox_TextSearchAccessToken.Visible = false;
+            // 
+            // buttonEx_TextSearchSearch
+            // 
+            office2010Blue2.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
+            office2010Blue2.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
+            office2010Blue2.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010Blue2.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010Blue2.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
+            office2010Blue2.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
+            office2010Blue2.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
+            office2010Blue2.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
+            office2010Blue2.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(97)))), ((int)(((byte)(181)))));
+            office2010Blue2.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(125)))), ((int)(((byte)(219)))));
+            office2010Blue2.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010Blue2.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010Blue2.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
+            office2010Blue2.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
+            office2010Blue2.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010Blue2.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010Blue2.TextColor = System.Drawing.Color.White;
+            this.buttonEx_TextSearchSearch.ColorTable = office2010Blue2;
+            this.buttonEx_TextSearchSearch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonEx_TextSearchSearch.Location = new System.Drawing.Point(395, 3);
+            this.buttonEx_TextSearchSearch.Name = "buttonEx_TextSearchSearch";
+            this.buttonEx_TextSearchSearch.Size = new System.Drawing.Size(94, 28);
+            this.buttonEx_TextSearchSearch.TabIndex = 2;
+            this.buttonEx_TextSearchSearch.Text = "Search";
+            this.buttonEx_TextSearchSearch.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
+            this.buttonEx_TextSearchSearch.UseVisualStyleBackColor = true;
+            // 
+            // buttonEx_TextSearchClear
+            // 
+            office2010White2.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
+            office2010White2.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
+            office2010White2.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010White2.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010White2.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
+            office2010White2.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
+            office2010White2.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(154)))), ((int)(((byte)(154)))), ((int)(((byte)(154)))));
+            office2010White2.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            office2010White2.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            office2010White2.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            office2010White2.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010White2.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010White2.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
+            office2010White2.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
+            office2010White2.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010White2.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010White2.TextColor = System.Drawing.Color.Black;
+            this.buttonEx_TextSearchClear.ColorTable = office2010White2;
+            this.buttonEx_TextSearchClear.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonEx_TextSearchClear.Location = new System.Drawing.Point(495, 3);
+            this.buttonEx_TextSearchClear.Name = "buttonEx_TextSearchClear";
+            this.buttonEx_TextSearchClear.Size = new System.Drawing.Size(94, 28);
+            this.buttonEx_TextSearchClear.TabIndex = 3;
+            this.buttonEx_TextSearchClear.Text = "Clear";
+            this.buttonEx_TextSearchClear.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
+            this.buttonEx_TextSearchClear.UseVisualStyleBackColor = true;
             // 
             // TextSearchView
             // 

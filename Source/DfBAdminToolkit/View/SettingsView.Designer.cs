@@ -48,6 +48,7 @@
             this.buttonEx_SettingsSave = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.numericUpDown_SettingSearchLimit = new System.Windows.Forms.NumericUpDown();
             this.buttonEx_SettingsCancel = new DfBAdminToolkit.Common.Component.ButtonEx();
+            this.checkBoxSuppressFilenameStatusBar = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_SettingSearchLimit)).BeginInit();
             this.SuspendLayout();
             // 
@@ -143,7 +144,7 @@
             // labelStatus
             // 
             this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(12, 217);
+            this.labelStatus.Location = new System.Drawing.Point(12, 248);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(59, 13);
             this.labelStatus.TabIndex = 15;
@@ -239,11 +240,22 @@
             this.buttonEx_SettingsCancel.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
             this.buttonEx_SettingsCancel.UseVisualStyleBackColor = true;
             // 
+            // checkBoxSuppressFilenameStatusBar
+            // 
+            this.checkBoxSuppressFilenameStatusBar.AutoSize = true;
+            this.checkBoxSuppressFilenameStatusBar.Location = new System.Drawing.Point(146, 215);
+            this.checkBoxSuppressFilenameStatusBar.Name = "checkBoxSuppressFilenameStatusBar";
+            this.checkBoxSuppressFilenameStatusBar.Size = new System.Drawing.Size(199, 17);
+            this.checkBoxSuppressFilenameStatusBar.TabIndex = 18;
+            this.checkBoxSuppressFilenameStatusBar.Text = "Suppress Filename Activity in Status ";
+            this.checkBoxSuppressFilenameStatusBar.UseVisualStyleBackColor = true;
+            // 
             // SettingsView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(568, 273);
+            this.Controls.Add(this.checkBoxSuppressFilenameStatusBar);
             this.Controls.Add(this.buttonEx_SettingsCancel);
             this.Controls.Add(this.numericUpDown_SettingSearchLimit);
             this.Controls.Add(this.buttonEx_SettingsSave);
@@ -291,5 +303,6 @@
         private Common.Component.ButtonEx buttonEx_SettingsSave;
         private System.Windows.Forms.NumericUpDown numericUpDown_SettingSearchLimit;
         private Common.Component.ButtonEx buttonEx_SettingsCancel;
+        private System.Windows.Forms.CheckBox checkBoxSuppressFilenameStatusBar;
     }
 }

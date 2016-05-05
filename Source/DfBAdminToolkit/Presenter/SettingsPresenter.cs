@@ -56,6 +56,7 @@
             FileUtil.UpdateKey("SearchDefaultLimit", model.SearchDefaultLimit.ToString());
             FileUtil.UpdateKey("DefaultAccessToken", model.DefaultAccessToken.Trim());
             FileUtil.UpdateKey("DefaultProvisionToken", model.DefaultProvisionToken.Trim());
+            FileUtil.UpdateKey("SuppressFilenamesInStatus", model.SuppressFilenamesInStatus.ToString().Trim());
             Configuration config = ConfigurationManager.OpenExeConfiguration(FileUtil.GetAppPath() + "DfBAdminToolkit.exe");
             ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
             FileUtil.ResetConfigMechanism();
@@ -73,6 +74,7 @@
             model.ApiBaseUrl = ApplicationResource.BaseUrl;
             model.ApiContentBaseUrl = ApplicationResource.ContentUrl;
             model.ApiVersion = ApplicationResource.ApiVersion;
+            model.SuppressFilenamesInStatus = ApplicationResource.SuppressFilenamesInStatus;
         }
 
         public void ShowSettings(IWin32Window owner) {

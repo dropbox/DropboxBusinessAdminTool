@@ -45,6 +45,7 @@
             this.textBox_DumpUserContentOutputDir = new DfBAdminToolkit.Common.Component.TextBoxEx(this.components);
             this.buttonEx_DumpUserContentSelect = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.buttonEx_DumpUserContentDump = new DfBAdminToolkit.Common.Component.ButtonEx();
+            this.checkBoxDumpToZip = new System.Windows.Forms.CheckBox();
             this.objectListView_MemberList = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnContent_Email = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnContent_TeamId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -200,13 +201,15 @@
             // 
             // tableLayoutPanel_DumpUserContentFileCommandGroup
             // 
-            this.tableLayoutPanel_DumpUserContentFileCommandGroup.ColumnCount = 3;
+            this.tableLayoutPanel_DumpUserContentFileCommandGroup.ColumnCount = 4;
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel_DumpUserContentFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115F));
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.Controls.Add(this.label_DumpUserContentOutputDir, 0, 0);
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.Controls.Add(this.tableLayoutPanel_DumpUserContentFileSelection, 1, 0);
-            this.tableLayoutPanel_DumpUserContentFileCommandGroup.Controls.Add(this.buttonEx_DumpUserContentDump, 2, 0);
+            this.tableLayoutPanel_DumpUserContentFileCommandGroup.Controls.Add(this.buttonEx_DumpUserContentDump, 3, 0);
+            this.tableLayoutPanel_DumpUserContentFileCommandGroup.Controls.Add(this.checkBoxDumpToZip, 2, 0);
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.Enabled = false;
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.Location = new System.Drawing.Point(1, 414);
@@ -241,7 +244,7 @@
             this.tableLayoutPanel_DumpUserContentFileSelection.Name = "tableLayoutPanel_DumpUserContentFileSelection";
             this.tableLayoutPanel_DumpUserContentFileSelection.RowCount = 1;
             this.tableLayoutPanel_DumpUserContentFileSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_DumpUserContentFileSelection.Size = new System.Drawing.Size(266, 34);
+            this.tableLayoutPanel_DumpUserContentFileSelection.Size = new System.Drawing.Size(166, 34);
             this.tableLayoutPanel_DumpUserContentFileSelection.TabIndex = 1;
             // 
             // textBox_DumpUserContentOutputDir
@@ -252,14 +255,14 @@
             this.textBox_DumpUserContentOutputDir.Margin = new System.Windows.Forms.Padding(3, 7, 3, 3);
             this.textBox_DumpUserContentOutputDir.Name = "textBox_DumpUserContentOutputDir";
             this.textBox_DumpUserContentOutputDir.ReadOnly = true;
-            this.textBox_DumpUserContentOutputDir.Size = new System.Drawing.Size(200, 20);
+            this.textBox_DumpUserContentOutputDir.Size = new System.Drawing.Size(100, 20);
             this.textBox_DumpUserContentOutputDir.TabIndex = 0;
             // 
             // buttonEx_DumpUserContentSelect
             // 
             this.buttonEx_DumpUserContentSelect.ColorTable = office2010White1;
             this.buttonEx_DumpUserContentSelect.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_DumpUserContentSelect.Location = new System.Drawing.Point(209, 3);
+            this.buttonEx_DumpUserContentSelect.Location = new System.Drawing.Point(109, 3);
             this.buttonEx_DumpUserContentSelect.Name = "buttonEx_DumpUserContentSelect";
             this.buttonEx_DumpUserContentSelect.Size = new System.Drawing.Size(54, 28);
             this.buttonEx_DumpUserContentSelect.TabIndex = 1;
@@ -296,6 +299,18 @@
             this.buttonEx_DumpUserContentDump.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
             this.buttonEx_DumpUserContentDump.UseVisualStyleBackColor = true;
             // 
+            // checkBoxDumpToZip
+            // 
+            this.checkBoxDumpToZip.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxDumpToZip.AutoSize = true;
+            this.checkBoxDumpToZip.Location = new System.Drawing.Point(261, 9);
+            this.checkBoxDumpToZip.Name = "checkBoxDumpToZip";
+            this.checkBoxDumpToZip.Size = new System.Drawing.Size(94, 17);
+            this.checkBoxDumpToZip.TabIndex = 3;
+            this.checkBoxDumpToZip.Text = "Dump To Zip File";
+            this.checkBoxDumpToZip.UseVisualStyleBackColor = true;
+            this.checkBoxDumpToZip.CheckedChanged += new System.EventHandler(this.CheckBoxDumpToZip_CheckedChanged);
+            // 
             // objectListView_MemberList
             // 
             this.objectListView_MemberList.AllColumns.Add(this.olvColumnContent_Email);
@@ -317,8 +332,8 @@
             this.objectListView_MemberList.EmptyListMsg = "No Result";
             this.objectListView_MemberList.FullRowSelect = true;
             this.objectListView_MemberList.HideSelection = false;
-            this.objectListView_MemberList.SelectedBackColor = System.Drawing.Color.Empty;
-            this.objectListView_MemberList.SelectedBackColor = System.Drawing.Color.Empty;
+            this.objectListView_MemberList.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.objectListView_MemberList.HighlightForegroundColor = System.Drawing.Color.Empty;
             this.objectListView_MemberList.Location = new System.Drawing.Point(3, 83);
             this.objectListView_MemberList.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
             this.objectListView_MemberList.Name = "objectListView_MemberList";
@@ -462,5 +477,6 @@
         private Common.Component.ButtonEx buttonEx_DumpUserContentDump;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_DumpUserContentDisplayCommandGroup;
         private Common.Component.ButtonEx buttonEx_DumpUserContentDisplayMembers;
+        private System.Windows.Forms.CheckBox checkBoxDumpToZip;
     }
 }

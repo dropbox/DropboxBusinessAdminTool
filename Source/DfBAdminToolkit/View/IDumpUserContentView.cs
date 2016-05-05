@@ -37,5 +37,7 @@
         void EnableContextMenuItems(bool enable);
 
         void ShowGroups(bool show);
+
+        bool ZipFiles { get; set; }
     }
 }

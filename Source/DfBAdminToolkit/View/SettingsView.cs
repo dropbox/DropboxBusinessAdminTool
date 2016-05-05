@@ -20,6 +20,7 @@
         public string ApiBaseUrl { get; set; }
         public string ApiContentBaseUrl { get; set; }
         public string ApiVersion { get; set; }
+        public bool SuppressFilenamesInStatus { get; set; }
 
         public SettingsView()
             : base(FormExStyle.CENTERED_WINDOW) {
@@ -75,6 +76,14 @@
             this.numericUpDown_SettingSearchLimit.Value = this.SearchDefaultLimit;
             this.textBoxDefaultAccess.Text = this.DefaultAccessToken;
             this.textBoxDefaultProvision.Text = this.DefaultProvisionToken;
+            if (this.SuppressFilenamesInStatus)
+            {
+                this.checkBoxSuppressFilenameStatusBar.Checked = true;
+            }
+            if (!this.SuppressFilenamesInStatus)
+            {
+                this.checkBoxSuppressFilenameStatusBar.Checked = false;
+            }
         }
 
         public void UpdateSettingValues() {
@@ -84,6 +93,14 @@
             this.SearchDefaultLimit = Convert.ToInt32(this.numericUpDown_SettingSearchLimit.Value);
             this.DefaultAccessToken = this.textBoxDefaultAccess.Text;
             this.DefaultProvisionToken = this.textBoxDefaultProvision.Text;
+            if (this.checkBoxSuppressFilenameStatusBar.Checked)
+            {
+                this.SuppressFilenamesInStatus = true;
+            }
+            if (!this.checkBoxSuppressFilenameStatusBar.Checked)
+            {
+                this.SuppressFilenamesInStatus = false;
+            }
         }
 
         protected override void OnLoad(EventArgs e) {

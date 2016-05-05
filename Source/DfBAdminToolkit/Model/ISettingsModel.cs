@@ -7,5 +7,6 @@
         string ApiBaseUrl { get; set; }
         string ApiContentBaseUrl { get; set; }
         string ApiVersion { get; set; }
+        bool SuppressFilenamesInStatus { get; set; }
     }
 }

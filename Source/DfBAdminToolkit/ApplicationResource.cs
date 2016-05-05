@@ -78,6 +78,15 @@
             }
         }
 
+        public static bool SuppressFilenamesInStatus
+        {
+            get {
+                bool status = false;
+                bool.TryParse(ConfigurationManager.AppSettings.Get("SuppressFilenamesInStatus"), out status);
+                return status;
+            }
+        }
+
         public static string RegistryEntryPoint {
             get { return ConfigurationManager.AppSettings.Get("RegistryEntryPoint"); }
         }

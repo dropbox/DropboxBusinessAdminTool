@@ -759,7 +759,6 @@
             getDevices.Start();
         }
 
-        //TO DO
         private void OnCommandDumpDevices(object sender, EventArgs e) {
             IDevicesView view = base._view as IDevicesView;
             IDevicesModel model = base._model as IDevicesModel;

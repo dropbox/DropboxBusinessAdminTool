@@ -71,6 +71,7 @@
             string email,
             IMainPresenter presenter) {
             bool filesAdded = false;
+            bool SuppressStatus = ApplicationResource.SuppressFilenamesInStatus;
             try {
                 service.SearchFilesUrl = ApplicationResource.ActionFileSearch;
                 IDataResponse response = service.SearchFiles(new MemberData() {
@@ -99,7 +100,14 @@
                                 model.MemberList.Add(item);
 
                                 SyncContext.Post(delegate {
-                                    presenter.UpdateProgressInfo(string.Format("Member: {0} File : {1}", email, item.Path));
+                                    if (!SuppressStatus)
+                                    {
+                                        presenter.UpdateProgressInfo(string.Format("Member: {0} File : {1}", email, item.Path));
+                                    }
+                                    else
+                                    {
+                                        presenter.UpdateProgressInfo(string.Format("Member: {0} File : Suppressing filename status...", email));
+                                    }
                                 }, null);
                             }
 

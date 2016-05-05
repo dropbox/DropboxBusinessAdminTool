@@ -40,6 +40,8 @@
 
         string FileName { get; set; }
 
+        bool ZipFiles { get; set; }
+
         #endregion Dump related
 
         #region Device related

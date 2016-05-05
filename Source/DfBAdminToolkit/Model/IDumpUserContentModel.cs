@@ -9,5 +9,7 @@
         List<TeamListViewItemModel> MemberList { get; set; }
 
         string OutputFolder { get; set; }
+
+        bool ZipFiles { get; set; }
     }
 }

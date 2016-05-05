@@ -4,6 +4,7 @@
     using RestSharp;
     using System;
     using System.IO;
+    using System.IO.Compression;
     using System.Net;
 
     public class MemberServices
@@ -291,27 +292,60 @@
                     //download file by using raw bytes returned
                     byte[] jsonResponseDump = client.DownloadData(request);
 
-                    //get the Dropbox folder structure so we can recreate correct folder structure locally under user folder below
-                    String dbdirName = Path.GetDirectoryName(data.Path);
-                    dbdirName = dbdirName.Remove(0, 1);
-
-                    // create folder if doesn't exists.
                     // strip out email prefix as folder name.
                     int index = data.Email.IndexOf("@");
                     string folderName = data.Email.Substring(0, index);
 
-                    //combine Dropbox subdirectory to email username
-                    if (!string.IsNullOrEmpty(dbdirName)) {
-                        folderName = folderName + "\\" + dbdirName;
-                    }
-                    string fullOutputFolder = Path.Combine(outputFolder, folderName);
+                    if (!data.ZipFiles)
+                    {
+                        //get the Dropbox folder structure so we can recreate correct folder structure locally under user folder below
+                        String dbdirName = Path.GetDirectoryName(data.Path);
+                        dbdirName = dbdirName.Remove(0, 1);
 
-                    if (!Directory.Exists(fullOutputFolder)) {
-                        Directory.CreateDirectory(fullOutputFolder);
-                    }
+                        //combine Dropbox subdirectory to email username
+                        if (!string.IsNullOrEmpty(dbdirName))
+                        {
+                            folderName = folderName + "\\" + dbdirName;
+                        }
+                        string fullOutputFolder = Path.Combine(outputFolder, folderName);
 
-                    string outputPath = Path.Combine(fullOutputFolder, data.FileName);
-                    File.WriteAllBytes(outputPath, jsonResponseDump);
+                        if (!Directory.Exists(fullOutputFolder))
+                        {
+                            Directory.CreateDirectory(fullOutputFolder);
+                        }
+                        string outputPath = Path.Combine(fullOutputFolder, data.FileName);
+                        File.WriteAllBytes(outputPath, jsonResponseDump);
+                    }
+                         
+                    //Added 5/5/16 - Zip file if needed. If first file create the zipfile, if not just add to existing zip file  
+                    if (data.ZipFiles)
+                    {
+                        string fullOutputFolder = Path.Combine(outputFolder, folderName);
+                        if (!Directory.Exists(fullOutputFolder))
+                        {
+                            Directory.CreateDirectory(fullOutputFolder);
+                        }
+                        string outputPath = Path.Combine(fullOutputFolder, data.FileName);
+                        File.WriteAllBytes(outputPath, jsonResponseDump);
+
+                        string dateString = DateTime.Now.ToString("-M.dd.yyyy");
+                        string zipName = Path.Combine(fullOutputFolder, (folderName + dateString + ".zip"));
+                        if (File.Exists(zipName))
+                        {
+                            using (ZipArchive modFile = ZipFile.Open(zipName, ZipArchiveMode.Update))
+                            {
+                                modFile.CreateEntryFromFile(outputPath, data.FileName, CompressionLevel.Fastest);
+                            }
+                        }
+                        if (!File.Exists(zipName))
+                        {
+                            using (ZipArchive newFile = ZipFile.Open(zipName, ZipArchiveMode.Create))
+                            {
+                                newFile.CreateEntryFromFile(outputPath, data.FileName, CompressionLevel.Fastest);
+                            }
+                        }
+                        File.Delete(outputPath);
+                    }         
                 }
             } catch (Exception e) {
                 dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
