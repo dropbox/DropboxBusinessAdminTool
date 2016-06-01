@@ -1,4 +1,4 @@
-![Dropbox Business Admin Toolkit] (https://dl.dropboxusercontent.com/u/354544978/MKTG-DEMO/static/dropbox.png)
+![Dropbox Business Admin Toolkit] (https://dl.dropboxusercontent.com/u/354544978/MKTG-DEMO/static/dropbox_s.png)
 
 ## Features
 
