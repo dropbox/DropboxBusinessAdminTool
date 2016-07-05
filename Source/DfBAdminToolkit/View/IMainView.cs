@@ -11,6 +11,8 @@
 
         void EnableView(bool enable);
 
+        void UpdateTitleBarTeamStats();
+
         void UpdateProgressText(string text);
 
         void ShowErrorMessage(string message, string title);

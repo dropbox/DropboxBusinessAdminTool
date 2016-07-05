@@ -54,6 +54,7 @@
             SimpleResolver.Instance.Bind<ITextSearchPresenter>(typeof(TextSearchPresenter));
             SimpleResolver.Instance.Bind<IDumpUserContentPresenter>(typeof(DumpUserContentPresenter));
             SimpleResolver.Instance.Bind<IProvisioningPresenter>(typeof(ProvisioningPresenter));
+            SimpleResolver.Instance.Bind<IGroupsPresenter>(typeof(GroupsPresenter));
             SimpleResolver.Instance.Bind<IDevicesPresenter>(typeof(DevicesPresenter));
             SimpleResolver.Instance.Bind<IDataMigrationPresenter>(typeof(DataMigrationPresenter));
             SimpleResolver.Instance.Bind<ISettingsPresenter>(typeof(SettingsPresenter));

@@ -74,6 +74,7 @@
             bool SuppressStatus = ApplicationResource.SuppressFilenamesInStatus;
             try {
                 service.SearchFilesUrl = ApplicationResource.ActionFileSearch;
+                service.UserAgentVersion = ApplicationResource.UserAgent;
                 IDataResponse response = service.SearchFiles(new MemberData() {
                     SearchText = model.QueryString,
                     SearchLimit = ApplicationResource.SearchFileCountLimit,//model.SearchResultsLimit,
@@ -128,6 +129,7 @@
                !string.IsNullOrEmpty(model.AccessToken)) {
                 MemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
                 service.ListMembersUrl = ApplicationResource.ActionListMembers;
+                service.UserAgentVersion = ApplicationResource.UserAgent;
                 IDataResponse response = service.ListMembers(new MemberData() {
                     SearchLimit = model.SearchResultsLimit
                 }, model.AccessToken);

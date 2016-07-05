@@ -76,16 +76,20 @@
             IMemberServices service,
             TeamListViewItemModel item,
             IDumpUserContentModel model,
-            IMainPresenter presenter) {
+            IMainPresenter presenter)
+        {
             bool filesAdded = false;
-            try {
+            try
+            {
                 service.ListFolderUrl = ApplicationResource.ActionListFolder;
+                service.UserAgentVersion = ApplicationResource.UserAgent;
                 IDataResponse response = service.ListFolders(
                     new MemberData() {
                         MemberId = item.TeamId
                     }, model.UserAccessToken);
 
-                if (response.StatusCode == HttpStatusCode.OK) {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
                     if (response.Data != null)
                     {
                         string content = response.Data as string;
@@ -143,12 +147,15 @@
             if (!string.IsNullOrEmpty(model.UserAccessToken)) {
                 MemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
                 service.ListMembersUrl = ApplicationResource.ActionListMembers;
+                service.UserAgentVersion = ApplicationResource.UserAgent;
                 IDataResponse response = service.ListMembers(new MemberData() {
                     SearchLimit = ApplicationResource.SearchDefaultLimit
                 }, model.UserAccessToken);
 
-                if (response.StatusCode == HttpStatusCode.OK) {
-                    if (response.Data != null) {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (response.Data != null)
+                    {
                         string data = response.Data.ToString();
                         dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
 
@@ -161,7 +168,7 @@
                             dynamic idObj = profile["team_member_id"];
                             dynamic emailObj = profile["email"];
                             dynamic status = profile["status"];
-                            if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended"))) {
+                            if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended") || status[".tag"].ToString().Equals("invited"))) {
                                 string teamId = idObj.Value as string;
                                 string email = emailObj.Value as string;
 
@@ -198,7 +205,8 @@
                                 dynamic idObj = profile["team_member_id"];
                                 dynamic emailObj = profile["email"];
                                 dynamic status = profile["status"];
-                                if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended"))) {
+                                if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended") || status[".tag"].ToString().Equals("invited")))
+                                {
                                     string teamId = idObj.Value as string;
                                     string email = emailObj.Value as string;
 
@@ -230,16 +238,18 @@
                     presenter.UpdateProgressInfo("Preparing Download...");
                 }, null);
             }
-
+            string ProvisionToken = ApplicationResource.DefaultProvisionToken;
             int counter = 0;
             int total = model.MemberList.Where(d => d.IsChecked && !string.IsNullOrEmpty(d.FileName)).ToList().Count;
             IMemberServices service = new MemberServices(ApplicationResource.ContentUrl, ApplicationResource.ApiVersion);
             service.FileDumpUrl = ApplicationResource.ActionFilesDownload;
-                
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+
             foreach (TeamListViewItemModel lvItem in model.MemberList) {
                 if (lvItem.IsChecked && !string.IsNullOrEmpty(lvItem.FileName)) {
                     // notify progress
-                    if (SyncContext != null) {
+                    if (SyncContext != null)
+                    {
                         SyncContext.Post(delegate {
                             presenter.UpdateProgressInfo(string.Format("Downloading File: {0}/{1}", ++counter, total));
                         }, null);
@@ -256,6 +266,64 @@
                         model.OutputFolder,
                         model.UserAccessToken
                     );
+                    if (model.SuspendUser)
+                    {
+                        IMemberServices serviceSus = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+                        serviceSus.SuspendMemberUrl = ApplicationResource.ActionSuspendMember;
+                        serviceSus.UserAgentVersion = ApplicationResource.UserAgent;
+                        IServiceResponse response = serviceSus.SuspendMember(new MemberData()
+                        {
+                            Email = lvItem.Email
+                        }, ProvisionToken);
+
+                        if (response.StatusCode == HttpStatusCode.OK)
+                        {
+                            if (SyncContext != null)
+                            {
+                                SyncContext.Post(delegate {
+                                    presenter.UpdateProgressInfo(string.Format("Suspended Member: {0}", lvItem.Email));
+                                }, null);
+                            }
+                        }
+                        else
+                        {
+                            if (SyncContext != null)
+                            {
+                                SyncContext.Post(delegate {
+                                    presenter.UpdateProgressInfo(string.Format(ErrorMessages.FAILED_TO_SUSPEND_MEMBER));
+                                }, null);
+                            }
+                        }
+                    }
+                    if (model.DeleteUser)
+                    {
+                        IMemberServices serviceDel = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+                        serviceDel.RemoveMemberUrl = ApplicationResource.ActionRemoveMember;
+                        serviceDel.UserAgentVersion = ApplicationResource.UserAgent;
+                        IServiceResponse response = serviceDel.RemoveMember(new MemberData()
+                        {
+                            Email = lvItem.Email
+                        }, ProvisionToken);
+
+                        if (response.StatusCode == HttpStatusCode.OK)
+                        {
+                            if (SyncContext != null)
+                            {
+                                SyncContext.Post(delegate {
+                                    presenter.UpdateProgressInfo(string.Format("Removed Member: {0}", lvItem.Email));
+                                }, null);
+                            }
+                        }
+                        else
+                        {
+                            if (SyncContext != null)
+                            {
+                                SyncContext.Post(delegate {
+                                    presenter.UpdateProgressInfo(string.Format(ErrorMessages.FAILED_TO_REMOVE_MEMBER));
+                                }, null);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -274,41 +342,54 @@
 
         private void OnCommandContextMenuClicked(object sender, Common.DataExchange.DataUpdatedEventArgs e) {
             MenuItem selectedContextMenuItem = sender as MenuItem;
-            if (selectedContextMenuItem != null) {
+            if (selectedContextMenuItem != null)
+            {
                 if (selectedContextMenuItem.Text.ToLower().Equals(LIST_FILES, StringComparison.CurrentCultureIgnoreCase)) {
-                    if (e.Data != null) {
+                    if (e.Data != null)
+                    {
                         IDumpUserContentView view = base._view as IDumpUserContentView;
                         IDumpUserContentModel model = base._model as IDumpUserContentModel;
                         IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
                         ArrayList list = (ArrayList)e.Data;
                         IList<TeamListViewItemModel> selectedLvItems = list.Cast<TeamListViewItemModel>().ToList();
-                        if (selectedLvItems != null && selectedLvItems.Count > 0) {
+                        if (selectedLvItems != null && selectedLvItems.Count > 0)
+                        {
                             // lock UI
-                            if (SyncContext != null) {
-                                SyncContext.Post(delegate {
+                            if (SyncContext != null)
+                            {
+                                SyncContext.Post(delegate 
+                                {
                                     presenter.EnableControl(false);
                                     presenter.ActivateSpinner(true);
                                     presenter.UpdateProgressInfo("Preparing Search...");
                                 }, null);
                             }
 
-                            Thread search = new Thread(() => {
-                                if (string.IsNullOrEmpty(model.UserAccessToken)) {
-                                    SyncContext.Post(delegate {
+                            Thread search = new Thread(() => 
+                            {
+                                if (string.IsNullOrEmpty(model.UserAccessToken))
+                                {
+                                    SyncContext.Post(delegate 
+                                    {
                                         presenter.ShowErrorMessage(ErrorMessages.INVALID_TOKEN, ErrorMessages.DLG_DEFAULT_TITLE);
                                         presenter.UpdateProgressInfo("");
                                         presenter.ActivateSpinner(false);
                                         presenter.EnableControl(true);
                                     }, null);
-                                } else {
+                                }
+                                else
+                                {
                                     MemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
-                                    foreach (TeamListViewItemModel item in selectedLvItems) {
+                                    foreach (TeamListViewItemModel item in selectedLvItems)
+                                    {
                                         SearchFiles(service, item, model, presenter);
                                     }
 
                                     // complete.
-                                    if (SyncContext != null) {
-                                        SyncContext.Post(delegate {
+                                    if (SyncContext != null)
+                                    {
+                                        SyncContext.Post(delegate 
+                                        {
                                             // update result and update view.
                                             PresenterBase.SetViewPropertiesFromModel<IDumpUserContentView, IDumpUserContentModel>(
                                                 ref view, model
@@ -361,8 +442,6 @@
                         presenter.EnableControl(true);
                     }, null);
                 } else {
-                    // perform search
-                    //checked to see if we are zipping files
                     this.DumpFiles(model, presenter);
                     if (SyncContext != null) {
                         SyncContext.Post(delegate {

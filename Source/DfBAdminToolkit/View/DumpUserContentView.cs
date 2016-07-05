@@ -34,6 +34,10 @@
 
         public bool ZipFiles { get; set; }
 
+        public bool SuspendUser { get; set; }
+
+        public bool DeleteUser { get; set; }
+
         public enum OlvTeamIndex : int {
             Email,
             TeamId,
@@ -77,6 +81,8 @@
                 this.objectListView_MemberList.HeaderCheckBoxChanging += ObjectListView_MemberList_HeaderCheckBoxChanging;
                 this.objectListView_MemberList.ItemCheck += ObjectListView_MemberList_ItemCheck;
                 this.checkBoxDumpToZip.CheckedChanged += CheckBoxDumpToZip_CheckedChanged;
+                this.checkBoxSuspendUser.CheckedChanged += CheckBoxSuspendUser_CheckedChanged;
+                this.checkBoxDeleteUser.CheckedChanged += CheckBoxDeleteUser_CheckedChanged;
                 ComponentEventsWired = true;
             }
         }
@@ -92,6 +98,8 @@
                 this.objectListView_MemberList.HeaderCheckBoxChanging -= ObjectListView_MemberList_HeaderCheckBoxChanging;
                 this.objectListView_MemberList.ItemCheck -= ObjectListView_MemberList_ItemCheck;
                 this.checkBoxDumpToZip.CheckedChanged -= CheckBoxDumpToZip_CheckedChanged;
+                this.checkBoxSuspendUser.CheckedChanged -= CheckBoxSuspendUser_CheckedChanged;
+                this.checkBoxDeleteUser.CheckedChanged -= CheckBoxDeleteUser_CheckedChanged;
                 ComponentEventsWired = false;
             }
         }
@@ -372,6 +380,30 @@
             if (!this.checkBoxDumpToZip.Checked)
             {
                 this.ZipFiles = false;
+            }
+        }
+
+        private void CheckBoxSuspendUser_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBoxSuspendUser.Checked)
+            {
+                this.SuspendUser = true;
+            }
+            if (!this.checkBoxSuspendUser.Checked)
+            {
+                this.SuspendUser = false;
+            }
+        }
+
+        private void CheckBoxDeleteUser_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBoxDeleteUser.Checked)
+            {
+                this.DeleteUser = true;
+            }
+            if (!this.checkBoxDeleteUser.Checked)
+            {
+                this.DeleteUser = false;
             }
         }
     }

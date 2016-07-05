@@ -1,6 +1,8 @@
 ﻿namespace DfBAdminToolkit {
 
+    using System;
     using System.Configuration;
+    using System.Threading;
 
     public static class ApplicationResource {
 
@@ -37,6 +39,31 @@
             get { return ConfigurationManager.AppSettings.Get("ActionListFolderContinuation"); }
         }
 
+        public static string ActionGetGroups
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetGroups"); }
+        }
+
+        public static string ActionGetGroupsContinuation
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetGroupsContinuation"); }
+        }
+
+        public static string ActionCreateGroup
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionCreateGroup"); }
+        }
+
+        public static string ActionAddMemberGroup
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionAddMemberGroup"); }
+        }
+
+        public static string ActionDeleteMemberGroup
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionDeleteMemberGroup"); }
+        }
+
         public static string ActionFilesDownload {
             get { return ConfigurationManager.AppSettings.Get("ActionFilesDownload"); }
         }
@@ -47,6 +74,16 @@
 
         public static string ActionRemoveMember {
             get { return ConfigurationManager.AppSettings.Get("ActionRemoveMember"); }
+        }
+
+        public static string ActionSuspendMember
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionSuspendMember"); }
+        }
+
+        public static string ActionUnsuspendMember
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionUnsuspendMember"); }
         }
 
         public static string ActionListTeamDevices {
@@ -60,6 +97,11 @@
         public static string ActionGetUsage
         {
             get { return ConfigurationManager.AppSettings.Get("ActionGetUsage"); }
+        }
+
+        public static string ActionGetInfo
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetInfo"); }
         }
 
         public static int SearchDefaultLimit {
@@ -105,6 +147,22 @@
 
         public static string DefaultOutputReportFilePrefix {
             get { return ConfigurationManager.AppSettings.Get("DefaultOutputReportFilePrefix"); }
+        }
+
+        public static string UserAgent
+        {
+            get
+            {
+                bool architecture = Environment.Is64BitOperatingSystem;
+                string locale = Thread.CurrentThread.CurrentCulture.ToString();
+                string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                string archOS = "i32";
+                if (architecture)
+                {
+                    archOS = "i64";
+                }
+                return @"DropboxBusinessAdminToolkit/" + version + " (" + Environment.OSVersion.ToString() + "; " + archOS + "; " + locale + "; )";
+            }
         }
     }
 }

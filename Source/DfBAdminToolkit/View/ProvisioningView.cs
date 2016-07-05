@@ -15,6 +15,8 @@
         public event EventHandler DataChanged;
         public event EventHandler CommandProvision;
         public event EventHandler CommandDeprovision;
+        public event EventHandler CommandSuspend;
+        public event EventHandler CommandUnsuspend;
         public event EventHandler CommandLoadInputFile;
         public event EventHandler CommandCreateCSV;
         public event EventHandler CommandGetUsage;
@@ -50,6 +52,8 @@
             WireComponentEvents();
             EnableProvisionButton(false);
             EnableDeprovisionButton(false);
+            EnableSuspendButton(false);
+            EnableUnSuspendButton(false);
 
             //make Member only button checked
             this.radioButton_ProvisioningRoleMemberOnly.Checked = true;
@@ -72,6 +76,8 @@
                 this.textBox_ProvisioningInputFile.OnDragDropEnd += TextBox_ProvisioningInputFile_OnDragDropEnd;
                 this.buttonEx_ProvisioningProvision.Click += Button_ProvisioningDoProvision_Click;
                 this.buttonEx_ProvisioningDeprovision.Click += Button_ProvisioningDoDeprovision_Click;
+                this.buttonEx_ProvisioningSuspend.Click += Button_ProvisioningDoSuspend_Click;
+                this.buttonEx_ProvisioningUnsuspend.Click += Button_ProvisioningDoUnsuspend_Click;
                 this.buttonEx_ProvisioningFileInputSelect.Click += Button_ProvisioningInputFile_Click;
                 this.buttonEx_ProvisioningLoadCSV.Click += Button_ProvisioningLoadInputFile_Click;
                 this.buttonEx_ProvisioningCreateCSV.Click += Button_ExportMembers_Click;
@@ -91,6 +97,8 @@
                 this.textBox_ProvisioningInputFile.OnDragDropEnd -= TextBox_ProvisioningInputFile_OnDragDropEnd;
                 this.buttonEx_ProvisioningProvision.Click -= Button_ProvisioningDoProvision_Click;
                 this.buttonEx_ProvisioningDeprovision.Click -= Button_ProvisioningDoDeprovision_Click;
+                this.buttonEx_ProvisioningSuspend.Click -= Button_ProvisioningDoSuspend_Click;
+                this.buttonEx_ProvisioningUnsuspend.Click -= Button_ProvisioningDoUnsuspend_Click;
                 this.buttonEx_ProvisioningFileInputSelect.Click -= Button_ProvisioningInputFile_Click;
                 this.buttonEx_ProvisioningLoadCSV.Click -= Button_ProvisioningLoadInputFile_Click;
                 this.buttonEx_ProvisioningCreateCSV.Click -= Button_ExportMembers_Click;
@@ -200,6 +208,18 @@
             buttonEx_ProvisioningDeprovision.Update();
         }
 
+        public void EnableSuspendButton(bool enable)
+        {
+            buttonEx_ProvisioningSuspend.Enabled = enable;
+            buttonEx_ProvisioningSuspend.Update();
+        }
+
+        public void EnableUnSuspendButton(bool enable)
+        {
+            buttonEx_ProvisioningUnsuspend.Enabled = enable;
+            buttonEx_ProvisioningUnsuspend.Update();
+        }
+
         public void RefreshAccessToken()
         {
             textBox_ProvisioningAccessToken.Text = AccessToken;
@@ -271,6 +291,40 @@
                 if (CommandDeprovision != null)
                 {
                     CommandDeprovision(sender, e);
+                }
+            }
+            else if (d == DialogResult.No)
+            {
+                //do nothing
+            }
+        }
+
+        private void Button_ProvisioningDoSuspend_Click(object sender, EventArgs e)
+        {
+            DialogResult d = MessageBoxUtil.ShowConfirm(this, ErrorMessages.CONFIRM_SUSPEND);
+            if (d == DialogResult.Yes)
+            {
+                InvokeDataChanged(sender, e);
+                if (CommandSuspend != null)
+                {
+                    CommandSuspend(sender, e);
+                }
+            }
+            else if (d == DialogResult.No)
+            {
+                //do nothing
+            }
+        }
+
+        private void Button_ProvisioningDoUnsuspend_Click(object sender, EventArgs e)
+        {
+            DialogResult d = MessageBoxUtil.ShowConfirm(this, ErrorMessages.CONFIRM_UNSUSPEND);
+            if (d == DialogResult.Yes)
+            {
+                InvokeDataChanged(sender, e);
+                if (CommandUnsuspend != null)
+                {
+                    CommandUnsuspend(sender, e);
                 }
             }
             else if (d == DialogResult.No)

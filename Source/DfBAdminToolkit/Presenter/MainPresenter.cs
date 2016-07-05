@@ -83,6 +83,17 @@
             }
         }
 
+        public void UpdateTitleBarStats()
+        {
+            IMainView view = base._view as IMainView;
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate {
+                    view.UpdateTitleBarTeamStats();
+                }, null);
+            }
+        }
+
         public void ShowInfoMessage(string text) {
             IMainView view = base._view as IMainView;
             if (SyncContext != null) {

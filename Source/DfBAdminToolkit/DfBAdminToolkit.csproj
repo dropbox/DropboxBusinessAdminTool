@@ -12,10 +12,6 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -99,9 +95,12 @@
     <Compile Include="Model\DevicesModel.cs" />
     <Compile Include="Model\DumpUserContentModel.cs" />
     <Compile Include="Model\FileListViewItemModel.cs" />
+    <Compile Include="Model\GroupListViewItemModel.cs" />
+    <Compile Include="Model\GroupsModel.cs" />
     <Compile Include="Model\IDataMigrationModel.cs" />
     <Compile Include="Model\IDevicesModel.cs" />
     <Compile Include="Model\IDumpUserContentModel.cs" />
+    <Compile Include="Model\IGroupsModel.cs" />
     <Compile Include="Model\ILegalModel.cs" />
     <Compile Include="Model\IMainModel.cs" />
     <Compile Include="Model\IModel.cs" />
@@ -118,9 +117,11 @@
     <Compile Include="Presenter\DataMigrationPresenter.cs" />
     <Compile Include="Presenter\DevicesPresenter.cs" />
     <Compile Include="Presenter\DumpUserContentPresenter.cs" />
+    <Compile Include="Presenter\GroupsPresenter.cs" />
     <Compile Include="Presenter\IDataMigrationPresenter.cs" />
     <Compile Include="Presenter\IDevicesPresenter.cs" />
     <Compile Include="Presenter\IDumpUserContentPresenter.cs" />
+    <Compile Include="Presenter\IGroupsPresenter.cs" />
     <Compile Include="Presenter\ILegalPresenter.cs" />
     <Compile Include="Presenter\IProvisioningPresenter.cs" />
     <Compile Include="Presenter\ISettingsPresenter.cs" />
@@ -152,9 +153,16 @@
     <Compile Include="View\DumpUserContentView.Designer.cs">
       <DependentUpon>DumpUserContentView.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\GroupsView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\GroupsView.Designer.cs">
+      <DependentUpon>GroupsView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\IDataMigrationView.cs" />
     <Compile Include="View\IDevicesView.cs" />
     <Compile Include="View\IDumpUserContentView.cs" />
+    <Compile Include="View\IGroupsView.cs" />
     <Compile Include="View\IProvisioningView.cs" />
     <Compile Include="View\ISettingsView.cs" />
     <Compile Include="View\ITextSearchView.cs" />
@@ -202,6 +210,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\DumpUserContentView.resx">
       <DependentUpon>DumpUserContentView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\GroupsView.resx">
+      <DependentUpon>GroupsView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ProvisioningView.resx">
       <DependentUpon>ProvisioningView.cs</DependentUpon>

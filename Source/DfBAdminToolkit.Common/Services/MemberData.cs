@@ -35,6 +35,16 @@
 
         #endregion Search Text
 
+        #region Groups
+
+        public string GroupName { get; set; }
+
+        public string GroupId { get; set; }
+
+        public string MemberCount { get; set; }
+
+        #endregion Groupd
+
         #region Dump related
 
         public string Path { get; set; }
@@ -42,6 +52,10 @@
         public string FileName { get; set; }
 
         public bool ZipFiles { get; set; }
+
+        public bool SuspendUser { get; set; }
+
+        public bool DeleteUser { get; set; }
 
         #endregion Dump related
 

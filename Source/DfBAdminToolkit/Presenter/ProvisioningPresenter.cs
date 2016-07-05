@@ -40,6 +40,8 @@
                 view.DataChanged += OnDataChanged;
                 view.CommandProvision += OnCommandProvision;
                 view.CommandDeprovision += OnCommandDeprovision;
+                view.CommandSuspend += OnCommandSuspend;
+                view.CommandUnsuspend += OnCommandUnsuspend;
                 view.CommandLoadInputFile += OnCommandLoadInputFile;
                 view.CommandCreateCSV += OnCommandListMembersCreateCSV;
                 view.CommandGetUsage += OnCommandGetUsage;       
@@ -53,6 +55,8 @@
                 view.DataChanged -= OnDataChanged;
                 view.CommandProvision -= OnCommandProvision;
                 view.CommandDeprovision -= OnCommandDeprovision;
+                view.CommandSuspend -= OnCommandSuspend;
+                view.CommandUnsuspend -= OnCommandUnsuspend;
                 view.CommandLoadInputFile -= OnCommandLoadInputFile;
                 view.CommandCreateCSV -= OnCommandListMembersCreateCSV;
                 view.CommandGetUsage -= OnCommandGetUsage;
@@ -116,7 +120,9 @@
             string errorMessage = string.Empty;
             IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.AddMemberUrl = ApplicationResource.ActionAddMember;
-            foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList()) {
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
+            {
                 IServiceResponse response = service.AddMember(new MemberData() {
                     Email = item.Email,
                     FirstName = item.FirstName,
@@ -125,10 +131,10 @@
                     RoleName = model.SelectedRole
                 }, model.AccessToken);
 
-                if (response.StatusCode == System.Net.HttpStatusCode.OK) {
+                if (response.StatusCode == HttpStatusCode.OK) {
                     if (SyncContext != null) {
                         SyncContext.Post(delegate {
-                            presenter.UpdateProgressInfo(string.Format("Updated Member: {0}: {1} {2}", item.Email, item.FirstName, item.LastName));
+                            presenter.UpdateProgressInfo(string.Format("Added Member: {0}: {1} {2}", item.Email, item.FirstName, item.LastName));
                         }, null);
                     }
                 } else {
@@ -142,12 +148,13 @@
             string errorMessage = string.Empty;
             IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.RemoveMemberUrl = ApplicationResource.ActionRemoveMember;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
             foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList()) {
                 IServiceResponse response = service.RemoveMember(new MemberData() {
                     Email = item.Email
                 }, model.AccessToken);
 
-                if (response.StatusCode == System.Net.HttpStatusCode.OK) {
+                if (response.StatusCode == HttpStatusCode.OK) {
                     if (SyncContext != null) {
                         SyncContext.Post(delegate {
                             presenter.UpdateProgressInfo(string.Format("Removed Member: {0}", item.Email));
@@ -155,6 +162,66 @@
                     }
                 } else {
                     errorMessage = ErrorMessages.FAILED_TO_REMOVE_MEMBER;
+                }
+            }
+            return errorMessage;
+        }
+
+        private string SuspendMember(IProvisioningModel model, IMainPresenter presenter)
+        {
+            string errorMessage = string.Empty;
+            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.SuspendMemberUrl = ApplicationResource.ActionSuspendMember;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
+            {
+                IServiceResponse response = service.SuspendMember(new MemberData()
+                {
+                    Email = item.Email
+                }, model.AccessToken);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate {
+                            presenter.UpdateProgressInfo(string.Format("Suspended Member: {0}", item.Email));
+                        }, null);
+                    }
+                }
+                else
+                {
+                    errorMessage = ErrorMessages.FAILED_TO_SUSPEND_MEMBER;
+                }
+            }
+            return errorMessage;
+        }
+
+        private string UnsuspendMember(IProvisioningModel model, IMainPresenter presenter)
+        {
+            string errorMessage = string.Empty;
+            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.UnSuspendMemberUrl = ApplicationResource.ActionUnsuspendMember;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
+            {
+                IServiceResponse response = service.UnSuspendMember(new MemberData()
+                {
+                    Email = item.Email
+                }, model.AccessToken);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate {
+                            presenter.UpdateProgressInfo(string.Format("Unsuspended Member: {0}", item.Email));
+                        }, null);
+                    }
+                }
+                else
+                {
+                    errorMessage = ErrorMessages.FAILED_TO_UNSUSPEND_MEMBER;
                 }
             }
             return errorMessage;
@@ -169,6 +236,7 @@
 
                 MemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
                 service.ListMembersUrl = ApplicationResource.ActionListMembers;
+                service.UserAgentVersion = ApplicationResource.UserAgent;
                 IDataResponse response = service.ListMembers(new MemberData() {
                     SearchLimit = ApplicationResource.SearchDefaultLimit
                 }, UserAccessToken);
@@ -304,6 +372,7 @@
 
                 MemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
                 service.ListMembersUrl = ApplicationResource.ActionListMembers;
+                service.UserAgentVersion = ApplicationResource.UserAgent;
                 IDataResponse response = service.ListMembers(new MemberData()
                 {
                     SearchLimit = ApplicationResource.SearchDefaultLimit
@@ -414,7 +483,6 @@
                                     LastName = lastName,
                                     Usage = FileUtil.FormatFileSizeMB(used)
                                 };
-
                                 model.Members.Add(lvItem);
                             }
                             hasMore = jsonDataCont["has_more"];
@@ -455,6 +523,8 @@
                             presenter.EnableControl(true);
                             view.EnableProvisionButton(loaded);
                             view.EnableDeprovisionButton(loaded);
+                            view.EnableSuspendButton(loaded);
+                            view.EnableUnSuspendButton(loaded);
                         }, null);
                     }
                 }
@@ -499,7 +569,8 @@
                                 presenter.ShowErrorMessage(error, ErrorMessages.DLG_DEFAULT_TITLE);
                                 presenter.UpdateProgressInfo("");
                             } else {
-                                presenter.UpdateProgressInfo("Completed");
+                                presenter.UpdateProgressInfo("Provisioning completed");
+                                presenter.UpdateTitleBarStats();
                             }
                             // update result and update view.
                             presenter.ActivateSpinner(false);
@@ -541,7 +612,8 @@
                                 presenter.ShowErrorMessage(error, ErrorMessages.DLG_DEFAULT_TITLE);
                                 presenter.UpdateProgressInfo("");
                             } else {
-                                presenter.UpdateProgressInfo("Completed");
+                                presenter.UpdateProgressInfo("Deprovisioning completed");
+                                presenter.UpdateTitleBarStats();
                             }
                             // update result and update view.
                             presenter.ActivateSpinner(false);
@@ -551,6 +623,102 @@
                 }
             });
             deprovision.Start();
+        }
+
+        private void OnCommandSuspend(object sender, System.EventArgs e)
+        {
+            IProvisioningView view = base._view as IProvisioningView;
+            IProvisioningModel model = base._model as IProvisioningModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Processing...");
+                }, null);
+            }
+            Thread suspend = new Thread(() => {
+                if (string.IsNullOrEmpty(model.AccessToken))
+                {
+                    SyncContext.Post(delegate {
+                        presenter.EnableControl(true);
+                        presenter.ActivateSpinner(false);
+                        presenter.UpdateProgressInfo("");
+                    }, null);
+                }
+                else
+                {
+                    string error = SuspendMember(model, presenter);
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate {
+                            if (!string.IsNullOrEmpty(error))
+                            {
+                                presenter.ShowErrorMessage(error, ErrorMessages.DLG_DEFAULT_TITLE);
+                                presenter.UpdateProgressInfo("");
+                            }
+                            else
+                            {
+                                presenter.UpdateProgressInfo("Suspending members completed");
+                            }
+                            // update result and update view.
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                        }, null);
+                    }
+                }
+            });
+            suspend.Start();
+        }
+
+        private void OnCommandUnsuspend(object sender, System.EventArgs e)
+        {
+            IProvisioningView view = base._view as IProvisioningView;
+            IProvisioningModel model = base._model as IProvisioningModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Processing...");
+                }, null);
+            }
+            Thread unsuspend = new Thread(() => {
+                if (string.IsNullOrEmpty(model.AccessToken))
+                {
+                    SyncContext.Post(delegate {
+                        presenter.EnableControl(true);
+                        presenter.ActivateSpinner(false);
+                        presenter.UpdateProgressInfo("");
+                    }, null);
+                }
+                else
+                {
+                    string error = UnsuspendMember(model, presenter);
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate {
+                            if (!string.IsNullOrEmpty(error))
+                            {
+                                presenter.ShowErrorMessage(error, ErrorMessages.DLG_DEFAULT_TITLE);
+                                presenter.UpdateProgressInfo("");
+                            }
+                            else
+                            {
+                                presenter.UpdateProgressInfo("Unsuspending members completed");
+                            }
+                            // update result and update view.
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                        }, null);
+                    }
+                }
+            });
+            unsuspend.Start();
         }
 
         private void OnCommandListMembersCreateCSV(object sender, EventArgs e) {

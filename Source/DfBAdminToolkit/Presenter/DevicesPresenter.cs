@@ -72,6 +72,7 @@
             int total = model.DeviceList.Where(d => d.IsChecked && !string.IsNullOrEmpty(d.SessionId)).ToList().Count;
             IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.DumpDevicesUrl = ApplicationResource.ActionDumpDevices;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
 
             foreach (DeviceListViewItemModel lvItem in model.DeviceList) {
                 if (lvItem.IsChecked && !string.IsNullOrEmpty(lvItem.SessionId)) {
@@ -98,6 +99,7 @@
             if (!string.IsNullOrEmpty(model.UserAccessToken)) {
                 IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
                 service.GetDevicesUrl = ApplicationResource.ActionListTeamDevices;
+                service.UserAgentVersion = ApplicationResource.UserAgent;
                 List<string[]> members = new List<string[]>();
 
                 //BEGIN GET MEMBERS

@@ -39,5 +39,9 @@
         void ShowGroups(bool show);
 
         bool ZipFiles { get; set; }
+
+        bool SuspendUser { get; set; }
+
+        bool DeleteUser { get; set; }
     }
 }

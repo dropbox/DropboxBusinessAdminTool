@@ -13,6 +13,10 @@
 
         public bool ZipFiles { get; set; }
 
+        public bool SuspendUser { get; set; }
+
+        public bool DeleteUser { get; set; }
+
         public DumpUserContentModel() {
             UserAccessToken = ApplicationResource.DefaultAccessToken;
             MemberList = new List<TeamListViewItemModel>();

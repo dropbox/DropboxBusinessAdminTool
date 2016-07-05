@@ -21,8 +21,6 @@
 
         public List<MemberListViewItemModel> MemberList { get; set; }
 
-        //public List<MemberListViewItemModel> ResultList { get; set; }
-
         public string AccessToken { get; set; }
 
         public string QueryString { get; set; }

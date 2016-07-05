@@ -16,6 +16,10 @@
 
         public string RemoveMemberUrl { get; set; }
 
+        public string SuspendMemberUrl { get; set; }
+
+        public string UnSuspendMemberUrl { get; set; }
+
         public string ListMembersUrl { get; set; }
 
         public string ListMembersContinuationUrl { get; set; }
@@ -31,6 +35,18 @@
         public string DumpDevicesUrl { get; set; }
 
         public string GetUsageUrl { get; set; }
+
+        public string GetInfoUrl { get; set; }
+
+        public string GetGroupsUrl { get; set; }
+
+        public string CreateGroupUrl { get; set; }
+
+        public string AddMemberGroupUrl { get; set; }
+
+        public string DeleteMemberGroupUrl { get; set; }
+
+        public string UserAgentVersion { get; set; }
 
         public MemberServices(
             string baseUrl,
@@ -71,6 +87,7 @@
                     );
                     request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
                     request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
                 } else {
@@ -106,12 +123,88 @@
 
                     request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
                     request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
                 } else {
                     throw new ArgumentNullException("Missing service url");
                 }
             } catch (Exception e) {
+                serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+
+            return serviceResponse;
+        }
+
+        public IServiceResponse SuspendMember(IMemberData data, string authToken)
+        {
+            IServiceResponse serviceResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(SuspendMemberUrl))
+                {
+                    RestClient client = new RestClient(string.Format("{0}/{1}/", _baseUrl, _apiVersion));
+                    RestRequest request = new RestRequest(SuspendMemberUrl, Method.POST);
+                    request.AddHeader("Authorization", Convert.ToString("Bearer ") + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    JObject jsonProv = new JObject(
+                        new JProperty("user", 
+                            new JObject(
+                                new JProperty(".tag", "email"), 
+                                new JProperty("email", data.Email))), 
+                        new JProperty("wipe_data", false));
+
+                    request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+
+            return serviceResponse;
+        }
+
+        public IServiceResponse UnSuspendMember(IMemberData data, string authToken)
+        {
+            IServiceResponse serviceResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(UnSuspendMemberUrl))
+                {
+                    RestClient client = new RestClient(string.Format("{0}/{1}/", _baseUrl, _apiVersion));
+                    RestRequest request = new RestRequest(UnSuspendMemberUrl, Method.POST);
+                    request.AddHeader("Authorization", Convert.ToString("Bearer ") + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    JObject jsonProv = new JObject(
+                        new JProperty("user", 
+                            new JObject(
+                                new JProperty(".tag", "email"), 
+                                new JProperty("email", data.Email))));
+
+                    request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
                 serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
             }
 
@@ -134,6 +227,7 @@
                     );
                     request.AddParameter("application/json", json, ParameterType.RequestBody);
                     request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
                 } else {
@@ -161,6 +255,7 @@
                     );
                     request.AddParameter("application/json", json, ParameterType.RequestBody);
                     request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
                 } else {
@@ -204,7 +299,7 @@
                         request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
 
                     }
-
+                    client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
                 }
@@ -212,6 +307,192 @@
                 dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
             }
             return dataResponse;
+        }
+
+        public IDataResponse GetGroups(IMemberData data, string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(GetGroupsUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(GetGroupsUrl, Method.POST);
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    if (String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //set up properties for JSON to the API
+                        JObject jsonSearch = new JObject(
+                        new JProperty("limit", 1000)
+                       );
+                        request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
+                    }
+
+                    if (!String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //set up properties for JSON to the API
+                        JObject jsonSearch = new JObject(
+                        new JProperty("cursor", data.Cursor)
+                       );
+                        request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
+
+                    }
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IServiceResponse CreateGroup(string groupName, string authToken)
+        {
+            IServiceResponse serviceResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(CreateGroupUrl))
+                {
+                    RestClient client = new RestClient(string.Format("{0}/{1}/", _baseUrl, _apiVersion));
+                    RestRequest request = new RestRequest(CreateGroupUrl, Method.POST);
+                    request.AddHeader("Authorization", Convert.ToString("Bearer ") + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    JObject json = new JObject(
+                        new JProperty("group_name", groupName)
+                    );
+
+                    request.AddParameter("application/json", json, ParameterType.RequestBody);
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+
+            return serviceResponse;
+        }
+
+        public IServiceResponse AddMemberGroup(IMemberData data, string email, string authToken)
+        {
+            IServiceResponse serviceResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(AddMemberGroupUrl))
+                {
+                    RestClient client = new RestClient(
+                        string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                    );
+                    RestRequest request = new RestRequest(AddMemberGroupUrl, Method.POST);
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    JObject json = new JObject(
+                        new JProperty("group",
+                                        new JObject(
+                                            new JProperty(".tag", "group_id"),
+                                            new JProperty("group_id", data.GroupId)
+                                        )
+                                    ),
+                        new JProperty("members",
+                            new JArray(
+                                new JObject(
+                                    new JProperty("user",
+                                        new JObject(
+                                            new JProperty(".tag", "email"),
+                                            new JProperty("email", email)
+                                        )
+                                    ),
+                                    new JProperty("access_type",
+                                        new JObject(
+                                            new JProperty(".tag", "member")
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                        new JProperty("return_members", false)
+                    );
+                    request.AddParameter("application/json", json, ParameterType.RequestBody);
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+            return serviceResponse;
+        }
+
+        public IServiceResponse DeleteMemberGroup(IMemberData data, string email, string authToken)
+        {
+            IServiceResponse serviceResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(DeleteMemberGroupUrl))
+                {
+                    RestClient client = new RestClient(
+                        string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                    );
+                    RestRequest request = new RestRequest(DeleteMemberGroupUrl, Method.POST);
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    JObject json = new JObject(
+                        new JProperty("group",
+                                        new JObject(
+                                            new JProperty(".tag", "group_id"),
+                                            new JProperty("group_id", data.GroupId)
+                                        )
+                                    ),
+                        new JProperty("users",
+                            new JArray(
+                                new JObject(
+                                    new JProperty(".tag", "email"),
+                                    new JProperty("email", email)
+                                )
+                            )
+                        ),
+                        new JProperty("return_members", false)
+                    );
+                    request.AddParameter("application/json", json, ParameterType.RequestBody);
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+            return serviceResponse;
         }
 
         public IDataResponse SearchFiles(IMemberData data, string authToken) {
@@ -235,6 +516,7 @@
                         new JProperty("mode", data.SearchMode)
                     );
                     request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
+                    client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
                 } else {
@@ -261,10 +543,40 @@
                     request.AddHeader("Authorization", "Bearer " + authToken);
                     request.AddHeader("Dropbox-API-Select-User", data.MemberId);
 
+                    client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
                 }
                 else {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse GetInfo(string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(GetInfoUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(GetInfoUrl, Method.POST);
+                    //add headers
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
                     throw new ArgumentNullException("Missing service url");
                 }
             }
@@ -283,7 +595,7 @@
                     string url = string.Format("{0}/{1}/", _baseUrl, _apiVersion);
                     RestClient client = new RestClient(url);
                     RestRequest request = new RestRequest(FileDumpUrl, Method.GET);
-
+                    client.UserAgent = UserAgentVersion;
                     //add headers, include user authentication we pass in with admin privileges
                     request.AddHeader("Authorization", "Bearer " + authToken);
                     request.AddHeader("Dropbox-API-Select-User", data.MemberId);
@@ -384,7 +696,7 @@
                         );
                         request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
                     }
-
+                    client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
                 }
@@ -436,6 +748,7 @@
                         );
                         request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
                     }
+                    client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
                 }

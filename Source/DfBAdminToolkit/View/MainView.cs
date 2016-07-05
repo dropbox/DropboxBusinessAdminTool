@@ -1,12 +1,15 @@
 ﻿namespace DfBAdminToolkit.View {
 
-    using DfBAdminToolkit.Common.Utils;
-    using DfBAdminToolkit.Model;
-    using DfBAdminToolkit.Presenter;
+    using Common.Utils;
+    using Common.Services;
+    using Model;
+    using Presenter;
     using System;
+    using System.Net;
     using System.Collections.Generic;
     using System.Threading;
     using System.Windows.Forms;
+    using Newtonsoft.Json;
 
     public partial class MainView : Form, IMainView {
         public event EventHandler CommandQuitApplication;
@@ -21,8 +24,9 @@
             TextSearch = 0,
             DumpContent = 1,
             Provisioning = 2,
-            Devices = 3,
-            DataMigration = 4
+            Groups = 3,
+            Devices = 4,
+            DataMigration = 5
         }
 
         #endregion Runtime components
@@ -69,9 +73,18 @@
             StartPosition = FormStartPosition.CenterScreen;
             ComponentEventsWired = false;
             RegisterTabPages();
+            //get build version and update title bar for basic version
+            string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            this.Text = "Dropbox Business Admin Toolkit v" + version;
+            //token not configured yet
             bool checkToken = FileUtil.TokenCheck();
             if (!checkToken) {
                 ShowErrorMessage(ErrorMessages.MISSING_TOKEN, ErrorMessages.DLG_DEFAULT_TITLE);
+            }
+            //if token configured get team stats and put in title text
+            if (checkToken)
+            {
+                this.UpdateTitleBarTeamStats();
             }
         }
 
@@ -116,6 +129,14 @@
                 Padding = new Padding(5, 3, 5, 3),
                 UseVisualStyleBackColor = true
             });
+            _tabPages.Add(new TabPage()
+            {
+                Name = "tabPage_Groups",
+                Text = "Groups",
+                Dock = DockStyle.Fill,
+                Padding = new Padding(5, 3, 5, 3),
+                UseVisualStyleBackColor = true
+            });
             _tabPages.Add(new TabPage() {
                 Name = "tabPage_Devices",
                 Text = "Devices",
@@ -148,10 +169,41 @@
             presenter.ShowSettings(this);
         }
 
-        private void ExitToolStripMenuItem_Click(object sender, EventArgs e) {
-            // TODO:
-            // Add thread exit handling here.
+        public void UpdateTitleBarTeamStats()
+        {
+            int licensed = 0;
+            int provisioned = 0;
+            string name = string.Empty;
 
+            //do a call to get team info
+            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.GetInfoUrl = ApplicationResource.ActionGetInfo;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            string AccessToken = ApplicationResource.DefaultAccessToken;
+
+            IDataResponse response = service.GetInfo(AccessToken);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                if (response.Data != null)
+                {
+                    string data = response.Data.ToString();
+                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+
+                    name = jsonData["name"];
+                    licensed = jsonData["num_licensed_users"];
+                    provisioned = jsonData["num_provisioned_users"];
+                }
+            }
+            //get toolkit version and build title text
+            string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            this.Text = "Dropbox Business Admin Toolkit v" + version + "            Team: " + name + "       Licensed Users: " + licensed.ToString() + "       Provisioned Users: " + provisioned.ToString();
+            this.Update();
+            this.Refresh();
+        }
+
+
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             Application.Exit();
         }
 
@@ -190,12 +242,14 @@
             _tabPages[(int)TabIndex.TextSearch].Controls.Add(CreateTextSearchView());
             _tabPages[(int)TabIndex.DumpContent].Controls.Add(CreateDumpUserContentView());
             _tabPages[(int)TabIndex.Provisioning].Controls.Add(CreateProvisionView());
+            _tabPages[(int)TabIndex.Groups].Controls.Add(CreateGroupsView());
             _tabPages[(int)TabIndex.Devices].Controls.Add(CreateDevicesView());
             _tabPages[(int)TabIndex.DataMigration].Controls.Add(CreateDataMigrationView());
 
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.TextSearch]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.DumpContent]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.Provisioning]);
+            _tabControl.Controls.Add(_tabPages[(int)TabIndex.Groups]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.Devices]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.DataMigration]);
 
@@ -231,6 +285,17 @@
             );
             view.ShowView();
             return view as ProvisioningView;
+        }
+
+        private GroupsView CreateGroupsView()
+        {
+            IGroupsModel model = new GroupsModel();
+            IGroupsView view = new GroupsView();
+            IGroupsPresenter presenter = SimpleResolver.Instance.Get<IGroupsPresenter>(
+                new object[] { model, view }
+            );
+            view.ShowView();
+            return view as GroupsView;
         }
 
         private DevicesView CreateDevicesView() {

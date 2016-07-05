@@ -20,6 +20,16 @@
 
         #endregion Provision
 
+        #region Groups
+
+        string GroupName { get; set; }
+
+        string GroupId { get; set; }
+
+        string MemberCount { get; set; }
+
+        #endregion Groups
+
         #region Search Text
 
         string SearchText { get; set; }
@@ -41,6 +51,10 @@
         string FileName { get; set; }
 
         bool ZipFiles { get; set; }
+
+        bool SuspendUser { get; set; }
+
+        bool DeleteUser { get; set; }
 
         #endregion Dump related
 

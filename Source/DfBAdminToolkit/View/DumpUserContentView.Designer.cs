@@ -40,6 +40,8 @@
             this.tableLayoutPanel_DumpUserContentDisplayCommandGroup = new System.Windows.Forms.TableLayoutPanel();
             this.buttonEx_DumpUserContentDisplayMembers = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.tableLayoutPanel_DumpUserContentFileCommandGroup = new System.Windows.Forms.TableLayoutPanel();
+            this.checkBoxDeleteUser = new System.Windows.Forms.CheckBox();
+            this.checkBoxSuspendUser = new System.Windows.Forms.CheckBox();
             this.label_DumpUserContentOutputDir = new System.Windows.Forms.Label();
             this.tableLayoutPanel_DumpUserContentFileSelection = new System.Windows.Forms.TableLayoutPanel();
             this.textBox_DumpUserContentOutputDir = new DfBAdminToolkit.Common.Component.TextBoxEx(this.components);
@@ -76,7 +78,7 @@
             this.tableLayoutPanel_DumpUserContentMain.Name = "tableLayoutPanel_DumpUserContentMain";
             this.tableLayoutPanel_DumpUserContentMain.RowCount = 1;
             this.tableLayoutPanel_DumpUserContentMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_DumpUserContentMain.Size = new System.Drawing.Size(481, 457);
+            this.tableLayoutPanel_DumpUserContentMain.Size = new System.Drawing.Size(807, 502);
             this.tableLayoutPanel_DumpUserContentMain.TabIndex = 0;
             // 
             // tableLayoutPanel_MemberListGroup
@@ -95,7 +97,7 @@
             this.tableLayoutPanel_MemberListGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tableLayoutPanel_MemberListGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_MemberListGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.tableLayoutPanel_MemberListGroup.Size = new System.Drawing.Size(475, 451);
+            this.tableLayoutPanel_MemberListGroup.Size = new System.Drawing.Size(801, 496);
             this.tableLayoutPanel_MemberListGroup.TabIndex = 0;
             // 
             // tableLayoutPanel_MemberListCommandGroup
@@ -112,7 +114,7 @@
             this.tableLayoutPanel_MemberListCommandGroup.Name = "tableLayoutPanel_MemberListCommandGroup";
             this.tableLayoutPanel_MemberListCommandGroup.RowCount = 1;
             this.tableLayoutPanel_MemberListCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_MemberListCommandGroup.Size = new System.Drawing.Size(473, 40);
+            this.tableLayoutPanel_MemberListCommandGroup.Size = new System.Drawing.Size(799, 40);
             this.tableLayoutPanel_MemberListCommandGroup.TabIndex = 0;
             // 
             // tableLayoutPanel_MemberListAccessToken
@@ -127,7 +129,7 @@
             this.tableLayoutPanel_MemberListAccessToken.Name = "tableLayoutPanel_MemberListAccessToken";
             this.tableLayoutPanel_MemberListAccessToken.RowCount = 1;
             this.tableLayoutPanel_MemberListAccessToken.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_MemberListAccessToken.Size = new System.Drawing.Size(107, 34);
+            this.tableLayoutPanel_MemberListAccessToken.Size = new System.Drawing.Size(433, 34);
             this.tableLayoutPanel_MemberListAccessToken.TabIndex = 0;
             // 
             // label_MemberListAccessToken
@@ -149,7 +151,7 @@
             this.textBox_MemberListAccessToken.Location = new System.Drawing.Point(91, 7);
             this.textBox_MemberListAccessToken.Margin = new System.Windows.Forms.Padding(1, 7, 1, 1);
             this.textBox_MemberListAccessToken.Name = "textBox_MemberListAccessToken";
-            this.textBox_MemberListAccessToken.Size = new System.Drawing.Size(15, 20);
+            this.textBox_MemberListAccessToken.Size = new System.Drawing.Size(341, 20);
             this.textBox_MemberListAccessToken.TabIndex = 0;
             this.textBox_MemberListAccessToken.Visible = false;
             // 
@@ -162,7 +164,7 @@
             this.tableLayoutPanel_DumpUserContentDisplayCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51F));
             this.tableLayoutPanel_DumpUserContentDisplayCommandGroup.Controls.Add(this.buttonEx_DumpUserContentDisplayMembers, 1, 0);
             this.tableLayoutPanel_DumpUserContentDisplayCommandGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_DumpUserContentDisplayCommandGroup.Location = new System.Drawing.Point(226, 3);
+            this.tableLayoutPanel_DumpUserContentDisplayCommandGroup.Location = new System.Drawing.Point(552, 3);
             this.tableLayoutPanel_DumpUserContentDisplayCommandGroup.Name = "tableLayoutPanel_DumpUserContentDisplayCommandGroup";
             this.tableLayoutPanel_DumpUserContentDisplayCommandGroup.RowCount = 1;
             this.tableLayoutPanel_DumpUserContentDisplayCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -201,24 +203,50 @@
             // 
             // tableLayoutPanel_DumpUserContentFileCommandGroup
             // 
-            this.tableLayoutPanel_DumpUserContentFileCommandGroup.ColumnCount = 4;
+            this.tableLayoutPanel_DumpUserContentFileCommandGroup.ColumnCount = 6;
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel_DumpUserContentFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel_DumpUserContentFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115F));
+            this.tableLayoutPanel_DumpUserContentFileCommandGroup.Controls.Add(this.checkBoxDeleteUser, 3, 0);
+            this.tableLayoutPanel_DumpUserContentFileCommandGroup.Controls.Add(this.checkBoxSuspendUser, 2, 0);
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.Controls.Add(this.label_DumpUserContentOutputDir, 0, 0);
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.Controls.Add(this.tableLayoutPanel_DumpUserContentFileSelection, 1, 0);
-            this.tableLayoutPanel_DumpUserContentFileCommandGroup.Controls.Add(this.buttonEx_DumpUserContentDump, 3, 0);
-            this.tableLayoutPanel_DumpUserContentFileCommandGroup.Controls.Add(this.checkBoxDumpToZip, 2, 0);
+            this.tableLayoutPanel_DumpUserContentFileCommandGroup.Controls.Add(this.buttonEx_DumpUserContentDump, 5, 0);
+            this.tableLayoutPanel_DumpUserContentFileCommandGroup.Controls.Add(this.checkBoxDumpToZip, 4, 0);
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.Enabled = false;
-            this.tableLayoutPanel_DumpUserContentFileCommandGroup.Location = new System.Drawing.Point(1, 414);
+            this.tableLayoutPanel_DumpUserContentFileCommandGroup.Location = new System.Drawing.Point(1, 459);
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.Name = "tableLayoutPanel_DumpUserContentFileCommandGroup";
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.RowCount = 1;
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_DumpUserContentFileCommandGroup.Size = new System.Drawing.Size(473, 36);
+            this.tableLayoutPanel_DumpUserContentFileCommandGroup.Size = new System.Drawing.Size(799, 36);
             this.tableLayoutPanel_DumpUserContentFileCommandGroup.TabIndex = 2;
+            // 
+            // checkBoxDeleteUser
+            // 
+            this.checkBoxDeleteUser.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxDeleteUser.AutoSize = true;
+            this.checkBoxDeleteUser.Location = new System.Drawing.Point(493, 9);
+            this.checkBoxDeleteUser.Name = "checkBoxDeleteUser";
+            this.checkBoxDeleteUser.Size = new System.Drawing.Size(82, 17);
+            this.checkBoxDeleteUser.TabIndex = 5;
+            this.checkBoxDeleteUser.Text = "Delete User";
+            this.checkBoxDeleteUser.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSuspendUser
+            // 
+            this.checkBoxSuspendUser.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.checkBoxSuspendUser.AutoSize = true;
+            this.checkBoxSuspendUser.Location = new System.Drawing.Point(387, 9);
+            this.checkBoxSuspendUser.Name = "checkBoxSuspendUser";
+            this.checkBoxSuspendUser.Size = new System.Drawing.Size(93, 17);
+            this.checkBoxSuspendUser.TabIndex = 4;
+            this.checkBoxSuspendUser.Text = "Suspend User";
+            this.checkBoxSuspendUser.UseVisualStyleBackColor = true;
             // 
             // label_DumpUserContentOutputDir
             // 
@@ -244,7 +272,7 @@
             this.tableLayoutPanel_DumpUserContentFileSelection.Name = "tableLayoutPanel_DumpUserContentFileSelection";
             this.tableLayoutPanel_DumpUserContentFileSelection.RowCount = 1;
             this.tableLayoutPanel_DumpUserContentFileSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_DumpUserContentFileSelection.Size = new System.Drawing.Size(166, 34);
+            this.tableLayoutPanel_DumpUserContentFileSelection.Size = new System.Drawing.Size(292, 34);
             this.tableLayoutPanel_DumpUserContentFileSelection.TabIndex = 1;
             // 
             // textBox_DumpUserContentOutputDir
@@ -255,14 +283,14 @@
             this.textBox_DumpUserContentOutputDir.Margin = new System.Windows.Forms.Padding(3, 7, 3, 3);
             this.textBox_DumpUserContentOutputDir.Name = "textBox_DumpUserContentOutputDir";
             this.textBox_DumpUserContentOutputDir.ReadOnly = true;
-            this.textBox_DumpUserContentOutputDir.Size = new System.Drawing.Size(100, 20);
+            this.textBox_DumpUserContentOutputDir.Size = new System.Drawing.Size(226, 20);
             this.textBox_DumpUserContentOutputDir.TabIndex = 0;
             // 
             // buttonEx_DumpUserContentSelect
             // 
             this.buttonEx_DumpUserContentSelect.ColorTable = office2010White1;
             this.buttonEx_DumpUserContentSelect.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_DumpUserContentSelect.Location = new System.Drawing.Point(109, 3);
+            this.buttonEx_DumpUserContentSelect.Location = new System.Drawing.Point(235, 3);
             this.buttonEx_DumpUserContentSelect.Name = "buttonEx_DumpUserContentSelect";
             this.buttonEx_DumpUserContentSelect.Size = new System.Drawing.Size(54, 28);
             this.buttonEx_DumpUserContentSelect.TabIndex = 1;
@@ -291,7 +319,7 @@
             office2010Blue1.TextColor = System.Drawing.Color.White;
             this.buttonEx_DumpUserContentDump.ColorTable = office2010Blue1;
             this.buttonEx_DumpUserContentDump.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_DumpUserContentDump.Location = new System.Drawing.Point(361, 3);
+            this.buttonEx_DumpUserContentDump.Location = new System.Drawing.Point(687, 3);
             this.buttonEx_DumpUserContentDump.Name = "buttonEx_DumpUserContentDump";
             this.buttonEx_DumpUserContentDump.Size = new System.Drawing.Size(109, 30);
             this.buttonEx_DumpUserContentDump.TabIndex = 2;
@@ -303,7 +331,7 @@
             // 
             this.checkBoxDumpToZip.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.checkBoxDumpToZip.AutoSize = true;
-            this.checkBoxDumpToZip.Location = new System.Drawing.Point(261, 9);
+            this.checkBoxDumpToZip.Location = new System.Drawing.Point(587, 9);
             this.checkBoxDumpToZip.Name = "checkBoxDumpToZip";
             this.checkBoxDumpToZip.Size = new System.Drawing.Size(94, 17);
             this.checkBoxDumpToZip.TabIndex = 3;
@@ -332,8 +360,8 @@
             this.objectListView_MemberList.EmptyListMsg = "No Result";
             this.objectListView_MemberList.FullRowSelect = true;
             this.objectListView_MemberList.HideSelection = false;
-            this.objectListView_MemberList.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.objectListView_MemberList.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.objectListView_MemberList.SelectedBackColor = System.Drawing.Color.Empty;
+            this.objectListView_MemberList.SelectedBackColor = System.Drawing.Color.Empty;
             this.objectListView_MemberList.Location = new System.Drawing.Point(3, 83);
             this.objectListView_MemberList.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
             this.objectListView_MemberList.Name = "objectListView_MemberList";
@@ -341,7 +369,7 @@
             this.objectListView_MemberList.ShowGroups = false;
             this.objectListView_MemberList.ShowImagesOnSubItems = true;
             this.objectListView_MemberList.ShowItemCountOnGroups = true;
-            this.objectListView_MemberList.Size = new System.Drawing.Size(469, 327);
+            this.objectListView_MemberList.Size = new System.Drawing.Size(795, 372);
             this.objectListView_MemberList.SortGroupItemsByPrimaryColumn = false;
             this.objectListView_MemberList.TabIndex = 0;
             this.objectListView_MemberList.UseCellFormatEvents = true;
@@ -403,7 +431,7 @@
             this.tableLayoutPanel_DumpUserContentSplitContainer.RowCount = 2;
             this.tableLayoutPanel_DumpUserContentSplitContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 4F));
             this.tableLayoutPanel_DumpUserContentSplitContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_DumpUserContentSplitContainer.Size = new System.Drawing.Size(469, 26);
+            this.tableLayoutPanel_DumpUserContentSplitContainer.Size = new System.Drawing.Size(795, 26);
             this.tableLayoutPanel_DumpUserContentSplitContainer.TabIndex = 3;
             // 
             // label_DumpUserContentSpliter
@@ -412,7 +440,7 @@
             this.label_DumpUserContentSpliter.Dock = System.Windows.Forms.DockStyle.Top;
             this.label_DumpUserContentSpliter.Location = new System.Drawing.Point(3, 0);
             this.label_DumpUserContentSpliter.Name = "label_DumpUserContentSpliter";
-            this.label_DumpUserContentSpliter.Size = new System.Drawing.Size(463, 2);
+            this.label_DumpUserContentSpliter.Size = new System.Drawing.Size(789, 2);
             this.label_DumpUserContentSpliter.TabIndex = 0;
             // 
             // label_DumpUserContentResult
@@ -421,7 +449,7 @@
             this.label_DumpUserContentResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label_DumpUserContentResult.Location = new System.Drawing.Point(3, 4);
             this.label_DumpUserContentResult.Name = "label_DumpUserContentResult";
-            this.label_DumpUserContentResult.Size = new System.Drawing.Size(463, 22);
+            this.label_DumpUserContentResult.Size = new System.Drawing.Size(789, 22);
             this.label_DumpUserContentResult.TabIndex = 1;
             this.label_DumpUserContentResult.Text = "Member Display";
             this.label_DumpUserContentResult.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -430,7 +458,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(481, 457);
+            this.ClientSize = new System.Drawing.Size(807, 502);
             this.Controls.Add(this.tableLayoutPanel_DumpUserContentMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "DumpUserContentView";
@@ -478,5 +506,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_DumpUserContentDisplayCommandGroup;
         private Common.Component.ButtonEx buttonEx_DumpUserContentDisplayMembers;
         private System.Windows.Forms.CheckBox checkBoxDumpToZip;
+        private System.Windows.Forms.CheckBox checkBoxDeleteUser;
+        private System.Windows.Forms.CheckBox checkBoxSuspendUser;
     }
 }

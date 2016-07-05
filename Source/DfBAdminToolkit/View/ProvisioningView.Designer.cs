@@ -62,6 +62,8 @@
             this.olvColumnProvisioning_LastName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_Usage = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonEx_ProvisioningUnsuspend = new DfBAdminToolkit.Common.Component.ButtonEx();
+            this.buttonEx_ProvisioningSuspend = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.buttonEx_ProvisioningProvision = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.buttonEx_ProvisioningDeprovision = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.tableLayoutPanel_ProvisioningSplitter = new System.Windows.Forms.TableLayoutPanel();
@@ -479,10 +481,14 @@
             // 
             // tableLayoutPanel_ProvisioningProvisionCommandGroup
             // 
-            this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnCount = 3;
+            this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnCount = 5;
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 113F));
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 113F));
+            this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 113F));
+            this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 113F));
+            this.tableLayoutPanel_ProvisioningProvisionCommandGroup.Controls.Add(this.buttonEx_ProvisioningUnsuspend, 4, 0);
+            this.tableLayoutPanel_ProvisioningProvisionCommandGroup.Controls.Add(this.buttonEx_ProvisioningSuspend, 3, 0);
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.Controls.Add(this.buttonEx_ProvisioningProvision, 1, 0);
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.Controls.Add(this.buttonEx_ProvisioningDeprovision, 2, 0);
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -494,7 +500,7 @@
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.Size = new System.Drawing.Size(707, 36);
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.TabIndex = 3;
             // 
-            // buttonEx_ProvisioningProvision
+            // buttonEx_ProvisioningUnsuspend
             // 
             office2010Blue1.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
             office2010Blue1.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
@@ -513,9 +519,33 @@
             office2010Blue1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             office2010Blue1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             office2010Blue1.TextColor = System.Drawing.Color.White;
+            this.buttonEx_ProvisioningUnsuspend.ColorTable = office2010Blue1;
+            this.buttonEx_ProvisioningUnsuspend.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonEx_ProvisioningUnsuspend.Location = new System.Drawing.Point(597, 3);
+            this.buttonEx_ProvisioningUnsuspend.Name = "buttonEx_ProvisioningUnsuspend";
+            this.buttonEx_ProvisioningUnsuspend.Size = new System.Drawing.Size(107, 30);
+            this.buttonEx_ProvisioningUnsuspend.TabIndex = 4;
+            this.buttonEx_ProvisioningUnsuspend.Text = "Unsuspend";
+            this.buttonEx_ProvisioningUnsuspend.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
+            this.buttonEx_ProvisioningUnsuspend.UseVisualStyleBackColor = true;
+            // 
+            // buttonEx_ProvisioningSuspend
+            // 
+            this.buttonEx_ProvisioningSuspend.ColorTable = office2010Blue1;
+            this.buttonEx_ProvisioningSuspend.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonEx_ProvisioningSuspend.Location = new System.Drawing.Point(484, 3);
+            this.buttonEx_ProvisioningSuspend.Name = "buttonEx_ProvisioningSuspend";
+            this.buttonEx_ProvisioningSuspend.Size = new System.Drawing.Size(107, 30);
+            this.buttonEx_ProvisioningSuspend.TabIndex = 3;
+            this.buttonEx_ProvisioningSuspend.Text = "Suspend";
+            this.buttonEx_ProvisioningSuspend.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
+            this.buttonEx_ProvisioningSuspend.UseVisualStyleBackColor = true;
+            // 
+            // buttonEx_ProvisioningProvision
+            // 
             this.buttonEx_ProvisioningProvision.ColorTable = office2010Blue1;
             this.buttonEx_ProvisioningProvision.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_ProvisioningProvision.Location = new System.Drawing.Point(484, 3);
+            this.buttonEx_ProvisioningProvision.Location = new System.Drawing.Point(258, 3);
             this.buttonEx_ProvisioningProvision.Name = "buttonEx_ProvisioningProvision";
             this.buttonEx_ProvisioningProvision.Size = new System.Drawing.Size(107, 30);
             this.buttonEx_ProvisioningProvision.TabIndex = 1;
@@ -527,7 +557,7 @@
             // 
             this.buttonEx_ProvisioningDeprovision.ColorTable = office2010Blue1;
             this.buttonEx_ProvisioningDeprovision.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_ProvisioningDeprovision.Location = new System.Drawing.Point(596, 2);
+            this.buttonEx_ProvisioningDeprovision.Location = new System.Drawing.Point(370, 2);
             this.buttonEx_ProvisioningDeprovision.Margin = new System.Windows.Forms.Padding(2);
             this.buttonEx_ProvisioningDeprovision.Name = "buttonEx_ProvisioningDeprovision";
             this.buttonEx_ProvisioningDeprovision.Size = new System.Drawing.Size(109, 32);
@@ -624,5 +654,7 @@
         private ButtonEx buttonEx_ProvisioningCreateCSV;
         private ButtonEx buttonEx_ProvisioningGetUsage;
         private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_Usage;
+        private ButtonEx buttonEx_ProvisioningUnsuspend;
+        private ButtonEx buttonEx_ProvisioningSuspend;
     }
 }

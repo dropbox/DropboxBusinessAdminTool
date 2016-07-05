@@ -13,5 +13,7 @@
         void ShowErrorMessage(string text, string title);
 
         void ShowInfoMessage(string text);
+
+        void UpdateTitleBarStats();
     }
 }

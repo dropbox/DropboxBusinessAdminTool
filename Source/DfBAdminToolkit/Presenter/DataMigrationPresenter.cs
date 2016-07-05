@@ -69,6 +69,7 @@
             bool SuppressStatus = ApplicationResource.SuppressFilenamesInStatus;
             try {
                 service.ListFolderUrl = ApplicationResource.ActionListFolder;
+                service.UserAgentVersion = ApplicationResource.UserAgent;
                 IDataResponse response = service.ListFolders(
                    new MemberData() {
                        MemberId = owner.TeamId
@@ -257,6 +258,7 @@
             if (!string.IsNullOrEmpty(model.AccessToken)) {
                 MemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
                 service.ListMembersUrl = ApplicationResource.ActionListMembers;
+                service.UserAgentVersion = ApplicationResource.UserAgent;
                 IDataResponse response = service.ListMembers(new MemberData() {
                     SearchLimit = ApplicationResource.SearchDefaultLimit
                 }, model.AccessToken);

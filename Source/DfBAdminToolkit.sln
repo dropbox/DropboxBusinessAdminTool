@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
@@ -28,20 +28,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://dropbox-services.visualstudio.com/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = DBAdminToolkit.Setup\\DBAdminToolkit.Setup.vdproj
-		SccProjectName1 = DBAdminToolkit.Setup
-		SccLocalPath1 = DBAdminToolkit.Setup
-		SccProjectUniqueName2 = DfBAdminToolkit\\DfBAdminToolkit.csproj
-		SccProjectName2 = DfBAdminToolkit
-		SccLocalPath2 = DfBAdminToolkit
-		SccProjectUniqueName3 = DfBAdminToolkit.Common\\DfBAdminToolkit.Common.csproj
-		SccProjectName3 = DfBAdminToolkit.Common
-		SccLocalPath3 = DfBAdminToolkit.Common
 	EndGlobalSection
 EndGlobal

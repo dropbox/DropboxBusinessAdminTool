@@ -9,6 +9,8 @@
     {
         event EventHandler CommandProvision;
         event EventHandler CommandDeprovision;
+        event EventHandler CommandSuspend;
+        event EventHandler CommandUnsuspend;
         event EventHandler CommandLoadInputFile;
         event EventHandler CommandCreateCSV;
         event EventHandler CommandGetUsage;
@@ -24,6 +26,10 @@
         void EnableProvisionButton(bool enable);
 
         void EnableDeprovisionButton(bool enable);
+
+        void EnableSuspendButton(bool enable);
+
+        void EnableUnSuspendButton(bool enable);
 
         void EnableLoadInputFileButton(bool enable);
 

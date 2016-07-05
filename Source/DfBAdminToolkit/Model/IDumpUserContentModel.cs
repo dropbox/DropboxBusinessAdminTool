@@ -11,5 +11,9 @@
         string OutputFolder { get; set; }
 
         bool ZipFiles { get; set; }
+
+        bool SuspendUser { get; set; }
+
+        bool DeleteUser { get; set; }
     }
 }
