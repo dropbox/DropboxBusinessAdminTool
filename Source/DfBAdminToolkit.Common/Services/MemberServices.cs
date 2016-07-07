@@ -109,6 +109,11 @@
         public IServiceResponse RemoveMember(IMemberData data, string authToken)
         {
             IServiceResponse serviceResponse = null;
+            bool wipeData = true;
+            if (data.KeepAccount)
+            {
+                wipeData = false;
+            }
             try
             {
                 if (!string.IsNullOrEmpty(RemoveMemberUrl))
@@ -127,7 +132,7 @@
                                     new JProperty("email", data.Email)
                                 )
                         ),
-                        new JProperty("wipe_data", true),
+                        new JProperty("wipe_data", wipeData),
                         new JProperty("keep_account", data.KeepAccount)
                     );
                     request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
