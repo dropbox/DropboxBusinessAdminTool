@@ -116,14 +116,16 @@
 
         #region REST Service
 
-        private string ProvisionRoles(IProvisioningModel model, IMainPresenter presenter) {
+        private string ProvisionRoles(IProvisioningModel model, IMainPresenter presenter)
+        {
             string errorMessage = string.Empty;
             IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.AddMemberUrl = ApplicationResource.ActionAddMember;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
             {
-                IServiceResponse response = service.AddMember(new MemberData() {
+                IServiceResponse response = service.AddMember(new MemberData()
+                {
                     Email = item.Email,
                     FirstName = item.FirstName,
                     LastName = item.LastName,
@@ -131,36 +133,50 @@
                     RoleName = model.SelectedRole
                 }, model.AccessToken);
 
-                if (response.StatusCode == HttpStatusCode.OK) {
-                    if (SyncContext != null) {
-                        SyncContext.Post(delegate {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate 
+                        {
                             presenter.UpdateProgressInfo(string.Format("Added Member: {0}: {1} {2}", item.Email, item.FirstName, item.LastName));
                         }, null);
                     }
-                } else {
+                }
+                else
+                {
                     errorMessage = ErrorMessages.FAILED_TO_ADD_MEMBER;
                 }
             }
             return errorMessage;
         }
 
-        private string DeprovisionRoles(IProvisioningModel model, IMainPresenter presenter) {
+        private string DeprovisionRoles(IProvisioningModel model, IMainPresenter presenter)
+        {
             string errorMessage = string.Empty;
             IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.RemoveMemberUrl = ApplicationResource.ActionRemoveMember;
             service.UserAgentVersion = ApplicationResource.UserAgent;
-            foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList()) {
-                IServiceResponse response = service.RemoveMember(new MemberData() {
-                    Email = item.Email
+            foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
+            {
+                IServiceResponse response = service.RemoveMember(new MemberData()
+                {
+                    Email = item.Email,
+                    KeepAccount = model.KeepAccount
                 }, model.AccessToken);
 
-                if (response.StatusCode == HttpStatusCode.OK) {
-                    if (SyncContext != null) {
-                        SyncContext.Post(delegate {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate 
+                        {
                             presenter.UpdateProgressInfo(string.Format("Removed Member: {0}", item.Email));
                         }, null);
                     }
-                } else {
+                }
+                else
+                {
                     errorMessage = ErrorMessages.FAILED_TO_REMOVE_MEMBER;
                 }
             }
@@ -532,12 +548,14 @@
             load.Start();
         }
 
-        private void OnCommandProvision(object sender, System.EventArgs e) {
+        private void OnCommandProvision(object sender, System.EventArgs e)
+        {
             IProvisioningView view = base._view as IProvisioningView;
             IProvisioningModel model = base._model as IProvisioningModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
 
-            if (SyncContext != null) {
+            if (SyncContext != null)
+            {
                 SyncContext.Post(delegate {
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
@@ -547,28 +565,40 @@
 
             // TODO: to improve stability, we will need to ensure to kill
             // thread when user exits application while thread is running for REST service call
-            Thread provision = new Thread(() => {
-                if (string.IsNullOrEmpty(model.AccessToken)) {
-                    SyncContext.Post(delegate {
+            Thread provision = new Thread(() => 
+            {
+                if (string.IsNullOrEmpty(model.AccessToken))
+                {
+                    SyncContext.Post(delegate 
+                    {
                         presenter.EnableControl(true);
                         presenter.ActivateSpinner(false);
                         presenter.UpdateProgressInfo("");
                     }, null);
-                } else if (string.IsNullOrEmpty(model.SelectedRole)) {
-                    SyncContext.Post(delegate {
+                }
+                else if (string.IsNullOrEmpty(model.SelectedRole))
+                {
+                    SyncContext.Post(delegate 
+                    {
                         presenter.ShowErrorMessage(ErrorMessages.MISSING_ROLE, ErrorMessages.DLG_DEFAULT_TITLE);
                         presenter.EnableControl(true);
                         presenter.ActivateSpinner(false);
                         presenter.UpdateProgressInfo("");
                     }, null);
-                } else {
+                }
+                else
+                {
                     string error = ProvisionRoles(model, presenter);
-                    if (SyncContext != null) {
-                        SyncContext.Post(delegate {
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate 
+                        {
                             if (!string.IsNullOrEmpty(error)) {
                                 presenter.ShowErrorMessage(error, ErrorMessages.DLG_DEFAULT_TITLE);
                                 presenter.UpdateProgressInfo("");
-                            } else {
+                            }
+                            else
+                            {
                                 presenter.UpdateProgressInfo("Provisioning completed");
                                 presenter.UpdateTitleBarStats();
                             }
@@ -582,13 +612,16 @@
             provision.Start();
         }
 
-        private void OnCommandDeprovision(object sender, System.EventArgs e) {
+        private void OnCommandDeprovision(object sender, System.EventArgs e)
+        {
             IProvisioningView view = base._view as IProvisioningView;
             IProvisioningModel model = base._model as IProvisioningModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
 
-            if (SyncContext != null) {
-                SyncContext.Post(delegate {
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate 
+                {
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
                     presenter.UpdateProgressInfo("Processing...");
@@ -597,21 +630,31 @@
 
             // TODO: to improve stability, we will need to ensure to kill
             // thread when user exits application while thread is running for REST service call
-            Thread deprovision = new Thread(() => {
-                if (string.IsNullOrEmpty(model.AccessToken)) {
-                    SyncContext.Post(delegate {
+            Thread deprovision = new Thread(() => 
+            {
+                if (string.IsNullOrEmpty(model.AccessToken))
+                {
+                    SyncContext.Post(delegate 
+                    {
                         presenter.EnableControl(true);
                         presenter.ActivateSpinner(false);
                         presenter.UpdateProgressInfo("");
                     }, null);
-                } else {
+                }
+                else
+                {
                     string error = DeprovisionRoles(model, presenter);
-                    if (SyncContext != null) {
-                        SyncContext.Post(delegate {
-                            if (!string.IsNullOrEmpty(error)) {
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate 
+                        {
+                            if (!string.IsNullOrEmpty(error))
+                            {
                                 presenter.ShowErrorMessage(error, ErrorMessages.DLG_DEFAULT_TITLE);
                                 presenter.UpdateProgressInfo("");
-                            } else {
+                            }
+                            else
+                            {
                                 presenter.UpdateProgressInfo("Deprovisioning completed");
                                 presenter.UpdateTitleBarStats();
                             }
@@ -633,16 +676,19 @@
 
             if (SyncContext != null)
             {
-                SyncContext.Post(delegate {
+                SyncContext.Post(delegate 
+                {
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
                     presenter.UpdateProgressInfo("Processing...");
                 }, null);
             }
-            Thread suspend = new Thread(() => {
+            Thread suspend = new Thread(() => 
+            {
                 if (string.IsNullOrEmpty(model.AccessToken))
                 {
-                    SyncContext.Post(delegate {
+                    SyncContext.Post(delegate 
+                    {
                         presenter.EnableControl(true);
                         presenter.ActivateSpinner(false);
                         presenter.UpdateProgressInfo("");
@@ -653,7 +699,8 @@
                     string error = SuspendMember(model, presenter);
                     if (SyncContext != null)
                     {
-                        SyncContext.Post(delegate {
+                        SyncContext.Post(delegate 
+                        {
                             if (!string.IsNullOrEmpty(error))
                             {
                                 presenter.ShowErrorMessage(error, ErrorMessages.DLG_DEFAULT_TITLE);
@@ -681,16 +728,19 @@
 
             if (SyncContext != null)
             {
-                SyncContext.Post(delegate {
+                SyncContext.Post(delegate 
+                {
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
                     presenter.UpdateProgressInfo("Processing...");
                 }, null);
             }
-            Thread unsuspend = new Thread(() => {
+            Thread unsuspend = new Thread(() => 
+            {
                 if (string.IsNullOrEmpty(model.AccessToken))
                 {
-                    SyncContext.Post(delegate {
+                    SyncContext.Post(delegate 
+                    {
                         presenter.EnableControl(true);
                         presenter.ActivateSpinner(false);
                         presenter.UpdateProgressInfo("");
@@ -701,7 +751,8 @@
                     string error = UnsuspendMember(model, presenter);
                     if (SyncContext != null)
                     {
-                        SyncContext.Post(delegate {
+                        SyncContext.Post(delegate 
+                        {
                             if (!string.IsNullOrEmpty(error))
                             {
                                 presenter.ShowErrorMessage(error, ErrorMessages.DLG_DEFAULT_TITLE);
@@ -721,14 +772,17 @@
             unsuspend.Start();
         }
 
-        private void OnCommandListMembersCreateCSV(object sender, EventArgs e) {
+        private void OnCommandListMembersCreateCSV(object sender, EventArgs e)
+        {
             IProvisioningView view = base._view as IProvisioningView;
             IProvisioningModel model = base._model as IProvisioningModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
 
             // notify view to mark start of process
-            if (SyncContext != null) {
-                SyncContext.Post(delegate {
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate 
+                {
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
                     presenter.UpdateProgressInfo("Creating CSV file...");
@@ -737,30 +791,39 @@
 
             // TODO: to improve stability, we will need to ensure to kill
             // thread when user exits application while thread is running for REST service call
-            Thread createCSV = new Thread(() => {
-                if (string.IsNullOrEmpty(ConfigurationManager.AppSettings.Get("DefaultAccessToken"))) {
-                    SyncContext.Post(delegate {
+            Thread createCSV = new Thread(() => 
+            {
+                if (string.IsNullOrEmpty(ConfigurationManager.AppSettings.Get("DefaultAccessToken")))
+                {
+                    SyncContext.Post(delegate 
+                    {
                         presenter.ShowErrorMessage(ErrorMessages.INVALID_TOKEN, ErrorMessages.DLG_DEFAULT_TITLE);
                         presenter.UpdateProgressInfo("");
                         presenter.ActivateSpinner(false);
                         presenter.EnableControl(true);
                     }, null);
-                } else {
+                }
+                else
+                {
                     // perform search
                     this.SearchMembersCreateCSV(model);
-                    if (SyncContext != null) {
-                        SyncContext.Post(delegate {
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate 
+                        {
                             // update result and update view.
                             PresenterBase.SetViewPropertiesFromModel<IProvisioningView, IProvisioningModel>(
                                 ref view, model
                             );
                             string sPath = string.Empty;
-                            if (model.Members.Count > 0) {
+                            if (model.Members.Count > 0)
+                            {
                                 //create CSV file in My Documents folder
                                 sPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\DBMembers.csv";
 
                                 StreamWriter SaveFile = new StreamWriter(sPath);
-                                foreach (var item in model.Members) {
+                                foreach (var item in model.Members)
+                                {
                                     SaveFile.WriteLine(item.Email + "," + item.FirstName + "," + item.LastName + "," + item.Status + "," + item.Role + "," + item.Usage);
                                 }
                                 SaveFile.Close();
@@ -783,7 +846,8 @@
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
             if (SyncContext != null)
             {
-                SyncContext.Post(delegate {
+                SyncContext.Post(delegate 
+                {
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
                     presenter.UpdateProgressInfo("Gathering usage data...");
@@ -792,13 +856,15 @@
 
             // TODO: to improve stability, we will need to ensure to kill
             // thread when user exits application while thread is running for REST service call
-            Thread getUsage = new Thread(() => {
+            Thread getUsage = new Thread(() => 
+            {
                 if (!string.IsNullOrEmpty(model.AccessToken))
                 {
                     if (SyncContext != null)
                     {
                         this.SearchMembersGetUsage(model);
-                        SyncContext.Post(delegate {
+                        SyncContext.Post(delegate 
+                        {
                             // update result and update view.
                             view.RenderMemberList(model.Members);
                             presenter.UpdateProgressInfo("Completed.");
@@ -811,7 +877,8 @@
             getUsage.Start();
         }
 
-        private void OnDataChanged(object sender, System.EventArgs e) {
+        private void OnDataChanged(object sender, System.EventArgs e)
+        {
             IProvisioningView view = base._view as IProvisioningView;
             IProvisioningModel model = base._model as IProvisioningModel;
             PresenterBase.SetModelPropertiesFromView<IProvisioningModel, IProvisioningView>(

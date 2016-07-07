@@ -12,6 +12,8 @@
 
         public string SelectedRole { get; set; }
 
+        public bool KeepAccount { get; set; }
+
         public List<MemberListViewItemModel> Members { get; set; }
 
         public ProvisioningModel() {
@@ -23,6 +25,7 @@
             AccessToken = ApplicationResource.DefaultProvisionToken;
             SelectedRole = string.Empty;
             SendWelcomeEmail = true;
+            KeepAccount = true;
         }
 
         public void CleanUp() {

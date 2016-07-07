@@ -18,6 +18,8 @@
 
         string Usage { get; set; }
 
+        bool KeepAccount { get; set; }
+
         #endregion Provision
 
         #region Groups

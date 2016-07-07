@@ -23,6 +23,8 @@
 
         string SelectedRole { get; set; }
 
+        bool KeepAccount { get; set; }
+
         void EnableProvisionButton(bool enable);
 
         void EnableDeprovisionButton(bool enable);

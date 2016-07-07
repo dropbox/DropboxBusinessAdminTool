@@ -15,5 +15,7 @@
         bool SuspendUser { get; set; }
 
         bool DeleteUser { get; set; }
+
+        bool KeepAccount { get; set; }
     }
 }

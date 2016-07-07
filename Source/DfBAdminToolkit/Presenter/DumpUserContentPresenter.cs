@@ -302,7 +302,9 @@
                         serviceDel.UserAgentVersion = ApplicationResource.UserAgent;
                         IServiceResponse response = serviceDel.RemoveMember(new MemberData()
                         {
-                            Email = lvItem.Email
+                            Email = lvItem.Email,
+                            KeepAccount = model.KeepAccount
+                            
                         }, ProvisionToken);
 
                         if (response.StatusCode == HttpStatusCode.OK)

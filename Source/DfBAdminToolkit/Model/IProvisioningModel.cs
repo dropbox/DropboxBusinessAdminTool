@@ -12,6 +12,8 @@
 
         string SelectedRole { get; set; }
 
+        bool KeepAccount { get; set; }
+
         List<MemberListViewItemModel> Members { get; set; }
     }
 }

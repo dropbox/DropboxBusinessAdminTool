@@ -33,6 +33,8 @@
 
         public string SelectedRole { get; set; }
 
+        public bool KeepAccount { get; set; }
+
         public List<MemberListViewItemModel> Members { get; set; }
 
         public enum OlvMembersIndex : int
@@ -57,6 +59,9 @@
 
             //make Member only button checked
             this.radioButton_ProvisioningRoleMemberOnly.Checked = true;
+
+            //make Keep Account checked
+            this.checkBoxProvisioningKeepAccount.Checked = true;
 
             //make Usage column visible
             this.olvColumnProvisioning_Usage.IsVisible = false;
@@ -83,6 +88,7 @@
                 this.buttonEx_ProvisioningCreateCSV.Click += Button_ExportMembers_Click;
                 this.buttonEx_ProvisioningGetUsage.Click += ButtonEx_GetUsage_Click;
                 this.checkBox_ProvisioningSendWelcomeEmail.CheckedChanged += CheckBox_ProvisioningSendWelcomeEmail_CheckedChanged;
+                this.checkBoxProvisioningKeepAccount.CheckedChanged += CheckBox_ProvisioningKeepAccount_CheckedChanged;
                 this.objectListView_ProvisioningMembers.ItemChecked += ObjectListView_ProvisioningMembers_ItemChecked;
                 this.objectListView_ProvisioningMembers.HeaderCheckBoxChanging += ObjectListView_ProvisioningMembers_HeaderCheckBoxChanging;
                 ComponentEventsWired = true;
@@ -104,6 +110,7 @@
                 this.buttonEx_ProvisioningCreateCSV.Click -= Button_ExportMembers_Click;
                 this.buttonEx_ProvisioningGetUsage.Click -= ButtonEx_GetUsage_Click;
                 this.checkBox_ProvisioningSendWelcomeEmail.CheckedChanged -= CheckBox_ProvisioningSendWelcomeEmail_CheckedChanged;
+                this.checkBoxProvisioningKeepAccount.CheckedChanged -= CheckBox_ProvisioningKeepAccount_CheckedChanged;
                 this.objectListView_ProvisioningMembers.ItemChecked -= ObjectListView_ProvisioningMembers_ItemChecked;
                 this.objectListView_ProvisioningMembers.HeaderCheckBoxChanging -= ObjectListView_ProvisioningMembers_HeaderCheckBoxChanging;
                 ComponentEventsWired = false;
@@ -249,7 +256,26 @@
 
         private void CheckBox_ProvisioningSendWelcomeEmail_CheckedChanged(object sender, EventArgs e)
         {
-            this.SendWelcomeEmail = this.checkBox_ProvisioningSendWelcomeEmail.Checked;
+            if (this.checkBox_ProvisioningSendWelcomeEmail.Checked == true)
+            {
+                this.SendWelcomeEmail = true;
+            }
+            if (this.checkBox_ProvisioningSendWelcomeEmail.Checked == false)
+            {
+                this.SendWelcomeEmail = false;
+            }
+        }
+
+        private void CheckBox_ProvisioningKeepAccount_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBoxProvisioningKeepAccount.Checked == true)
+            {
+                this.KeepAccount = true;
+            }
+            if (this.checkBoxProvisioningKeepAccount.Checked == false)
+            {
+                this.KeepAccount = false;
+            }
         }
 
         private void Button_ProvisioningDoProvision_Click(object sender, EventArgs e)

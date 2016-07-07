@@ -17,6 +17,8 @@
 
         public bool DeleteUser { get; set; }
 
+        public bool KeepAccount { get; set; }
+
         public DumpUserContentModel() {
             UserAccessToken = ApplicationResource.DefaultAccessToken;
             MemberList = new List<TeamListViewItemModel>();

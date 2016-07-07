@@ -38,6 +38,8 @@
 
         public bool DeleteUser { get; set; }
 
+        public bool KeepAccount { get; set; }
+
         public enum OlvTeamIndex : int {
             Email,
             TeamId,
@@ -83,6 +85,7 @@
                 this.checkBoxDumpToZip.CheckedChanged += CheckBoxDumpToZip_CheckedChanged;
                 this.checkBoxSuspendUser.CheckedChanged += CheckBoxSuspendUser_CheckedChanged;
                 this.checkBoxDeleteUser.CheckedChanged += CheckBoxDeleteUser_CheckedChanged;
+                this.checkBoxKeepAccount.CheckedChanged += CheckBoxKeepAccount_CheckedChanged;
                 ComponentEventsWired = true;
             }
         }
@@ -100,6 +103,7 @@
                 this.checkBoxDumpToZip.CheckedChanged -= CheckBoxDumpToZip_CheckedChanged;
                 this.checkBoxSuspendUser.CheckedChanged -= CheckBoxSuspendUser_CheckedChanged;
                 this.checkBoxDeleteUser.CheckedChanged -= CheckBoxDeleteUser_CheckedChanged;
+                this.checkBoxKeepAccount.CheckedChanged -= CheckBoxKeepAccount_CheckedChanged;
                 ComponentEventsWired = false;
             }
         }
@@ -133,7 +137,6 @@
             this.objectListView_MemberList.HeaderToolTip.IsBalloon = false;
             this.objectListView_MemberList.HotItemStyle.BackColor = Color.AliceBlue;
             this.objectListView_MemberList.HotItemStyle.ForeColor = Color.MediumBlue;
-            //this.objectListView_Members.HotItemStyle.Overlay = new MemberInfoOverlay();
 
             TypedObjectListView<TeamListViewItemModel> olv = new TypedObjectListView<TeamListViewItemModel>(
                 this.objectListView_MemberList
@@ -404,6 +407,18 @@
             if (!this.checkBoxDeleteUser.Checked)
             {
                 this.DeleteUser = false;
+            }
+        }
+
+        private void CheckBoxKeepAccount_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBoxKeepAccount.Checked)
+            {
+                this.KeepAccount = true;
+            }
+            if (!this.checkBoxKeepAccount.Checked)
+            {
+                this.KeepAccount = false;
             }
         }
     }

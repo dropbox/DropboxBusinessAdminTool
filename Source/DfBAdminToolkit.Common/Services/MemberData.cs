@@ -19,6 +19,8 @@
 
         public string Usage { get; set; }
 
+        public bool KeepAccount { get; set; }
+
         #endregion Provision
 
         #region Search Text

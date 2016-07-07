@@ -55,10 +55,13 @@
             _apiVersion = apiVersion;
         }
 
-        public IServiceResponse AddMember(IMemberData data, string authToken) {
+        public IServiceResponse AddMember(IMemberData data, string authToken)
+        {
             IServiceResponse serviceResponse = null;
-            try {
-                if (!string.IsNullOrEmpty(AddMemberUrl)) {
+            try
+            {
+                if (!string.IsNullOrEmpty(AddMemberUrl))
+                {
                     RestClient client = new RestClient(
                         string.Format("{0}/{1}/", _baseUrl, _apiVersion)
                     );
@@ -90,20 +93,26 @@
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
-                } else {
+                }
+                else
+                {
                     throw new ArgumentNullException("Missing service url");
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
             }
-
             return serviceResponse;
         }
 
-        public IServiceResponse RemoveMember(IMemberData data, string authToken) {
+        public IServiceResponse RemoveMember(IMemberData data, string authToken)
+        {
             IServiceResponse serviceResponse = null;
-            try {
-                if (!string.IsNullOrEmpty(RemoveMemberUrl)) {
+            try
+            {
+                if (!string.IsNullOrEmpty(RemoveMemberUrl))
+                {
                     RestClient client = new RestClient(
                         string.Format("{0}/{1}/", _baseUrl, _apiVersion)
                     );
@@ -118,21 +127,24 @@
                                     new JProperty("email", data.Email)
                                 )
                         ),
-                        new JProperty("wipe_data", true)
+                        new JProperty("wipe_data", true),
+                        new JProperty("keep_account", data.KeepAccount)
                     );
-
                     request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
-                } else {
+                }
+                else
+                {
                     throw new ArgumentNullException("Missing service url");
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
             }
-
             return serviceResponse;
         }
 
@@ -207,7 +219,6 @@
             {
                 serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
             }
-
             return serviceResponse;
         }
 
@@ -239,10 +250,13 @@
             return dataResponse;
         }
 
-        public IDataResponse ListMembersContinuation(IMemberData data, string authToken) {
+        public IDataResponse ListMembersContinuation(IMemberData data, string authToken)
+        {
             IDataResponse dataResponse = null;
-            try {
-                if (!string.IsNullOrEmpty(ListMembersContinuationUrl)) {
+            try
+            {
+                if (!string.IsNullOrEmpty(ListMembersContinuationUrl))
+                {
                     RestClient client = new RestClient(
                         string.Format("{0}/{1}/", _baseUrl, _apiVersion)
                     );
@@ -258,19 +272,26 @@
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
-                } else {
+                }
+                else
+                {
                     throw new ArgumentNullException("Missing service url");
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
             }
             return dataResponse;
         }
 
-        public IDataResponse ListFolders(IMemberData data, string authToken) {
+        public IDataResponse ListFolders(IMemberData data, string authToken)
+        {
             IDataResponse dataResponse = null;
-            try {
-                if (!string.IsNullOrEmpty(ListFolderUrl)) {
+            try
+            {
+                if (!string.IsNullOrEmpty(ListFolderUrl))
+                {
                     RestClient client = new RestClient(
                            string.Format("{0}/{1}/", _baseUrl, _apiVersion)
                        );
@@ -303,7 +324,9 @@
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
             }
             return dataResponse;
@@ -384,7 +407,6 @@
             {
                 serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
             }
-
             return serviceResponse;
         }
 
@@ -495,10 +517,13 @@
             return serviceResponse;
         }
 
-        public IDataResponse SearchFiles(IMemberData data, string authToken) {
+        public IDataResponse SearchFiles(IMemberData data, string authToken)
+        {
             IDataResponse dataResponse = null;
-            try {
-                if (!string.IsNullOrEmpty(SearchFilesUrl)) {
+            try
+            {
+                if (!string.IsNullOrEmpty(SearchFilesUrl))
+                {
                     RestClient client = new RestClient(
                            string.Format("{0}/{1}/", _baseUrl, _apiVersion)
                        );
@@ -519,10 +544,14 @@
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
-                } else {
+                }
+                else
+                {
                     throw new ArgumentNullException("Missing service url");
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
             }
             return dataResponse;
@@ -587,10 +616,13 @@
             return dataResponse;
         }
 
-        public IDataResponse DumpFile(IMemberData data, string outputFolder, string authToken) {
+        public IDataResponse DumpFile(IMemberData data, string outputFolder, string authToken)
+        {
             IDataResponse dataResponse = null;
-            try {
-                if (!string.IsNullOrEmpty(FileDumpUrl)) {
+            try
+            {
+                if (!string.IsNullOrEmpty(FileDumpUrl))
+                {
                     string pathString = string.Concat(@"{""path"":""", data.Path, @"""}");
                     string url = string.Format("{0}/{1}/", _baseUrl, _apiVersion);
                     RestClient client = new RestClient(url);
@@ -659,16 +691,21 @@
                         File.Delete(outputPath);
                     }         
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
             }
             return dataResponse;
         }
 
-        public IDataResponse FindDevices(IMemberData data, string authToken) {
+        public IDataResponse FindDevices(IMemberData data, string authToken)
+        {
             IDataResponse dataResponse = null;
-            try {
-                if (!string.IsNullOrEmpty(GetDevicesUrl)) {
+            try
+            {
+                if (!string.IsNullOrEmpty(GetDevicesUrl))
+                {
                     string url = string.Format("{0}/{1}/", _baseUrl, _apiVersion);
                     RestClient client = new RestClient(url);
                     RestRequest request = new RestRequest(GetDevicesUrl, Method.POST);
@@ -677,7 +714,8 @@
                     request.AddHeader("Authorization", "Bearer " + authToken);
                     request.AddHeader("Content-Type", "application/json");
 
-                    if (String.IsNullOrEmpty(data.Cursor)) {
+                    if (String.IsNullOrEmpty(data.Cursor))
+                    {
                         //set up properties for JSON to the API
                         JObject jsonSearch = new JObject(
                             new JProperty("include_web_sessions", true),
@@ -686,7 +724,8 @@
                         );
                         request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
                     }
-                    if (!String.IsNullOrEmpty(data.Cursor)) {
+                    if (!String.IsNullOrEmpty(data.Cursor))
+                    {
                         //set up properties for JSON to the API with cursor for continuation
                         JObject jsonSearch = new JObject(
                             new JProperty("cursor", data.Cursor),
@@ -700,16 +739,21 @@
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
             }
             return dataResponse;
         }
 
-        public IDataResponse DumpDevices(IMemberData data, string authToken) {
+        public IDataResponse DumpDevices(IMemberData data, string authToken)
+        {
             IDataResponse dataResponse = null;
-            try {
-                if (!string.IsNullOrEmpty(DumpDevicesUrl)) {
+            try
+            {
+                if (!string.IsNullOrEmpty(DumpDevicesUrl))
+                {
                     string url = string.Format("{0}/{1}/", _baseUrl, _apiVersion);
                     RestClient client = new RestClient(url);
                     RestRequest request = new RestRequest(DumpDevicesUrl, Method.POST);
@@ -720,18 +764,22 @@
 
                     string ClientType = data.ClientType;
                     string ClientTypeAPI = string.Empty;
-                    if (ClientType == "Desktop") {
+                    if (ClientType == "Desktop")
+                    {
                         ClientTypeAPI = "desktop_client";
                     }
-                    if (ClientType == "Web") {
+                    if (ClientType == "Web")
+                    {
                         ClientTypeAPI = "web_session";
                     }
-                    if (ClientType == "Mobile") {
+                    if (ClientType == "Mobile")
+                    {
                         ClientTypeAPI = "mobile_client";
                     }
                     //set up properties for JSON to the API
                     //if desktop client, do a delete_on_unlink set to true to delete all files of account
-                    if (ClientTypeAPI == "desktop_client") {
+                    if (ClientTypeAPI == "desktop_client")
+                    {
                         JObject jsonSearch = new JObject(
                             new JProperty(".tag", ClientTypeAPI),
                             new JProperty("session_id", data.SessionId),
@@ -740,7 +788,8 @@
                         );
                         request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
                     }
-                    if (ClientTypeAPI == "web_session" || ClientTypeAPI == "mobile_client") {
+                    if (ClientTypeAPI == "web_session" || ClientTypeAPI == "mobile_client")
+                    {
                         JObject jsonSearch = new JObject(
                             new JProperty(".tag", ClientTypeAPI),
                             new JProperty("session_id", data.SessionId),
@@ -752,7 +801,9 @@
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
             }
             return dataResponse;
