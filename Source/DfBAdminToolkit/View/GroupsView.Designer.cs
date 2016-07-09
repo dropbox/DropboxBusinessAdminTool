@@ -72,57 +72,60 @@
             this.tableLayoutPanel_Groups.Controls.Add(this.tableLayoutPanel_GroupsProvisionCommandGroup, 0, 3);
             this.tableLayoutPanel_Groups.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_Groups.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel_Groups.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_Groups.Name = "tableLayoutPanel_Groups";
             this.tableLayoutPanel_Groups.RowCount = 4;
-            this.tableLayoutPanel_Groups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel_Groups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+            this.tableLayoutPanel_Groups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 108F));
+            this.tableLayoutPanel_Groups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 12F));
             this.tableLayoutPanel_Groups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_Groups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel_Groups.Size = new System.Drawing.Size(713, 435);
+            this.tableLayoutPanel_Groups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
+            this.tableLayoutPanel_Groups.Size = new System.Drawing.Size(1070, 669);
             this.tableLayoutPanel_Groups.TabIndex = 1;
             // 
             // tableLayoutPanel_GroupsCommandGroup
             // 
             this.tableLayoutPanel_GroupsCommandGroup.ColumnCount = 3;
             this.tableLayoutPanel_GroupsCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel_GroupsCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel_GroupsCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel_GroupsCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel_GroupsCommandGroup.Controls.Add(this.tableLayoutPanel_GroupsAccessToken, 2, 0);
             this.tableLayoutPanel_GroupsCommandGroup.Controls.Add(this.tableLayoutPanel_GroupsMemberRoleSelectionGroup, 0, 1);
             this.tableLayoutPanel_GroupsCommandGroup.Controls.Add(this.tableLayoutPanel_GroupsSendEmailGroup, 2, 1);
             this.tableLayoutPanel_GroupsCommandGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_GroupsCommandGroup.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel_GroupsCommandGroup.Location = new System.Drawing.Point(4, 5);
+            this.tableLayoutPanel_GroupsCommandGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_GroupsCommandGroup.Name = "tableLayoutPanel_GroupsCommandGroup";
             this.tableLayoutPanel_GroupsCommandGroup.RowCount = 2;
-            this.tableLayoutPanel_GroupsCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel_GroupsCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel_GroupsCommandGroup.Size = new System.Drawing.Size(707, 64);
+            this.tableLayoutPanel_GroupsCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
+            this.tableLayoutPanel_GroupsCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
+            this.tableLayoutPanel_GroupsCommandGroup.Size = new System.Drawing.Size(1062, 98);
             this.tableLayoutPanel_GroupsCommandGroup.TabIndex = 0;
             // 
             // tableLayoutPanel_GroupsAccessToken
             // 
             this.tableLayoutPanel_GroupsAccessToken.ColumnCount = 2;
-            this.tableLayoutPanel_GroupsAccessToken.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tableLayoutPanel_GroupsAccessToken.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 135F));
             this.tableLayoutPanel_GroupsAccessToken.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_GroupsAccessToken.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_GroupsAccessToken.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel_GroupsAccessToken.Controls.Add(this.label_GroupsAccessToken, 0, 0);
             this.tableLayoutPanel_GroupsAccessToken.Controls.Add(this.textBox_GroupsAccessToken, 1, 0);
             this.tableLayoutPanel_GroupsAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_GroupsAccessToken.Location = new System.Drawing.Point(369, 1);
-            this.tableLayoutPanel_GroupsAccessToken.Margin = new System.Windows.Forms.Padding(1);
+            this.tableLayoutPanel_GroupsAccessToken.Location = new System.Drawing.Point(555, 2);
+            this.tableLayoutPanel_GroupsAccessToken.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tableLayoutPanel_GroupsAccessToken.Name = "tableLayoutPanel_GroupsAccessToken";
             this.tableLayoutPanel_GroupsAccessToken.RowCount = 1;
             this.tableLayoutPanel_GroupsAccessToken.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_GroupsAccessToken.Size = new System.Drawing.Size(337, 25);
+            this.tableLayoutPanel_GroupsAccessToken.Size = new System.Drawing.Size(505, 38);
             this.tableLayoutPanel_GroupsAccessToken.TabIndex = 0;
             // 
             // label_GroupsAccessToken
             // 
             this.label_GroupsAccessToken.AutoSize = true;
             this.label_GroupsAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_GroupsAccessToken.Location = new System.Drawing.Point(3, 0);
+            this.label_GroupsAccessToken.Location = new System.Drawing.Point(4, 0);
+            this.label_GroupsAccessToken.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_GroupsAccessToken.Name = "label_GroupsAccessToken";
-            this.label_GroupsAccessToken.Size = new System.Drawing.Size(84, 25);
+            this.label_GroupsAccessToken.Size = new System.Drawing.Size(127, 38);
             this.label_GroupsAccessToken.TabIndex = 0;
             this.label_GroupsAccessToken.Text = "Access Token";
             this.label_GroupsAccessToken.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -132,25 +135,27 @@
             // 
             this.textBox_GroupsAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_GroupsAccessToken.FileFilter = null;
-            this.textBox_GroupsAccessToken.Location = new System.Drawing.Point(93, 3);
+            this.textBox_GroupsAccessToken.Location = new System.Drawing.Point(139, 5);
+            this.textBox_GroupsAccessToken.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox_GroupsAccessToken.Name = "textBox_GroupsAccessToken";
-            this.textBox_GroupsAccessToken.Size = new System.Drawing.Size(241, 20);
+            this.textBox_GroupsAccessToken.Size = new System.Drawing.Size(362, 26);
             this.textBox_GroupsAccessToken.TabIndex = 1;
             this.textBox_GroupsAccessToken.Visible = false;
             // 
             // tableLayoutPanel_GroupsMemberRoleSelectionGroup
             // 
             this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.ColumnCount = 2;
-            this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 265F));
+            this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 398F));
             this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.Controls.Add(this.buttonEx_GroupsCreateGroup, 0, 0);
             this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.Controls.Add(this.textBoxGroup, 0, 0);
             this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.Location = new System.Drawing.Point(3, 30);
+            this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.Location = new System.Drawing.Point(4, 47);
+            this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.Name = "tableLayoutPanel_GroupsMemberRoleSelectionGroup";
             this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.RowCount = 1;
             this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.Size = new System.Drawing.Size(332, 31);
+            this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.Size = new System.Drawing.Size(500, 46);
             this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.TabIndex = 2;
             // 
             // buttonEx_GroupsCreateGroup
@@ -174,9 +179,10 @@
             office2010White1.TextColor = System.Drawing.Color.Black;
             this.buttonEx_GroupsCreateGroup.ColorTable = office2010White1;
             this.buttonEx_GroupsCreateGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonEx_GroupsCreateGroup.Location = new System.Drawing.Point(268, 4);
+            this.buttonEx_GroupsCreateGroup.Location = new System.Drawing.Point(402, 5);
+            this.buttonEx_GroupsCreateGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonEx_GroupsCreateGroup.Name = "buttonEx_GroupsCreateGroup";
-            this.buttonEx_GroupsCreateGroup.Size = new System.Drawing.Size(61, 24);
+            this.buttonEx_GroupsCreateGroup.Size = new System.Drawing.Size(94, 36);
             this.buttonEx_GroupsCreateGroup.TabIndex = 7;
             this.buttonEx_GroupsCreateGroup.Text = "Create Group";
             this.buttonEx_GroupsCreateGroup.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
@@ -185,9 +191,10 @@
             // textBoxGroup
             // 
             this.textBoxGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.textBoxGroup.Location = new System.Drawing.Point(3, 8);
+            this.textBoxGroup.Location = new System.Drawing.Point(4, 15);
+            this.textBoxGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBoxGroup.Name = "textBoxGroup";
-            this.textBoxGroup.Size = new System.Drawing.Size(259, 20);
+            this.textBoxGroup.Size = new System.Drawing.Size(390, 26);
             this.textBoxGroup.TabIndex = 8;
             // 
             // tableLayoutPanel_GroupsSendEmailGroup
@@ -198,20 +205,22 @@
             this.tableLayoutPanel_GroupsSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.01426F));
             this.tableLayoutPanel_GroupsSendEmailGroup.Controls.Add(this.buttonEx_GroupsLoadGroups, 2, 0);
             this.tableLayoutPanel_GroupsSendEmailGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_GroupsSendEmailGroup.Location = new System.Drawing.Point(371, 30);
+            this.tableLayoutPanel_GroupsSendEmailGroup.Location = new System.Drawing.Point(557, 47);
+            this.tableLayoutPanel_GroupsSendEmailGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_GroupsSendEmailGroup.Name = "tableLayoutPanel_GroupsSendEmailGroup";
             this.tableLayoutPanel_GroupsSendEmailGroup.RowCount = 1;
-            this.tableLayoutPanel_GroupsSendEmailGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel_GroupsSendEmailGroup.Size = new System.Drawing.Size(333, 31);
+            this.tableLayoutPanel_GroupsSendEmailGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+            this.tableLayoutPanel_GroupsSendEmailGroup.Size = new System.Drawing.Size(501, 46);
             this.tableLayoutPanel_GroupsSendEmailGroup.TabIndex = 3;
             // 
             // buttonEx_GroupsLoadGroups
             // 
             this.buttonEx_GroupsLoadGroups.ColorTable = office2010White1;
             this.buttonEx_GroupsLoadGroups.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonEx_GroupsLoadGroups.Location = new System.Drawing.Point(229, 4);
+            this.buttonEx_GroupsLoadGroups.Location = new System.Drawing.Point(343, 6);
+            this.buttonEx_GroupsLoadGroups.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonEx_GroupsLoadGroups.Name = "buttonEx_GroupsLoadGroups";
-            this.buttonEx_GroupsLoadGroups.Size = new System.Drawing.Size(101, 24);
+            this.buttonEx_GroupsLoadGroups.Size = new System.Drawing.Size(154, 37);
             this.buttonEx_GroupsLoadGroups.TabIndex = 4;
             this.buttonEx_GroupsLoadGroups.Text = "Load Groups";
             this.buttonEx_GroupsLoadGroups.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
@@ -223,11 +232,12 @@
             this.tableLayoutPanel_GroupsMembersGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_GroupsMembersGroup.Controls.Add(this.objectListView_GroupsMembers, 0, 0);
             this.tableLayoutPanel_GroupsMembersGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_GroupsMembersGroup.Location = new System.Drawing.Point(3, 81);
+            this.tableLayoutPanel_GroupsMembersGroup.Location = new System.Drawing.Point(4, 125);
+            this.tableLayoutPanel_GroupsMembersGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_GroupsMembersGroup.Name = "tableLayoutPanel_GroupsMembersGroup";
             this.tableLayoutPanel_GroupsMembersGroup.RowCount = 1;
             this.tableLayoutPanel_GroupsMembersGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_GroupsMembersGroup.Size = new System.Drawing.Size(707, 311);
+            this.tableLayoutPanel_GroupsMembersGroup.Size = new System.Drawing.Size(1062, 477);
             this.tableLayoutPanel_GroupsMembersGroup.TabIndex = 1;
             // 
             // objectListView_GroupsMembers
@@ -249,10 +259,11 @@
             this.objectListView_GroupsMembers.HasCollapsibleGroups = false;
             this.objectListView_GroupsMembers.HighlightBackgroundColor = System.Drawing.Color.Empty;
             this.objectListView_GroupsMembers.HighlightForegroundColor = System.Drawing.Color.Empty;
-            this.objectListView_GroupsMembers.Location = new System.Drawing.Point(3, 3);
+            this.objectListView_GroupsMembers.Location = new System.Drawing.Point(4, 5);
+            this.objectListView_GroupsMembers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.objectListView_GroupsMembers.Name = "objectListView_GroupsMembers";
             this.objectListView_GroupsMembers.ShowGroups = false;
-            this.objectListView_GroupsMembers.Size = new System.Drawing.Size(701, 305);
+            this.objectListView_GroupsMembers.Size = new System.Drawing.Size(1054, 467);
             this.objectListView_GroupsMembers.TabIndex = 1;
             this.objectListView_GroupsMembers.UseCompatibleStateImageBehavior = false;
             this.objectListView_GroupsMembers.UseNotifyPropertyChanged = true;
@@ -284,22 +295,22 @@
             // tableLayoutPanel_GroupsProvisionCommandGroup
             // 
             this.tableLayoutPanel_GroupsProvisionCommandGroup.ColumnCount = 5;
-            this.tableLayoutPanel_GroupsProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            this.tableLayoutPanel_GroupsProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 68F));
             this.tableLayoutPanel_GroupsProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_GroupsProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 113F));
-            this.tableLayoutPanel_GroupsProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 113F));
-            this.tableLayoutPanel_GroupsProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 113F));
+            this.tableLayoutPanel_GroupsProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 170F));
+            this.tableLayoutPanel_GroupsProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 170F));
+            this.tableLayoutPanel_GroupsProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 170F));
             this.tableLayoutPanel_GroupsProvisionCommandGroup.Controls.Add(this.buttonEx_GroupsDeleteMember, 3, 0);
             this.tableLayoutPanel_GroupsProvisionCommandGroup.Controls.Add(this.buttonEx_GroupsAddMember, 1, 0);
             this.tableLayoutPanel_GroupsProvisionCommandGroup.Controls.Add(this.textBoxAddMember, 1, 0);
             this.tableLayoutPanel_GroupsProvisionCommandGroup.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel_GroupsProvisionCommandGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_GroupsProvisionCommandGroup.Location = new System.Drawing.Point(3, 397);
-            this.tableLayoutPanel_GroupsProvisionCommandGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tableLayoutPanel_GroupsProvisionCommandGroup.Location = new System.Drawing.Point(4, 610);
+            this.tableLayoutPanel_GroupsProvisionCommandGroup.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tableLayoutPanel_GroupsProvisionCommandGroup.Name = "tableLayoutPanel_GroupsProvisionCommandGroup";
             this.tableLayoutPanel_GroupsProvisionCommandGroup.RowCount = 1;
-            this.tableLayoutPanel_GroupsProvisionCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.tableLayoutPanel_GroupsProvisionCommandGroup.Size = new System.Drawing.Size(707, 36);
+            this.tableLayoutPanel_GroupsProvisionCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            this.tableLayoutPanel_GroupsProvisionCommandGroup.Size = new System.Drawing.Size(1062, 56);
             this.tableLayoutPanel_GroupsProvisionCommandGroup.TabIndex = 3;
             // 
             // buttonEx_GroupsDeleteMember
@@ -323,9 +334,10 @@
             office2010Blue1.TextColor = System.Drawing.Color.White;
             this.buttonEx_GroupsDeleteMember.ColorTable = office2010Blue1;
             this.buttonEx_GroupsDeleteMember.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_GroupsDeleteMember.Location = new System.Drawing.Point(484, 3);
+            this.buttonEx_GroupsDeleteMember.Location = new System.Drawing.Point(726, 5);
+            this.buttonEx_GroupsDeleteMember.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonEx_GroupsDeleteMember.Name = "buttonEx_GroupsDeleteMember";
-            this.buttonEx_GroupsDeleteMember.Size = new System.Drawing.Size(107, 30);
+            this.buttonEx_GroupsDeleteMember.Size = new System.Drawing.Size(162, 46);
             this.buttonEx_GroupsDeleteMember.TabIndex = 9;
             this.buttonEx_GroupsDeleteMember.Text = "Delete Member";
             this.buttonEx_GroupsDeleteMember.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
@@ -335,9 +347,10 @@
             // 
             this.buttonEx_GroupsAddMember.ColorTable = office2010Blue1;
             this.buttonEx_GroupsAddMember.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_GroupsAddMember.Location = new System.Drawing.Point(371, 3);
+            this.buttonEx_GroupsAddMember.Location = new System.Drawing.Point(556, 5);
+            this.buttonEx_GroupsAddMember.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonEx_GroupsAddMember.Name = "buttonEx_GroupsAddMember";
-            this.buttonEx_GroupsAddMember.Size = new System.Drawing.Size(107, 30);
+            this.buttonEx_GroupsAddMember.Size = new System.Drawing.Size(162, 46);
             this.buttonEx_GroupsAddMember.TabIndex = 8;
             this.buttonEx_GroupsAddMember.Text = "Add Member";
             this.buttonEx_GroupsAddMember.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
@@ -346,29 +359,32 @@
             // textBoxAddMember
             // 
             this.textBoxAddMember.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxAddMember.Location = new System.Drawing.Point(48, 8);
+            this.textBoxAddMember.Location = new System.Drawing.Point(72, 15);
+            this.textBoxAddMember.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBoxAddMember.Name = "textBoxAddMember";
-            this.textBoxAddMember.Size = new System.Drawing.Size(317, 20);
+            this.textBoxAddMember.Size = new System.Drawing.Size(476, 26);
             this.textBoxAddMember.TabIndex = 7;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Location = new System.Drawing.Point(4, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 36);
+            this.label1.Size = new System.Drawing.Size(60, 56);
             this.label1.TabIndex = 10;
             this.label1.Text = "Email:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // GroupsView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(713, 435);
+            this.ClientSize = new System.Drawing.Size(1070, 669);
             this.Controls.Add(this.tableLayoutPanel_Groups);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "GroupsView";
             this.Text = "GroupsView";
             this.tableLayoutPanel_Groups.ResumeLayout(false);

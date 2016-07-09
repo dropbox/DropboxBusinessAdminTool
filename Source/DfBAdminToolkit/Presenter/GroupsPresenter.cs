@@ -280,7 +280,7 @@
             IGroupsView view = base._view as IGroupsView;
             IGroupsModel model = base._model as IGroupsModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
-            string groupName = string.Empty;
+            string groupName = view.GroupName;
 
             if (SyncContext != null)
             {
@@ -288,7 +288,7 @@
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
                     presenter.UpdateProgressInfo("Processing...");
-                    groupName = view.GetGroupName();
+
                 }, null);
             }
             Thread creategroup = new Thread(() => {
@@ -328,7 +328,7 @@
             IGroupsView view = base._view as IGroupsView;
             IGroupsModel model = base._model as IGroupsModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
-            string email = string.Empty;
+            string email = view.UserEmail;
 
             if (SyncContext != null)
             {
@@ -336,7 +336,7 @@
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
                     presenter.UpdateProgressInfo("Processing...");
-                    email = view.GetUserEmail();
+                    
                 }, null);
             }
             Thread addmembergroup = new Thread(() => {
@@ -376,15 +376,14 @@
             IGroupsView view = base._view as IGroupsView;
             IGroupsModel model = base._model as IGroupsModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
-            string email = string.Empty;
+            string email = view.UserEmail;
 
             if (SyncContext != null)
             {
                 SyncContext.Post(delegate {
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
-                    presenter.UpdateProgressInfo("Processing...");
-                    email = view.GetUserEmail();
+                    presenter.UpdateProgressInfo("Processing..."); 
                 }, null);
             }
             Thread deletemembergroup = new Thread(() => {

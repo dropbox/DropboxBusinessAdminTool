@@ -24,6 +24,10 @@
 
         public string AccessToken { get; set; }
 
+        public string GroupName { get; set; }
+
+        public string UserEmail { get; set; }
+
         public List<GroupListViewItemModel> Groups { get; set; }
 
         public enum OlvMembersIndex : int
@@ -56,6 +60,8 @@
                 this.buttonEx_GroupsCreateGroup.Click += buttonEx_GroupsCreateGroup_Click;
                 this.buttonEx_GroupsAddMember.Click += buttonEx_GroupsAddMember_Click;
                 this.buttonEx_GroupsDeleteMember.Click += buttonEx_GroupsDeleteMember_Click;
+                this.textBoxGroup.TextChanged += TextBox_textBoxGroup_TextChanged;
+                this.textBoxAddMember.TextChanged += TextBox_textBoxAddMember_TextChanged;
                 this.objectListView_GroupsMembers.ItemChecked += ObjectListView_GroupsMembers_ItemChecked;
                 this.objectListView_GroupsMembers.HeaderCheckBoxChanging += ObjectListView_GroupsMembers_HeaderCheckBoxChanging;
                 ComponentEventsWired = true;
@@ -71,6 +77,8 @@
                 this.buttonEx_GroupsCreateGroup.Click -= buttonEx_GroupsCreateGroup_Click;
                 this.buttonEx_GroupsAddMember.Click -= buttonEx_GroupsAddMember_Click;
                 this.buttonEx_GroupsDeleteMember.Click -= buttonEx_GroupsDeleteMember_Click;
+                this.textBoxGroup.TextChanged -= TextBox_textBoxGroup_TextChanged;
+                this.textBoxAddMember.TextChanged -= TextBox_textBoxAddMember_TextChanged;
                 this.objectListView_GroupsMembers.ItemChecked -= ObjectListView_GroupsMembers_ItemChecked;
                 this.objectListView_GroupsMembers.HeaderCheckBoxChanging -= ObjectListView_GroupsMembers_HeaderCheckBoxChanging;
                 ComponentEventsWired = false;
@@ -137,16 +145,14 @@
             textBox_GroupsAccessToken.Text = AccessToken;
         }
 
-        public string GetGroupName()
+        private void TextBox_textBoxGroup_TextChanged(object sender, EventArgs e)
         {
-            string groupName = textBoxGroup.Text;
-            return groupName;
+            GroupName = this.textBoxGroup.Text;
         }
 
-        public string GetUserEmail()
+        private void TextBox_textBoxAddMember_TextChanged(object sender, EventArgs e)
         {
-            string email = textBoxAddMember.Text;
-            return email;
+            UserEmail = this.textBoxAddMember.Text;
         }
 
         public void RenderGroupList()

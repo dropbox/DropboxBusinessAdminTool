@@ -93,14 +93,15 @@
             this.tableLayoutPanel_TextSearch.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_TextSearch.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
             this.tableLayoutPanel_TextSearch.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel_TextSearch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_TextSearch.Name = "tableLayoutPanel_TextSearch";
             this.tableLayoutPanel_TextSearch.RowCount = 5;
-            this.tableLayoutPanel_TextSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.tableLayoutPanel_TextSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.tableLayoutPanel_TextSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel_TextSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel_TextSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            this.tableLayoutPanel_TextSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            this.tableLayoutPanel_TextSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
+            this.tableLayoutPanel_TextSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
             this.tableLayoutPanel_TextSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TextSearch.Size = new System.Drawing.Size(601, 391);
+            this.tableLayoutPanel_TextSearch.Size = new System.Drawing.Size(902, 602);
             this.tableLayoutPanel_TextSearch.TabIndex = 0;
             // 
             // tableLayoutPanel_TextSearchControlGroup
@@ -110,36 +111,39 @@
             this.tableLayoutPanel_TextSearchControlGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel_TextSearchControlGroup.Controls.Add(this.tableLayoutPanel_TextSearchQueryString, 0, 0);
             this.tableLayoutPanel_TextSearchControlGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TextSearchControlGroup.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel_TextSearchControlGroup.MaximumSize = new System.Drawing.Size(0, 200);
+            this.tableLayoutPanel_TextSearchControlGroup.Location = new System.Drawing.Point(4, 5);
+            this.tableLayoutPanel_TextSearchControlGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tableLayoutPanel_TextSearchControlGroup.MaximumSize = new System.Drawing.Size(0, 308);
             this.tableLayoutPanel_TextSearchControlGroup.Name = "tableLayoutPanel_TextSearchControlGroup";
             this.tableLayoutPanel_TextSearchControlGroup.RowCount = 1;
             this.tableLayoutPanel_TextSearchControlGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel_TextSearchControlGroup.Size = new System.Drawing.Size(595, 30);
+            this.tableLayoutPanel_TextSearchControlGroup.Size = new System.Drawing.Size(894, 45);
             this.tableLayoutPanel_TextSearchControlGroup.TabIndex = 0;
             // 
             // tableLayoutPanel_TextSearchQueryString
             // 
             this.tableLayoutPanel_TextSearchQueryString.ColumnCount = 2;
-            this.tableLayoutPanel_TextSearchQueryString.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel_TextSearchQueryString.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel_TextSearchQueryString.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_TextSearchQueryString.Controls.Add(this.label_TextSearchQueryString, 0, 0);
             this.tableLayoutPanel_TextSearchQueryString.Controls.Add(this.textBox_TextSearchQueryString, 1, 0);
             this.tableLayoutPanel_TextSearchQueryString.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TextSearchQueryString.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel_TextSearchQueryString.Location = new System.Drawing.Point(4, 5);
+            this.tableLayoutPanel_TextSearchQueryString.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_TextSearchQueryString.Name = "tableLayoutPanel_TextSearchQueryString";
             this.tableLayoutPanel_TextSearchQueryString.RowCount = 1;
             this.tableLayoutPanel_TextSearchQueryString.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TextSearchQueryString.Size = new System.Drawing.Size(589, 24);
+            this.tableLayoutPanel_TextSearchQueryString.Size = new System.Drawing.Size(886, 35);
             this.tableLayoutPanel_TextSearchQueryString.TabIndex = 1;
             // 
             // label_TextSearchQueryString
             // 
             this.label_TextSearchQueryString.AutoSize = true;
             this.label_TextSearchQueryString.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_TextSearchQueryString.Location = new System.Drawing.Point(3, 0);
+            this.label_TextSearchQueryString.Location = new System.Drawing.Point(4, 0);
+            this.label_TextSearchQueryString.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_TextSearchQueryString.Name = "label_TextSearchQueryString";
-            this.label_TextSearchQueryString.Size = new System.Drawing.Size(74, 24);
+            this.label_TextSearchQueryString.Size = new System.Drawing.Size(112, 35);
             this.label_TextSearchQueryString.TabIndex = 0;
             this.label_TextSearchQueryString.Text = "Search For";
             this.label_TextSearchQueryString.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -149,52 +153,54 @@
             this.textBox_TextSearchQueryString.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox_TextSearchQueryString.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_TextSearchQueryString.FileFilter = null;
-            this.textBox_TextSearchQueryString.Location = new System.Drawing.Point(83, 3);
-            this.textBox_TextSearchQueryString.Margin = new System.Windows.Forms.Padding(3, 3, 1, 3);
+            this.textBox_TextSearchQueryString.Location = new System.Drawing.Point(124, 5);
+            this.textBox_TextSearchQueryString.Margin = new System.Windows.Forms.Padding(4, 5, 2, 5);
             this.textBox_TextSearchQueryString.Name = "textBox_TextSearchQueryString";
-            this.textBox_TextSearchQueryString.Size = new System.Drawing.Size(505, 20);
+            this.textBox_TextSearchQueryString.Size = new System.Drawing.Size(760, 26);
             this.textBox_TextSearchQueryString.TabIndex = 0;
             // 
             // tableLayoutPanel_TextSearchParamGroup
             // 
             this.tableLayoutPanel_TextSearchParamGroup.ColumnCount = 3;
-            this.tableLayoutPanel_TextSearchParamGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
+            this.tableLayoutPanel_TextSearchParamGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 375F));
             this.tableLayoutPanel_TextSearchParamGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TextSearchParamGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 135F));
+            this.tableLayoutPanel_TextSearchParamGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 202F));
             this.tableLayoutPanel_TextSearchParamGroup.Controls.Add(this.tableLayoutPanel_TextSearchResultLimit, 2, 0);
             this.tableLayoutPanel_TextSearchParamGroup.Controls.Add(this.tableLayoutPanel_TextSearchMode, 0, 0);
             this.tableLayoutPanel_TextSearchParamGroup.Controls.Add(this.tableLayoutPanel_TextSearchToken, 1, 0);
             this.tableLayoutPanel_TextSearchParamGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TextSearchParamGroup.Location = new System.Drawing.Point(3, 39);
+            this.tableLayoutPanel_TextSearchParamGroup.Location = new System.Drawing.Point(4, 60);
+            this.tableLayoutPanel_TextSearchParamGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_TextSearchParamGroup.Name = "tableLayoutPanel_TextSearchParamGroup";
             this.tableLayoutPanel_TextSearchParamGroup.RowCount = 1;
             this.tableLayoutPanel_TextSearchParamGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TextSearchParamGroup.Size = new System.Drawing.Size(595, 30);
+            this.tableLayoutPanel_TextSearchParamGroup.Size = new System.Drawing.Size(894, 45);
             this.tableLayoutPanel_TextSearchParamGroup.TabIndex = 1;
             // 
             // tableLayoutPanel_TextSearchResultLimit
             // 
             this.tableLayoutPanel_TextSearchResultLimit.ColumnCount = 2;
-            this.tableLayoutPanel_TextSearchResultLimit.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tableLayoutPanel_TextSearchResultLimit.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 112F));
             this.tableLayoutPanel_TextSearchResultLimit.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_TextSearchResultLimit.Controls.Add(this.label_TextSearchResultLimit, 0, 0);
             this.tableLayoutPanel_TextSearchResultLimit.Controls.Add(this.numericUpDown_TextSearchResultLimit, 1, 0);
             this.tableLayoutPanel_TextSearchResultLimit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TextSearchResultLimit.Location = new System.Drawing.Point(461, 1);
-            this.tableLayoutPanel_TextSearchResultLimit.Margin = new System.Windows.Forms.Padding(1);
+            this.tableLayoutPanel_TextSearchResultLimit.Location = new System.Drawing.Point(694, 2);
+            this.tableLayoutPanel_TextSearchResultLimit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tableLayoutPanel_TextSearchResultLimit.Name = "tableLayoutPanel_TextSearchResultLimit";
             this.tableLayoutPanel_TextSearchResultLimit.RowCount = 1;
             this.tableLayoutPanel_TextSearchResultLimit.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TextSearchResultLimit.Size = new System.Drawing.Size(133, 28);
+            this.tableLayoutPanel_TextSearchResultLimit.Size = new System.Drawing.Size(198, 41);
             this.tableLayoutPanel_TextSearchResultLimit.TabIndex = 4;
             // 
             // label_TextSearchResultLimit
             // 
             this.label_TextSearchResultLimit.AutoSize = true;
             this.label_TextSearchResultLimit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_TextSearchResultLimit.Location = new System.Drawing.Point(3, 0);
+            this.label_TextSearchResultLimit.Location = new System.Drawing.Point(4, 0);
+            this.label_TextSearchResultLimit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_TextSearchResultLimit.Name = "label_TextSearchResultLimit";
-            this.label_TextSearchResultLimit.Size = new System.Drawing.Size(69, 28);
+            this.label_TextSearchResultLimit.Size = new System.Drawing.Size(104, 41);
             this.label_TextSearchResultLimit.TabIndex = 1;
             this.label_TextSearchResultLimit.Text = "Max Results:";
             this.label_TextSearchResultLimit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -202,38 +208,41 @@
             // numericUpDown_TextSearchResultLimit
             // 
             this.numericUpDown_TextSearchResultLimit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDown_TextSearchResultLimit.Location = new System.Drawing.Point(78, 3);
+            this.numericUpDown_TextSearchResultLimit.Location = new System.Drawing.Point(116, 5);
+            this.numericUpDown_TextSearchResultLimit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.numericUpDown_TextSearchResultLimit.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
             this.numericUpDown_TextSearchResultLimit.Name = "numericUpDown_TextSearchResultLimit";
-            this.numericUpDown_TextSearchResultLimit.Size = new System.Drawing.Size(52, 20);
+            this.numericUpDown_TextSearchResultLimit.Size = new System.Drawing.Size(78, 26);
             this.numericUpDown_TextSearchResultLimit.TabIndex = 0;
             // 
             // tableLayoutPanel_TextSearchMode
             // 
             this.tableLayoutPanel_TextSearchMode.ColumnCount = 2;
-            this.tableLayoutPanel_TextSearchMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel_TextSearchMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel_TextSearchMode.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel_TextSearchMode.Controls.Add(this.label_TextSearchMode, 0, 0);
             this.tableLayoutPanel_TextSearchMode.Controls.Add(this.comboBox_TextSearchMode, 1, 0);
             this.tableLayoutPanel_TextSearchMode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TextSearchMode.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel_TextSearchMode.Location = new System.Drawing.Point(4, 5);
+            this.tableLayoutPanel_TextSearchMode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_TextSearchMode.Name = "tableLayoutPanel_TextSearchMode";
             this.tableLayoutPanel_TextSearchMode.RowCount = 1;
             this.tableLayoutPanel_TextSearchMode.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TextSearchMode.Size = new System.Drawing.Size(244, 24);
+            this.tableLayoutPanel_TextSearchMode.Size = new System.Drawing.Size(367, 35);
             this.tableLayoutPanel_TextSearchMode.TabIndex = 0;
             // 
             // label_TextSearchMode
             // 
             this.label_TextSearchMode.AutoSize = true;
             this.label_TextSearchMode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_TextSearchMode.Location = new System.Drawing.Point(3, 0);
+            this.label_TextSearchMode.Location = new System.Drawing.Point(4, 0);
+            this.label_TextSearchMode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_TextSearchMode.Name = "label_TextSearchMode";
-            this.label_TextSearchMode.Size = new System.Drawing.Size(74, 24);
+            this.label_TextSearchMode.Size = new System.Drawing.Size(112, 35);
             this.label_TextSearchMode.TabIndex = 1;
             this.label_TextSearchMode.Text = "Search Mode";
             this.label_TextSearchMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -242,24 +251,26 @@
             // 
             this.comboBox_TextSearchMode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBox_TextSearchMode.FormattingEnabled = true;
-            this.comboBox_TextSearchMode.Location = new System.Drawing.Point(83, 3);
+            this.comboBox_TextSearchMode.Location = new System.Drawing.Point(124, 5);
+            this.comboBox_TextSearchMode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.comboBox_TextSearchMode.Name = "comboBox_TextSearchMode";
-            this.comboBox_TextSearchMode.Size = new System.Drawing.Size(161, 21);
+            this.comboBox_TextSearchMode.Size = new System.Drawing.Size(240, 28);
             this.comboBox_TextSearchMode.TabIndex = 0;
             // 
             // tableLayoutPanel_TextSearchToken
             // 
             this.tableLayoutPanel_TextSearchToken.ColumnCount = 2;
-            this.tableLayoutPanel_TextSearchToken.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tableLayoutPanel_TextSearchToken.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 135F));
             this.tableLayoutPanel_TextSearchToken.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_TextSearchToken.Controls.Add(this.textBox_TextSearchAccessToken, 0, 0);
             this.tableLayoutPanel_TextSearchToken.Controls.Add(this.label_TextSearchAccessToken, 0, 0);
             this.tableLayoutPanel_TextSearchToken.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TextSearchToken.Location = new System.Drawing.Point(253, 3);
+            this.tableLayoutPanel_TextSearchToken.Location = new System.Drawing.Point(379, 5);
+            this.tableLayoutPanel_TextSearchToken.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_TextSearchToken.Name = "tableLayoutPanel_TextSearchToken";
             this.tableLayoutPanel_TextSearchToken.RowCount = 1;
             this.tableLayoutPanel_TextSearchToken.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TextSearchToken.Size = new System.Drawing.Size(204, 24);
+            this.tableLayoutPanel_TextSearchToken.Size = new System.Drawing.Size(309, 35);
             this.tableLayoutPanel_TextSearchToken.TabIndex = 3;
             // 
             // textBox_TextSearchAccessToken
@@ -267,9 +278,10 @@
             this.textBox_TextSearchAccessToken.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox_TextSearchAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_TextSearchAccessToken.FileFilter = null;
-            this.textBox_TextSearchAccessToken.Location = new System.Drawing.Point(93, 3);
+            this.textBox_TextSearchAccessToken.Location = new System.Drawing.Point(139, 5);
+            this.textBox_TextSearchAccessToken.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox_TextSearchAccessToken.Name = "textBox_TextSearchAccessToken";
-            this.textBox_TextSearchAccessToken.Size = new System.Drawing.Size(108, 20);
+            this.textBox_TextSearchAccessToken.Size = new System.Drawing.Size(166, 26);
             this.textBox_TextSearchAccessToken.TabIndex = 0;
             this.textBox_TextSearchAccessToken.Visible = false;
             // 
@@ -277,9 +289,10 @@
             // 
             this.label_TextSearchAccessToken.AutoSize = true;
             this.label_TextSearchAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_TextSearchAccessToken.Location = new System.Drawing.Point(3, 0);
+            this.label_TextSearchAccessToken.Location = new System.Drawing.Point(4, 0);
+            this.label_TextSearchAccessToken.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_TextSearchAccessToken.Name = "label_TextSearchAccessToken";
-            this.label_TextSearchAccessToken.Size = new System.Drawing.Size(84, 24);
+            this.label_TextSearchAccessToken.Size = new System.Drawing.Size(127, 35);
             this.label_TextSearchAccessToken.TabIndex = 1;
             this.label_TextSearchAccessToken.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label_TextSearchAccessToken.Visible = false;
@@ -288,17 +301,17 @@
             // 
             this.tableLayoutPanel_TextSearchCommandButtonGroup.ColumnCount = 3;
             this.tableLayoutPanel_TextSearchCommandButtonGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TextSearchCommandButtonGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel_TextSearchCommandButtonGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel_TextSearchCommandButtonGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel_TextSearchCommandButtonGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel_TextSearchCommandButtonGroup.Controls.Add(this.buttonEx_TextSearchSearch, 1, 0);
             this.tableLayoutPanel_TextSearchCommandButtonGroup.Controls.Add(this.buttonEx_TextSearchClear, 2, 0);
             this.tableLayoutPanel_TextSearchCommandButtonGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TextSearchCommandButtonGroup.Location = new System.Drawing.Point(3, 75);
-            this.tableLayoutPanel_TextSearchCommandButtonGroup.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
+            this.tableLayoutPanel_TextSearchCommandButtonGroup.Location = new System.Drawing.Point(4, 115);
+            this.tableLayoutPanel_TextSearchCommandButtonGroup.Margin = new System.Windows.Forms.Padding(4, 5, 9, 5);
             this.tableLayoutPanel_TextSearchCommandButtonGroup.Name = "tableLayoutPanel_TextSearchCommandButtonGroup";
             this.tableLayoutPanel_TextSearchCommandButtonGroup.RowCount = 1;
             this.tableLayoutPanel_TextSearchCommandButtonGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TextSearchCommandButtonGroup.Size = new System.Drawing.Size(592, 34);
+            this.tableLayoutPanel_TextSearchCommandButtonGroup.Size = new System.Drawing.Size(889, 52);
             this.tableLayoutPanel_TextSearchCommandButtonGroup.TabIndex = 2;
             // 
             // buttonEx_TextSearchSearch
@@ -322,9 +335,10 @@
             office2010Blue1.TextColor = System.Drawing.Color.White;
             this.buttonEx_TextSearchSearch.ColorTable = office2010Blue1;
             this.buttonEx_TextSearchSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_TextSearchSearch.Location = new System.Drawing.Point(395, 3);
+            this.buttonEx_TextSearchSearch.Location = new System.Drawing.Point(593, 5);
+            this.buttonEx_TextSearchSearch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonEx_TextSearchSearch.Name = "buttonEx_TextSearchSearch";
-            this.buttonEx_TextSearchSearch.Size = new System.Drawing.Size(94, 28);
+            this.buttonEx_TextSearchSearch.Size = new System.Drawing.Size(142, 42);
             this.buttonEx_TextSearchSearch.TabIndex = 2;
             this.buttonEx_TextSearchSearch.Text = "Search";
             this.buttonEx_TextSearchSearch.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
@@ -351,9 +365,10 @@
             office2010White1.TextColor = System.Drawing.Color.Black;
             this.buttonEx_TextSearchClear.ColorTable = office2010White1;
             this.buttonEx_TextSearchClear.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_TextSearchClear.Location = new System.Drawing.Point(495, 3);
+            this.buttonEx_TextSearchClear.Location = new System.Drawing.Point(743, 5);
+            this.buttonEx_TextSearchClear.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonEx_TextSearchClear.Name = "buttonEx_TextSearchClear";
-            this.buttonEx_TextSearchClear.Size = new System.Drawing.Size(94, 28);
+            this.buttonEx_TextSearchClear.Size = new System.Drawing.Size(142, 42);
             this.buttonEx_TextSearchClear.TabIndex = 3;
             this.buttonEx_TextSearchClear.Text = "Clear";
             this.buttonEx_TextSearchClear.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
@@ -366,21 +381,23 @@
             this.tableLayoutPanel_TextSearchSplitContainer.Controls.Add(this.label_TextSearchHorizontalSplitter, 0, 0);
             this.tableLayoutPanel_TextSearchSplitContainer.Controls.Add(this.label_MemberSearchSearchResultHeader, 0, 1);
             this.tableLayoutPanel_TextSearchSplitContainer.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel_TextSearchSplitContainer.Location = new System.Drawing.Point(3, 115);
+            this.tableLayoutPanel_TextSearchSplitContainer.Location = new System.Drawing.Point(4, 177);
+            this.tableLayoutPanel_TextSearchSplitContainer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_TextSearchSplitContainer.Name = "tableLayoutPanel_TextSearchSplitContainer";
             this.tableLayoutPanel_TextSearchSplitContainer.RowCount = 2;
-            this.tableLayoutPanel_TextSearchSplitContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 4F));
+            this.tableLayoutPanel_TextSearchSplitContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 6F));
             this.tableLayoutPanel_TextSearchSplitContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TextSearchSplitContainer.Size = new System.Drawing.Size(595, 23);
+            this.tableLayoutPanel_TextSearchSplitContainer.Size = new System.Drawing.Size(894, 35);
             this.tableLayoutPanel_TextSearchSplitContainer.TabIndex = 2;
             // 
             // label_TextSearchHorizontalSplitter
             // 
             this.label_TextSearchHorizontalSplitter.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label_TextSearchHorizontalSplitter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label_TextSearchHorizontalSplitter.Location = new System.Drawing.Point(3, 0);
+            this.label_TextSearchHorizontalSplitter.Location = new System.Drawing.Point(4, 0);
+            this.label_TextSearchHorizontalSplitter.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_TextSearchHorizontalSplitter.Name = "label_TextSearchHorizontalSplitter";
-            this.label_TextSearchHorizontalSplitter.Size = new System.Drawing.Size(589, 2);
+            this.label_TextSearchHorizontalSplitter.Size = new System.Drawing.Size(886, 3);
             this.label_TextSearchHorizontalSplitter.TabIndex = 0;
             // 
             // label_MemberSearchSearchResultHeader
@@ -388,9 +405,10 @@
             this.label_MemberSearchSearchResultHeader.AutoSize = true;
             this.label_MemberSearchSearchResultHeader.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label_MemberSearchSearchResultHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_MemberSearchSearchResultHeader.Location = new System.Drawing.Point(3, 4);
+            this.label_MemberSearchSearchResultHeader.Location = new System.Drawing.Point(4, 6);
+            this.label_MemberSearchSearchResultHeader.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_MemberSearchSearchResultHeader.Name = "label_MemberSearchSearchResultHeader";
-            this.label_MemberSearchSearchResultHeader.Size = new System.Drawing.Size(589, 19);
+            this.label_MemberSearchSearchResultHeader.Size = new System.Drawing.Size(886, 29);
             this.label_MemberSearchSearchResultHeader.TabIndex = 1;
             this.label_MemberSearchSearchResultHeader.Text = "Search Results";
             this.label_MemberSearchSearchResultHeader.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -399,14 +417,15 @@
             // 
             this.tableLayoutPanel_TextSearchResult.ColumnCount = 1;
             this.tableLayoutPanel_TextSearchResult.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TextSearchResult.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_TextSearchResult.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel_TextSearchResult.Controls.Add(this.tableLayoutPanel_TextSearch_MemberListGroup, 0, 0);
             this.tableLayoutPanel_TextSearchResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TextSearchResult.Location = new System.Drawing.Point(3, 145);
+            this.tableLayoutPanel_TextSearchResult.Location = new System.Drawing.Point(4, 223);
+            this.tableLayoutPanel_TextSearchResult.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_TextSearchResult.Name = "tableLayoutPanel_TextSearchResult";
             this.tableLayoutPanel_TextSearchResult.RowCount = 1;
             this.tableLayoutPanel_TextSearchResult.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TextSearchResult.Size = new System.Drawing.Size(595, 243);
+            this.tableLayoutPanel_TextSearchResult.Size = new System.Drawing.Size(894, 374);
             this.tableLayoutPanel_TextSearchResult.TabIndex = 3;
             // 
             // tableLayoutPanel_TextSearch_MemberListGroup
@@ -416,12 +435,13 @@
             this.tableLayoutPanel_TextSearch_MemberListGroup.Controls.Add(this.objectListView_Members, 0, 0);
             this.tableLayoutPanel_TextSearch_MemberListGroup.Controls.Add(this.tableLayoutPanel_TextSearch_MembersCount, 0, 1);
             this.tableLayoutPanel_TextSearch_MemberListGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TextSearch_MemberListGroup.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel_TextSearch_MemberListGroup.Location = new System.Drawing.Point(4, 5);
+            this.tableLayoutPanel_TextSearch_MemberListGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_TextSearch_MemberListGroup.Name = "tableLayoutPanel_TextSearch_MemberListGroup";
             this.tableLayoutPanel_TextSearch_MemberListGroup.RowCount = 2;
             this.tableLayoutPanel_TextSearch_MemberListGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TextSearch_MemberListGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel_TextSearch_MemberListGroup.Size = new System.Drawing.Size(589, 237);
+            this.tableLayoutPanel_TextSearch_MemberListGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel_TextSearch_MemberListGroup.Size = new System.Drawing.Size(886, 364);
             this.tableLayoutPanel_TextSearch_MemberListGroup.TabIndex = 0;
             // 
             // objectListView_Members
@@ -438,13 +458,14 @@
             this.objectListView_Members.Dock = System.Windows.Forms.DockStyle.Fill;
             this.objectListView_Members.EmptyListMsg = "No Result";
             this.objectListView_Members.FullRowSelect = true;
-            this.objectListView_Members.SelectedBackColor= System.Drawing.Color.Empty;
-            this.objectListView_Members.SelectedBackColor = System.Drawing.Color.Empty;
-            this.objectListView_Members.Location = new System.Drawing.Point(3, 3);
+            this.objectListView_Members.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.objectListView_Members.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.objectListView_Members.Location = new System.Drawing.Point(4, 5);
+            this.objectListView_Members.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.objectListView_Members.Name = "objectListView_Members";
             this.objectListView_Members.ShowFilterMenuOnRightClick = false;
             this.objectListView_Members.ShowItemCountOnGroups = true;
-            this.objectListView_Members.Size = new System.Drawing.Size(583, 205);
+            this.objectListView_Members.Size = new System.Drawing.Size(878, 314);
             this.objectListView_Members.TabIndex = 0;
             this.objectListView_Members.UseCompatibleStateImageBehavior = false;
             this.objectListView_Members.View = System.Windows.Forms.View.Details;
@@ -472,9 +493,9 @@
             // tableLayoutPanel_TextSearch_MembersCount
             // 
             this.tableLayoutPanel_TextSearch_MembersCount.ColumnCount = 5;
-            this.tableLayoutPanel_TextSearch_MembersCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 83F));
+            this.tableLayoutPanel_TextSearch_MembersCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 124F));
             this.tableLayoutPanel_TextSearch_MembersCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel_TextSearch_MembersCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 77F));
+            this.tableLayoutPanel_TextSearch_MembersCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 116F));
             this.tableLayoutPanel_TextSearch_MembersCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel_TextSearch_MembersCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_TextSearch_MembersCount.Controls.Add(this.label_TextSearchResultTotalCount, 3, 0);
@@ -482,21 +503,22 @@
             this.tableLayoutPanel_TextSearch_MembersCount.Controls.Add(this.label_TextSearchMembersTotal, 0, 0);
             this.tableLayoutPanel_TextSearch_MembersCount.Controls.Add(this.label_TextSearchMembersCount, 1, 0);
             this.tableLayoutPanel_TextSearch_MembersCount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TextSearch_MembersCount.Location = new System.Drawing.Point(1, 212);
-            this.tableLayoutPanel_TextSearch_MembersCount.Margin = new System.Windows.Forms.Padding(1);
+            this.tableLayoutPanel_TextSearch_MembersCount.Location = new System.Drawing.Point(2, 326);
+            this.tableLayoutPanel_TextSearch_MembersCount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tableLayoutPanel_TextSearch_MembersCount.Name = "tableLayoutPanel_TextSearch_MembersCount";
             this.tableLayoutPanel_TextSearch_MembersCount.RowCount = 1;
             this.tableLayoutPanel_TextSearch_MembersCount.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TextSearch_MembersCount.Size = new System.Drawing.Size(587, 24);
+            this.tableLayoutPanel_TextSearch_MembersCount.Size = new System.Drawing.Size(882, 36);
             this.tableLayoutPanel_TextSearch_MembersCount.TabIndex = 1;
             // 
             // label_TextSearchResultTotalCount
             // 
             this.label_TextSearchResultTotalCount.AutoSize = true;
             this.label_TextSearchResultTotalCount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_TextSearchResultTotalCount.Location = new System.Drawing.Point(182, 0);
+            this.label_TextSearchResultTotalCount.Location = new System.Drawing.Point(270, 0);
+            this.label_TextSearchResultTotalCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_TextSearchResultTotalCount.Name = "label_TextSearchResultTotalCount";
-            this.label_TextSearchResultTotalCount.Size = new System.Drawing.Size(13, 24);
+            this.label_TextSearchResultTotalCount.Size = new System.Drawing.Size(18, 36);
             this.label_TextSearchResultTotalCount.TabIndex = 2;
             this.label_TextSearchResultTotalCount.Text = "0";
             this.label_TextSearchResultTotalCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -504,9 +526,10 @@
             // label_TextSearchResultTotal
             // 
             this.label_TextSearchResultTotal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_TextSearchResultTotal.Location = new System.Drawing.Point(105, 0);
+            this.label_TextSearchResultTotal.Location = new System.Drawing.Point(154, 0);
+            this.label_TextSearchResultTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_TextSearchResultTotal.Name = "label_TextSearchResultTotal";
-            this.label_TextSearchResultTotal.Size = new System.Drawing.Size(71, 24);
+            this.label_TextSearchResultTotal.Size = new System.Drawing.Size(108, 36);
             this.label_TextSearchResultTotal.TabIndex = 3;
             this.label_TextSearchResultTotal.Text = "Results Total";
             this.label_TextSearchResultTotal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -514,9 +537,10 @@
             // label_TextSearchMembersTotal
             // 
             this.label_TextSearchMembersTotal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_TextSearchMembersTotal.Location = new System.Drawing.Point(3, 0);
+            this.label_TextSearchMembersTotal.Location = new System.Drawing.Point(4, 0);
+            this.label_TextSearchMembersTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_TextSearchMembersTotal.Name = "label_TextSearchMembersTotal";
-            this.label_TextSearchMembersTotal.Size = new System.Drawing.Size(77, 24);
+            this.label_TextSearchMembersTotal.Size = new System.Drawing.Size(116, 36);
             this.label_TextSearchMembersTotal.TabIndex = 0;
             this.label_TextSearchMembersTotal.Text = "Total Members";
             this.label_TextSearchMembersTotal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -525,20 +549,22 @@
             // 
             this.label_TextSearchMembersCount.AutoSize = true;
             this.label_TextSearchMembersCount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_TextSearchMembersCount.Location = new System.Drawing.Point(86, 0);
+            this.label_TextSearchMembersCount.Location = new System.Drawing.Point(128, 0);
+            this.label_TextSearchMembersCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_TextSearchMembersCount.Name = "label_TextSearchMembersCount";
-            this.label_TextSearchMembersCount.Size = new System.Drawing.Size(13, 24);
+            this.label_TextSearchMembersCount.Size = new System.Drawing.Size(18, 36);
             this.label_TextSearchMembersCount.TabIndex = 1;
             this.label_TextSearchMembersCount.Text = "0";
             this.label_TextSearchMembersCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // TextSearchView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 391);
+            this.ClientSize = new System.Drawing.Size(902, 602);
             this.Controls.Add(this.tableLayoutPanel_TextSearch);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "TextSearchView";
             this.Text = "FullTextSearchView";
             this.tableLayoutPanel_TextSearch.ResumeLayout(false);

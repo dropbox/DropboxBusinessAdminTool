@@ -16,9 +16,9 @@
 
         void RefreshAccessToken();
 
-        string GetGroupName();
+        string GroupName { get; set; }
 
-        string GetUserEmail();
+        string UserEmail { get; set; }
 
         void RenderGroupList();
     }
