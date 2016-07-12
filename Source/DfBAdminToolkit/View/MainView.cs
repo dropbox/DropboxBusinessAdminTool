@@ -212,6 +212,8 @@
             {
                 VersionWindow versionWindow = new VersionWindow(latestRelease);
                 versionWindow.StartPosition = FormStartPosition.CenterScreen;
+                versionWindow.MinimizeBox = false;
+                versionWindow.MaximizeBox = false;
                 versionWindow.Show(this);
                 versionWindow.Activate();
             }

@@ -29,6 +29,7 @@ namespace DfBAdminToolkit.View
             {
                 downloadButton.Text = @"View Details";
             }
+            downloadButton.Focus();
         }
 
         private void downloadButton_Clicked(object sender, EventArgs e)
