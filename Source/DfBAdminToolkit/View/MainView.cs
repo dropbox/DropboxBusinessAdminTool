@@ -207,10 +207,13 @@
         {
             GitHubService service = new GitHubService();
             Version currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            Version latestVersion = new Version(service.LatestVersion());
-            if (latestVersion > currentVersion)
+            GitHubRelease latestRelease = service.LatestRelease();
+            if (latestRelease.version > currentVersion)
             {
-                ShowErrorMessage(@"There is a newer version of the Admin Toolkit available.", @"New Version Available");
+                VersionWindow versionWindow = new VersionWindow(latestRelease);
+                versionWindow.StartPosition = FormStartPosition.CenterScreen;
+                versionWindow.Show(this);
+                versionWindow.Activate();
             }
         }
 

@@ -158,6 +158,12 @@
     <Compile Include="View\DumpUserContentView.Designer.cs">
       <DependentUpon>DumpUserContentView.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\VersionWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\VersionWindow.Designer.cs">
+      <DependentUpon>VersionWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\GroupsView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -243,6 +249,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="View\VersionWindow.resx">
+      <DependentUpon>VersionWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
