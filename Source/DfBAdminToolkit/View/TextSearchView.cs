@@ -188,7 +188,6 @@
             this.objectListView_Members.HeaderToolTip.IsBalloon = false;
             this.objectListView_Members.HotItemStyle.BackColor = Color.AliceBlue;
             this.objectListView_Members.HotItemStyle.ForeColor = Color.MediumBlue;
-            //this.objectListView_Members.HotItemStyle.Overlay = new MemberInfoOverlay();
 
             TypedObjectListView<MemberListViewItemModel> olv = new TypedObjectListView<MemberListViewItemModel>(
                 this.objectListView_Members
