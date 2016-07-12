@@ -4,6 +4,7 @@
     using Common.Services;
     using Model;
     using Presenter;
+    using Services;
     using System;
     using System.Net;
     using System.Collections.Generic;
@@ -86,6 +87,7 @@
             {
                 this.UpdateTitleBarTeamStats();
             }
+            this.CheckLatestVersion();
         }
 
         public void ShowView() {
@@ -201,6 +203,16 @@
             this.Refresh();
         }
 
+        public void CheckLatestVersion()
+        {
+            GitHubService service = new GitHubService();
+            Version currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            Version latestVersion = new Version(service.LatestVersion());
+            if (latestVersion > currentVersion)
+            {
+                ShowErrorMessage(@"There is a newer version of the Admin Toolkit available.", @"New Version Available");
+            }
+        }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {

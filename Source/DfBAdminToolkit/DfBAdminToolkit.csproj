@@ -138,6 +138,7 @@
     <Compile Include="Presenter\ProvisioningPresenter.cs" />
     <Compile Include="Presenter\SettingsPresenter.cs" />
     <Compile Include="Presenter\TextSearchPresenter.cs" />
+    <Compile Include="Services\GitHubService.cs" />
     <Compile Include="Tooltips.cs" />
     <Compile Include="View\DataMigrationView.cs">
       <SubType>Form</SubType>
