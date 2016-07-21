@@ -15,16 +15,16 @@ namespace DfBAdminToolkit.Services
 
         public GitHubService()
         {
-            
+
             _client = new RestClient(@"https://api.github.com/");
         }
 
-        public GitHubRelease LatestRelease()
+        public async Task<GitHubRelease> LatestRelease()
         {
             GitHubRelease release = new GitHubRelease();
             string releasesPath = @"repos/dropbox/DropboxBusinessAdminTool/releases";
             RestRequest request = new RestRequest(releasesPath, Method.GET);
-            IRestResponse response = _client.Execute(request);
+            IRestResponse response = await _client.ExecuteTaskAsync(request);
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(response.Content);

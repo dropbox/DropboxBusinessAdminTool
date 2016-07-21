@@ -203,19 +203,23 @@
             this.Refresh();
         }
 
-        public void CheckLatestVersion()
+        public async void CheckLatestVersion()
         {
             GitHubService service = new GitHubService();
-            Version currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            GitHubRelease latestRelease = service.LatestRelease();
+            Version currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;  
+            GitHubRelease latestRelease = await service.LatestRelease();
             if (latestRelease.version > currentVersion)
             {
+                this.Hide();
                 VersionWindow versionWindow = new VersionWindow(latestRelease);
                 versionWindow.StartPosition = FormStartPosition.CenterScreen;
                 versionWindow.MinimizeBox = false;
                 versionWindow.MaximizeBox = false;
-                versionWindow.Show(this);
+                versionWindow.Show();
                 versionWindow.Activate();
+                versionWindow.FormClosed += (sender, e) => {
+                    this.Show();
+                };
             }
         }
 
