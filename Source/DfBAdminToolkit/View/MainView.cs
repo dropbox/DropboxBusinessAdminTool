@@ -4,6 +4,7 @@
     using Common.Services;
     using Model;
     using Presenter;
+    using Services;
     using System;
     using System.Net;
     using System.Collections.Generic;
@@ -86,6 +87,7 @@
             {
                 this.UpdateTitleBarTeamStats();
             }
+            this.CheckLatestVersion();
         }
 
         public void ShowView() {
@@ -201,6 +203,25 @@
             this.Refresh();
         }
 
+        public async void CheckLatestVersion()
+        {
+            GitHubService service = new GitHubService();
+            Version currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;  
+            GitHubRelease latestRelease = await service.LatestRelease();
+            if (latestRelease.version > currentVersion)
+            {
+                this.Hide();
+                VersionWindow versionWindow = new VersionWindow(latestRelease);
+                versionWindow.StartPosition = FormStartPosition.CenterScreen;
+                versionWindow.MinimizeBox = false;
+                versionWindow.MaximizeBox = false;
+                versionWindow.Show();
+                versionWindow.Activate();
+                versionWindow.FormClosed += (sender, e) => {
+                    this.Show();
+                };
+            }
+        }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
