@@ -14,6 +14,10 @@
 
         bool KeepAccount { get; set; }
 
+        string NewEmail { get; set; }
+
+        string NewExternalId { get; set; }
+
         List<MemberListViewItemModel> Members { get; set; }
     }
 }

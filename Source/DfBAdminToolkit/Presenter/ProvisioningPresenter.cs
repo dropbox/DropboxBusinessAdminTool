@@ -2,10 +2,10 @@
 
     using CsvHelper;
     using CsvHelper.Configuration;
-    using DfBAdminToolkit.Common.Services;
-    using DfBAdminToolkit.Common.Utils;
-    using DfBAdminToolkit.Model;
-    using DfBAdminToolkit.View;
+    using Common.Services;
+    using Common.Utils;
+    using Model;
+    using View;
     using Newtonsoft.Json;
     using System;
     using System.Configuration;
@@ -42,7 +42,9 @@
                 view.CommandDeprovision += OnCommandDeprovision;
                 view.CommandSuspend += OnCommandSuspend;
                 view.CommandUnsuspend += OnCommandUnsuspend;
+                view.CommandUpdateProfile += OnCommandUpdateProfile;
                 view.CommandLoadInputFile += OnCommandLoadInputFile;
+                view.CommandLoadUpdateInputFile += OnCommandLoadUpdateInputFile;
                 view.CommandCreateCSV += OnCommandListMembersCreateCSV;
                 view.CommandGetUsage += OnCommandGetUsage;       
                 IsViewEventsWired = true;
@@ -57,7 +59,9 @@
                 view.CommandDeprovision -= OnCommandDeprovision;
                 view.CommandSuspend -= OnCommandSuspend;
                 view.CommandUnsuspend -= OnCommandUnsuspend;
+                view.CommandUpdateProfile -= OnCommandUpdateProfile;
                 view.CommandLoadInputFile -= OnCommandLoadInputFile;
+                view.CommandLoadUpdateInputFile -= OnCommandLoadUpdateInputFile;
                 view.CommandCreateCSV -= OnCommandListMembersCreateCSV;
                 view.CommandGetUsage -= OnCommandGetUsage;
                 IsViewEventsWired = false;
@@ -99,6 +103,64 @@
                     throw new InvalidDataException(ErrorMessages.MISSING_CSV_FILE);
                 }
             } catch (Exception e) {
+                // error message.
+                SyncContext.Post(delegate {
+                    presenter.ShowErrorMessage(e.Message, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
+            }
+            return loaded;
+        }
+
+        public bool LoadUpdateInputFile(IProvisioningModel model, IMainPresenter presenter)
+        {
+            bool loaded = true;
+            try
+            {
+                FileInfo fInfo = new FileInfo(model.InputFilePath);
+                if (fInfo.Exists)
+                {
+                    // try load.
+                    model.Members.Clear();
+                    CsvConfiguration config = new CsvConfiguration()
+                    {
+                        HasHeaderRecord = false
+                    };
+                    using (CsvReader reader = new CsvReader(new StreamReader(fInfo.FullName), config))
+                    {
+                        while (reader.Read())
+                        {
+                            try
+                            {
+                                MemberListViewItemModel lvItem = new MemberListViewItemModel()
+                                {
+                                    Email = reader.GetField<string>(0),
+                                    NewEmail = reader.GetField<string>(1),
+                                    NewExternalId = reader.GetField<string>(2),
+                                    IsChecked = true
+                                };
+                                model.Members.Add(lvItem);
+                            }
+                            catch
+                            {
+                                throw new InvalidDataException(ErrorMessages.INVALID_CSV_DATA);
+                            }
+                        }
+                        if (model.Members.Any())
+                        {
+                            loaded = true;
+                        }
+                    }
+                }
+                else
+                {
+                    throw new InvalidDataException(ErrorMessages.MISSING_CSV_FILE);
+                }
+            }
+            catch (Exception e)
+            {
                 // error message.
                 SyncContext.Post(delegate {
                     presenter.ShowErrorMessage(e.Message, ErrorMessages.DLG_DEFAULT_TITLE);
@@ -238,6 +300,46 @@
                 else
                 {
                     errorMessage = ErrorMessages.FAILED_TO_UNSUSPEND_MEMBER;
+                }
+            }
+            return errorMessage;
+        }
+
+        private string UpdateProfile(IProvisioningModel model, IMainPresenter presenter)
+        {
+            string errorMessage = string.Empty;
+            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.SetProfileUrl = ApplicationResource.ActionSetProfile;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
+            {
+                IServiceResponse response = service.SetProfile(new MemberData()
+                {
+                    Email = item.Email,
+                    NewEmail = item.NewEmail,
+                    NewExternalId = item.NewExternalId     
+                }, model.AccessToken);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate {
+                            presenter.UpdateProgressInfo(string.Format("Updated profile for: {0}", item.Email));
+                        }, null);
+                    }
+                }
+                else if ((response.Message).Contains("user_not_found"))
+                {
+                    errorMessage = ErrorMessages.USER_NOT_FOUND;
+                }
+                else if ((response.Message).Contains("user_not_in_team"))
+                {
+                    errorMessage = ErrorMessages.USER_NOT_IN_TEAM;
+                }
+                else
+                {
+                    errorMessage = ErrorMessages.FAILED_TO_UPDATE_PROFILE;
                 }
             }
             return errorMessage;
@@ -548,6 +650,42 @@
             load.Start();
         }
 
+        private void OnCommandLoadUpdateInputFile(object sender, EventArgs e)
+        {
+            IProvisioningView view = base._view as IProvisioningView;
+            IProvisioningModel model = base._model as IProvisioningModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Loading Input File...");
+                }, null);
+            }
+
+            // TODO: to improve stability, we will need to ensure to kill
+            // thread when user exits application while thread is running for REST service call
+            Thread load = new Thread(() => {
+                if (!string.IsNullOrEmpty(model.AccessToken))
+                {
+                    bool loaded = this.LoadUpdateInputFile(model, presenter);
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate {
+                            // update result and update view.
+                            view.RenderUpdateMemberList(model.Members);
+                            presenter.UpdateProgressInfo("Update CSV Loaded");
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                            view.EnableUpdateProfileButton(loaded);
+                        }, null);
+                    }
+                }
+            });
+            load.Start();
+        }
+
         private void OnCommandProvision(object sender, System.EventArgs e)
         {
             IProvisioningView view = base._view as IProvisioningView;
@@ -761,6 +899,58 @@
                             else
                             {
                                 presenter.UpdateProgressInfo("Unsuspending members completed");
+                            }
+                            // update result and update view.
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                        }, null);
+                    }
+                }
+            });
+            unsuspend.Start();
+        }
+
+        private void OnCommandUpdateProfile(object sender, System.EventArgs e)
+        {
+            IProvisioningView view = base._view as IProvisioningView;
+            IProvisioningModel model = base._model as IProvisioningModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate
+                {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Processing...");
+                }, null);
+            }
+            Thread unsuspend = new Thread(() =>
+            {
+                if (string.IsNullOrEmpty(model.AccessToken))
+                {
+                    SyncContext.Post(delegate
+                    {
+                        presenter.EnableControl(true);
+                        presenter.ActivateSpinner(false);
+                        presenter.UpdateProgressInfo("");
+                    }, null);
+                }
+                else
+                {
+                    string error = UpdateProfile(model, presenter);
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate
+                        {
+                            if (!string.IsNullOrEmpty(error))
+                            {
+                                presenter.ShowErrorMessage(error, ErrorMessages.DLG_DEFAULT_TITLE);
+                                presenter.UpdateProgressInfo("");
+                            }
+                            else
+                            {
+                                presenter.UpdateProgressInfo("Updating members profiles completed");
                             }
                             // update result and update view.
                             presenter.ActivateSpinner(false);

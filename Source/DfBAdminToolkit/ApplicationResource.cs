@@ -104,6 +104,11 @@
             get { return ConfigurationManager.AppSettings.Get("ActionGetInfo"); }
         }
 
+        public static string ActionSetProfile
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionSetProfile"); }
+        }
+
         public static int SearchDefaultLimit {
             get {
                 int limit = 1000;

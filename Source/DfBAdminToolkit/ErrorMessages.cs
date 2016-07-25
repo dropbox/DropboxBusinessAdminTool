@@ -14,12 +14,17 @@
         public readonly static string FAILED_TO_REMOVE_MEMBER = "Bad request to the API, possibly due to no permissions on your app to remove members.";
         public readonly static string FAILED_TO_SUSPEND_MEMBER = "Bad request to the API, possibly due to no permissions on your app to suspend members.";
         public readonly static string FAILED_TO_UNSUSPEND_MEMBER = "Bad request to the API, possibly due to no permissions on your app to unsuspend members.";
+        public readonly static string FAILED_TO_UPDATE_PROFILE = "Bad request to the API, possibly due to no permissions on your app to update profiles.";
+        public readonly static string USER_NOT_FOUND = "No matching user found. The provided email does not exist on this team.";
+        public readonly static string USER_NOT_IN_TEAM = "The user is not a member of this team.";
         public readonly static string MISSING_ROLE = "Please select a user role first";
         public readonly static string MISSING_OUTPUT_FOLDER = "Please select output directory first";
         public readonly static string MISSING_FILES = "Please list file(s) first. You can do this by right-click and choose [ List file(s) ] option";
         public readonly static string CONFIRM_DELETE = "Are you sure you want to remove this list of members from your Dropbox Business account?";
+        public readonly static string CONFIRM_DELETE_KEEP_ACCOUNT = "Are you sure you would like these users to keep their accounts active? Their accounts will be downgraded to Dropbox Basic and you will no longer have ownership of account data.";
         public readonly static string CONFIRM_SUSPEND = "Are you sure you want to suspend this list of members from your Dropbox Business account?";
         public readonly static string CONFIRM_UNSUSPEND = "Are you sure you want to unsuspend this list of members from your Dropbox Business account?";
+        public readonly static string CONFIRM_SET_PROFILE = "Are you sure you want to update profiles on this list of members from your Dropbox Business account?";
         public readonly static string MISSING_TOKEN = "You must go to File->Settings to add your app tokens before performing any actions in the toolkit.";
         public readonly static string INVALID_EXPORT_FOLDER = "Directory to export report file is not found";
         public readonly static string FAILED_TO_GET_GROUPS = "Bad request to the API, possibly due to no permissions to get groups.";

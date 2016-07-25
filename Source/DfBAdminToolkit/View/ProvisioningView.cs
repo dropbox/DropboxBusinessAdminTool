@@ -1,8 +1,8 @@
 ﻿namespace DfBAdminToolkit.View
 {
     using BrightIdeasSoftware;
-    using DfBAdminToolkit.Model;
-    using DfBAdminToolkit.Common.Utils;
+    using Model;
+    using Common.Utils;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -17,7 +17,9 @@
         public event EventHandler CommandDeprovision;
         public event EventHandler CommandSuspend;
         public event EventHandler CommandUnsuspend;
+        public event EventHandler CommandUpdateProfile;
         public event EventHandler CommandLoadInputFile;
+        public event EventHandler CommandLoadUpdateInputFile;
         public event EventHandler CommandCreateCSV;
         public event EventHandler CommandGetUsage;
 
@@ -56,15 +58,18 @@
             EnableDeprovisionButton(false);
             EnableSuspendButton(false);
             EnableUnSuspendButton(false);
+            EnableUpdateProfileButton(false);
 
             //make Member only button checked
             this.radioButton_ProvisioningRoleMemberOnly.Checked = true;
 
             //make Keep Account checked
-            this.checkBoxProvisioningKeepAccount.Checked = true;
+            this.checkBoxProvisioningKeepAccount.Checked = false;
 
-            //make Usage column visible
+            //make certain columns non visible on load
             this.olvColumnProvisioning_Usage.IsVisible = false;
+            olvColumnProvisioning_NewEmail.IsVisible = false;
+            olvColumnProvisioning_NewExternalId.IsVisible = false;
             this.objectListView_ProvisioningMembers.RebuildColumns();
         }
 
@@ -83,8 +88,10 @@
                 this.buttonEx_ProvisioningDeprovision.Click += Button_ProvisioningDoDeprovision_Click;
                 this.buttonEx_ProvisioningSuspend.Click += Button_ProvisioningDoSuspend_Click;
                 this.buttonEx_ProvisioningUnsuspend.Click += Button_ProvisioningDoUnsuspend_Click;
+                this.buttonEx_ProvisioningUpdateProfile.Click += Button_ProvisioningUpdateProfile_Click;
                 this.buttonEx_ProvisioningFileInputSelect.Click += Button_ProvisioningInputFile_Click;
                 this.buttonEx_ProvisioningLoadCSV.Click += Button_ProvisioningLoadInputFile_Click;
+                this.buttonEx_ProvisioningLoadUpdateCSV.Click += Button_ProvisioningLoadUpdateInputFile_Click;
                 this.buttonEx_ProvisioningCreateCSV.Click += Button_ExportMembers_Click;
                 this.buttonEx_ProvisioningGetUsage.Click += ButtonEx_GetUsage_Click;
                 this.checkBox_ProvisioningSendWelcomeEmail.CheckedChanged += CheckBox_ProvisioningSendWelcomeEmail_CheckedChanged;
@@ -105,8 +112,10 @@
                 this.buttonEx_ProvisioningDeprovision.Click -= Button_ProvisioningDoDeprovision_Click;
                 this.buttonEx_ProvisioningSuspend.Click -= Button_ProvisioningDoSuspend_Click;
                 this.buttonEx_ProvisioningUnsuspend.Click -= Button_ProvisioningDoUnsuspend_Click;
+                this.buttonEx_ProvisioningUpdateProfile.Click -= Button_ProvisioningUpdateProfile_Click;
                 this.buttonEx_ProvisioningFileInputSelect.Click -= Button_ProvisioningInputFile_Click;
                 this.buttonEx_ProvisioningLoadCSV.Click -= Button_ProvisioningLoadInputFile_Click;
+                this.buttonEx_ProvisioningLoadUpdateCSV.Click -= Button_ProvisioningLoadUpdateInputFile_Click;
                 this.buttonEx_ProvisioningCreateCSV.Click -= Button_ExportMembers_Click;
                 this.buttonEx_ProvisioningGetUsage.Click -= ButtonEx_GetUsage_Click;
                 this.checkBox_ProvisioningSendWelcomeEmail.CheckedChanged -= CheckBox_ProvisioningSendWelcomeEmail_CheckedChanged;
@@ -227,12 +236,28 @@
             buttonEx_ProvisioningUnsuspend.Update();
         }
 
+        public void EnableUpdateProfileButton(bool enable)
+        {
+            buttonEx_ProvisioningUpdateProfile.Enabled = enable;
+            buttonEx_ProvisioningUpdateProfile.Update();
+        }
+
         public void RefreshAccessToken()
         {
             textBox_ProvisioningAccessToken.Text = AccessToken;
         }
 
         public void RenderMemberList(List<MemberListViewItemModel> members)
+        {
+            Members = members;
+            this.objectListView_ProvisioningMembers.SetObjects(Members);
+            if (this.objectListView_ProvisioningMembers.GetItemCount() == this.objectListView_ProvisioningMembers.CheckedObjects.Count)
+            {
+                this.objectListView_ProvisioningMembers.CheckHeaderCheckBox(olvColumnProvisioning_Email);
+            }
+        }
+
+        public void RenderUpdateMemberList(List<MemberListViewItemModel> members)
         {
             Members = members;
             this.objectListView_ProvisioningMembers.SetObjects(Members);
@@ -309,20 +334,43 @@
         }
 
         private void Button_ProvisioningDoDeprovision_Click(object sender, EventArgs e)
-        {   
-            DialogResult d = MessageBoxUtil.ShowConfirm(this, ErrorMessages.CONFIRM_DELETE);
-            if (d == DialogResult.Yes)
+        {
+            DialogResult d;
+            //check to see if Keep Account checked, gives a specific warning we need to show
+            if (this.checkBoxProvisioningKeepAccount.Checked == true)
             {
-                InvokeDataChanged(sender, e);
-                if (CommandDeprovision != null)
+                d = MessageBoxUtil.ShowConfirm(this, ErrorMessages.CONFIRM_DELETE_KEEP_ACCOUNT);
+
+                if (d == DialogResult.Yes)
                 {
-                    CommandDeprovision(sender, e);
+                    InvokeDataChanged(sender, e);
+                    if (CommandDeprovision != null)
+                    {
+                        CommandDeprovision(sender, e);
+                    }
+                }
+                else if (d == DialogResult.No)
+                {
+                    //do nothing
                 }
             }
-            else if (d == DialogResult.No)
+            if (this.checkBoxProvisioningKeepAccount.Checked == false)
             {
-                //do nothing
-            }
+                d = MessageBoxUtil.ShowConfirm(this, ErrorMessages.CONFIRM_DELETE);
+
+                if (d == DialogResult.Yes)
+                {
+                    InvokeDataChanged(sender, e);
+                    if (CommandDeprovision != null)
+                    {
+                        CommandDeprovision(sender, e);
+                    }
+                }
+                else if (d == DialogResult.No)
+                {
+                    //do nothing
+                }
+            }   
         }
 
         private void Button_ProvisioningDoSuspend_Click(object sender, EventArgs e)
@@ -359,6 +407,23 @@
             }
         }
 
+        private void Button_ProvisioningUpdateProfile_Click(object sender, EventArgs e)
+        {
+            DialogResult d = MessageBoxUtil.ShowConfirm(this, ErrorMessages.CONFIRM_SET_PROFILE);
+            if (d == DialogResult.Yes)
+            {
+                InvokeDataChanged(sender, e);
+                if (CommandUpdateProfile != null)
+                {
+                    CommandUpdateProfile(sender, e);
+                }
+            }
+            else if (d == DialogResult.No)
+            {
+                //do nothing
+            }
+        }
+
         private void Button_ProvisioningInputFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog inputFile = new OpenFileDialog();
@@ -379,11 +444,30 @@
         {
             //make Usage column hidden
             olvColumnProvisioning_Usage.IsVisible = false;
+            olvColumnProvisioning_FirstName.IsVisible = true;
+            olvColumnProvisioning_LastName.IsVisible = true;
+            olvColumnProvisioning_NewEmail.IsVisible = false;
+            olvColumnProvisioning_NewExternalId.IsVisible = false;
             this.objectListView_ProvisioningMembers.RebuildColumns();
 
             if (CommandLoadInputFile != null)
             {
                 CommandLoadInputFile(sender, e);
+            }
+        }
+
+        private void Button_ProvisioningLoadUpdateInputFile_Click(object sender, EventArgs e)
+        {
+            //make Usage column hidden
+            olvColumnProvisioning_Usage.IsVisible = false;
+            olvColumnProvisioning_FirstName.IsVisible = false;
+            olvColumnProvisioning_LastName.IsVisible = false;
+            olvColumnProvisioning_NewEmail.IsVisible = true;
+            olvColumnProvisioning_NewExternalId.IsVisible = true;
+            this.objectListView_ProvisioningMembers.RebuildColumns();
+            if (CommandLoadUpdateInputFile != null)
+            {
+                CommandLoadUpdateInputFile(sender, e);
             }
         }
 
@@ -399,6 +483,10 @@
         {
             //make Usage column visible
             olvColumnProvisioning_Usage.IsVisible = true;
+            olvColumnProvisioning_FirstName.IsVisible = true;
+            olvColumnProvisioning_LastName.IsVisible = true;
+            olvColumnProvisioning_NewEmail.IsVisible = false;
+            olvColumnProvisioning_NewExternalId.IsVisible = false;
             this.objectListView_ProvisioningMembers.RebuildColumns();
             if (CommandGetUsage != null)
             {
@@ -454,6 +542,5 @@
         }
 
         #endregion Events
-
     }
 }

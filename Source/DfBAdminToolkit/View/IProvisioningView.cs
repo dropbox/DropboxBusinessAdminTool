@@ -11,7 +11,9 @@
         event EventHandler CommandDeprovision;
         event EventHandler CommandSuspend;
         event EventHandler CommandUnsuspend;
+        event EventHandler CommandUpdateProfile;
         event EventHandler CommandLoadInputFile;
+        event EventHandler CommandLoadUpdateInputFile;
         event EventHandler CommandCreateCSV;
         event EventHandler CommandGetUsage;
 
@@ -35,8 +37,12 @@
 
         void EnableLoadInputFileButton(bool enable);
 
+        void EnableUpdateProfileButton(bool enable);
+
         void RefreshAccessToken();
 
         void RenderMemberList(List<MemberListViewItemModel> members);
+
+        void RenderUpdateMemberList(List<MemberListViewItemModel> members);
     }
 }

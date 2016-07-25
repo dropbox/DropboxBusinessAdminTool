@@ -21,6 +21,10 @@
 
         public bool KeepAccount { get; set; }
 
+        public string NewEmail { get; set; }
+
+        public string NewExternalId { get; set; }
+
         #endregion Provision
 
         #region Search Text

@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 using RestSharp;
 using Newtonsoft.Json;
 
@@ -25,7 +23,7 @@ namespace DfBAdminToolkit.Services
             string releasesPath = @"repos/dropbox/DropboxBusinessAdminTool/releases";
             RestRequest request = new RestRequest(releasesPath, Method.GET);
             IRestResponse response = await _client.ExecuteTaskAsync(request);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(response.Content);
                 release.version = new Version(jsonData[0]["tag_name"].ToString());

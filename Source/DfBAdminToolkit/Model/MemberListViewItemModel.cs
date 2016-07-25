@@ -12,6 +12,8 @@
         private string _status;
         private string _role;
         private decimal _usage;
+        private string _newEmail;
+        private string _newExternalId;
         private bool _isChecked;
 
         public string Email {
@@ -77,6 +79,26 @@
             {
                 _usage = value;
                 OnPropertyChanged("Usage");
+            }
+        }
+
+        public string NewEmail
+        {
+            get { return _newEmail; }
+            set
+            {
+                _newEmail = value;
+                OnPropertyChanged("NewEmail");
+            }
+        }
+
+        public string NewExternalId
+        {
+            get { return _newExternalId; }
+            set
+            {
+                _newExternalId = value;
+                OnPropertyChanged("NewExternalId");
             }
         }
 

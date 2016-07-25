@@ -363,8 +363,8 @@
             this.objectListView_MemberList.EmptyListMsg = "No Result";
             this.objectListView_MemberList.FullRowSelect = true;
             this.objectListView_MemberList.HideSelection = false;
-            this.objectListView_MemberList.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.objectListView_MemberList.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.objectListView_MemberList.SelectedBackColor = System.Drawing.Color.Empty;
+            this.objectListView_MemberList.SelectedBackColor = System.Drawing.Color.Empty;
             this.objectListView_MemberList.Location = new System.Drawing.Point(3, 83);
             this.objectListView_MemberList.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
             this.objectListView_MemberList.Name = "objectListView_MemberList";

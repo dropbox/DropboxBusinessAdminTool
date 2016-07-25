@@ -87,6 +87,7 @@
             {
                 this.UpdateTitleBarTeamStats();
             }
+            //check for new vresion on Github
             this.CheckLatestVersion();
         }
 
@@ -119,7 +120,7 @@
             });
             _tabPages.Add(new TabPage() {
                 Name = "tabPage_DumpUserContents",
-                Text = "Dump User Contents",
+                Text = "Download User Contents",
                 Dock = DockStyle.Fill,
                 Padding = new Padding(5, 3, 5, 3),
                 UseVisualStyleBackColor = true
@@ -148,7 +149,7 @@
             });
             _tabPages.Add(new TabPage() {
                 Name = "tabPage_DataMigration",
-                Text = "Data Migration",
+                Text = "Team Content",
                 Dock = DockStyle.Fill,
                 Padding = new Padding(5, 3, 3, 5),
                 UseVisualStyleBackColor = true
@@ -206,7 +207,7 @@
         public async void CheckLatestVersion()
         {
             GitHubService service = new GitHubService();
-            Version currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;  
+            Version currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             GitHubRelease latestRelease = await service.LatestRelease();
             if (latestRelease.version > currentVersion)
             {

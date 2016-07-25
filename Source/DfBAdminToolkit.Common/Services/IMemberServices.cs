@@ -37,6 +37,8 @@
 
         string GetInfoUrl { get; set; }
 
+        string SetProfileUrl { get; set; }
+
         string UserAgentVersion { get; set; }
 
         #endregion Endpoint urls
@@ -58,6 +60,8 @@
         IDataResponse GetUsage(IMemberData data, string authToken);
 
         IDataResponse GetInfo(string authToken);
+
+        IServiceResponse SetProfile(IMemberData data, string authToken);
 
         IDataResponse GetGroups(IMemberData data, string authToken);
 

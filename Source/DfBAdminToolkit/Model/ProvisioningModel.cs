@@ -14,6 +14,10 @@
 
         public bool KeepAccount { get; set; }
 
+        public string NewEmail { get; set; }
+
+        public string NewExternalId { get; set; }
+
         public List<MemberListViewItemModel> Members { get; set; }
 
         public ProvisioningModel() {

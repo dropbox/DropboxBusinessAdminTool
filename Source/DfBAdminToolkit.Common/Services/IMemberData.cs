@@ -20,6 +20,10 @@
 
         bool KeepAccount { get; set; }
 
+        string NewEmail { get; set; }
+
+        string NewExternalId { get; set; }
+
         #endregion Provision
 
         #region Groups
