@@ -1,7 +1,7 @@
 ﻿namespace DfBAdminToolkit.View
 {
     using BrightIdeasSoftware;
-    using DfBAdminToolkit.Model;
+    using Model;
     using System;
     using System.Collections.Generic;
     using System.Drawing;

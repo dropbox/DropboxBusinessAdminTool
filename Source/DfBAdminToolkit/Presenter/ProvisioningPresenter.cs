@@ -184,31 +184,45 @@
             IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.AddMemberUrl = ApplicationResource.ActionAddMember;
             service.UserAgentVersion = ApplicationResource.UserAgent;
-            foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
+            try
             {
-                IServiceResponse response = service.AddMember(new MemberData()
+                foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
                 {
-                    Email = item.Email,
-                    FirstName = item.FirstName,
-                    LastName = item.LastName,
-                    SendWelcomeEmail = model.SendWelcomeEmail,
-                    RoleName = model.SelectedRole
-                }, model.AccessToken);
-
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    if (SyncContext != null)
+                    IServiceResponse response = service.AddMember(new MemberData()
                     {
-                        SyncContext.Post(delegate 
+                        Email = item.Email,
+                        FirstName = item.FirstName,
+                        LastName = item.LastName,
+                        SendWelcomeEmail = model.SendWelcomeEmail,
+                        RoleName = model.SelectedRole
+                    }, model.AccessToken);
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        if (SyncContext != null)
                         {
-                            presenter.UpdateProgressInfo(string.Format("Added Member: {0}: {1} {2}", item.Email, item.FirstName, item.LastName));
-                        }, null);
+                            SyncContext.Post(delegate
+                            {
+                                presenter.UpdateProgressInfo(string.Format("Added Member: {0}: {1} {2}", item.Email, item.FirstName, item.LastName));
+                            }, null);
+                        }
+                    }
+                    else
+                    {
+                        errorMessage = ErrorMessages.FAILED_TO_ADD_MEMBER;
                     }
                 }
-                else
+            }
+            catch (Exception ex)
+            {
+                // error message.
+                SyncContext.Post(delegate
                 {
-                    errorMessage = ErrorMessages.FAILED_TO_ADD_MEMBER;
-                }
+                    presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_ADD_MEMBER, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
             }
             return errorMessage;
         }
@@ -219,28 +233,42 @@
             IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.RemoveMemberUrl = ApplicationResource.ActionRemoveMember;
             service.UserAgentVersion = ApplicationResource.UserAgent;
-            foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
+            try
             {
-                IServiceResponse response = service.RemoveMember(new MemberData()
+                foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
                 {
-                    Email = item.Email,
-                    KeepAccount = model.KeepAccount
-                }, model.AccessToken);
-
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    if (SyncContext != null)
+                    IServiceResponse response = service.RemoveMember(new MemberData()
                     {
-                        SyncContext.Post(delegate 
+                        Email = item.Email,
+                        KeepAccount = model.KeepAccount
+                    }, model.AccessToken);
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        if (SyncContext != null)
                         {
-                            presenter.UpdateProgressInfo(string.Format("Removed Member: {0}", item.Email));
-                        }, null);
+                            SyncContext.Post(delegate
+                            {
+                                presenter.UpdateProgressInfo(string.Format("Removed Member: {0}", item.Email));
+                            }, null);
+                        }
+                    }
+                    else
+                    {
+                        errorMessage = ErrorMessages.FAILED_TO_REMOVE_MEMBER;
                     }
                 }
-                else
+            }
+            catch (Exception ex)
+            {
+                // error message.
+                SyncContext.Post(delegate
                 {
-                    errorMessage = ErrorMessages.FAILED_TO_REMOVE_MEMBER;
-                }
+                    presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_REMOVE_MEMBER, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
             }
             return errorMessage;
         }
@@ -251,26 +279,41 @@
             IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.SuspendMemberUrl = ApplicationResource.ActionSuspendMember;
             service.UserAgentVersion = ApplicationResource.UserAgent;
-            foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
+            try
             {
-                IServiceResponse response = service.SuspendMember(new MemberData()
+                foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
                 {
-                    Email = item.Email
-                }, model.AccessToken);
-
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    if (SyncContext != null)
+                    IServiceResponse response = service.SuspendMember(new MemberData()
                     {
-                        SyncContext.Post(delegate {
-                            presenter.UpdateProgressInfo(string.Format("Suspended Member: {0}", item.Email));
-                        }, null);
+                        Email = item.Email
+                    }, model.AccessToken);
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        if (SyncContext != null)
+                        {
+                            SyncContext.Post(delegate
+                            {
+                                presenter.UpdateProgressInfo(string.Format("Suspended Member: {0}", item.Email));
+                            }, null);
+                        }
+                    }
+                    else
+                    {
+                        errorMessage = ErrorMessages.FAILED_TO_SUSPEND_MEMBER;
                     }
                 }
-                else
+            }
+            catch (Exception ex)
+            {
+                // error message.
+                SyncContext.Post(delegate
                 {
-                    errorMessage = ErrorMessages.FAILED_TO_SUSPEND_MEMBER;
-                }
+                    presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_SUSPEND_MEMBER, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
             }
             return errorMessage;
         }
@@ -281,26 +324,41 @@
             IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.UnSuspendMemberUrl = ApplicationResource.ActionUnsuspendMember;
             service.UserAgentVersion = ApplicationResource.UserAgent;
-            foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
+            try
             {
-                IServiceResponse response = service.UnSuspendMember(new MemberData()
+                foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
                 {
-                    Email = item.Email
-                }, model.AccessToken);
-
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    if (SyncContext != null)
+                    IServiceResponse response = service.UnSuspendMember(new MemberData()
                     {
-                        SyncContext.Post(delegate {
-                            presenter.UpdateProgressInfo(string.Format("Unsuspended Member: {0}", item.Email));
-                        }, null);
+                        Email = item.Email
+                    }, model.AccessToken);
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        if (SyncContext != null)
+                        {
+                            SyncContext.Post(delegate
+                            {
+                                presenter.UpdateProgressInfo(string.Format("Unsuspended Member: {0}", item.Email));
+                            }, null);
+                        }
+                    }
+                    else
+                    {
+                        errorMessage = ErrorMessages.FAILED_TO_UNSUSPEND_MEMBER;
                     }
                 }
-                else
+            }
+            catch (Exception ex)
+            {
+                // error message.
+                SyncContext.Post(delegate
                 {
-                    errorMessage = ErrorMessages.FAILED_TO_UNSUSPEND_MEMBER;
-                }
+                    presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_UNSUSPEND_MEMBER, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
             }
             return errorMessage;
         }
@@ -311,36 +369,51 @@
             IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.SetProfileUrl = ApplicationResource.ActionSetProfile;
             service.UserAgentVersion = ApplicationResource.UserAgent;
-            foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
+            try
             {
-                IServiceResponse response = service.SetProfile(new MemberData()
+                foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
                 {
-                    Email = item.Email,
-                    NewEmail = item.NewEmail,
-                    NewExternalId = item.NewExternalId     
-                }, model.AccessToken);
-
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    if (SyncContext != null)
+                    IServiceResponse response = service.SetProfile(new MemberData()
                     {
-                        SyncContext.Post(delegate {
-                            presenter.UpdateProgressInfo(string.Format("Updated profile for: {0}", item.Email));
-                        }, null);
+                        Email = item.Email,
+                        NewEmail = item.NewEmail,
+                        NewExternalId = item.NewExternalId
+                    }, model.AccessToken);
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        if (SyncContext != null)
+                        {
+                            SyncContext.Post(delegate
+                            {
+                                presenter.UpdateProgressInfo(string.Format("Updated profile for: {0}", item.Email));
+                            }, null);
+                        }
+                    }
+                    else if ((response.Message).Contains("user_not_found"))
+                    {
+                        errorMessage = ErrorMessages.USER_NOT_FOUND;
+                    }
+                    else if ((response.Message).Contains("user_not_in_team"))
+                    {
+                        errorMessage = ErrorMessages.USER_NOT_IN_TEAM;
+                    }
+                    else
+                    {
+                        errorMessage = ErrorMessages.FAILED_TO_UPDATE_PROFILE;
                     }
                 }
-                else if ((response.Message).Contains("user_not_found"))
-                {
-                    errorMessage = ErrorMessages.USER_NOT_FOUND;
-                }
-                else if ((response.Message).Contains("user_not_in_team"))
-                {
-                    errorMessage = ErrorMessages.USER_NOT_IN_TEAM;
-                }
-                else
-                {
-                    errorMessage = ErrorMessages.FAILED_TO_UPDATE_PROFILE;
-                }
+            }
+            catch(Exception ex)
+            {
+                //just catch the exception and return error message
+                // error message.
+                SyncContext.Post(delegate {
+                    presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_UPDATE_PROFILE, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
             }
             return errorMessage;
         }

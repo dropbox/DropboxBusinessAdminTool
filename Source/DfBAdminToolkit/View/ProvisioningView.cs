@@ -9,6 +9,7 @@
     using System.Linq;
     using System.Threading;
     using System.Windows.Forms;
+    using Common.Component;
 
     public partial class ProvisioningView : Form, IProvisioningView
     {
@@ -163,7 +164,6 @@
             this.objectListView_ProvisioningMembers.HeaderToolTip.IsBalloon = false;
             this.objectListView_ProvisioningMembers.HotItemStyle.BackColor = Color.AliceBlue;
             this.objectListView_ProvisioningMembers.HotItemStyle.ForeColor = Color.MediumBlue;
-            //this.objectListView_Members.HotItemStyle.Overlay = new MemberInfoOverlay();
 
             TypedObjectListView<MemberListViewItemModel> olv = new TypedObjectListView<MemberListViewItemModel>(
                 this.objectListView_ProvisioningMembers
@@ -370,7 +370,7 @@
                 {
                     //do nothing
                 }
-            }   
+            }
         }
 
         private void Button_ProvisioningDoSuspend_Click(object sender, EventArgs e)
@@ -542,5 +542,241 @@
         }
 
         #endregion Events
+
+        private void radioBulkProvisioning_CheckedChanged(object sender, EventArgs e)
+        {
+            //grey out all buttons
+            buttonEx_ProvisioningProvision.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningDeprovision.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningSuspend.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningUnsuspend.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningUpdateProfile.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningCreateCSV.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningGetUsage.ColorTable = ColorTable.Office2010White;
+
+            //disable buttons
+            buttonEx_ProvisioningProvision.Enabled = false;
+            buttonEx_ProvisioningDeprovision.Enabled = false;
+            buttonEx_ProvisioningSuspend.Enabled = false;
+            buttonEx_ProvisioningUnsuspend.Enabled = false;
+            buttonEx_ProvisioningUpdateProfile.Enabled = false;
+            buttonEx_ProvisioningCreateCSV.Enabled = false;
+            buttonEx_ProvisioningGetUsage.Enabled = false;
+
+            //things we don't need
+            buttonEx_ProvisioningLoadUpdateCSV.Visible = false;
+
+            //things we need for bulk provisioning
+            tableLayoutPanel_ProvisioningRolesSelectionGroup.Visible = true;
+            textBox_ProvisioningInputFile.Visible = true;
+            checkBox_ProvisioningSendWelcomeEmail.Visible = true;
+            buttonEx_ProvisioningFileInputSelect.Visible = true;
+            buttonEx_ProvisioningLoadCSV.Visible = true;
+            buttonEx_ProvisioningProvision.Enabled = true;
+
+            Control c1 = this.tableLayoutPanel2.GetControlFromPosition(0, 0);
+            Control c2 = this.tableLayoutPanel2.GetControlFromPosition(1, 0);
+
+            if (c1 != null && c2 != null)
+            {
+                if (c1.Text == "Load Input File")
+                {
+                    this.tableLayoutPanel2.SetColumn(c1, 0);
+                    this.tableLayoutPanel2.SetColumn(c2, 1);
+                }
+                if (c1.Text == "Load Update CSV")
+                {
+                    this.tableLayoutPanel2.SetColumn(c1, 1);
+                    this.tableLayoutPanel2.SetColumn(c2, 0);
+                }
+            }
+
+            //callable button
+            buttonEx_ProvisioningProvision.ColorTable = ColorTable.Office2010Green;
+
+
+        }
+
+        private void radioBulkSuspendDelete_CheckedChanged(object sender, EventArgs e)
+        {
+            //grey out all buttons
+            buttonEx_ProvisioningProvision.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningDeprovision.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningSuspend.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningUnsuspend.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningUpdateProfile.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningCreateCSV.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningGetUsage.ColorTable = ColorTable.Office2010White;
+
+            //disable buttons
+            buttonEx_ProvisioningProvision.Enabled = false;
+            buttonEx_ProvisioningDeprovision.Enabled = false;
+            buttonEx_ProvisioningSuspend.Enabled = false;
+            buttonEx_ProvisioningUnsuspend.Enabled = false;
+            buttonEx_ProvisioningUpdateProfile.Enabled = false;
+            buttonEx_ProvisioningCreateCSV.Enabled = false;
+            buttonEx_ProvisioningGetUsage.Enabled = false;
+
+            //things we DONT need 
+            tableLayoutPanel_ProvisioningRolesSelectionGroup.Visible = false;
+            checkBox_ProvisioningSendWelcomeEmail.Visible = false;
+            checkBoxProvisioningKeepAccount.Visible = false;
+            buttonEx_ProvisioningLoadUpdateCSV.Visible = false;
+
+            //things we do need
+            textBox_ProvisioningInputFile.Visible = true;
+            buttonEx_ProvisioningSuspend.Enabled = true;
+            buttonEx_ProvisioningUnsuspend.Enabled = true;
+
+            //callable button
+            buttonEx_ProvisioningSuspend.ColorTable = ColorTable.Office2010Yellow;
+            buttonEx_ProvisioningUnsuspend.ColorTable = ColorTable.Office2010Green;
+
+        }
+
+        private void radioBulkDelete_CheckedChanged(object sender, EventArgs e)
+        {
+            //grey out all buttons
+            buttonEx_ProvisioningProvision.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningDeprovision.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningSuspend.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningUnsuspend.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningUpdateProfile.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningCreateCSV.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningGetUsage.ColorTable = ColorTable.Office2010White;
+
+            //disable buttons
+            buttonEx_ProvisioningProvision.Enabled = false;
+            buttonEx_ProvisioningDeprovision.Enabled = false;
+            buttonEx_ProvisioningSuspend.Enabled = false;
+            buttonEx_ProvisioningUnsuspend.Enabled = false;
+            buttonEx_ProvisioningUpdateProfile.Enabled = false;
+            buttonEx_ProvisioningCreateCSV.Enabled = false;
+            buttonEx_ProvisioningGetUsage.Enabled = false;
+
+            //callable button
+            buttonEx_ProvisioningDeprovision.ColorTable = ColorTable.Office2010Red;
+
+            //things we DONT need 
+            tableLayoutPanel_ProvisioningRolesSelectionGroup.Visible = false;
+            checkBox_ProvisioningSendWelcomeEmail.Visible = false;
+            buttonEx_ProvisioningLoadUpdateCSV.Visible = false;
+
+            //things we need
+            checkBoxProvisioningKeepAccount.Visible = true;
+            textBox_ProvisioningInputFile.Visible = true;
+            buttonEx_ProvisioningLoadCSV.Visible = true;
+            buttonEx_ProvisioningFileInputSelect.Visible = true;
+
+            Control c1 = this.tableLayoutPanel2.GetControlFromPosition(0, 0);
+            Control c2 = this.tableLayoutPanel2.GetControlFromPosition(1, 0);
+
+            if (c1 != null && c2 != null)
+            {
+                if (c1.Text == "Load Input File")
+                {
+                    this.tableLayoutPanel2.SetColumn(c1, 0);
+                    this.tableLayoutPanel2.SetColumn(c2, 1);
+                }
+                if (c1.Text == "Load Update CSV")
+                {
+                    this.tableLayoutPanel2.SetColumn(c1, 1);
+                    this.tableLayoutPanel2.SetColumn(c2, 0);
+                }
+            }
+        }
+
+        private void radioBulkOffboard_CheckedChanged(object sender, EventArgs e)
+        {
+            //grey out all buttons
+            buttonEx_ProvisioningProvision.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningDeprovision.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningSuspend.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningUnsuspend.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningUpdateProfile.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningCreateCSV.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningGetUsage.ColorTable = ColorTable.Office2010White;
+
+            //disable buttons
+            buttonEx_ProvisioningProvision.Enabled = false;
+            buttonEx_ProvisioningDeprovision.Enabled = false;
+            buttonEx_ProvisioningSuspend.Enabled = false;
+            buttonEx_ProvisioningUnsuspend.Enabled = false;
+            buttonEx_ProvisioningUpdateProfile.Enabled = false;
+            buttonEx_ProvisioningCreateCSV.Enabled = false;
+            buttonEx_ProvisioningGetUsage.Enabled = false;
+
+            //things we dont need
+            tableLayoutPanel_ProvisioningRolesSelectionGroup.Visible = false;
+            checkBox_ProvisioningSendWelcomeEmail.Visible = false;
+            checkBoxProvisioningKeepAccount.Visible = false;
+            buttonEx_ProvisioningLoadCSV.Visible = false;
+
+            //things we do need
+            textBox_ProvisioningInputFile.Visible = true;
+            buttonEx_ProvisioningFileInputSelect.Visible = true;
+            checkBoxProvisioningKeepAccount.Visible = true;
+            buttonEx_ProvisioningLoadUpdateCSV.Visible = true;
+
+            //callable button
+            buttonEx_ProvisioningUpdateProfile.ColorTable = ColorTable.Office2010Blue;
+
+            Control c1 = this.tableLayoutPanel2.GetControlFromPosition(0, 0);
+            Control c2 = this.tableLayoutPanel2.GetControlFromPosition(1, 0);
+
+            if (c1 != null && c2 != null)
+            {
+                if (c1.Text == "Load Input File")
+                {
+                    this.tableLayoutPanel2.SetColumn(c1, 1);
+                    this.tableLayoutPanel2.SetColumn(c2, 0);
+                }
+                if (c1.Text == "Load Update CSV")
+                {
+                    this.tableLayoutPanel2.SetColumn(c1, 0);
+                    this.tableLayoutPanel2.SetColumn(c2, 1);
+                }
+            }
+
+        }
+
+        private void radioViewStatistics_CheckedChanged(object sender, EventArgs e)
+        {
+            //grey out all buttons
+            buttonEx_ProvisioningProvision.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningDeprovision.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningSuspend.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningUnsuspend.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningUpdateProfile.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningCreateCSV.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningGetUsage.ColorTable = ColorTable.Office2010White;
+
+            //disable buttons
+            buttonEx_ProvisioningProvision.Enabled = false;
+            buttonEx_ProvisioningDeprovision.Enabled = false;
+            buttonEx_ProvisioningSuspend.Enabled = false;
+            buttonEx_ProvisioningUnsuspend.Enabled = false;
+            buttonEx_ProvisioningUpdateProfile.Enabled = false;
+            buttonEx_ProvisioningCreateCSV.Enabled = false;
+            buttonEx_ProvisioningGetUsage.Enabled = false;
+
+            //things we dont need
+            tableLayoutPanel_ProvisioningRolesSelectionGroup.Visible = false;
+            checkBox_ProvisioningSendWelcomeEmail.Visible = false;
+            checkBoxProvisioningKeepAccount.Visible = false;
+            buttonEx_ProvisioningLoadUpdateCSV.Visible = false;
+            textBox_ProvisioningInputFile.Visible = false;
+            buttonEx_ProvisioningFileInputSelect.Visible = false;
+            buttonEx_ProvisioningLoadCSV.Visible = false;
+
+            //things we do need
+            buttonEx_ProvisioningGetUsage.Enabled = true;
+            buttonEx_ProvisioningCreateCSV.Enabled = true;
+
+            //callable button
+            buttonEx_ProvisioningCreateCSV.ColorTable = ColorTable.Office2010Green;
+            buttonEx_ProvisioningGetUsage.ColorTable = ColorTable.Office2010Blue;
+
+        }
     }
 }

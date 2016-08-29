@@ -56,22 +56,22 @@
             // 
             this.textBoxDefaultProvision.Location = new System.Drawing.Point(146, 60);
             this.textBoxDefaultProvision.Name = "textBoxDefaultProvision";
-            this.textBoxDefaultProvision.Size = new System.Drawing.Size(413, 20);
+            this.textBoxDefaultProvision.Size = new System.Drawing.Size(413, 22);
             this.textBoxDefaultProvision.TabIndex = 1;
             // 
             // textBoxDefaultAccess
             // 
             this.textBoxDefaultAccess.Location = new System.Drawing.Point(146, 21);
             this.textBoxDefaultAccess.Name = "textBoxDefaultAccess";
-            this.textBoxDefaultAccess.Size = new System.Drawing.Size(413, 20);
+            this.textBoxDefaultAccess.Size = new System.Drawing.Size(413, 22);
             this.textBoxDefaultAccess.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 24);
+            this.label1.Location = new System.Drawing.Point(19, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(128, 13);
+            this.label1.Size = new System.Drawing.Size(125, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "Team File Access Token:";
             // 
@@ -80,16 +80,16 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(5, 63);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(136, 13);
+            this.label2.Size = new System.Drawing.Size(139, 13);
             this.label2.TabIndex = 6;
             this.label2.Text = "Team Management Token:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(38, 102);
+            this.label3.Location = new System.Drawing.Point(32, 104);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(105, 13);
+            this.label3.Size = new System.Drawing.Size(112, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Search Default Limit:";
             // 
@@ -98,16 +98,16 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(91, 141);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(50, 13);
+            this.label4.Size = new System.Drawing.Size(52, 13);
             this.label4.TabIndex = 9;
             this.label4.Text = "Base Url:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(80, 180);
+            this.label5.Location = new System.Drawing.Point(74, 180);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(63, 13);
+            this.label5.Size = new System.Drawing.Size(70, 13);
             this.label5.TabIndex = 10;
             this.label5.Text = "Content Url:";
             // 
@@ -116,7 +116,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(318, 141);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(63, 13);
+            this.label6.Size = new System.Drawing.Size(68, 13);
             this.label6.TabIndex = 11;
             this.label6.Text = "Api Version:";
             // 
@@ -124,21 +124,21 @@
             // 
             this.textBoxApiVersion.Location = new System.Drawing.Point(386, 138);
             this.textBoxApiVersion.Name = "textBoxApiVersion";
-            this.textBoxApiVersion.Size = new System.Drawing.Size(39, 20);
+            this.textBoxApiVersion.Size = new System.Drawing.Size(39, 22);
             this.textBoxApiVersion.TabIndex = 4;
             // 
             // textBoxContentUrl
             // 
             this.textBoxContentUrl.Location = new System.Drawing.Point(146, 177);
             this.textBoxContentUrl.Name = "textBoxContentUrl";
-            this.textBoxContentUrl.Size = new System.Drawing.Size(166, 20);
+            this.textBoxContentUrl.Size = new System.Drawing.Size(166, 22);
             this.textBoxContentUrl.TabIndex = 5;
             // 
             // textBoxBaseUrl
             // 
             this.textBoxBaseUrl.Location = new System.Drawing.Point(146, 138);
             this.textBoxBaseUrl.Name = "textBoxBaseUrl";
-            this.textBoxBaseUrl.Size = new System.Drawing.Size(166, 20);
+            this.textBoxBaseUrl.Size = new System.Drawing.Size(166, 22);
             this.textBoxBaseUrl.TabIndex = 3;
             // 
             // labelStatus
@@ -146,7 +146,7 @@
             this.labelStatus.AutoSize = true;
             this.labelStatus.Location = new System.Drawing.Point(12, 248);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(59, 13);
+            this.labelStatus.Size = new System.Drawing.Size(64, 13);
             this.labelStatus.TabIndex = 15;
             this.labelStatus.Text = "labelStatus";
             // 
@@ -209,7 +209,7 @@
             0,
             0});
             this.numericUpDown_SettingSearchLimit.Name = "numericUpDown_SettingSearchLimit";
-            this.numericUpDown_SettingSearchLimit.Size = new System.Drawing.Size(64, 20);
+            this.numericUpDown_SettingSearchLimit.Size = new System.Drawing.Size(64, 22);
             this.numericUpDown_SettingSearchLimit.TabIndex = 2;
             // 
             // buttonEx_SettingsCancel
@@ -245,7 +245,7 @@
             this.checkBoxSuppressFilenameStatusBar.AutoSize = true;
             this.checkBoxSuppressFilenameStatusBar.Location = new System.Drawing.Point(146, 215);
             this.checkBoxSuppressFilenameStatusBar.Name = "checkBoxSuppressFilenameStatusBar";
-            this.checkBoxSuppressFilenameStatusBar.Size = new System.Drawing.Size(199, 17);
+            this.checkBoxSuppressFilenameStatusBar.Size = new System.Drawing.Size(212, 17);
             this.checkBoxSuppressFilenameStatusBar.TabIndex = 18;
             this.checkBoxSuppressFilenameStatusBar.Text = "Suppress Filename Activity in Status ";
             this.checkBoxSuppressFilenameStatusBar.UseVisualStyleBackColor = true;
@@ -273,6 +273,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxDefaultAccess);
             this.Controls.Add(this.textBoxDefaultProvision);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;

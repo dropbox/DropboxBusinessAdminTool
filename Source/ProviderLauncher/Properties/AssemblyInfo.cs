@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Dropbox Business Admin Toolkit")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("ProviderLauncher")]
+[assembly: AssemblyDescription("Launchpad for Providers")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Dropbox Enterprise Services")]
-[assembly: AssemblyProduct("Dropbox Business Admin Toolkit")]
+[assembly: AssemblyProduct("ProviderLauncher")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ec2e5feb-36f2-46e3-959b-cff92360c202")]
+[assembly: Guid("a2eebf5f-c3c9-44b5-a594-1d06e305aff9")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -9,8 +9,6 @@
     {
         List<MemberListViewItemModel> MemberList { get; set; }
 
-        //List<MemberListViewItemModel> ResultList { get; set; }
-
         List<string> SearchModeList { get; set; }
 
         string AccessToken { get; set; }

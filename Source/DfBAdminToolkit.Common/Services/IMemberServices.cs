@@ -39,6 +39,16 @@
 
         string SetProfileUrl { get; set; }
 
+        string ActivateTeamFolderUrl { get; set; }
+
+        string ArchiveTeamFolderUrl { get; set; }
+
+        string CreateTeamFolderUrl { get; set; }
+
+        string ListTeamFolderUrl { get; set; }
+
+        string UpdateMembersTeamFolderUrl { get; set; }
+
         string UserAgentVersion { get; set; }
 
         #endregion Endpoint urls
@@ -76,5 +86,11 @@
         IDataResponse FindDevices(IMemberData data, string authToken);
 
         IDataResponse DumpDevices(IMemberData data, string authToken);
+
+        IDataResponse ListTeamFolders(string authToken);
+
+        IServiceResponse CreateTeamFolder(string teamFolderName, bool syncSetting, string authToken);
+
+        IServiceResponse SetFolderStatus(string teamFolderId, bool activeSetting, string authToken);
     }
 }
