@@ -106,12 +106,15 @@
     <Compile Include="Model\IModel.cs" />
     <Compile Include="Model\IProvisioningModel.cs" />
     <Compile Include="Model\ISettingsModel.cs" />
+    <Compile Include="Model\ITeamFoldersModel.cs" />
     <Compile Include="Model\ITextSearchModel.cs" />
     <Compile Include="Model\LegalModel.cs" />
     <Compile Include="Model\MainModel.cs" />
     <Compile Include="Model\MemberListViewItemModel.cs" />
     <Compile Include="Model\ProvisioningModel.cs" />
     <Compile Include="Model\SettingsModel.cs" />
+    <Compile Include="Model\TeamFoldersListViewItemModel.cs" />
+    <Compile Include="Model\TeamFoldersModel.cs" />
     <Compile Include="Model\TeamListViewItemModel.cs" />
     <Compile Include="Model\TextSearchModel.cs" />
     <Compile Include="Presenter\DataMigrationPresenter.cs" />
@@ -125,6 +128,7 @@
     <Compile Include="Presenter\ILegalPresenter.cs" />
     <Compile Include="Presenter\IProvisioningPresenter.cs" />
     <Compile Include="Presenter\ISettingsPresenter.cs" />
+    <Compile Include="Presenter\ITeamFoldersPresenter.cs" />
     <Compile Include="Presenter\ITextSearchPresenter.cs" />
     <Compile Include="Presenter\LegalPresenter.cs" />
     <Compile Include="Presenter\IMainPresenter.cs" />
@@ -133,6 +137,7 @@
     <Compile Include="Presenter\PresenterBase.cs" />
     <Compile Include="Presenter\ProvisioningPresenter.cs" />
     <Compile Include="Presenter\SettingsPresenter.cs" />
+    <Compile Include="Presenter\TeamFoldersPresenter.cs" />
     <Compile Include="Presenter\TextSearchPresenter.cs" />
     <Compile Include="Services\GitHubService.cs" />
     <Compile Include="Tooltips.cs" />
@@ -166,6 +171,7 @@
     <Compile Include="View\IGroupsView.cs" />
     <Compile Include="View\IProvisioningView.cs" />
     <Compile Include="View\ISettingsView.cs" />
+    <Compile Include="View\ITeamFoldersView.cs" />
     <Compile Include="View\ITextSearchView.cs" />
     <Compile Include="View\Overlay\MemberInfoOverlay.cs" />
     <Compile Include="View\ProvisioningView.cs">
@@ -179,6 +185,12 @@
     </Compile>
     <Compile Include="View\SettingsView.Designer.cs">
       <DependentUpon>SettingsView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TeamFoldersView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TeamFoldersView.designer.cs">
+      <DependentUpon>TeamFoldersView.cs</DependentUpon>
     </Compile>
     <Compile Include="View\TextSearchView.cs">
       <SubType>Form</SubType>
@@ -226,6 +238,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\SettingsView.resx">
       <DependentUpon>SettingsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TeamFoldersView.resx">
+      <DependentUpon>TeamFoldersView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\TextSearchView.resx">
       <DependentUpon>TextSearchView.cs</DependentUpon>

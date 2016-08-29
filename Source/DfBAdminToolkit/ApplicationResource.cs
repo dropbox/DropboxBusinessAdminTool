@@ -109,6 +109,31 @@
             get { return ConfigurationManager.AppSettings.Get("ActionSetProfile"); }
         }
 
+        public static string ActionActivateTeamFolder
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionActivateTeamFolder"); }
+        }
+
+        public static string ActionArchiveTeamFolder
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionArchiveTeamFolder"); }
+        }
+
+        public static string ActionCreateTeamFolder
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionCreateTeamFolder"); }
+        }
+
+        public static string ActionListTeamFolder
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionListTeamFolder"); }
+        }
+
+        public static string ActionUpdateMembersTeamFolder
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionUpdateMembersTeamFolder"); }
+        }
+
         public static int SearchDefaultLimit {
             get {
                 int limit = 1000;

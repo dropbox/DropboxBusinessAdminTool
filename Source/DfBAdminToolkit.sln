@@ -1,13 +1,14 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfBAdminToolkit", "DfBAdminToolkit\DfBAdminToolkit.csproj", "{EC2E5FEB-36F2-46E3-959B-CFF92360C202}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DBAdminToolkit.Setup", "DBAdminToolkit.Setup\DBAdminToolkit.Setup.vdproj", "{67F7291F-4179-4A69-8B74-40C5769A3ED1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DfBAdminToolkit.Common", "DfBAdminToolkit.Common\DfBAdminToolkit.Common.csproj", "{1091B7C4-F32C-4219-B04A-A25BD4D0B928}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderLauncher", "ProviderLauncher\ProviderLauncher.csproj", "{A2EEBF5F-C3C9-44B5-A594-1D06E305AFF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +26,10 @@ Global
 		{1091B7C4-F32C-4219-B04A-A25BD4D0B928}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1091B7C4-F32C-4219-B04A-A25BD4D0B928}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1091B7C4-F32C-4219-B04A-A25BD4D0B928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2EEBF5F-C3C9-44B5-A594-1D06E305AFF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2EEBF5F-C3C9-44B5-A594-1D06E305AFF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2EEBF5F-C3C9-44B5-A594-1D06E305AFF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2EEBF5F-C3C9-44B5-A594-1D06E305AFF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -31,5 +31,8 @@
         public readonly static string FAILED_TO_CREATE_GROUP = "Bad request to the API, possibly due to no permissions on your app to create groups.";
         public readonly static string FAILED_TO_ADD_MEMBER_TO_GROUP = "Bad request to the API, possibly due to no permissions on your app to add members to groups.";
         public readonly static string FAILED_TO_DELETE_MEMBER_FROM_GROUP = "Bad request to the API, possibly due to no permissions on your app to delete members from groups.";
+        public readonly static string FAILED_TO_GET_TEAMFOLDERS = "Bad request to the API, possibly due to no permissions to get team folders.";
+        public readonly static string FAILED_TO_CREATE_TEAMFOLDER = "Bad request to the API, possibly due to no permissions on your app to create team folders.";
+        public readonly static string FAILED_TO_UPDATE_TEAM_FOLDER_STATUS = "Bad request to the API, possibly due to no permissions on your app to update team folder status.";
     }
 }

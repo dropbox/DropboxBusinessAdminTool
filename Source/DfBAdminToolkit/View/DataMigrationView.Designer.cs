@@ -86,6 +86,7 @@
             this.tableLayoutPanel_DataMigrationOperationGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
             this.tableLayoutPanel_DataMigrationOperationGroup.Controls.Add(this.tableLayoutPanel_DataMigrationOperationButtonGroup, 1, 0);
             this.tableLayoutPanel_DataMigrationOperationGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel_DataMigrationOperationGroup.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableLayoutPanel_DataMigrationOperationGroup.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel_DataMigrationOperationGroup.Name = "tableLayoutPanel_DataMigrationOperationGroup";
             this.tableLayoutPanel_DataMigrationOperationGroup.RowCount = 1;
@@ -144,6 +145,7 @@
             this.tableLayoutPanel_DataMigrationSplitContainer.Controls.Add(this.label_DataMigrationContentDisplay, 0, 1);
             this.tableLayoutPanel_DataMigrationSplitContainer.Controls.Add(this.label_DataMigrationSplitter, 0, 0);
             this.tableLayoutPanel_DataMigrationSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel_DataMigrationSplitContainer.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableLayoutPanel_DataMigrationSplitContainer.Location = new System.Drawing.Point(3, 45);
             this.tableLayoutPanel_DataMigrationSplitContainer.Name = "tableLayoutPanel_DataMigrationSplitContainer";
             this.tableLayoutPanel_DataMigrationSplitContainer.RowCount = 2;
@@ -201,8 +203,9 @@
             this.olvColumn_DMUploaded});
             this.fastObjectListView_DataMigrationContentDisplay.Cursor = System.Windows.Forms.Cursors.Default;
             this.fastObjectListView_DataMigrationContentDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastObjectListView_DataMigrationContentDisplay.SelectedBackColor = System.Drawing.Color.Empty;
-            this.fastObjectListView_DataMigrationContentDisplay.SelectedBackColor = System.Drawing.Color.Empty;
+            this.fastObjectListView_DataMigrationContentDisplay.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fastObjectListView_DataMigrationContentDisplay.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.fastObjectListView_DataMigrationContentDisplay.HighlightForegroundColor = System.Drawing.Color.Empty;
             this.fastObjectListView_DataMigrationContentDisplay.Location = new System.Drawing.Point(3, 77);
             this.fastObjectListView_DataMigrationContentDisplay.Name = "fastObjectListView_DataMigrationContentDisplay";
             this.fastObjectListView_DataMigrationContentDisplay.ShowGroups = false;
@@ -315,6 +318,7 @@
             office2010Blue1.TextColor = System.Drawing.Color.White;
             this.buttonEx_DataMigrationExportReport.ColorTable = office2010Blue1;
             this.buttonEx_DataMigrationExportReport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonEx_DataMigrationExportReport.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonEx_DataMigrationExportReport.Location = new System.Drawing.Point(343, 2);
             this.buttonEx_DataMigrationExportReport.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.buttonEx_DataMigrationExportReport.Name = "buttonEx_DataMigrationExportReport";
@@ -328,6 +332,7 @@
             // 
             this.label_DataMigrationOutputFilePath.AutoSize = true;
             this.label_DataMigrationOutputFilePath.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_DataMigrationOutputFilePath.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_DataMigrationOutputFilePath.Location = new System.Drawing.Point(3, 0);
             this.label_DataMigrationOutputFilePath.Name = "label_DataMigrationOutputFilePath";
             this.label_DataMigrationOutputFilePath.Size = new System.Drawing.Size(84, 32);
@@ -343,6 +348,7 @@
             this.tableLayoutPanel_DataMigrationExportSelectGroup.Controls.Add(this.buttonEx_DataMigrationSelectFolder, 1, 0);
             this.tableLayoutPanel_DataMigrationExportSelectGroup.Controls.Add(this.textBox_DataMigrationOutputPath, 0, 0);
             this.tableLayoutPanel_DataMigrationExportSelectGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel_DataMigrationExportSelectGroup.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableLayoutPanel_DataMigrationExportSelectGroup.Location = new System.Drawing.Point(91, 1);
             this.tableLayoutPanel_DataMigrationExportSelectGroup.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel_DataMigrationExportSelectGroup.Name = "tableLayoutPanel_DataMigrationExportSelectGroup";
@@ -372,7 +378,7 @@
             this.textBox_DataMigrationOutputPath.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.textBox_DataMigrationOutputPath.Name = "textBox_DataMigrationOutputPath";
             this.textBox_DataMigrationOutputPath.ReadOnly = true;
-            this.textBox_DataMigrationOutputPath.Size = new System.Drawing.Size(184, 20);
+            this.textBox_DataMigrationOutputPath.Size = new System.Drawing.Size(184, 22);
             this.textBox_DataMigrationOutputPath.TabIndex = 1;
             // 
             // DataMigrationView

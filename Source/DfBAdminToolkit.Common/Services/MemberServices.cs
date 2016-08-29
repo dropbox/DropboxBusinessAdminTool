@@ -48,6 +48,16 @@
 
         public string DeleteMemberGroupUrl { get; set; }
 
+        public string ActivateTeamFolderUrl { get; set; }
+
+        public string ArchiveTeamFolderUrl { get; set; }
+
+        public string CreateTeamFolderUrl { get; set; }
+
+        public string ListTeamFolderUrl { get; set; }
+
+        public string UpdateMembersTeamFolderUrl { get; set; }
+
         public string UserAgentVersion { get; set; }
 
         public MemberServices(
@@ -666,6 +676,134 @@
                         );
                         request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
                     }       
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+            return serviceResponse;
+        }
+
+        public IDataResponse ListTeamFolders(string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(ListTeamFolderUrl))
+                {
+                    RestClient client = new RestClient(
+                        string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                    );
+                    RestRequest request = new RestRequest(ListTeamFolderUrl, Method.POST);
+
+                    //add headers
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    JObject json = new JObject(
+                        new JProperty("limit", 1000)
+                    );
+                    request.AddParameter("application/json", json, ParameterType.RequestBody);
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IServiceResponse CreateTeamFolder(string teamFolderName, bool syncSetting, string authToken)
+        {
+            IServiceResponse serviceResponse = null;
+            string syncStringSetting = "sync";
+            if (!syncSetting)
+            {
+                syncStringSetting = "no_sync";
+            }
+            try
+            {
+                if (!string.IsNullOrEmpty(CreateTeamFolderUrl))
+                {
+                    RestClient client = new RestClient(string.Format("{0}/{1}/", _baseUrl, _apiVersion));
+                    RestRequest request = new RestRequest(CreateTeamFolderUrl, Method.POST);
+                    request.AddHeader("Authorization", Convert.ToString("Bearer ") + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    JObject json = new JObject(
+                        new JProperty("name", teamFolderName),
+                        new JProperty("default_sync_setting", syncStringSetting)
+                    );
+
+                    request.AddParameter("application/json", json, ParameterType.RequestBody);
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+            return serviceResponse;
+        }
+
+        public IServiceResponse SetFolderStatus(string teamFolderId, bool activeSetting, string authToken)
+        {
+            IServiceResponse serviceResponse = null;
+            string url = string.Empty;
+            if (activeSetting)
+            {
+                url = ActivateTeamFolderUrl;
+            }
+            if (!activeSetting)
+            {
+                url = ArchiveTeamFolderUrl;
+            }
+            try
+            {
+                if (!string.IsNullOrEmpty(ActivateTeamFolderUrl) || !string.IsNullOrEmpty(ArchiveTeamFolderUrl))
+                {
+                    RestClient client = new RestClient(string.Format("{0}/{1}/", _baseUrl, _apiVersion));
+                    RestRequest request = new RestRequest(url, Method.POST);
+                    request.AddHeader("Authorization", Convert.ToString("Bearer ") + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    if (activeSetting)
+                    {
+                        JObject json = new JObject(
+                            new JProperty("team_folder_id", teamFolderId)
+                        );
+                        request.AddParameter("application/json", json, ParameterType.RequestBody);
+                    }
+                    if (!activeSetting)
+                    {
+                        JObject json = new JObject(
+                            new JProperty("team_folder_id", teamFolderId),
+                            new JProperty("force_async_off", false)
+                        );
+                        request.AddParameter("application/json", json, ParameterType.RequestBody);
+                    }  
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);

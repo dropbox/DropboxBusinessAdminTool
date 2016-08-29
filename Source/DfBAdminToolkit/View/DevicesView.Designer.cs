@@ -80,6 +80,7 @@
             this.tableLayoutPanel_MemberListGroup.Controls.Add(this.tableLayoutPanel_DevicesSplitContainer, 0, 1);
             this.tableLayoutPanel_MemberListGroup.Controls.Add(this.textBox_DeviceListAccessToken, 0, 0);
             this.tableLayoutPanel_MemberListGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel_MemberListGroup.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableLayoutPanel_MemberListGroup.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel_MemberListGroup.Name = "tableLayoutPanel_MemberListGroup";
             this.tableLayoutPanel_MemberListGroup.RowCount = 4;
@@ -157,8 +158,8 @@
             this.objectListView_DeviceList.EmptyListMsg = "No Result";
             this.objectListView_DeviceList.FullRowSelect = true;
             this.objectListView_DeviceList.HideSelection = false;
-            this.objectListView_DeviceList.SelectedBackColor = System.Drawing.Color.Empty;
-            this.objectListView_DeviceList.SelectedBackColor = System.Drawing.Color.Empty;
+            this.objectListView_DeviceList.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.objectListView_DeviceList.HighlightForegroundColor = System.Drawing.Color.Empty;
             this.objectListView_DeviceList.Location = new System.Drawing.Point(3, 50);
             this.objectListView_DeviceList.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
             this.objectListView_DeviceList.Name = "objectListView_DeviceList";
@@ -298,15 +299,15 @@
             this.textBoxDeviceFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxDeviceFilter.Location = new System.Drawing.Point(245, 7);
             this.textBoxDeviceFilter.Name = "textBoxDeviceFilter";
-            this.textBoxDeviceFilter.Size = new System.Drawing.Size(1, 20);
+            this.textBoxDeviceFilter.Size = new System.Drawing.Size(1, 22);
             this.textBoxDeviceFilter.TabIndex = 1;
             // 
             // radioIpAddress
             // 
             this.radioIpAddress.AutoSize = true;
-            this.radioIpAddress.Location = new System.Drawing.Point(223, 7);
+            this.radioIpAddress.Location = new System.Drawing.Point(221, 7);
             this.radioIpAddress.Name = "radioIpAddress";
-            this.radioIpAddress.Size = new System.Drawing.Size(76, 17);
+            this.radioIpAddress.Size = new System.Drawing.Size(78, 17);
             this.radioIpAddress.TabIndex = 2;
             this.radioIpAddress.TabStop = true;
             this.radioIpAddress.Text = "IP Address";
@@ -356,7 +357,7 @@
             this.textBox_DeviceListAccessToken.Location = new System.Drawing.Point(2, 2);
             this.textBox_DeviceListAccessToken.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_DeviceListAccessToken.Name = "textBox_DeviceListAccessToken";
-            this.textBox_DeviceListAccessToken.Size = new System.Drawing.Size(68, 20);
+            this.textBox_DeviceListAccessToken.Size = new System.Drawing.Size(68, 22);
             this.textBox_DeviceListAccessToken.TabIndex = 4;
             this.textBox_DeviceListAccessToken.Visible = false;
             // 
