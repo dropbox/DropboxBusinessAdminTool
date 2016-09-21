@@ -305,32 +305,45 @@
 
         private void Button_ProvisioningDoProvision_Click(object sender, EventArgs e)
         {
-            Control checkedButton = tableLayoutPanel_ProvisioningRolesSelectionGroup.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
-            switch (checkedButton.Name)
+            DialogResult d;
+            if (this.checkBox_ProvisioningSendWelcomeEmail.Checked == true)
             {
-                case "radioButton_ProvisioningRoleTeamAdmin":
-                    SelectedRole = "team_admin";
-                    break;
+                d = MessageBoxUtil.ShowConfirm(this, ErrorMessages.CONFIRM_SEND_WELCOME_EMAIL);
 
-                case "radioButton_ProvisioningRoleUserMgmtAdmin":
-                    SelectedRole = "user_management_admin";
-                    break;
+                if (d == DialogResult.Yes)
+                {
+                    Control checkedButton = tableLayoutPanel_ProvisioningRolesSelectionGroup.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+                    switch (checkedButton.Name)
+                    {
+                        case "radioButton_ProvisioningRoleTeamAdmin":
+                            SelectedRole = "team_admin";
+                            break;
 
-                case "radioButton_ProvisioningRoleSupportAdmin":
-                    SelectedRole = "support_admin";
-                    break;
+                        case "radioButton_ProvisioningRoleUserMgmtAdmin":
+                            SelectedRole = "user_management_admin";
+                            break;
 
-                case "radioButton_ProvisioningRoleMemberOnly":
-                default:
-                    SelectedRole = "member_only";
-                    break;
-            }
+                        case "radioButton_ProvisioningRoleSupportAdmin":
+                            SelectedRole = "support_admin";
+                            break;
 
-            InvokeDataChanged(sender, e);
-            if (CommandProvision != null)
-            {
-                CommandProvision(sender, e);
-            }
+                        case "radioButton_ProvisioningRoleMemberOnly":
+                        default:
+                            SelectedRole = "member_only";
+                            break;
+                    }
+
+                    InvokeDataChanged(sender, e);
+                    if (CommandProvision != null)
+                    {
+                        CommandProvision(sender, e);
+                    }
+                }
+                else if (d == DialogResult.No)
+                {
+                    //do nothing
+                }
+            }       
         }
 
         private void Button_ProvisioningDoDeprovision_Click(object sender, EventArgs e)
@@ -593,8 +606,6 @@
 
             //callable button
             buttonEx_ProvisioningProvision.ColorTable = ColorTable.Office2010Green;
-
-
         }
 
         private void radioBulkSuspendDelete_CheckedChanged(object sender, EventArgs e)

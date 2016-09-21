@@ -214,7 +214,7 @@
                                         dynamic ipAddressObj = jsonDevicesData["devices"][i]["web_sessions"][i2]["ip_address"];
                                         dynamic sessionIdObj = jsonDevicesData["devices"][i]["web_sessions"][i2]["session_id"];
                                         clientType = "Web";
-                                        created = jsonDevicesData["devices"][i]["web_sessions"][i2]["created"];
+                                        dynamic createdObj = jsonDevicesData["devices"][i]["web_sessions"][i2]["created"];
                                         if (idObj != null) {
                                             teamId = idObj.Value as string;
                                         }
@@ -227,7 +227,10 @@
                                         if (sessionIdObj != null) {
                                             sessionId = sessionIdObj.Value as string;
                                         }
-
+                                        if (createdObj != null)
+                                        {
+                                            created = jsonDevicesData["devices"][i]["web_sessions"][i2]["created"];
+                                        }
                                         foreach (string[] lvitem in members)
                                         {
                                             if (teamId == lvitem[0])
@@ -290,7 +293,7 @@
                                             dynamic ipAddressObj = jsonDevicesData["devices"][i]["desktop_clients"][i3]["ip_address"];
                                             dynamic sessionIdObj = jsonDevicesData["devices"][i]["desktop_clients"][i3]["session_id"];
                                             clientType = "Desktop";
-                                            created = jsonDevicesData["devices"][i]["desktop_clients"][i3]["created"];
+                                            dynamic createdObj = jsonDevicesData["devices"][i]["desktop_clients"][i3]["created"];
                                             if (idObj != null) {
                                                 teamId = idObj.Value as string;
                                             }
@@ -302,6 +305,10 @@
                                             }
                                             if (sessionIdObj != null) {
                                                 sessionId = sessionIdObj.Value as string;
+                                            }
+                                            if (createdObj != null)
+                                            {
+                                                created = jsonDevicesData["devices"][i]["desktop_clients"][i3]["created"];
                                             }
                                             foreach (string[] lvitem in members)
                                             {
@@ -366,7 +373,7 @@
                                             dynamic ipAddressObj = jsonDevicesData["devices"][i]["mobile_clients"][i4]["ip_address"];
                                             dynamic sessionIdObj = jsonDevicesData["devices"][i]["mobile_clients"][i4]["session_id"];
                                             clientType = "Mobile";
-                                            created = jsonDevicesData["devices"][i]["mobile_clients"][i4]["created"];
+                                            dynamic createdObj = jsonDevicesData["devices"][i]["mobile_clients"][i4]["created"];
                                             if (idObj != null) {
                                                 teamId = idObj.Value as string;
                                             }
@@ -378,6 +385,10 @@
                                             }
                                             if (sessionIdObj != null) {
                                                 sessionId = sessionIdObj.Value as string;
+                                            }
+                                            if (createdObj != null)
+                                            {
+                                                created = jsonDevicesData["devices"][i]["mobile_clients"][i4]["created"];
                                             }
                                             foreach (string[] lvitem in members)
                                             {
@@ -473,7 +484,7 @@
                                                 dynamic ipAddressObj = jsonDevicesDataCont["devices"][i]["web_sessions"][i2]["ip_address"];
                                                 dynamic sessionIdObj = jsonDevicesDataCont["devices"][i]["web_sessions"][i2]["session_id"];
                                                 clientType = "Web";
-                                                created = jsonDevicesDataCont["devices"][i]["web_sessions"][i2]["created"];
+                                                dynamic createdObj = jsonDevicesDataCont["devices"][i]["web_sessions"][i2]["created"];
                                                 if (idObj != null) {
                                                     teamId = idObj.Value as string;
                                                 }
@@ -485,6 +496,10 @@
                                                 }
                                                 if (sessionIdObj != null) {
                                                     sessionId = sessionIdObj.Value as string;
+                                                }
+                                                if (createdObj != null)
+                                                {
+                                                    created = jsonDevicesDataCont["devices"][i]["web_sessions"][i2]["created"];
                                                 }
                                                 foreach (string[] lvitem in members)
                                                 {
@@ -549,7 +564,7 @@
                                                 dynamic ipAddressObj = jsonDevicesDataCont["devices"][i]["desktop_clients"][i3]["ip_address"];
                                                 dynamic sessionIdObj = jsonDevicesDataCont["devices"][i]["desktop_clients"][i3]["session_id"];
                                                 clientType = "Desktop";
-                                                created = jsonDevicesDataCont["devices"][i]["desktop_clients"][i3]["created"];
+                                                dynamic createdObj = jsonDevicesDataCont["devices"][i]["desktop_clients"][i3]["created"];
                                                 if (idObj != null) {
                                                     teamId = idObj.Value as string;
                                                 }
@@ -561,6 +576,10 @@
                                                 }
                                                 if (sessionIdObj != null) {
                                                     sessionId = sessionIdObj.Value as string;
+                                                }
+                                                if (createdObj != null)
+                                                {
+                                                    created = jsonDevicesDataCont["devices"][i]["desktop_clients"][i3]["created"];
                                                 }
                                                 foreach (string[] lvitem in members)
                                                 {
@@ -625,7 +644,7 @@
                                                 dynamic ipAddressObj = jsonDevicesDataCont["devices"][i]["mobile_clients"][i4]["ip_address"];
                                                 dynamic sessionIdObj = jsonDevicesDataCont["devices"][i]["mobile_clients"][i4]["session_id"];
                                                 clientType = "Mobile";
-                                                created = jsonDevicesDataCont["devices"][i]["mobile_clients"][i4]["created"];
+                                                dynamic createdObj = jsonDevicesDataCont["devices"][i]["mobile_clients"][i4]["created"];
                                                 if (idObj != null) {
                                                     teamId = idObj.Value as string;
                                                 }
@@ -637,6 +656,10 @@
                                                 }
                                                 if (sessionIdObj != null) {
                                                     sessionId = sessionIdObj.Value as string;
+                                                }
+                                                if (createdObj != null)
+                                                {
+                                                    created = jsonDevicesDataCont["devices"][i]["mobile_clients"][i4]["created"];
                                                 }
                                                 foreach (string[] lvitem in members)
                                                 {

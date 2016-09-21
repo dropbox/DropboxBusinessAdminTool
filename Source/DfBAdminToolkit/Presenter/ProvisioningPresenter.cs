@@ -773,9 +773,6 @@
                     presenter.UpdateProgressInfo("Processing...");
                 }, null);
             }
-
-            // TODO: to improve stability, we will need to ensure to kill
-            // thread when user exits application while thread is running for REST service call
             Thread provision = new Thread(() => 
             {
                 if (string.IsNullOrEmpty(model.AccessToken))
