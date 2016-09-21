@@ -156,6 +156,24 @@
                     }, null);
                 }
             }
+            if (response.Message.Contains("group_name_already_used"))
+            {
+                if (SyncContext != null)
+                {
+                    SyncContext.Post(delegate {
+                        presenter.UpdateProgressInfo(ErrorMessages.FAILED_TO_CREATE_GROUP_GROUP_EXISTS);
+                    }, null);
+                }
+            }
+            if (response.Message.Contains("group_name_invalid"))
+            {
+                if (SyncContext != null)
+                {
+                    SyncContext.Post(delegate {
+                        presenter.UpdateProgressInfo(ErrorMessages.FAILED_TO_CREATE_GROUP_GROUP_INVALID);
+                    }, null);
+                }
+            }
             else
             {
                 errorMessage = ErrorMessages.FAILED_TO_CREATE_GROUP;
@@ -315,7 +333,6 @@
                             view.RenderGroupList();
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
-                            presenter.UpdateProgressInfo("Completed.");
                         }, null);
                     }
                 }

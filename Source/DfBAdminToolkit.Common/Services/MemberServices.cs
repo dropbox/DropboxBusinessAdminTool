@@ -413,7 +413,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {

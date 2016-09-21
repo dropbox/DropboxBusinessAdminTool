@@ -112,13 +112,13 @@
             this.tableLayoutPanel_ProvisioningCommandGroup.RowCount = 2;
             this.tableLayoutPanel_ProvisioningCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45.35519F));
             this.tableLayoutPanel_ProvisioningCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            this.tableLayoutPanel_ProvisioningCommandGroup.Size = new System.Drawing.Size(707, 132);
+            this.tableLayoutPanel_ProvisioningCommandGroup.Size = new System.Drawing.Size(707, 131);
             this.tableLayoutPanel_ProvisioningCommandGroup.TabIndex = 0;
             // 
             // tableLayoutPanel_ProvisioningInputFile
             // 
             this.tableLayoutPanel_ProvisioningInputFile.ColumnCount = 4;
-            this.tableLayoutPanel_ProvisioningInputFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 297F));
+            this.tableLayoutPanel_ProvisioningInputFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 334F));
             this.tableLayoutPanel_ProvisioningInputFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.07371F));
             this.tableLayoutPanel_ProvisioningInputFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 89.92629F));
             this.tableLayoutPanel_ProvisioningInputFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -133,7 +133,7 @@
             this.tableLayoutPanel_ProvisioningInputFile.RowCount = 2;
             this.tableLayoutPanel_ProvisioningInputFile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.50847F));
             this.tableLayoutPanel_ProvisioningInputFile.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 69.49152F));
-            this.tableLayoutPanel_ProvisioningInputFile.Size = new System.Drawing.Size(705, 122);
+            this.tableLayoutPanel_ProvisioningInputFile.Size = new System.Drawing.Size(704, 121);
             this.tableLayoutPanel_ProvisioningInputFile.TabIndex = 1;
             // 
             // textBox_ProvisioningInputFile
@@ -141,10 +141,10 @@
             this.textBox_ProvisioningInputFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_ProvisioningInputFile.FileFilter = null;
             this.textBox_ProvisioningInputFile.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_ProvisioningInputFile.Location = new System.Drawing.Point(3, 8);
+            this.textBox_ProvisioningInputFile.Location = new System.Drawing.Point(3, 7);
             this.textBox_ProvisioningInputFile.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.textBox_ProvisioningInputFile.Name = "textBox_ProvisioningInputFile";
-            this.textBox_ProvisioningInputFile.Size = new System.Drawing.Size(291, 22);
+            this.textBox_ProvisioningInputFile.Size = new System.Drawing.Size(328, 22);
             this.textBox_ProvisioningInputFile.TabIndex = 1;
             this.textBox_ProvisioningInputFile.Visible = false;
             // 
@@ -152,21 +152,21 @@
             // 
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.ColumnCount = 2;
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.28571F));
-            this.tableLayoutPanel_ProvisioningRolesSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 133F));
+            this.tableLayoutPanel_ProvisioningRolesSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 165F));
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.Controls.Add(this.radioButton_ProvisioningRoleTeamAdmin, 0, 1);
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.Controls.Add(this.radioButton_ProvisioningRoleUserMgmtAdmin, 1, 0);
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.Controls.Add(this.radioButton_ProvisioningRoleSupportAdmin, 1, 1);
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.Controls.Add(this.radioButton_ProvisioningRoleMemberOnly, 0, 0);
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.Controls.Add(this.checkBox_ProvisioningSendWelcomeEmail, 0, 2);
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_ProvisioningRolesSelectionGroup.Location = new System.Drawing.Point(3, 40);
+            this.tableLayoutPanel_ProvisioningRolesSelectionGroup.Location = new System.Drawing.Point(3, 39);
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.Name = "tableLayoutPanel_ProvisioningRolesSelectionGroup";
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.Padding = new System.Windows.Forms.Padding(3);
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.RowCount = 3;
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48.97959F));
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 51.02041F));
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel_ProvisioningRolesSelectionGroup.Size = new System.Drawing.Size(291, 79);
+            this.tableLayoutPanel_ProvisioningRolesSelectionGroup.Size = new System.Drawing.Size(328, 79);
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.TabIndex = 0;
             this.tableLayoutPanel_ProvisioningRolesSelectionGroup.Visible = false;
             // 
@@ -176,34 +176,34 @@
             this.radioButton_ProvisioningRoleTeamAdmin.AutoSize = true;
             this.radioButton_ProvisioningRoleTeamAdmin.Location = new System.Drawing.Point(6, 30);
             this.radioButton_ProvisioningRoleTeamAdmin.Name = "radioButton_ProvisioningRoleTeamAdmin";
-            this.radioButton_ProvisioningRoleTeamAdmin.Size = new System.Drawing.Size(146, 17);
+            this.radioButton_ProvisioningRoleTeamAdmin.Size = new System.Drawing.Size(151, 17);
             this.radioButton_ProvisioningRoleTeamAdmin.TabIndex = 3;
             this.radioButton_ProvisioningRoleTeamAdmin.TabStop = true;
-            this.radioButton_ProvisioningRoleTeamAdmin.Text = "Team Administrator";
+            this.radioButton_ProvisioningRoleTeamAdmin.Text = "Team Admin";
             this.radioButton_ProvisioningRoleTeamAdmin.UseVisualStyleBackColor = true;
             // 
             // radioButton_ProvisioningRoleUserMgmtAdmin
             // 
             this.radioButton_ProvisioningRoleUserMgmtAdmin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.radioButton_ProvisioningRoleUserMgmtAdmin.AutoSize = true;
-            this.radioButton_ProvisioningRoleUserMgmtAdmin.Location = new System.Drawing.Point(158, 6);
+            this.radioButton_ProvisioningRoleUserMgmtAdmin.Location = new System.Drawing.Point(163, 6);
             this.radioButton_ProvisioningRoleUserMgmtAdmin.Name = "radioButton_ProvisioningRoleUserMgmtAdmin";
-            this.radioButton_ProvisioningRoleUserMgmtAdmin.Size = new System.Drawing.Size(127, 17);
+            this.radioButton_ProvisioningRoleUserMgmtAdmin.Size = new System.Drawing.Size(159, 17);
             this.radioButton_ProvisioningRoleUserMgmtAdmin.TabIndex = 4;
             this.radioButton_ProvisioningRoleUserMgmtAdmin.TabStop = true;
-            this.radioButton_ProvisioningRoleUserMgmtAdmin.Text = "User Management Administrator";
+            this.radioButton_ProvisioningRoleUserMgmtAdmin.Text = "User Management Admin";
             this.radioButton_ProvisioningRoleUserMgmtAdmin.UseVisualStyleBackColor = true;
             // 
             // radioButton_ProvisioningRoleSupportAdmin
             // 
             this.radioButton_ProvisioningRoleSupportAdmin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.radioButton_ProvisioningRoleSupportAdmin.AutoSize = true;
-            this.radioButton_ProvisioningRoleSupportAdmin.Location = new System.Drawing.Point(158, 30);
+            this.radioButton_ProvisioningRoleSupportAdmin.Location = new System.Drawing.Point(163, 30);
             this.radioButton_ProvisioningRoleSupportAdmin.Name = "radioButton_ProvisioningRoleSupportAdmin";
-            this.radioButton_ProvisioningRoleSupportAdmin.Size = new System.Drawing.Size(127, 17);
+            this.radioButton_ProvisioningRoleSupportAdmin.Size = new System.Drawing.Size(159, 17);
             this.radioButton_ProvisioningRoleSupportAdmin.TabIndex = 5;
             this.radioButton_ProvisioningRoleSupportAdmin.TabStop = true;
-            this.radioButton_ProvisioningRoleSupportAdmin.Text = "Support Administrator";
+            this.radioButton_ProvisioningRoleSupportAdmin.Text = "Support Admin";
             this.radioButton_ProvisioningRoleSupportAdmin.UseVisualStyleBackColor = true;
             // 
             // radioButton_ProvisioningRoleMemberOnly
@@ -212,7 +212,7 @@
             this.radioButton_ProvisioningRoleMemberOnly.AutoSize = true;
             this.radioButton_ProvisioningRoleMemberOnly.Location = new System.Drawing.Point(6, 6);
             this.radioButton_ProvisioningRoleMemberOnly.Name = "radioButton_ProvisioningRoleMemberOnly";
-            this.radioButton_ProvisioningRoleMemberOnly.Size = new System.Drawing.Size(146, 17);
+            this.radioButton_ProvisioningRoleMemberOnly.Size = new System.Drawing.Size(151, 17);
             this.radioButton_ProvisioningRoleMemberOnly.TabIndex = 2;
             this.radioButton_ProvisioningRoleMemberOnly.TabStop = true;
             this.radioButton_ProvisioningRoleMemberOnly.Text = "Standard Team Member";
@@ -225,9 +225,9 @@
             this.checkBox_ProvisioningSendWelcomeEmail.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox_ProvisioningSendWelcomeEmail.Location = new System.Drawing.Point(6, 55);
             this.checkBox_ProvisioningSendWelcomeEmail.Name = "checkBox_ProvisioningSendWelcomeEmail";
-            this.checkBox_ProvisioningSendWelcomeEmail.Size = new System.Drawing.Size(146, 17);
+            this.checkBox_ProvisioningSendWelcomeEmail.Size = new System.Drawing.Size(151, 17);
             this.checkBox_ProvisioningSendWelcomeEmail.TabIndex = 5;
-            this.checkBox_ProvisioningSendWelcomeEmail.Text = "Send Welcome Email";
+            this.checkBox_ProvisioningSendWelcomeEmail.Text = "Send Team Join Emails";
             this.checkBox_ProvisioningSendWelcomeEmail.UseVisualStyleBackColor = true;
             this.checkBox_ProvisioningSendWelcomeEmail.Visible = false;
             // 
@@ -253,9 +253,9 @@
             office2010White1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             office2010White1.TextColor = System.Drawing.Color.Black;
             this.buttonEx_ProvisioningFileInputSelect.ColorTable = office2010White1;
-            this.buttonEx_ProvisioningFileInputSelect.Location = new System.Drawing.Point(300, 7);
+            this.buttonEx_ProvisioningFileInputSelect.Location = new System.Drawing.Point(337, 3);
             this.buttonEx_ProvisioningFileInputSelect.Name = "buttonEx_ProvisioningFileInputSelect";
-            this.buttonEx_ProvisioningFileInputSelect.Size = new System.Drawing.Size(35, 23);
+            this.buttonEx_ProvisioningFileInputSelect.Size = new System.Drawing.Size(31, 30);
             this.buttonEx_ProvisioningFileInputSelect.TabIndex = 4;
             this.buttonEx_ProvisioningFileInputSelect.Text = "...";
             this.buttonEx_ProvisioningFileInputSelect.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
@@ -265,17 +265,17 @@
             // tableLayoutPanel_ProvisioningSendEmailGroup
             // 
             this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnCount = 3;
-            this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.45401F));
-            this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.49852F));
-            this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.75074F));
+            this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.58282F));
+            this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.43558F));
+            this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.28834F));
             this.tableLayoutPanel_ProvisioningSendEmailGroup.Controls.Add(this.checkBoxProvisioningKeepAccount, 0, 0);
-            this.tableLayoutPanel_ProvisioningSendEmailGroup.Location = new System.Drawing.Point(341, 40);
+            this.tableLayoutPanel_ProvisioningSendEmailGroup.Location = new System.Drawing.Point(374, 39);
             this.tableLayoutPanel_ProvisioningSendEmailGroup.Name = "tableLayoutPanel_ProvisioningSendEmailGroup";
             this.tableLayoutPanel_ProvisioningSendEmailGroup.RowCount = 2;
             this.tableLayoutPanel_ProvisioningSendEmailGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 36.48649F));
             this.tableLayoutPanel_ProvisioningSendEmailGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 63.51351F));
             this.tableLayoutPanel_ProvisioningSendEmailGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel_ProvisioningSendEmailGroup.Size = new System.Drawing.Size(359, 79);
+            this.tableLayoutPanel_ProvisioningSendEmailGroup.Size = new System.Drawing.Size(326, 78);
             this.tableLayoutPanel_ProvisioningSendEmailGroup.TabIndex = 3;
             // 
             // checkBoxProvisioningKeepAccount
@@ -284,7 +284,7 @@
             this.checkBoxProvisioningKeepAccount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkBoxProvisioningKeepAccount.Location = new System.Drawing.Point(3, 3);
             this.checkBoxProvisioningKeepAccount.Name = "checkBoxProvisioningKeepAccount";
-            this.checkBoxProvisioningKeepAccount.Size = new System.Drawing.Size(107, 22);
+            this.checkBoxProvisioningKeepAccount.Size = new System.Drawing.Size(109, 22);
             this.checkBoxProvisioningKeepAccount.TabIndex = 5;
             this.checkBoxProvisioningKeepAccount.Text = "Keep Account";
             this.checkBoxProvisioningKeepAccount.UseVisualStyleBackColor = true;
@@ -292,16 +292,17 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.0107F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.9893F));
+            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel2.Controls.Add(this.buttonEx_ProvisioningLoadCSV, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.buttonEx_ProvisioningLoadUpdateCSV, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(341, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(374, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(218, 27);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(323, 27);
             this.tableLayoutPanel2.TabIndex = 5;
             // 
             // buttonEx_ProvisioningLoadCSV
@@ -310,7 +311,7 @@
             this.buttonEx_ProvisioningLoadCSV.ColorTable = office2010White1;
             this.buttonEx_ProvisioningLoadCSV.Location = new System.Drawing.Point(3, 3);
             this.buttonEx_ProvisioningLoadCSV.Name = "buttonEx_ProvisioningLoadCSV";
-            this.buttonEx_ProvisioningLoadCSV.Size = new System.Drawing.Size(111, 21);
+            this.buttonEx_ProvisioningLoadCSV.Size = new System.Drawing.Size(101, 21);
             this.buttonEx_ProvisioningLoadCSV.TabIndex = 4;
             this.buttonEx_ProvisioningLoadCSV.Text = "Load Input File";
             this.buttonEx_ProvisioningLoadCSV.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
@@ -321,9 +322,9 @@
             // 
             this.buttonEx_ProvisioningLoadUpdateCSV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonEx_ProvisioningLoadUpdateCSV.ColorTable = office2010White1;
-            this.buttonEx_ProvisioningLoadUpdateCSV.Location = new System.Drawing.Point(120, 3);
+            this.buttonEx_ProvisioningLoadUpdateCSV.Location = new System.Drawing.Point(110, 3);
             this.buttonEx_ProvisioningLoadUpdateCSV.Name = "buttonEx_ProvisioningLoadUpdateCSV";
-            this.buttonEx_ProvisioningLoadUpdateCSV.Size = new System.Drawing.Size(95, 21);
+            this.buttonEx_ProvisioningLoadUpdateCSV.Size = new System.Drawing.Size(101, 21);
             this.buttonEx_ProvisioningLoadUpdateCSV.TabIndex = 9;
             this.buttonEx_ProvisioningLoadUpdateCSV.Text = "Load Update CSV";
             this.buttonEx_ProvisioningLoadUpdateCSV.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
@@ -432,7 +433,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(707, 24);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(707, 23);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // radioBulkProvisioning
