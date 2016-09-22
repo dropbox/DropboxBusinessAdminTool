@@ -5,6 +5,7 @@
     using Common.Utils;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Drawing;
     using System.Linq;
     using System.Threading;
@@ -22,6 +23,7 @@
         public event EventHandler CommandLoadInputFile;
         public event EventHandler CommandLoadUpdateInputFile;
         public event EventHandler CommandCreateCSV;
+        //public event EventHandler CommandOpenTemplates;
         public event EventHandler CommandGetUsage;
 
         public SynchronizationContext SyncContext { get; set; }
@@ -95,6 +97,7 @@
                 this.buttonEx_ProvisioningLoadUpdateCSV.Click += Button_ProvisioningLoadUpdateInputFile_Click;
                 this.buttonEx_ProvisioningCreateCSV.Click += Button_ExportMembers_Click;
                 this.buttonEx_ProvisioningGetUsage.Click += ButtonEx_GetUsage_Click;
+                this.buttonEx_OpenTemplates.Click += ButtonEx_OpenTemplates_Click;
                 this.checkBox_ProvisioningSendWelcomeEmail.CheckedChanged += CheckBox_ProvisioningSendWelcomeEmail_CheckedChanged;
                 this.checkBoxProvisioningKeepAccount.CheckedChanged += CheckBox_ProvisioningKeepAccount_CheckedChanged;
                 this.objectListView_ProvisioningMembers.ItemChecked += ObjectListView_ProvisioningMembers_ItemChecked;
@@ -119,6 +122,7 @@
                 this.buttonEx_ProvisioningLoadUpdateCSV.Click -= Button_ProvisioningLoadUpdateInputFile_Click;
                 this.buttonEx_ProvisioningCreateCSV.Click -= Button_ExportMembers_Click;
                 this.buttonEx_ProvisioningGetUsage.Click -= ButtonEx_GetUsage_Click;
+                this.buttonEx_OpenTemplates.Click -= ButtonEx_OpenTemplates_Click;
                 this.checkBox_ProvisioningSendWelcomeEmail.CheckedChanged -= CheckBox_ProvisioningSendWelcomeEmail_CheckedChanged;
                 this.checkBoxProvisioningKeepAccount.CheckedChanged -= CheckBox_ProvisioningKeepAccount_CheckedChanged;
                 this.objectListView_ProvisioningMembers.ItemChecked -= ObjectListView_ProvisioningMembers_ItemChecked;
@@ -305,45 +309,35 @@
 
         private void Button_ProvisioningDoProvision_Click(object sender, EventArgs e)
         {
-            DialogResult d;
-            if (this.checkBox_ProvisioningSendWelcomeEmail.Checked == true)
+            if (this.checkBox_ProvisioningSendWelcomeEmail.Checked == false)
             {
-                d = MessageBoxUtil.ShowConfirm(this, ErrorMessages.CONFIRM_SEND_WELCOME_EMAIL);
+                MessageBoxUtil.ShowInfo(this, ErrorMessages.NO_TEAM_JOIN_EMAIL);
+            }
+            Control checkedButton = tableLayoutPanel_ProvisioningRolesSelectionGroup.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+            switch (checkedButton.Name)
+            {
+                case "radioButton_ProvisioningRoleTeamAdmin":
+                    SelectedRole = "team_admin";
+                    break;
 
-                if (d == DialogResult.Yes)
-                {
-                    Control checkedButton = tableLayoutPanel_ProvisioningRolesSelectionGroup.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
-                    switch (checkedButton.Name)
-                    {
-                        case "radioButton_ProvisioningRoleTeamAdmin":
-                            SelectedRole = "team_admin";
-                            break;
+                case "radioButton_ProvisioningRoleUserMgmtAdmin":
+                    SelectedRole = "user_management_admin";
+                    break;
 
-                        case "radioButton_ProvisioningRoleUserMgmtAdmin":
-                            SelectedRole = "user_management_admin";
-                            break;
+                case "radioButton_ProvisioningRoleSupportAdmin":
+                    SelectedRole = "support_admin";
+                    break;
 
-                        case "radioButton_ProvisioningRoleSupportAdmin":
-                            SelectedRole = "support_admin";
-                            break;
-
-                        case "radioButton_ProvisioningRoleMemberOnly":
-                        default:
-                            SelectedRole = "member_only";
-                            break;
-                    }
-
-                    InvokeDataChanged(sender, e);
-                    if (CommandProvision != null)
-                    {
-                        CommandProvision(sender, e);
-                    }
-                }
-                else if (d == DialogResult.No)
-                {
-                    //do nothing
-                }
-            }       
+                case "radioButton_ProvisioningRoleMemberOnly":
+                default:
+                    SelectedRole = "member_only";
+                    break;
+            }
+            InvokeDataChanged(sender, e);
+            if (CommandProvision != null)
+            {
+                CommandProvision(sender, e);
+            }     
         }
 
         private void Button_ProvisioningDoDeprovision_Click(object sender, EventArgs e)
@@ -492,6 +486,11 @@
             }
         }
 
+        private void ButtonEx_OpenTemplates_Click(object sender, EventArgs e)
+        {
+            Process.Start(Application.StartupPath + @"\Templates");
+        }
+
         private void ButtonEx_GetUsage_Click(object sender, EventArgs e)
         {
             //make Usage column visible
@@ -586,6 +585,7 @@
             buttonEx_ProvisioningFileInputSelect.Visible = true;
             buttonEx_ProvisioningLoadCSV.Visible = true;
             buttonEx_ProvisioningProvision.Enabled = true;
+            buttonEx_OpenTemplates.Visible = true;
 
             Control c1 = this.tableLayoutPanel2.GetControlFromPosition(0, 0);
             Control c2 = this.tableLayoutPanel2.GetControlFromPosition(1, 0);
@@ -638,6 +638,7 @@
             textBox_ProvisioningInputFile.Visible = true;
             buttonEx_ProvisioningSuspend.Enabled = true;
             buttonEx_ProvisioningUnsuspend.Enabled = true;
+            buttonEx_OpenTemplates.Visible = true;
 
             //callable button
             buttonEx_ProvisioningSuspend.ColorTable = ColorTable.Office2010Yellow;
@@ -678,6 +679,7 @@
             textBox_ProvisioningInputFile.Visible = true;
             buttonEx_ProvisioningLoadCSV.Visible = true;
             buttonEx_ProvisioningFileInputSelect.Visible = true;
+            buttonEx_OpenTemplates.Visible = true;
 
             Control c1 = this.tableLayoutPanel2.GetControlFromPosition(0, 0);
             Control c2 = this.tableLayoutPanel2.GetControlFromPosition(1, 0);
@@ -728,6 +730,7 @@
             buttonEx_ProvisioningFileInputSelect.Visible = true;
             checkBoxProvisioningKeepAccount.Visible = true;
             buttonEx_ProvisioningLoadUpdateCSV.Visible = true;
+            buttonEx_OpenTemplates.Visible = true;
 
             //callable button
             buttonEx_ProvisioningUpdateProfile.ColorTable = ColorTable.Office2010Blue;
@@ -779,6 +782,7 @@
             textBox_ProvisioningInputFile.Visible = false;
             buttonEx_ProvisioningFileInputSelect.Visible = false;
             buttonEx_ProvisioningLoadCSV.Visible = false;
+            buttonEx_OpenTemplates.Visible = false;
 
             //things we do need
             buttonEx_ProvisioningGetUsage.Enabled = true;

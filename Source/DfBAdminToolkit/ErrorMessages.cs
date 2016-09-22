@@ -25,7 +25,7 @@
         public readonly static string CONFIRM_SUSPEND = "Are you sure you want to suspend this list of members from your Dropbox Business account?";
         public readonly static string CONFIRM_UNSUSPEND = "Are you sure you want to unsuspend this list of members from your Dropbox Business account?";
         public readonly static string CONFIRM_SET_PROFILE = "Are you sure you want to update profiles on this list of members from your Dropbox Business account?";
-        public readonly static string CONFIRM_SEND_WELCOME_EMAIL = "Warning: Please consult your Dropbox account team prior to disabling welcome emails. Please ensure that your domains are verified and single sign-on (SSO) is enabled and set to required in the Dropbox admin console if you decide to use this feature.";
+        public readonly static string NO_TEAM_JOIN_EMAIL = "Warning: Please consult your Dropbox account team prior to disabling team join emails. Please ensure that your domains are verified and single sign-on (SSO) is enabled and set to required in the Dropbox admin console if you decide to use this feature.";
         public readonly static string MISSING_TOKEN = "You must go to File->Settings to add your app tokens before performing any actions in the toolkit.";
         public readonly static string INVALID_EXPORT_FOLDER = "Directory to export report file is not found.";
         public readonly static string FAILED_TO_GET_GROUPS = "Bad request to the API, possibly due to no permissions to get groups.";

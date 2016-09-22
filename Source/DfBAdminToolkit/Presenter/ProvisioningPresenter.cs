@@ -213,7 +213,7 @@
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // error message.
                 SyncContext.Post(delegate
@@ -259,7 +259,7 @@
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // error message.
                 SyncContext.Post(delegate
@@ -304,7 +304,7 @@
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // error message.
                 SyncContext.Post(delegate
@@ -349,7 +349,7 @@
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // error message.
                 SyncContext.Post(delegate
@@ -404,10 +404,9 @@
                     }
                 }
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 //just catch the exception and return error message
-                // error message.
                 SyncContext.Post(delegate {
                     presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_UPDATE_PROFILE, ErrorMessages.DLG_DEFAULT_TITLE);
                     presenter.UpdateProgressInfo("");
@@ -699,9 +698,6 @@
                     presenter.UpdateProgressInfo("Loading Input File...");
                 }, null);
             }
-
-            // TODO: to improve stability, we will need to ensure to kill
-            // thread when user exits application while thread is running for REST service call
             Thread load = new Thread(() => {
                 if (!string.IsNullOrEmpty(model.AccessToken)) {
                     bool loaded = this.LoadInputFile(model, presenter);
@@ -736,9 +732,6 @@
                     presenter.UpdateProgressInfo("Loading Input File...");
                 }, null);
             }
-
-            // TODO: to improve stability, we will need to ensure to kill
-            // thread when user exits application while thread is running for REST service call
             Thread load = new Thread(() => {
                 if (!string.IsNullOrEmpty(model.AccessToken))
                 {
@@ -835,9 +828,6 @@
                     presenter.UpdateProgressInfo("Processing...");
                 }, null);
             }
-
-            // TODO: to improve stability, we will need to ensure to kill
-            // thread when user exits application while thread is running for REST service call
             Thread deprovision = new Thread(() => 
             {
                 if (string.IsNullOrEmpty(model.AccessToken))
@@ -1048,9 +1038,6 @@
                     presenter.UpdateProgressInfo("Creating CSV file...");
                 }, null);
             }
-
-            // TODO: to improve stability, we will need to ensure to kill
-            // thread when user exits application while thread is running for REST service call
             Thread createCSV = new Thread(() => 
             {
                 if (string.IsNullOrEmpty(ConfigurationManager.AppSettings.Get("DefaultAccessToken")))
@@ -1113,9 +1100,6 @@
                     presenter.UpdateProgressInfo("Gathering usage data...");
                 }, null);
             }
-
-            // TODO: to improve stability, we will need to ensure to kill
-            // thread when user exits application while thread is running for REST service call
             Thread getUsage = new Thread(() => 
             {
                 if (!string.IsNullOrEmpty(model.AccessToken))
