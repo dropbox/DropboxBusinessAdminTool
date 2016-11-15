@@ -44,5 +44,7 @@
         void RenderMemberList(List<MemberListViewItemModel> members);
 
         void RenderUpdateMemberList(List<MemberListViewItemModel> members);
+
+        void RenderProvisioningStatus(List<MemberListViewItemModel> members);
     }
 }

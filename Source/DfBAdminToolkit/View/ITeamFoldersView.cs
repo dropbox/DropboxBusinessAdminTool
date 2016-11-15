@@ -10,6 +10,7 @@
         event EventHandler CommandGetTeamFolders;
         event EventHandler CommandCreateTeamFolder;
         event EventHandler CommandSetFolderStatus;
+        event EventHandler CommandSetFolderSyncSetting;
 
         string AccessToken { get; set; }
 

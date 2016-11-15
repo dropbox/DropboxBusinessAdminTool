@@ -24,6 +24,8 @@
 
         string NewExternalId { get; set; }
 
+        string ProvisionStatus { get; set; }
+
         #endregion Provision
 
         #region Groups

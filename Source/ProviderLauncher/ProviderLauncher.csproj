@@ -42,6 +42,7 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -100,6 +101,12 @@
   <ItemGroup>
     <Content Include="dropbox.ico" />
     <Content Include="Providers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DfBAdminToolkit.Common\DfBAdminToolkit.Common.csproj">
+      <Project>{1091b7c4-f32c-4219-b04a-a25bd4d0b928}</Project>
+      <Name>DfBAdminToolkit.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

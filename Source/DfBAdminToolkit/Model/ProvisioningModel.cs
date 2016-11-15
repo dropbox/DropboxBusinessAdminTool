@@ -18,6 +18,8 @@
 
         public string NewExternalId { get; set; }
 
+        public string ProvisionStatus { get; set; }
+
         public List<MemberListViewItemModel> Members { get; set; }
 
         public ProvisioningModel() {
@@ -29,7 +31,8 @@
             AccessToken = ApplicationResource.DefaultProvisionToken;
             SelectedRole = string.Empty;
             SendWelcomeEmail = true;
-            KeepAccount = true;
+            ProvisionStatus = string.Empty;
+            KeepAccount = false;
         }
 
         public void CleanUp() {

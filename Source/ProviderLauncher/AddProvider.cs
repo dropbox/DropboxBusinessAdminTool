@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DfBAdminToolkit.Common.Extensions;
 
 namespace ProviderLauncher
 {
@@ -44,10 +45,10 @@ namespace ProviderLauncher
                     nodeName.InnerText = textBoxName.Text.Trim();
 
                     XmlNode nodeFileAccessToken = doc.CreateElement("FileAccessToken");
-                    nodeFileAccessToken.InnerText = textBoxFileAccessToken.Text.Trim();
+                    nodeFileAccessToken.InnerText = textBoxFileAccessToken.Text.Trim().Encrypt();
 
                     XmlNode nodeManagementToken = doc.CreateElement("ManagementToken");
-                    nodeManagementToken.InnerText = textBoxManagementToken.Text.Trim();
+                    nodeManagementToken.InnerText = textBoxManagementToken.Text.Trim().Encrypt();
 
                     //add to parent node
                     node.AppendChild(nodeName);

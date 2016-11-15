@@ -16,6 +16,7 @@
         public event EventHandler CommandGetTeamFolders;
         public event EventHandler CommandCreateTeamFolder;
         public event EventHandler CommandSetFolderStatus;
+        public event EventHandler CommandSetFolderSyncSetting;
 
         public SynchronizationContext SyncContext { get; set; }
 
@@ -38,7 +39,7 @@
         public enum OlvMembersIndex : int
         {
             TeamFolderName,
-            DefaultSyncSetting,
+            //DefaultSyncSetting,
             TeamFolderId,
             Status
         }
@@ -65,6 +66,7 @@
                 this.buttonEx_TeamFoldersLoadTeamFolders.Click += buttonEx_TeamFoldersLoadTeamFolders_Click;
                 this.buttonEx_TeamFoldersCreateTeamFolder.Click += buttonEx_TeamFoldersCreateTeamFolder_Click;
                 this.buttonEx_TeamFoldersSetFolderStatus.Click += buttonEx_TeamFoldersSetFolderStatus_Click;
+                this.buttonEx_TeamFoldersSetFolderSyncSetting.Click += buttonEx_TeamFoldersSetFolderSyncSetting_Click;
                 this.radioButtonSync.CheckedChanged += radioButtonSync_CheckedChanged;
                 this.radioButton_Active.CheckedChanged += radioButtonActive_CheckedChanged;
                 this.textBoxTeamFolder.TextChanged += TextBox_textBoxTeamFolder_TextChanged;
@@ -82,6 +84,7 @@
                 this.buttonEx_TeamFoldersLoadTeamFolders.Click -= buttonEx_TeamFoldersLoadTeamFolders_Click;
                 this.buttonEx_TeamFoldersCreateTeamFolder.Click -= buttonEx_TeamFoldersCreateTeamFolder_Click;
                 this.buttonEx_TeamFoldersSetFolderStatus.Click -= buttonEx_TeamFoldersSetFolderStatus_Click;
+                this.buttonEx_TeamFoldersSetFolderSyncSetting.Click -= buttonEx_TeamFoldersSetFolderSyncSetting_Click;
                 this.radioButtonSync.CheckedChanged -= radioButtonSync_CheckedChanged;
                 this.radioButton_Active.CheckedChanged -= radioButtonActive_CheckedChanged;
                 this.textBoxTeamFolder.TextChanged -= TextBox_textBoxTeamFolder_TextChanged;
@@ -126,11 +129,11 @@
                 {
                     return (model != null) ? model.TeamFolderName : string.Empty;
                 };
-            olv.GetColumn((int)OlvMembersIndex.DefaultSyncSetting).AspectGetter
-                = delegate (TeamFoldersListViewItemModel model)
-                {
-                    return (model != null) ? model.DefaultSyncSetting : string.Empty;
-                };
+            //olv.GetColumn((int)OlvMembersIndex.DefaultSyncSetting).AspectGetter
+            //    = delegate (TeamFoldersListViewItemModel model)
+            //    {
+            //        return (model != null) ? model.DefaultSyncSetting : string.Empty;
+            //    };
             olv.GetColumn((int)OlvMembersIndex.TeamFolderId).AspectGetter
                 = delegate (TeamFoldersListViewItemModel model)
                 {
@@ -210,6 +213,15 @@
             if (CommandSetFolderStatus != null)
             {
                 CommandSetFolderStatus(sender, e);
+            }
+        }
+
+        private void buttonEx_TeamFoldersSetFolderSyncSetting_Click(object sender, EventArgs e)
+        {
+            InvokeDataChanged(sender, e);
+            if (CommandSetFolderStatus != null)
+            {
+                CommandSetFolderSyncSetting(sender, e);
             }
         }
 

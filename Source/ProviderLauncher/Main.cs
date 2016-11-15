@@ -95,7 +95,7 @@ namespace ProviderLauncher
                         // Open App.Config of executable
                         Configuration config = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
 
-                        //updsate the token keys
+                        //update the token keys
                         config.AppSettings.Settings["DefaultAccessToken"].Value = selectedAccessToken;
                         config.AppSettings.Settings["DefaultProvisionToken"].Value = selectedProvisionToken;
 

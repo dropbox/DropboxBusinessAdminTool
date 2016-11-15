@@ -43,6 +43,8 @@
 
         string ArchiveTeamFolderUrl { get; set; }
 
+        string SyncSettingTeamFolderUrl { get; set; }
+
         string CreateTeamFolderUrl { get; set; }
 
         string ListTeamFolderUrl { get; set; }
@@ -89,8 +91,10 @@
 
         IDataResponse ListTeamFolders(string authToken);
 
-        IServiceResponse CreateTeamFolder(string teamFolderName, bool syncSetting, string authToken);
+        IServiceResponse CreateTeamFolder(string teamFolderName, string authToken);
 
         IServiceResponse SetFolderStatus(string teamFolderId, bool activeSetting, string authToken);
+
+        IServiceResponse SetFolderSyncSetting(string teamFolderId, string syncSetting, string authToken);
     }
 }

@@ -25,6 +25,8 @@
 
         public string NewExternalId { get; set; }
 
+        public string ProvisionStatus { get; set; }
+
         #endregion Provision
 
         #region Search Text
