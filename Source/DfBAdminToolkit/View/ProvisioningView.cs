@@ -73,6 +73,7 @@
             this.olvColumnProvisioning_Usage.IsVisible = false;
             olvColumnProvisioning_NewEmail.IsVisible = false;
             olvColumnProvisioning_NewExternalId.IsVisible = false;
+            olvColumnProvisioning_Status.IsVisible = false;
             this.objectListView_ProvisioningMembers.RebuildColumns();
         }
 
@@ -261,6 +262,13 @@
             }
         }
 
+        public void RenderProvisioningStatus(List<MemberListViewItemModel> members)
+        {
+            Members = members;
+            this.objectListView_ProvisioningMembers.SetObjects(Members);
+            objectListView_ProvisioningMembers.BuildList();
+        }
+
         public void RenderUpdateMemberList(List<MemberListViewItemModel> members)
         {
             Members = members;
@@ -364,7 +372,7 @@
             if (this.checkBoxProvisioningKeepAccount.Checked == false)
             {
                 d = MessageBoxUtil.ShowConfirm(this, ErrorMessages.CONFIRM_DELETE);
-
+                
                 if (d == DialogResult.Yes)
                 {
                     InvokeDataChanged(sender, e);
@@ -455,6 +463,7 @@
             olvColumnProvisioning_LastName.IsVisible = true;
             olvColumnProvisioning_NewEmail.IsVisible = false;
             olvColumnProvisioning_NewExternalId.IsVisible = false;
+            olvColumnProvisioning_Status.IsVisible = true;
             this.objectListView_ProvisioningMembers.RebuildColumns();
 
             if (CommandLoadInputFile != null)
@@ -471,6 +480,7 @@
             olvColumnProvisioning_LastName.IsVisible = false;
             olvColumnProvisioning_NewEmail.IsVisible = true;
             olvColumnProvisioning_NewExternalId.IsVisible = true;
+            olvColumnProvisioning_Status.IsVisible = true;
             this.objectListView_ProvisioningMembers.RebuildColumns();
             if (CommandLoadUpdateInputFile != null)
             {
@@ -499,6 +509,7 @@
             olvColumnProvisioning_LastName.IsVisible = true;
             olvColumnProvisioning_NewEmail.IsVisible = false;
             olvColumnProvisioning_NewExternalId.IsVisible = false;
+            olvColumnProvisioning_Status.IsVisible = false;
             this.objectListView_ProvisioningMembers.RebuildColumns();
             if (CommandGetUsage != null)
             {

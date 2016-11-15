@@ -3,6 +3,7 @@
     using System;
     using System.Configuration;
     using System.Threading;
+    using DfBAdminToolkit.Common.Extensions;
 
     public static class ApplicationResource {
 
@@ -119,6 +120,11 @@
             get { return ConfigurationManager.AppSettings.Get("ActionArchiveTeamFolder"); }
         }
 
+        public static string ActionUpdateDefaultSyncSettingTeamFolder
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionUpdateDefaultSyncSettingTeamFolder"); }
+        }
+
         public static string ActionCreateTeamFolder
         {
             get { return ConfigurationManager.AppSettings.Get("ActionCreateTeamFolder"); }
@@ -168,11 +174,27 @@
         }
 
         public static string DefaultAccessToken {
-            get { return ConfigurationManager.AppSettings.Get("DefaultAccessToken"); }
+            get
+            {
+                string defaultToken = ConfigurationManager.AppSettings.Get("DefaultAccessToken");
+                if (defaultToken.StartsWith("encrypted-"))
+                {
+                    defaultToken = defaultToken.Decrypt();
+                }
+                return defaultToken;
+            }
         }
 
         public static string DefaultProvisionToken {
-            get { return ConfigurationManager.AppSettings.Get("DefaultProvisionToken"); }
+            get
+            {
+                string defaultProvisionToken = ConfigurationManager.AppSettings.Get("DefaultProvisionToken");
+                if (defaultProvisionToken.StartsWith("encrypted-"))
+                {
+                    defaultProvisionToken = defaultProvisionToken.Decrypt();
+                }
+                return defaultProvisionToken;
+            }
         }
 
         public static string DefaultOutputReportFilePrefix {

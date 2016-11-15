@@ -26,9 +26,9 @@
             DumpContent = 1,
             Provisioning = 2,
             Groups = 3,
-            //TeamFolders = 4,
-            Devices = 4,
-            DataMigration = 5
+            TeamFolders = 4,
+            Devices = 5,
+            DataMigration = 6 
         }
 
         #endregion Runtime components
@@ -141,14 +141,14 @@
                 Padding = new Padding(5, 3, 5, 3),
                 UseVisualStyleBackColor = true
             });
-            //_tabPages.Add(new TabPage()
-            //{
-            //    Name = "tabPage_TeamFolders",
-            //    Text = "Team Folders",
-            //    Dock = DockStyle.Fill,
-            //    Padding = new Padding(5, 3, 5, 3),
-            //    UseVisualStyleBackColor = true
-            //});
+            _tabPages.Add(new TabPage()
+            {
+                Name = "tabPage_TeamFolders",
+                Text = "Team Folders",
+                Dock = DockStyle.Fill,
+                Padding = new Padding(5, 3, 5, 3),
+                UseVisualStyleBackColor = true
+            });
             _tabPages.Add(new TabPage() {
                 Name = "tabPage_Devices",
                 Text = "Devices",
@@ -274,7 +274,7 @@
             _tabPages[(int)TabIndex.DumpContent].Controls.Add(CreateDumpUserContentView());
             _tabPages[(int)TabIndex.Provisioning].Controls.Add(CreateProvisionView());
             _tabPages[(int)TabIndex.Groups].Controls.Add(CreateGroupsView());
-            //_tabPages[(int)TabIndex.TeamFolders].Controls.Add(CreateTeamFoldersView());
+            _tabPages[(int)TabIndex.TeamFolders].Controls.Add(CreateTeamFoldersView());
             _tabPages[(int)TabIndex.Devices].Controls.Add(CreateDevicesView());
             _tabPages[(int)TabIndex.DataMigration].Controls.Add(CreateDataMigrationView());
 
@@ -282,7 +282,7 @@
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.DumpContent]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.Provisioning]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.Groups]);
-            //_tabControl.Controls.Add(_tabPages[(int)TabIndex.TeamFolders]);
+            _tabControl.Controls.Add(_tabPages[(int)TabIndex.TeamFolders]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.Devices]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.DataMigration]);
 

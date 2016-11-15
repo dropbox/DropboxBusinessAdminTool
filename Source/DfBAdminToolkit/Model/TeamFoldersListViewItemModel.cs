@@ -6,7 +6,7 @@
 		: INotifyPropertyChanged, IModel {
 		private string _teamFolderName;
 		private string _teamFolderId;
-		private string _defaultSyncSetting;
+		//private string _defaultSyncSetting;
 		private string _status;
 		private bool _isChecked;
 
@@ -26,15 +26,17 @@
 			}
 		}
 
-		public string DefaultSyncSetting {
-			get { return _defaultSyncSetting; }
-			set {
-				_defaultSyncSetting = value;
-				OnPropertyChanged("DefaultSyncSetting");
-			}
-		}
-		
-		public string Status {
+        //public string DefaultSyncSetting
+        //{
+        //    get { return _defaultSyncSetting; }
+        //    set
+        //    {
+        //        _defaultSyncSetting = value;
+        //        OnPropertyChanged("DefaultSyncSetting");
+        //    }
+        //}
+
+        public string Status {
 			get { return _status; }
 			set {
 				_status = value;

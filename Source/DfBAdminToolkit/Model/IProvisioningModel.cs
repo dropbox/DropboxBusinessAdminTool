@@ -18,6 +18,8 @@
 
         string NewExternalId { get; set; }
 
+        string ProvisionStatus { get; set; }
+
         List<MemberListViewItemModel> Members { get; set; }
     }
 }

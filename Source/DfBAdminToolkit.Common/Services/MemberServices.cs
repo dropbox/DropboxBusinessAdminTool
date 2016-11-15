@@ -52,6 +52,8 @@
 
         public string ArchiveTeamFolderUrl { get; set; }
 
+        public string SyncSettingTeamFolderUrl { get; set; }
+
         public string CreateTeamFolderUrl { get; set; }
 
         public string ListTeamFolderUrl { get; set; }
@@ -104,7 +106,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -728,14 +730,9 @@
             return dataResponse;
         }
 
-        public IServiceResponse CreateTeamFolder(string teamFolderName, bool syncSetting, string authToken)
+        public IServiceResponse CreateTeamFolder(string teamFolderName, string authToken)
         {
             IServiceResponse serviceResponse = null;
-            string syncStringSetting = "sync";
-            if (!syncSetting)
-            {
-                syncStringSetting = "no_sync";
-            }
             try
             {
                 if (!string.IsNullOrEmpty(CreateTeamFolderUrl))
@@ -746,8 +743,7 @@
                     request.AddHeader("Content-Type", "application/json");
 
                     JObject json = new JObject(
-                        new JProperty("name", teamFolderName),
-                        new JProperty("default_sync_setting", syncStringSetting)
+                        new JProperty("name", teamFolderName)
                     );
 
                     request.AddParameter("application/json", json, ParameterType.RequestBody);
@@ -821,6 +817,41 @@
             return serviceResponse;
         }
 
+        public IServiceResponse SetFolderSyncSetting(string teamFolderId, string syncSetting, string authToken)
+        {
+            IServiceResponse serviceResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(SyncSettingTeamFolderUrl))
+                {
+                    RestClient client = new RestClient(string.Format("{0}/{1}/", _baseUrl, _apiVersion));
+                    RestRequest request = new RestRequest(SyncSettingTeamFolderUrl, Method.POST);
+                    request.AddHeader("Authorization", Convert.ToString("Bearer ") + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    JObject json = new JObject(
+                        new JProperty("team_folder_id", teamFolderId),
+                        new JProperty("default_sync_setting", syncSetting)
+                    );
+                    request.AddParameter("application/json", json, ParameterType.RequestBody);
+
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+            return serviceResponse;
+        }
+
         public IDataResponse DumpFile(IMemberData data, string outputFolder, string authToken)
         {
             IDataResponse dataResponse = null;
@@ -828,7 +859,11 @@
             {
                 if (!string.IsNullOrEmpty(FileDumpUrl))
                 {
-                    string pathString = string.Concat(@"{""path"":""", data.Path, @"""}");
+                    //added this to be able to get files with ASCII characters in them.
+                    Byte[] encodedBytes = System.Text.Encoding.ASCII.GetBytes(data.Path);
+                    string newPath = System.Text.Encoding.ASCII.GetString(encodedBytes);
+
+                    string pathString = string.Concat(@"{""path"":""", newPath, @"""}");
                     string url = string.Format("{0}/{1}/", _baseUrl, _apiVersion);
                     RestClient client = new RestClient(url);
                     RestRequest request = new RestRequest(FileDumpUrl, Method.GET);

@@ -14,6 +14,7 @@
         private decimal _usage;
         private string _newEmail;
         private string _newExternalId;
+        private string _provisionStatus;
         private bool _isChecked;
 
         public string Email {
@@ -99,6 +100,16 @@
             {
                 _newExternalId = value;
                 OnPropertyChanged("NewExternalId");
+            }
+        }
+
+        public string ProvisionStatus
+        {
+            get { return _provisionStatus; }
+            set
+            {
+                _provisionStatus = value;
+                OnPropertyChanged("ProvisionStatus");
             }
         }
 

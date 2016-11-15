@@ -181,7 +181,7 @@
         private string ProvisionRoles(IProvisioningModel model, IMainPresenter presenter)
         {
             string errorMessage = string.Empty;
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.AddMemberUrl = ApplicationResource.ActionAddMember;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             try
@@ -194,7 +194,9 @@
                         FirstName = item.FirstName,
                         LastName = item.LastName,
                         SendWelcomeEmail = model.SendWelcomeEmail,
+                        ProvisionStatus = item.ProvisionStatus,
                         RoleName = model.SelectedRole
+                        
                     }, model.AccessToken);
 
                     if (response.StatusCode == HttpStatusCode.OK)
@@ -203,7 +205,51 @@
                         {
                             SyncContext.Post(delegate
                             {
-                                presenter.UpdateProgressInfo(string.Format("Added Member: {0}: {1} {2}", item.Email, item.FirstName, item.LastName));
+                                if (response.Message.Contains("success"))
+                                {
+                                    item.ProvisionStatus = "Provisioned successfully.";
+                                    presenter.UpdateProgressInfo(string.Format("Added Member: {0}: {1} {2}", item.Email, item.FirstName, item.LastName));
+                                }
+                                if (response.Message.Contains("team_license_limit"))
+                                {
+                                    item.ProvisionStatus = "Team is already full.The organization has no available licenses.";
+                                    presenter.UpdateProgressInfo("Team is already full. The organization has no available licenses.");
+                                }
+                                if (response.Message.Contains("free_team_member_limit_reached"))
+                                {
+                                    item.ProvisionStatus = "Team is already full. The free team member limit has been reached.";
+                                    presenter.UpdateProgressInfo("Team is already full. The free team member limit has been reached.");
+                                }
+                                if (response.Message.Contains("user_already_on_team"))
+                                {
+                                    item.ProvisionStatus = "User is already on this team. The provided email address is associated with a user who is already a member of (including in recoverable state) or invited to the team.";
+                                    presenter.UpdateProgressInfo("User is already on this team. The provided email address is associated with a user who is already a member of (including in recoverable state) or invited to the team.");
+                                }
+                                if (response.Message.Contains("user_on_another_team"))
+                                {
+                                    item.ProvisionStatus = "User is already on another team. The provided email address is associated with a user that is already a member or invited to another team.";
+                                    presenter.UpdateProgressInfo("User is already on another team. The provided email address is associated with a user that is already a member or invited to another team.");
+                                }
+                                if (response.Message.Contains("user_already_paired"))
+                                {
+                                    item.ProvisionStatus = "User is already paired.";
+                                    presenter.UpdateProgressInfo("User is already paired.");
+                                }
+                                if (response.Message.Contains("user_migration_failed"))
+                                {
+                                    item.ProvisionStatus = "User migration has failed.";
+                                    presenter.UpdateProgressInfo("User migration has failed.");
+                                }
+                                if (response.Message.Contains("duplicate_external_member_id"))
+                                {
+                                    item.ProvisionStatus = "A user with the given external member ID already exists on the team (including in recoverable state).";
+                                    presenter.UpdateProgressInfo("A user with the given external member ID already exists on the team (including in recoverable state).");
+                                }
+                                if (response.Message.Contains("user_creation_failed"))
+                                {
+                                    item.ProvisionStatus = "User creation has failed.";
+                                    presenter.UpdateProgressInfo("User creation has failed.");
+                                }
                             }, null);
                         }
                     }
@@ -801,6 +847,7 @@
                             else
                             {
                                 presenter.UpdateProgressInfo("Provisioning completed");
+                                view.RenderProvisioningStatus(model.Members);
                                 presenter.UpdateTitleBarStats();
                             }
                             // update result and update view.

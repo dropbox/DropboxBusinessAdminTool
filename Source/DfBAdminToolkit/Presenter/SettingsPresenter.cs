@@ -5,6 +5,7 @@
     using System.Configuration;
     using System.Windows.Forms;
     using View;
+    using Common.Extensions;
 
     public class SettingsPresenter
         : PresenterBase, ISettingsPresenter {
@@ -54,8 +55,13 @@
             FileUtil.UpdateKey("ContentUrl", model.ApiContentBaseUrl.Trim());
             FileUtil.UpdateKey("ApiVersion", model.ApiVersion.Trim());
             FileUtil.UpdateKey("SearchDefaultLimit", model.SearchDefaultLimit.ToString());
-            FileUtil.UpdateKey("DefaultAccessToken", model.DefaultAccessToken.Trim());
-            FileUtil.UpdateKey("DefaultProvisionToken", model.DefaultProvisionToken.Trim());
+
+            //encrypt tokens first
+            string encryptedAccessToken = model.DefaultAccessToken.Trim().Encrypt();
+            string encryptedProvisionToken = model.DefaultProvisionToken.Trim().Encrypt();
+
+            FileUtil.UpdateKey("DefaultAccessToken", encryptedAccessToken);
+            FileUtil.UpdateKey("DefaultProvisionToken", encryptedProvisionToken);
             FileUtil.UpdateKey("SuppressFilenamesInStatus", model.SuppressFilenamesInStatus.ToString().Trim());
             Configuration config = ConfigurationManager.OpenExeConfiguration(FileUtil.GetAppPath() + "DfBAdminToolkit.exe");
             ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);

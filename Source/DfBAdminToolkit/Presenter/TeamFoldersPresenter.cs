@@ -37,6 +37,7 @@
                 view.CommandGetTeamFolders += OnCommandGetTeamFolders;
                 view.CommandCreateTeamFolder += OnCommandCreateTeamFolder;
                 view.CommandSetFolderStatus += OnCommandSetFolderStatus;
+                view.CommandSetFolderSyncSetting += OnCommandSetFolderSyncSetting;
                 IsViewEventsWired = true;
             }
         }
@@ -48,6 +49,7 @@
                 view.CommandGetTeamFolders -= OnCommandGetTeamFolders;
                 view.CommandCreateTeamFolder -= OnCommandCreateTeamFolder;
                 view.CommandSetFolderStatus -= OnCommandSetFolderStatus;
+                view.CommandSetFolderSyncSetting -= OnCommandSetFolderSyncSetting;
                 IsViewEventsWired = false;
             }
         }
@@ -78,20 +80,19 @@
 
                     // clear existing data first
                     model.TeamFolders.Clear();
-                    int resultCount = jsonData["entries"].Count;
+                    //changed from entries to team_folders
+                    int resultCount = jsonData["team_folders"].Count;
                     for (int i = 0; i < resultCount; i++)
                     {
-                        dynamic entries = jsonData["entries"][i];
-                        dynamic teamFolderName = entries["name"];
-                        dynamic teamFolderId = entries["team_folder_id"];
-                        dynamic defaultSyncSetting = entries["default_sync_setting"][".tag"];
-                        dynamic status = entries["status"][".tag"];
+                        dynamic team_folders = jsonData["team_folders"][i];
+                        dynamic teamFolderName = team_folders["name"];
+                        dynamic teamFolderId = team_folders["team_folder_id"];
+                        dynamic status = team_folders["status"][".tag"];
 
                     // update model
                     TeamFoldersListViewItemModel lvItem = new TeamFoldersListViewItemModel()
                     {
                         TeamFolderName = teamFolderName,
-                        DefaultSyncSetting = defaultSyncSetting,
                         TeamFolderId = teamFolderId,
                         Status = status
                     };
@@ -101,14 +102,14 @@
             }
         }
 
-        private string CreateTeamFolder(ITeamFoldersModel model, string teamFolderName, bool syncSetting, IMainPresenter presenter)
+        private string CreateTeamFolder(ITeamFoldersModel model, string teamFolderName, IMainPresenter presenter)
         {
             string errorMessage = string.Empty;
             string fileAccessToken = ApplicationResource.DefaultAccessToken;
             IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.CreateTeamFolderUrl = ApplicationResource.ActionCreateTeamFolder;
             service.UserAgentVersion = ApplicationResource.UserAgent;
-            IServiceResponse response = service.CreateTeamFolder(teamFolderName, syncSetting, fileAccessToken);
+            IServiceResponse response = service.CreateTeamFolder(teamFolderName, fileAccessToken);
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 if (SyncContext != null)
@@ -148,6 +149,45 @@
                     SyncContext.Post(delegate
                     {
                         presenter.UpdateProgressInfo(string.Format("Updated team folder status for [" + teamFolderId + "]"));
+                    }, null);
+                }
+            }
+            else
+            {
+                errorMessage = ErrorMessages.FAILED_TO_UPDATE_TEAM_FOLDER_STATUS;
+            }
+            return errorMessage;
+        }
+
+        private string SetDefaultSyncSetting(ITeamFoldersModel model, string teamFolderId, bool syncSetting, IMainPresenter presenter)
+        {
+            string errorMessage = string.Empty;
+            string fileAccessToken = ApplicationResource.DefaultAccessToken;
+            string syncStringSetting = "sync";
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.SyncSettingTeamFolderUrl = ApplicationResource.ActionUpdateDefaultSyncSettingTeamFolder;
+            if (!syncSetting)
+            {
+                syncStringSetting = "no_sync";
+            }
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            IServiceResponse response = service.SetFolderSyncSetting(teamFolderId, syncStringSetting, fileAccessToken);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                if (SyncContext != null)
+                {
+                    SyncContext.Post(delegate
+                    {
+                        presenter.UpdateProgressInfo(string.Format("Updated default sync setting for [" + teamFolderId + "]"));
+                    }, null);
+                }
+            }
+            if (response.StatusCode.ToString() == "BadRequest")
+            {
+                if (SyncContext != null)
+                {
+                    SyncContext.Post(delegate {
+                        presenter.UpdateProgressInfo("Error: This endpoint is only available for teams with access to managed sync");
                     }, null);
                 }
             }
@@ -238,7 +278,7 @@
                 }
                 else
                 {
-                    this.CreateTeamFolder(model, teamFolderName, syncSetting, presenter);
+                    this.CreateTeamFolder(model, teamFolderName, presenter);
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate
@@ -312,6 +352,61 @@
                 }
             });
             setfolderstatus.Start();
+        }
+
+        private void OnCommandSetFolderSyncSetting(object sender, System.EventArgs e)
+        {
+            ITeamFoldersView view = base._view as ITeamFoldersView;
+            ITeamFoldersModel model = base._model as ITeamFoldersModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+            TeamFoldersModel teamModel = view.GetTeamFolderIds();
+            bool syncSetting = view.SyncSetting;
+
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate
+                {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Processing...");
+
+                }, null);
+            }
+            Thread setfoldersyncsetting = new Thread(() =>
+            {
+                if (string.IsNullOrEmpty(model.AccessToken))
+                {
+                    SyncContext.Post(delegate
+                    {
+                        presenter.EnableControl(true);
+                        presenter.ActivateSpinner(false);
+                        presenter.UpdateProgressInfo("");
+                    }, null);
+                }
+                else
+                {
+                    foreach (TeamFoldersListViewItemModel lvItem in teamModel.TeamFolders)
+                    {
+                        this.SetDefaultSyncSetting(model, lvItem.TeamFolderId, syncSetting, presenter);
+                    }
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate
+                        {
+                            // update result and update view.
+                            PresenterBase.SetViewPropertiesFromModel<ITeamFoldersView, ITeamFoldersModel>(
+                                ref view, model
+                            );
+                            // update result and update view.
+                            view.RenderTeamFoldersList();
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                            //presenter.UpdateProgressInfo("Completed.");
+                        }, null);
+                    }
+                }
+            });
+            setfoldersyncsetting.Start();
         }
 
         private void OnDataChanged(object sender, System.EventArgs e) {
