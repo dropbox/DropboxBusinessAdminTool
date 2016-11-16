@@ -1087,7 +1087,7 @@
             }
             Thread createCSV = new Thread(() => 
             {
-                if (string.IsNullOrEmpty(ConfigurationManager.AppSettings.Get("DefaultAccessToken")))
+                if (string.IsNullOrEmpty(ApplicationResource.DefaultAccessToken))
                 {
                     SyncContext.Post(delegate 
                     {
