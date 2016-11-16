@@ -599,6 +599,7 @@
 
         private void SearchMembersGetUsage(IProvisioningModel model)
         {
+            string UserAccessToken = ApplicationResource.DefaultAccessToken;
             if (!string.IsNullOrEmpty(UserAccessToken))
             {
                 MemberServices serviceUsage = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
