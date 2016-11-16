@@ -464,7 +464,7 @@
         }
 
         private void SearchMembersCreateCSV(IProvisioningModel model) {
-            string UserAccessToken = ConfigurationManager.AppSettings.Get("DefaultAccessToken");
+            string UserAccessToken = ApplicationResource.DefaultAccessToken;
             if (!string.IsNullOrEmpty(UserAccessToken)) {
                 MemberServices serviceUsage = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
                 serviceUsage.GetUsageUrl = ApplicationResource.ActionGetUsage;
@@ -599,7 +599,6 @@
 
         private void SearchMembersGetUsage(IProvisioningModel model)
         {
-            string UserAccessToken = ConfigurationManager.AppSettings.Get("DefaultAccessToken");
             if (!string.IsNullOrEmpty(UserAccessToken))
             {
                 MemberServices serviceUsage = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
