@@ -88,13 +88,13 @@
                         new JProperty("new_members",
                             new JArray(
                                 new JObject(
-                                    new JProperty("member_email", data.Email),
-                                    new JProperty("member_given_name", data.FirstName),
-                                    new JProperty("member_surname", data.LastName),
+                                    new JProperty("member_email", data.Email.Trim()),
+                                    new JProperty("member_given_name", data.FirstName.Trim()),
+                                    new JProperty("member_surname", data.LastName.Trim()),
                                     new JProperty("send_welcome_email", data.SendWelcomeEmail),
                                     new JProperty("role",
                                         new JObject(
-                                            new JProperty(".tag", data.RoleName)
+                                            new JProperty(".tag", data.RoleName.Trim())
                                         )
                                     )
                                 )
@@ -143,7 +143,7 @@
                         new JProperty("user",
                                 new JObject(
                                     new JProperty(".tag", "email"),
-                                    new JProperty("email", data.Email)
+                                    new JProperty("email", data.Email.Trim())
                                 )
                         ),
                         new JProperty("wipe_data", wipeData),
@@ -183,7 +183,7 @@
                         new JProperty("user", 
                             new JObject(
                                 new JProperty(".tag", "email"), 
-                                new JProperty("email", data.Email))), 
+                                new JProperty("email", data.Email.Trim()))), 
                         new JProperty("wipe_data", false));
 
                     request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
@@ -221,7 +221,7 @@
                         new JProperty("user", 
                             new JObject(
                                 new JProperty(".tag", "email"), 
-                                new JProperty("email", data.Email))));
+                                new JProperty("email", data.Email.Trim()))));
 
                     request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
                     request.RequestFormat = DataFormat.Json;
@@ -456,7 +456,7 @@
                                     new JProperty("user",
                                         new JObject(
                                             new JProperty(".tag", "email"),
-                                            new JProperty("email", email)
+                                            new JProperty("email", email.Trim())
                                         )
                                     ),
                                     new JProperty("access_type",
@@ -512,7 +512,7 @@
                             new JArray(
                                 new JObject(
                                     new JProperty(".tag", "email"),
-                                    new JProperty("email", email)
+                                    new JProperty("email", email.Trim())
                                 )
                             )
                         ),
@@ -671,7 +671,7 @@
                         new JProperty("user",
                                 new JObject(
                                     new JProperty(".tag", "email"),
-                                    new JProperty("email", data.Email)
+                                    new JProperty("email", data.Email.Trim())
                                 )
                         ),
                         new JProperty("new_email", data.NewEmail)
