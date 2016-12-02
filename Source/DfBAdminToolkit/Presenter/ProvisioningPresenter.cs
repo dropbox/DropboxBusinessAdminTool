@@ -255,7 +255,9 @@
                     }
                     else
                     {
-                        errorMessage = ErrorMessages.FAILED_TO_ADD_MEMBER;
+                        item.ProvisionStatus = response.Message;
+                        presenter.UpdateProgressInfo(response.Message);
+                        //errorMessage = ErrorMessages.FAILED_TO_ADD_MEMBER;
                     }
                 }
             }
@@ -301,7 +303,8 @@
                     }
                     else
                     {
-                        errorMessage = ErrorMessages.FAILED_TO_REMOVE_MEMBER;
+                        errorMessage = "Bad Request: " + response.Message;
+                        //errorMessage = ErrorMessages.FAILED_TO_REMOVE_MEMBER;
                     }
                 }
             }
@@ -346,7 +349,8 @@
                     }
                     else
                     {
-                        errorMessage = ErrorMessages.FAILED_TO_SUSPEND_MEMBER;
+                        errorMessage = "Bad Request: " + response.Message;
+                        //errorMessage = ErrorMessages.FAILED_TO_SUSPEND_MEMBER;
                     }
                 }
             }
@@ -391,7 +395,8 @@
                     }
                     else
                     {
-                        errorMessage = ErrorMessages.FAILED_TO_UNSUSPEND_MEMBER;
+                        errorMessage = "Bad Request: " + response.Message;
+                        //errorMessage = ErrorMessages.FAILED_TO_UNSUSPEND_MEMBER;
                     }
                 }
             }
@@ -446,7 +451,8 @@
                     }
                     else
                     {
-                        errorMessage = ErrorMessages.FAILED_TO_UPDATE_PROFILE;
+                        errorMessage = "Bad Request: " + response.Message;
+                        //errorMessage = ErrorMessages.FAILED_TO_UPDATE_PROFILE;
                     }
                 }
             }
