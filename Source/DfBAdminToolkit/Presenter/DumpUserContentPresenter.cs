@@ -63,10 +63,12 @@
             }
         }
 
-        protected override void CleanUp() {
+        protected override void CleanUp()
+        {
         }
 
-        public void UpdateSettings() {
+        public void UpdateSettings()
+        {
             OnDataChanged(this, new EventArgs());
         }
 
@@ -134,10 +136,71 @@
                         if (entryCount > 0)
                         {
                             filesAdded = true;
-                        }                        
+                        }
+                        bool hasMore = jsonDataSearch["has_more"];
+                        string cursor = jsonDataSearch["cursor"];
+
+                        while (hasMore)
+                        {
+                            service.ListFolderUrl = ApplicationResource.ActionListFolderContinuation;
+                            IDataResponse responseCont = service.ListFolders(
+                            new MemberData()
+                            {
+                                MemberId = item.TeamId,
+                                Cursor = cursor
+                            }, model.UserAccessToken);
+
+                            string contentCont = responseCont.Data as string;
+                            dynamic jsonDataSearchCont = JsonConvert.DeserializeObject<dynamic>(contentCont);
+
+                            int entryCountCont = 0;
+                            if (jsonDataSearchCont["entries"] != null)
+                            {
+                                entryCountCont = jsonDataSearchCont["entries"].Count;
+                            }
+                            //remove existing file entries.
+                            for (int i = model.MemberList.Count - 1; i >= 0; i--)
+                            {
+                                TeamListViewItemModel lvItem = model.MemberList[i];
+                                if (lvItem.TeamId.Equals(item.TeamId))
+                                {
+                                    model.MemberList.RemoveAt(i);
+                                }
+                            }
+
+                            int totalCont = 0;
+                            for (int i = 0; i < entryCountCont; i++)
+                            {
+                                if (jsonDataSearchCont["entries"][i][".tag"].ToString().Equals("file"))
+                                {
+                                    TeamListViewItemModel lvItem = new TeamListViewItemModel()
+                                    {
+                                        Email = item.Email,
+                                        TeamId = item.TeamId,
+                                        FileName = jsonDataSearchCont["entries"][i]["name"].ToString(),
+                                        FilePath = jsonDataSearchCont["entries"][i]["path_lower"].ToString(),
+                                        FileSize = FileUtil.FormatFileSize(Convert.ToInt64(jsonDataSearchCont["entries"][i]["size"].ToString())),
+                                        IsChecked = true
+                                    };
+                                    model.MemberList.Add(lvItem);
+                                    SyncContext.Post(delegate
+                                    {
+                                        presenter.UpdateProgressInfo(string.Format("Searching Files For : {0} File Count: {1}", item.Email, (++totalCont)));
+                                    }, null);
+                                }
+                            }
+                            if (entryCountCont > 0)
+                            {
+                                filesAdded = true;
+                            }
+                            hasMore = jsonDataSearchCont["has_more"];
+                            cursor = jsonDataSearchCont["cursor"];
+                        }
                     }
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
             }
             return filesAdded;

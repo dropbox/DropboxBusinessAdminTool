@@ -55,7 +55,8 @@
             }
         }
 
-        public void UpdateSettings() {
+        public void UpdateSettings()
+        {
             OnDataChanged(this, new EventArgs());
         }
 
@@ -65,17 +66,21 @@
             IMemberServices service,
             TeamListViewItemModel owner,
             IDataMigrationModel model,
-            IMainPresenter presenter) {
+            IMainPresenter presenter)
+        {
             bool SuppressStatus = ApplicationResource.SuppressFilenamesInStatus;
-            try {
+            try
+            {
                 service.ListFolderUrl = ApplicationResource.ActionListFolder;
                 service.UserAgentVersion = ApplicationResource.UserAgent;
                 IDataResponse response = service.ListFolders(
                    new MemberData() {
                        MemberId = owner.TeamId
                    }, model.AccessToken);
-                if (response.StatusCode == HttpStatusCode.OK) {
-                    if (response.Data != null) {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (response.Data != null)
+                    {
                         string content = response.Data as string;
                         dynamic jsonDataSearch = JsonConvert.DeserializeObject<dynamic>(content);
                         IDictionary<string, long> folderMap = new Dictionary<string, long>();
@@ -190,7 +195,8 @@
                                         ItemSizeByte = 0
                                     };
                                 }
-                                else {
+                                else
+                                {
                                     string serverModified = entry["server_modified"].ToString();
                                     string serverModifiedDate = string.Empty;
                                     if (!string.IsNullOrEmpty(serverModified))
@@ -246,7 +252,9 @@
                         }
                     }
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
             }
         }
