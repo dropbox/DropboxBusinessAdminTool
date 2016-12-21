@@ -55,7 +55,8 @@
             }
         }
 
-        public void UpdateSettings() {
+        public void UpdateSettings()
+        {
             OnDataChanged(this, new EventArgs());
         }
 
@@ -65,17 +66,21 @@
             IMemberServices service,
             TeamListViewItemModel owner,
             IDataMigrationModel model,
-            IMainPresenter presenter) {
+            IMainPresenter presenter)
+        {
             bool SuppressStatus = ApplicationResource.SuppressFilenamesInStatus;
-            try {
+            try
+            {
                 service.ListFolderUrl = ApplicationResource.ActionListFolder;
                 service.UserAgentVersion = ApplicationResource.UserAgent;
                 IDataResponse response = service.ListFolders(
                    new MemberData() {
                        MemberId = owner.TeamId
                    }, model.AccessToken);
-                if (response.StatusCode == HttpStatusCode.OK) {
-                    if (response.Data != null) {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (response.Data != null)
+                    {
                         string content = response.Data as string;
                         dynamic jsonDataSearch = JsonConvert.DeserializeObject<dynamic>(content);
                         IDictionary<string, long> folderMap = new Dictionary<string, long>();
@@ -101,7 +106,8 @@
                                     ItemSizeByte = 0
                                 };
                             }
-                            else {
+                            else
+                            {
                                 string serverModified = entry["server_modified"].ToString();
                                 string serverModifiedDate = string.Empty;
                                 if (!string.IsNullOrEmpty(serverModified))
@@ -190,7 +196,8 @@
                                         ItemSizeByte = 0
                                     };
                                 }
-                                else {
+                                else
+                                {
                                     string serverModified = entry["server_modified"].ToString();
                                     string serverModifiedDate = string.Empty;
                                     if (!string.IsNullOrEmpty(serverModified))
@@ -246,7 +253,9 @@
                         }
                     }
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
             }
         }
@@ -281,7 +290,8 @@
                             dynamic emailObj = profile["email"];
                             dynamic name = profile["name"];
                             dynamic status = profile["status"];
-                            if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended"))) {
+                            if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended") || status[".tag"].ToString().Equals("invited")))
+                            {
                                 string teamId = idObj.Value as string;
                                 string email = emailObj.Value as string;
                                 string firstName = name["given_name"].ToString();
@@ -310,7 +320,8 @@
                         bool hasMore = jsonData["has_more"];
                         string cursor = jsonData["cursor"];
 
-                        while (hasMore) {
+                        while (hasMore)
+                        {
                             service.ListMembersContinuationUrl = ApplicationResource.ActionListMembersContinuation;
                             IDataResponse responseCont = service.ListMembersContinuation(new MemberData() {
                                 Cursor = cursor

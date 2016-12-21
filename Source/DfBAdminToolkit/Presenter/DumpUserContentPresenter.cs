@@ -19,6 +19,8 @@
 
         public string[] ContextMenuItemText { get; set; }
 
+        private static readonly object insertLock = new object();
+
         public DumpUserContentPresenter(IDumpUserContentModel model, IDumpUserContentView view)
             : base(model, view) {
         }
@@ -63,10 +65,12 @@
             }
         }
 
-        protected override void CleanUp() {
+        protected override void CleanUp()
+        {
         }
 
-        public void UpdateSettings() {
+        public void UpdateSettings()
+        {
             OnDataChanged(this, new EventArgs());
         }
 
@@ -94,7 +98,6 @@
                     {
                         string content = response.Data as string;
                         dynamic jsonDataSearch = JsonConvert.DeserializeObject<dynamic>(content);
-
                         int entryCount = 0;
                         if (jsonDataSearch["entries"] != null)
                         {
@@ -109,13 +112,13 @@
                                 model.MemberList.RemoveAt(i);
                             }
                         }
-
                         int total = 0;
                         for (int i = 0; i < entryCount; i++)
                         {
+                            TeamListViewItemModel lvItem = null;
                             if (jsonDataSearch["entries"][i][".tag"].ToString().Equals("file"))
                             {
-                                TeamListViewItemModel lvItem = new TeamListViewItemModel()
+                                lvItem = new TeamListViewItemModel()
                                 {
                                     Email = item.Email,
                                     TeamId = item.TeamId,
@@ -124,7 +127,10 @@
                                     FileSize = FileUtil.FormatFileSize(Convert.ToInt64(jsonDataSearch["entries"][i]["size"].ToString())),
                                     IsChecked = true
                                 };
-                                model.MemberList.Add(lvItem);
+                                lock (insertLock)
+                                {
+                                    model.MemberList.Add(lvItem);
+                                }
                                 SyncContext.Post(delegate
                                 {
                                     presenter.UpdateProgressInfo(string.Format("Searching Files For : {0} File Count: {1}", item.Email, (++total)));
@@ -134,10 +140,68 @@
                         if (entryCount > 0)
                         {
                             filesAdded = true;
-                        }                        
+                        }
+                        bool hasMore = jsonDataSearch["has_more"];
+                        string cursor = jsonDataSearch["cursor"];
+
+                        while (hasMore)
+                        {
+                            service.ListFolderUrl = ApplicationResource.ActionListFolderContinuation;
+                            service.UserAgentVersion = ApplicationResource.UserAgent;
+                            IDataResponse responseCont = service.ListFolders(
+                            new MemberData()
+                            {
+                                MemberId = item.TeamId,
+                                Cursor = cursor
+                            }, model.UserAccessToken);
+
+                            string contentCont = responseCont.Data as string;
+                            dynamic jsonDataSearchCont = JsonConvert.DeserializeObject<dynamic>(contentCont);
+
+                            int entryCountCont = 0;
+                            if (jsonDataSearchCont["entries"] != null)
+                            {
+                                entryCountCont = jsonDataSearchCont["entries"].Count;
+                            }
+
+                            int totalCont = 0;
+                            for (int i = 0; i < entryCountCont; i++)
+                            {
+                                TeamListViewItemModel lvItem = null;
+                                if (jsonDataSearchCont["entries"][i][".tag"].ToString().Equals("file"))
+                                {
+                                    lvItem = new TeamListViewItemModel()
+                                    {
+                                        Email = item.Email,
+                                        TeamId = item.TeamId,
+                                        FileName = jsonDataSearchCont["entries"][i]["name"].ToString(),
+                                        FilePath = jsonDataSearchCont["entries"][i]["path_lower"].ToString(),
+                                        FileSize = FileUtil.FormatFileSize(Convert.ToInt64(jsonDataSearchCont["entries"][i]["size"].ToString())),
+                                        IsChecked = true
+                                    };
+                                    lock (insertLock)
+                                    {
+                                        model.MemberList.Add(lvItem);
+                                    }
+                                    
+                                    SyncContext.Post(delegate
+                                    {
+                                        presenter.UpdateProgressInfo(string.Format("Searching Files For : {0} File Count: {1}", item.Email, (++totalCont)));
+                                    }, null);
+                                }
+                            }
+                            if (entryCountCont > 0)
+                            {
+                                filesAdded = true;
+                            }
+                            hasMore = jsonDataSearchCont["has_more"];
+                            cursor = jsonDataSearchCont["cursor"];
+                        }
                     }
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
             }
             return filesAdded;
@@ -382,6 +446,7 @@
                                 else
                                 {
                                     MemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+                                    model.MemberList.Clear();
                                     foreach (TeamListViewItemModel item in selectedLvItems)
                                     {
                                         SearchFiles(service, item, model, presenter);
