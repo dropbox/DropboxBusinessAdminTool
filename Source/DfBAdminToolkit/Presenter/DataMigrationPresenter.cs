@@ -290,7 +290,8 @@
                             dynamic emailObj = profile["email"];
                             dynamic name = profile["name"];
                             dynamic status = profile["status"];
-                            if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended"))) {
+                            if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended") || status[".tag"].ToString().Equals("invited")))
+                            {
                                 string teamId = idObj.Value as string;
                                 string email = emailObj.Value as string;
                                 string firstName = name["given_name"].ToString();
