@@ -106,7 +106,8 @@
                                     ItemSizeByte = 0
                                 };
                             }
-                            else {
+                            else
+                            {
                                 string serverModified = entry["server_modified"].ToString();
                                 string serverModifiedDate = string.Empty;
                                 if (!string.IsNullOrEmpty(serverModified))
@@ -318,7 +319,8 @@
                         bool hasMore = jsonData["has_more"];
                         string cursor = jsonData["cursor"];
 
-                        while (hasMore) {
+                        while (hasMore)
+                        {
                             service.ListMembersContinuationUrl = ApplicationResource.ActionListMembersContinuation;
                             IDataResponse responseCont = service.ListMembersContinuation(new MemberData() {
                                 Cursor = cursor
