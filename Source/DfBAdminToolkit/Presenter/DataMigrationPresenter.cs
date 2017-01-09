@@ -509,7 +509,7 @@
                     Thread writeReportExcel = new Thread(() => {
                         int total = model.Contents.Count;
                         //set max rows per sheet to 1 million. Actual number Excel pukes on is anything over 1,048,576
-                        int maxRowsPerSheet = 1000000;
+                        int maxRowsPerSheet = 25;
                         int sheetCount = 1;
                         int modelStartRow = 0;
                         int modelEndRow = 1;
@@ -569,7 +569,7 @@
                                 xlWorkSheet.Cells[1, 11] = "Uploaded";
 
                                 int endRow = 0;
-
+                                //over 1 million rows, setting values for putput to Excel
                                 if (totalRowsLeft > 0 && totalRowsLeft > maxRowsPerSheet)
                                 {
                                     endRow = endRow + maxRowsPerSheet;
@@ -579,6 +579,7 @@
                                     endRow = endRow + totalRowsLeft;
                                 }
                                 modelEndRow = modelEndRow + endRow;
+
                                 if (modelEndRow < model.Contents.Count)
                                 {
                                     modelEndRow--;
@@ -587,7 +588,11 @@
                                 {
                                     modelEndRow = model.Contents.Count;
                                 }
-
+                                //only need one sheet
+                                if (totalRowsLeft < 0)
+                                {
+                                    modelEndRow = model.Contents.Count;
+                                }
                                 //start at 1 for each sheet so we can increment past header row
                                 int rowCount = 1;
 
