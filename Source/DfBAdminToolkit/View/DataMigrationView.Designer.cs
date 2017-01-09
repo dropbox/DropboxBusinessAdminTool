@@ -51,6 +51,7 @@
             this.tableLayoutPanel_DataMigrationExportSelectGroup = new System.Windows.Forms.TableLayoutPanel();
             this.buttonEx_DataMigrationSelectFolder = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.textBox_DataMigrationOutputPath = new DfBAdminToolkit.Common.Component.TextBoxEx(this.components);
+            this.buttonEx_DataMigrationExportExcel = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.tableLayoutPanel_DataMigration.SuspendLayout();
             this.tableLayoutPanel_DataMigrationOperationGroup.SuspendLayout();
             this.tableLayoutPanel_DataMigrationOperationButtonGroup.SuspendLayout();
@@ -282,10 +283,12 @@
             // 
             // tableLayoutPanel_DataMigrationExportGroup
             // 
-            this.tableLayoutPanel_DataMigrationExportGroup.ColumnCount = 3;
+            this.tableLayoutPanel_DataMigrationExportGroup.ColumnCount = 4;
             this.tableLayoutPanel_DataMigrationExportGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tableLayoutPanel_DataMigrationExportGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_DataMigrationExportGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115F));
+            this.tableLayoutPanel_DataMigrationExportGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115F));
+            this.tableLayoutPanel_DataMigrationExportGroup.Controls.Add(this.buttonEx_DataMigrationExportExcel, 3, 0);
             this.tableLayoutPanel_DataMigrationExportGroup.Controls.Add(this.buttonEx_DataMigrationExportReport, 2, 0);
             this.tableLayoutPanel_DataMigrationExportGroup.Controls.Add(this.label_DataMigrationOutputFilePath, 0, 0);
             this.tableLayoutPanel_DataMigrationExportGroup.Controls.Add(this.tableLayoutPanel_DataMigrationExportSelectGroup, 1, 0);
@@ -299,32 +302,15 @@
             // 
             // buttonEx_DataMigrationExportReport
             // 
-            office2010Blue1.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
-            office2010Blue1.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
-            office2010Blue1.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
-            office2010Blue1.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
-            office2010Blue1.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
-            office2010Blue1.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
-            office2010Blue1.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
-            office2010Blue1.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
-            office2010Blue1.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(97)))), ((int)(((byte)(181)))));
-            office2010Blue1.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(125)))), ((int)(((byte)(219)))));
-            office2010Blue1.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
-            office2010Blue1.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
-            office2010Blue1.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
-            office2010Blue1.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
-            office2010Blue1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            office2010Blue1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            office2010Blue1.TextColor = System.Drawing.Color.White;
             this.buttonEx_DataMigrationExportReport.ColorTable = office2010Blue1;
             this.buttonEx_DataMigrationExportReport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonEx_DataMigrationExportReport.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonEx_DataMigrationExportReport.Location = new System.Drawing.Point(343, 2);
+            this.buttonEx_DataMigrationExportReport.Location = new System.Drawing.Point(228, 2);
             this.buttonEx_DataMigrationExportReport.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.buttonEx_DataMigrationExportReport.Name = "buttonEx_DataMigrationExportReport";
             this.buttonEx_DataMigrationExportReport.Size = new System.Drawing.Size(113, 28);
             this.buttonEx_DataMigrationExportReport.TabIndex = 0;
-            this.buttonEx_DataMigrationExportReport.Text = "Export Report";
+            this.buttonEx_DataMigrationExportReport.Text = "Export to CSV";
             this.buttonEx_DataMigrationExportReport.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
             this.buttonEx_DataMigrationExportReport.UseVisualStyleBackColor = true;
             // 
@@ -354,14 +340,14 @@
             this.tableLayoutPanel_DataMigrationExportSelectGroup.Name = "tableLayoutPanel_DataMigrationExportSelectGroup";
             this.tableLayoutPanel_DataMigrationExportSelectGroup.RowCount = 1;
             this.tableLayoutPanel_DataMigrationExportSelectGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_DataMigrationExportSelectGroup.Size = new System.Drawing.Size(250, 30);
+            this.tableLayoutPanel_DataMigrationExportSelectGroup.Size = new System.Drawing.Size(135, 30);
             this.tableLayoutPanel_DataMigrationExportSelectGroup.TabIndex = 2;
             // 
             // buttonEx_DataMigrationSelectFolder
             // 
             this.buttonEx_DataMigrationSelectFolder.ColorTable = office2010White1;
             this.buttonEx_DataMigrationSelectFolder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_DataMigrationSelectFolder.Location = new System.Drawing.Point(193, 2);
+            this.buttonEx_DataMigrationSelectFolder.Location = new System.Drawing.Point(78, 2);
             this.buttonEx_DataMigrationSelectFolder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonEx_DataMigrationSelectFolder.Name = "buttonEx_DataMigrationSelectFolder";
             this.buttonEx_DataMigrationSelectFolder.Size = new System.Drawing.Size(54, 26);
@@ -378,8 +364,39 @@
             this.textBox_DataMigrationOutputPath.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.textBox_DataMigrationOutputPath.Name = "textBox_DataMigrationOutputPath";
             this.textBox_DataMigrationOutputPath.ReadOnly = true;
-            this.textBox_DataMigrationOutputPath.Size = new System.Drawing.Size(184, 22);
+            this.textBox_DataMigrationOutputPath.Size = new System.Drawing.Size(69, 22);
             this.textBox_DataMigrationOutputPath.TabIndex = 1;
+            // 
+            // buttonEx_DataMigrationExportExcel
+            // 
+            office2010Blue1.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
+            office2010Blue1.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
+            office2010Blue1.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010Blue1.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010Blue1.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
+            office2010Blue1.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
+            office2010Blue1.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
+            office2010Blue1.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
+            office2010Blue1.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(97)))), ((int)(((byte)(181)))));
+            office2010Blue1.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(125)))), ((int)(((byte)(219)))));
+            office2010Blue1.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010Blue1.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010Blue1.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
+            office2010Blue1.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
+            office2010Blue1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010Blue1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010Blue1.TextColor = System.Drawing.Color.White;
+            this.buttonEx_DataMigrationExportExcel.ColorTable = office2010Blue1;
+            this.buttonEx_DataMigrationExportExcel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonEx_DataMigrationExportExcel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonEx_DataMigrationExportExcel.Location = new System.Drawing.Point(343, 2);
+            this.buttonEx_DataMigrationExportExcel.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.buttonEx_DataMigrationExportExcel.Name = "buttonEx_DataMigrationExportExcel";
+            this.buttonEx_DataMigrationExportExcel.Size = new System.Drawing.Size(113, 28);
+            this.buttonEx_DataMigrationExportExcel.TabIndex = 3;
+            this.buttonEx_DataMigrationExportExcel.Text = "Export to Excel";
+            this.buttonEx_DataMigrationExportExcel.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
+            this.buttonEx_DataMigrationExportExcel.UseVisualStyleBackColor = true;
             // 
             // DataMigrationView
             // 
@@ -431,5 +448,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_DataMigrationExportSelectGroup;
         private Common.Component.ButtonEx buttonEx_DataMigrationSelectFolder;
         private Common.Component.TextBoxEx textBox_DataMigrationOutputPath;
+        private Common.Component.ButtonEx buttonEx_DataMigrationExportExcel;
     }
 }

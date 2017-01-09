@@ -12,6 +12,7 @@
         public event EventHandler DataChanged;
         public event EventHandler CommandDisplayContent;
         public event EventHandler CommandExportContent;
+        public event EventHandler CommandExportContentExcel;
 
         public SynchronizationContext SyncContext { get; set; }
         public bool ComponentEventsWired { get; set; }
@@ -39,14 +40,17 @@
             WireComponentEvents();
         }
 
-        ~DataMigrationView() {
+        ~DataMigrationView()
+        {
             UnWireComponentEvents();
         }
 
-        public void WireComponentEvents() {
+        public void WireComponentEvents()
+        {
             if (!ComponentEventsWired) {
                 this.buttonEx_DataMigrationDisplayContent.Click += ButtonEx_DataMigrationDisplayContent_Click;
                 this.buttonEx_DataMigrationExportReport.Click += ButtonEx_DataMigrationExportReport_Click;
+                this.buttonEx_DataMigrationExportExcel.Click += ButtonEx_DataMigrationExportExcel_Click;
                 this.buttonEx_DataMigrationSelectFolder.Click += ButtonEx_DataMigrationSelectFolder_Click;
                 this.textBox_DataMigrationOutputPath.OnDragDropEnd += TextBox_DataMigrationOutputFolderPath_OnDragDropEnd;
                 ComponentEventsWired = true;
@@ -57,6 +61,7 @@
             if (ComponentEventsWired) {
                 this.buttonEx_DataMigrationDisplayContent.Click -= ButtonEx_DataMigrationDisplayContent_Click;
                 this.buttonEx_DataMigrationExportReport.Click -= ButtonEx_DataMigrationExportReport_Click;
+                this.buttonEx_DataMigrationExportExcel.Click += ButtonEx_DataMigrationExportExcel_Click;
                 this.buttonEx_DataMigrationSelectFolder.Click -= ButtonEx_DataMigrationSelectFolder_Click;
                 this.textBox_DataMigrationOutputPath.OnDragDropEnd -= TextBox_DataMigrationOutputFolderPath_OnDragDropEnd;
                 ComponentEventsWired = false;
@@ -71,6 +76,7 @@
 
             this.tableLayoutPanel_DataMigrationExportGroup.Enabled = false;
             this.buttonEx_DataMigrationExportReport.Enabled = false;
+            this.buttonEx_DataMigrationExportExcel.Enabled = false;
         }
 
         private void InitializeOLVContentDisplay() {
@@ -166,6 +172,8 @@
         public void EnableExportButton(bool enable) {
             this.buttonEx_DataMigrationExportReport.Enabled = enable;
             this.buttonEx_DataMigrationExportReport.Update();
+            this.buttonEx_DataMigrationExportExcel.Enabled = enable;
+            this.buttonEx_DataMigrationExportExcel.Update();
         }
 
         #endregion Slots
@@ -180,7 +188,7 @@
 
         private void ButtonEx_DataMigrationSelectFolder_Click(object sender, EventArgs e) {
             SaveFileDialog outputFileDlg = new SaveFileDialog();
-            outputFileDlg.Filter = "CSV|*.csv";
+            outputFileDlg.Filter = "CSV|*.csv|Excel|*.xls";
             outputFileDlg.Title = "Please provide report file name";
             outputFileDlg.ShowDialog();
             if (!string.IsNullOrEmpty(outputFileDlg.FileName)) {
@@ -194,6 +202,15 @@
             InvokeDataChanged(sender, e);
             if (CommandExportContent != null) {
                 CommandExportContent(sender, e);
+            }
+        }
+
+        private void ButtonEx_DataMigrationExportExcel_Click(object sender, EventArgs e)
+        {
+            InvokeDataChanged(sender, e);
+            if (CommandExportContentExcel != null)
+            {
+                CommandExportContentExcel(sender, e);
             }
         }
 

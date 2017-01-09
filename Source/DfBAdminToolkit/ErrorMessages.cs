@@ -37,5 +37,6 @@
         public readonly static string FAILED_TO_GET_TEAMFOLDERS = "Bad request to the API, possibly due to no permissions to get team folders.";
         public readonly static string FAILED_TO_CREATE_TEAMFOLDER = "Bad request to the API, possibly due to no permissions on your app to create team folders.";
         public readonly static string FAILED_TO_UPDATE_TEAM_FOLDER_STATUS = "Bad request to the API, possibly due to no permissions on your app to update team folder status.";
+        public readonly static string EXCEL_MISSING = "Excel is not properly installed on your machine.";
     }
 }

@@ -1,4 +1,5 @@
-﻿namespace DfBAdminToolkit.Presenter {
+﻿namespace DfBAdminToolkit.Presenter
+{
 
     using CsvHelper;
     using CsvHelper.Configuration;
@@ -257,7 +258,6 @@
                     {
                         item.ProvisionStatus = response.Message;
                         presenter.UpdateProgressInfo(response.Message);
-                        //errorMessage = ErrorMessages.FAILED_TO_ADD_MEMBER;
                     }
                 }
             }
@@ -304,7 +304,6 @@
                     else
                     {
                         errorMessage = "Bad Request: " + response.Message;
-                        //errorMessage = ErrorMessages.FAILED_TO_REMOVE_MEMBER;
                     }
                 }
             }
@@ -350,7 +349,6 @@
                     else
                     {
                         errorMessage = "Bad Request: " + response.Message;
-                        //errorMessage = ErrorMessages.FAILED_TO_SUSPEND_MEMBER;
                     }
                 }
             }
@@ -396,7 +394,6 @@
                     else
                     {
                         errorMessage = "Bad Request: " + response.Message;
-                        //errorMessage = ErrorMessages.FAILED_TO_UNSUSPEND_MEMBER;
                     }
                 }
             }
@@ -452,7 +449,6 @@
                     else
                     {
                         errorMessage = "Bad Request: " + response.Message;
-                        //errorMessage = ErrorMessages.FAILED_TO_UPDATE_PROFILE;
                     }
                 }
             }
@@ -469,9 +465,11 @@
             return errorMessage;
         }
 
-        private void SearchMembersCreateCSV(IProvisioningModel model) {
+        private void SearchMembersCreateCSV(IProvisioningModel model)
+        {
             string UserAccessToken = ApplicationResource.DefaultAccessToken;
-            if (!string.IsNullOrEmpty(UserAccessToken)) {
+            if (!string.IsNullOrEmpty(UserAccessToken))
+            {
                 MemberServices serviceUsage = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
                 serviceUsage.GetUsageUrl = ApplicationResource.ActionGetUsage;
                 List<string[]> members = new List<string[]>();
@@ -483,8 +481,10 @@
                     SearchLimit = ApplicationResource.SearchDefaultLimit
                 }, UserAccessToken);
 
-                if (response.StatusCode == HttpStatusCode.OK) {
-                    if (response.Data != null) {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (response.Data != null)
+                    {
                         string data = response.Data.ToString();
                         dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
 
@@ -492,7 +492,8 @@
                         model.Members.Clear();
 
                         int resultCount = jsonData["members"].Count;
-                        for (int i = 0; i < resultCount; i++) {
+                        for (int i = 0; i < resultCount; i++)
+                        {
                             dynamic emailObj = jsonData["members"][i]["profile"]["email"];
                             dynamic teamIdObj = jsonData["members"][i]["profile"]["team_member_id"];
                             dynamic statusObj = jsonData["members"][i]["profile"]["status"][".tag"];
@@ -541,7 +542,8 @@
                         bool hasMore = jsonData["has_more"];
                         string cursor = jsonData["cursor"];
 
-                        while (hasMore) {
+                        while (hasMore)
+                        {
                             service.ListMembersContinuationUrl = ApplicationResource.ActionListMembersContinuation;
                             IDataResponse responseCont = service.ListMembersContinuation(new MemberData() {
                                 Cursor = cursor
@@ -551,7 +553,8 @@
                             dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
 
                             int resultContCount = jsonDataCont["members"].Count;
-                            for (int i = 0; i < resultContCount; i++) {
+                            for (int i = 0; i < resultContCount; i++)
+                            {
                                 dynamic emailObj = jsonDataCont["members"][i]["profile"]["email"];
                                 dynamic teamIdObj = jsonDataCont["members"][i]["profile"]["team_member_id"];
                                 dynamic statusObj = jsonDataCont["members"][i]["profile"]["status"][".tag"];
@@ -739,7 +742,8 @@
 
         #region Events
 
-        private void OnCommandLoadInputFile(object sender, EventArgs e) {
+        private void OnCommandLoadInputFile(object sender, EventArgs e)
+        {
             IProvisioningView view = base._view as IProvisioningView;
             IProvisioningModel model = base._model as IProvisioningModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
