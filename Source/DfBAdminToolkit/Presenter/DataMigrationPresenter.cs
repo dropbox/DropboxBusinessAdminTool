@@ -509,7 +509,7 @@
                     Thread writeReportExcel = new Thread(() => {
                         int total = model.Contents.Count;
                         //set max rows per sheet to 1 million. Actual number Excel pukes on is anything over 1,048,576
-                        int maxRowsPerSheet = 25;
+                        int maxRowsPerSheet = 1000000;
                         int sheetCount = 1;
                         int modelStartRow = 0;
                         int modelEndRow = 1;
