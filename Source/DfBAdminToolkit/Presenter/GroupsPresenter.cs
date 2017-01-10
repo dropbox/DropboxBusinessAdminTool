@@ -86,6 +86,7 @@
                         {
                             dynamic groups = jsonData["groups"][i];
                             dynamic groupName = groups["group_name"];
+                            dynamic groupType = groups["group_management_type"][".tag"];
                             dynamic groupId = groups["group_id"];
                             dynamic memberCount = groups["member_count"];
 
@@ -93,6 +94,7 @@
                             GroupListViewItemModel lvItem = new GroupListViewItemModel()
                             {
                                 GroupName = groupName,
+                                GroupType = groupType,
                                 GroupId = groupId,
                                 MemberCount = memberCount
                             };
@@ -119,6 +121,7 @@
                             {
                                 dynamic groups = jsonDataCont["groups"][i];
                                 dynamic groupName = groups["group_name"];
+                                dynamic groupType = groups["group_management_type"][".tag"];
                                 dynamic groupId = groups["group_id"];
                                 dynamic memberCount = groups["member_count"];
 
@@ -126,6 +129,7 @@
                                 GroupListViewItemModel lvItem = new GroupListViewItemModel()
                                 {
                                     GroupName = groupName,
+                                    GroupType = groupType,
                                     GroupId = groupId,
                                     MemberCount = memberCount
                                 };
@@ -139,13 +143,13 @@
                 }
         }
 
-        private string CreateGroup(IGroupsModel model, string groupName, IMainPresenter presenter)
+        private string CreateGroup(IGroupsModel model, string groupName, string groupType, IMainPresenter presenter)
         {
             string errorMessage = string.Empty;
             IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.CreateGroupUrl = ApplicationResource.ActionCreateGroup;
             service.UserAgentVersion = ApplicationResource.UserAgent;
-            IServiceResponse response = service.CreateGroup(groupName, model.AccessToken);
+            IServiceResponse response = service.CreateGroup(groupName, groupType, model.AccessToken);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -299,6 +303,7 @@
             IGroupsModel model = base._model as IGroupsModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
             string groupName = view.GroupName;
+            string groupType = view.GroupType;
 
             if (SyncContext != null)
             {
@@ -320,7 +325,7 @@
                 }
                 else
                 {
-                    this.CreateGroup(model, groupName, presenter);
+                    this.CreateGroup(model, groupName, groupType, presenter);
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate

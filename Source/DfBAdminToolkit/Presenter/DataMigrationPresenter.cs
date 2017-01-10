@@ -19,7 +19,8 @@
     using Excel = Microsoft.Office.Interop.Excel;
 
     public class DataMigrationPresenter
-        : PresenterBase, IDataMigrationPresenter {
+        : PresenterBase, IDataMigrationPresenter
+    {
         private static readonly object insertLock = new object();
 
         public DataMigrationPresenter()
@@ -569,7 +570,7 @@
                                 xlWorkSheet.Cells[1, 11] = "Uploaded";
 
                                 int endRow = 0;
-                                //over 1 million rows, setting values for putput to Excel
+                                //over 1 million rows, setting values for output to Excel sheets
                                 if (totalRowsLeft > 0 && totalRowsLeft > maxRowsPerSheet)
                                 {
                                     endRow = endRow + maxRowsPerSheet;
@@ -588,7 +589,7 @@
                                 {
                                     modelEndRow = model.Contents.Count;
                                 }
-                                //only need one sheet
+                                //we only need one sheet
                                 if (totalRowsLeft < 0)
                                 {
                                     modelEndRow = model.Contents.Count;

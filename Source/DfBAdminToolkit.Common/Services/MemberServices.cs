@@ -395,7 +395,7 @@
             return dataResponse;
         }
 
-        public IServiceResponse CreateGroup(string groupName, string authToken)
+        public IServiceResponse CreateGroup(string groupName, string groupType, string authToken)
         {
             IServiceResponse serviceResponse = null;
             try
@@ -408,7 +408,8 @@
                     request.AddHeader("Content-Type", "application/json");
 
                     JObject json = new JObject(
-                        new JProperty("group_name", groupName)
+                        new JProperty("group_name", groupName),
+                        new JProperty("group_management_type", groupType)
                     );
 
                     request.AddParameter("application/json", json, ParameterType.RequestBody);

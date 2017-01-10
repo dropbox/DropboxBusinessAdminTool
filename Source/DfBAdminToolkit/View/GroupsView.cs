@@ -26,6 +26,8 @@
 
         public string GroupName { get; set; }
 
+        public string GroupType { get; set; }
+
         public string UserEmail { get; set; }
 
         public List<GroupListViewItemModel> Groups { get; set; }
@@ -34,6 +36,7 @@
         {
             GroupName,
             MemberCount,
+            GroupType,
             GroupId
         }
 
@@ -62,6 +65,8 @@
                 this.buttonEx_GroupsDeleteMember.Click += buttonEx_GroupsDeleteMember_Click;
                 this.textBoxGroup.TextChanged += TextBox_textBoxGroup_TextChanged;
                 this.textBoxAddMember.TextChanged += TextBox_textBoxAddMember_TextChanged;
+                this.radioCompany.CheckedChanged += radioCompany_CheckedChanged;
+                this.radioUser.CheckedChanged += radioUser_CheckedChanged;
                 this.objectListView_GroupsMembers.ItemChecked += ObjectListView_GroupsMembers_ItemChecked;
                 this.objectListView_GroupsMembers.HeaderCheckBoxChanging += ObjectListView_GroupsMembers_HeaderCheckBoxChanging;
                 ComponentEventsWired = true;
@@ -79,6 +84,8 @@
                 this.buttonEx_GroupsDeleteMember.Click -= buttonEx_GroupsDeleteMember_Click;
                 this.textBoxGroup.TextChanged -= TextBox_textBoxGroup_TextChanged;
                 this.textBoxAddMember.TextChanged -= TextBox_textBoxAddMember_TextChanged;
+                this.radioCompany.CheckedChanged -= radioCompany_CheckedChanged;
+                this.radioUser.CheckedChanged -= radioUser_CheckedChanged;
                 this.objectListView_GroupsMembers.ItemChecked -= ObjectListView_GroupsMembers_ItemChecked;
                 this.objectListView_GroupsMembers.HeaderCheckBoxChanging -= ObjectListView_GroupsMembers_HeaderCheckBoxChanging;
                 ComponentEventsWired = false;
@@ -93,6 +100,8 @@
             Dock = DockStyle.Fill;
             Groups = new List<GroupListViewItemModel>();
             this.buttonEx_GroupsLoadGroups.Enabled = true;
+            this.radioCompany.Checked = true;
+            GroupType = "company_managed";
         }
 
         private void InitializeOLVMembers()
@@ -115,6 +124,11 @@
                 = delegate (GroupListViewItemModel model)
                 {
                     return (model != null) ? model.GroupName : string.Empty;
+                };
+            olv.GetColumn((int)OlvMembersIndex.GroupType).AspectGetter
+                = delegate (GroupListViewItemModel model)
+                {
+                    return (model != null) ? model.GroupType : string.Empty;
                 };
             olv.GetColumn((int)OlvMembersIndex.MemberCount).AspectGetter
                 = delegate (GroupListViewItemModel model)
@@ -153,6 +167,30 @@
         private void TextBox_textBoxAddMember_TextChanged(object sender, EventArgs e)
         {
             UserEmail = this.textBoxAddMember.Text;
+        }
+
+        private void radioCompany_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioCompany.Checked == true)
+            {
+                GroupType = "company_managed";
+            }
+            else
+            {
+                GroupType = "user_managed";
+            }
+        }
+
+        private void radioUser_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioUser.Checked == true)
+            {
+                GroupType = "user_managed";
+            }
+            else
+            {
+                GroupType = "company_managed";
+            }
         }
 
         public void RenderGroupList()

@@ -18,6 +18,8 @@
 
         string GroupName { get; set; }
 
+        string GroupType { get; set; }
+
         string UserEmail { get; set; }
 
         void RenderGroupList();

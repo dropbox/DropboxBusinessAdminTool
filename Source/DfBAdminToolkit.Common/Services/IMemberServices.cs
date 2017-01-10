@@ -77,7 +77,7 @@
 
         IDataResponse GetGroups(IMemberData data, string authToken);
 
-        IServiceResponse CreateGroup(string groupName, string authToken);
+        IServiceResponse CreateGroup(string groupName, string groupType, string authToken);
 
         IServiceResponse AddMemberGroup(IMemberData data, string email, string authToken);
 

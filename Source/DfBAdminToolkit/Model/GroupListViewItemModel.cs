@@ -5,6 +5,7 @@
     public class GroupListViewItemModel
         : INotifyPropertyChanged, IModel {
         private string _groupName;
+        private string _groupType;
         private string _groupId;
         private string _memberCount;
         private bool _isChecked;
@@ -14,6 +15,16 @@
             set {
                 _groupName = value;
                 OnPropertyChanged("GroupName");
+            }
+        }
+
+        public string GroupType
+        {
+            get { return _groupType; }
+            set
+            {
+                _groupType = value;
+                OnPropertyChanged("GroupType");
             }
         }
 
