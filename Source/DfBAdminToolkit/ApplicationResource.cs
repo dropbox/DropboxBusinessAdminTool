@@ -65,6 +65,11 @@
             get { return ConfigurationManager.AppSettings.Get("ActionDeleteMemberGroup"); }
         }
 
+        public static string ActionGetGroupInfo
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetGroupInfo"); }
+        }
+
         public static string ActionFilesDownload {
             get { return ConfigurationManager.AppSettings.Get("ActionFilesDownload"); }
         }

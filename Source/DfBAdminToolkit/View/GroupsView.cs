@@ -15,6 +15,7 @@
         public event EventHandler DataChanged;
         public event EventHandler CommandGetGroups;
         public event EventHandler CommandCreateGroup;
+        public event EventHandler CommandExportGroups;
         public event EventHandler CommandAddMember;
         public event EventHandler CommandDeleteMember;
 
@@ -61,6 +62,7 @@
                 this.textBox_GroupsAccessToken.TextChanged += TextBox_GroupsAccessToken_TextChanged;
                 this.buttonEx_GroupsLoadGroups.Click += buttonEx_GroupsLoadGroups_Click;
                 this.buttonEx_GroupsCreateGroup.Click += buttonEx_GroupsCreateGroup_Click;
+                this.buttonEx_GroupsExportGroups.Click += buttonEx_GroupsExportGroups_Click;
                 this.buttonEx_GroupsAddMember.Click += buttonEx_GroupsAddMember_Click;
                 this.buttonEx_GroupsDeleteMember.Click += buttonEx_GroupsDeleteMember_Click;
                 this.textBoxGroup.TextChanged += TextBox_textBoxGroup_TextChanged;
@@ -80,6 +82,7 @@
                 this.textBox_GroupsAccessToken.TextChanged -= TextBox_GroupsAccessToken_TextChanged;
                 this.buttonEx_GroupsLoadGroups.Click -= buttonEx_GroupsLoadGroups_Click;
                 this.buttonEx_GroupsCreateGroup.Click -= buttonEx_GroupsCreateGroup_Click;
+                this.buttonEx_GroupsExportGroups.Click -= buttonEx_GroupsExportGroups_Click;
                 this.buttonEx_GroupsAddMember.Click -= buttonEx_GroupsAddMember_Click;
                 this.buttonEx_GroupsDeleteMember.Click -= buttonEx_GroupsDeleteMember_Click;
                 this.textBoxGroup.TextChanged -= TextBox_textBoxGroup_TextChanged;
@@ -229,6 +232,15 @@
             if (CommandCreateGroup != null)
             {
                 CommandCreateGroup(sender, e);
+            }
+        }
+
+        private void buttonEx_GroupsExportGroups_Click(object sender, EventArgs e)
+        {
+            InvokeDataChanged(sender, e);
+            if (CommandExportGroups != null)
+            {
+                CommandExportGroups(sender, e);
             }
         }
 

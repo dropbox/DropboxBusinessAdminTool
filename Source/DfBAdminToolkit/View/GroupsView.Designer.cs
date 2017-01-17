@@ -44,6 +44,7 @@
             this.radioCompany = new System.Windows.Forms.RadioButton();
             this.radioUser = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel_GroupsSendEmailGroup = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonEx_GroupsExportGroups = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.buttonEx_GroupsLoadGroups = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.tableLayoutPanel_GroupsMembersGroup = new System.Windows.Forms.TableLayoutPanel();
             this.objectListView_GroupsMembers = new BrightIdeasSoftware.ObjectListView();
@@ -88,9 +89,9 @@
             // tableLayoutPanel_GroupsCommandGroup
             // 
             this.tableLayoutPanel_GroupsCommandGroup.ColumnCount = 3;
-            this.tableLayoutPanel_GroupsCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
+            this.tableLayoutPanel_GroupsCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
             this.tableLayoutPanel_GroupsCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            this.tableLayoutPanel_GroupsCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel_GroupsCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel_GroupsCommandGroup.Controls.Add(this.tableLayoutPanel_GroupsAccessToken, 2, 0);
             this.tableLayoutPanel_GroupsCommandGroup.Controls.Add(this.tableLayoutPanel_GroupsMemberRoleSelectionGroup, 0, 1);
             this.tableLayoutPanel_GroupsCommandGroup.Controls.Add(this.tableLayoutPanel_GroupsSendEmailGroup, 2, 1);
@@ -112,12 +113,12 @@
             this.tableLayoutPanel_GroupsAccessToken.Controls.Add(this.label_GroupsAccessToken, 0, 0);
             this.tableLayoutPanel_GroupsAccessToken.Controls.Add(this.textBox_GroupsAccessToken, 1, 0);
             this.tableLayoutPanel_GroupsAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_GroupsAccessToken.Location = new System.Drawing.Point(533, 1);
+            this.tableLayoutPanel_GroupsAccessToken.Location = new System.Drawing.Point(463, 1);
             this.tableLayoutPanel_GroupsAccessToken.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel_GroupsAccessToken.Name = "tableLayoutPanel_GroupsAccessToken";
             this.tableLayoutPanel_GroupsAccessToken.RowCount = 1;
             this.tableLayoutPanel_GroupsAccessToken.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_GroupsAccessToken.Size = new System.Drawing.Size(173, 26);
+            this.tableLayoutPanel_GroupsAccessToken.Size = new System.Drawing.Size(243, 26);
             this.tableLayoutPanel_GroupsAccessToken.TabIndex = 0;
             // 
             // label_GroupsAccessToken
@@ -138,7 +139,7 @@
             this.textBox_GroupsAccessToken.FileFilter = null;
             this.textBox_GroupsAccessToken.Location = new System.Drawing.Point(93, 3);
             this.textBox_GroupsAccessToken.Name = "textBox_GroupsAccessToken";
-            this.textBox_GroupsAccessToken.Size = new System.Drawing.Size(77, 22);
+            this.textBox_GroupsAccessToken.Size = new System.Drawing.Size(147, 22);
             this.textBox_GroupsAccessToken.TabIndex = 1;
             this.textBox_GroupsAccessToken.Visible = false;
             // 
@@ -158,7 +159,7 @@
             this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.Name = "tableLayoutPanel_GroupsMemberRoleSelectionGroup";
             this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.RowCount = 1;
             this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.Size = new System.Drawing.Size(518, 30);
+            this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.Size = new System.Drawing.Size(448, 30);
             this.tableLayoutPanel_GroupsMemberRoleSelectionGroup.TabIndex = 2;
             // 
             // buttonEx_GroupsCreateGroup
@@ -225,25 +226,38 @@
             // tableLayoutPanel_GroupsSendEmailGroup
             // 
             this.tableLayoutPanel_GroupsSendEmailGroup.ColumnCount = 3;
-            this.tableLayoutPanel_GroupsSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.93534F));
-            this.tableLayoutPanel_GroupsSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.97633F));
-            this.tableLayoutPanel_GroupsSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 71.59763F));
-            this.tableLayoutPanel_GroupsSendEmailGroup.Controls.Add(this.buttonEx_GroupsLoadGroups, 2, 0);
+            this.tableLayoutPanel_GroupsSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.991282F));
+            this.tableLayoutPanel_GroupsSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.004F));
+            this.tableLayoutPanel_GroupsSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.00471F));
+            this.tableLayoutPanel_GroupsSendEmailGroup.Controls.Add(this.buttonEx_GroupsExportGroups, 2, 0);
+            this.tableLayoutPanel_GroupsSendEmailGroup.Controls.Add(this.buttonEx_GroupsLoadGroups, 1, 0);
             this.tableLayoutPanel_GroupsSendEmailGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_GroupsSendEmailGroup.Location = new System.Drawing.Point(535, 31);
+            this.tableLayoutPanel_GroupsSendEmailGroup.Location = new System.Drawing.Point(465, 31);
             this.tableLayoutPanel_GroupsSendEmailGroup.Name = "tableLayoutPanel_GroupsSendEmailGroup";
             this.tableLayoutPanel_GroupsSendEmailGroup.RowCount = 1;
             this.tableLayoutPanel_GroupsSendEmailGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel_GroupsSendEmailGroup.Size = new System.Drawing.Size(169, 30);
+            this.tableLayoutPanel_GroupsSendEmailGroup.Size = new System.Drawing.Size(239, 30);
             this.tableLayoutPanel_GroupsSendEmailGroup.TabIndex = 3;
+            // 
+            // buttonEx_GroupsExportGroups
+            // 
+            this.buttonEx_GroupsExportGroups.ColorTable = office2010White1;
+            this.buttonEx_GroupsExportGroups.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonEx_GroupsExportGroups.Location = new System.Drawing.Point(114, 4);
+            this.buttonEx_GroupsExportGroups.Name = "buttonEx_GroupsExportGroups";
+            this.buttonEx_GroupsExportGroups.Size = new System.Drawing.Size(122, 24);
+            this.buttonEx_GroupsExportGroups.TabIndex = 5;
+            this.buttonEx_GroupsExportGroups.Text = "Export Group Info";
+            this.buttonEx_GroupsExportGroups.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
+            this.buttonEx_GroupsExportGroups.UseVisualStyleBackColor = true;
             // 
             // buttonEx_GroupsLoadGroups
             // 
             this.buttonEx_GroupsLoadGroups.ColorTable = office2010White1;
             this.buttonEx_GroupsLoadGroups.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonEx_GroupsLoadGroups.Location = new System.Drawing.Point(50, 4);
+            this.buttonEx_GroupsLoadGroups.Location = new System.Drawing.Point(7, 4);
             this.buttonEx_GroupsLoadGroups.Name = "buttonEx_GroupsLoadGroups";
-            this.buttonEx_GroupsLoadGroups.Size = new System.Drawing.Size(116, 24);
+            this.buttonEx_GroupsLoadGroups.Size = new System.Drawing.Size(101, 24);
             this.buttonEx_GroupsLoadGroups.TabIndex = 4;
             this.buttonEx_GroupsLoadGroups.Text = "Load Groups";
             this.buttonEx_GroupsLoadGroups.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
@@ -451,5 +465,6 @@
         private System.Windows.Forms.RadioButton radioCompany;
         private System.Windows.Forms.RadioButton radioUser;
         private BrightIdeasSoftware.OLVColumn olvColumnGroups_GroupType;
+        private ButtonEx buttonEx_GroupsExportGroups;
     }
 }

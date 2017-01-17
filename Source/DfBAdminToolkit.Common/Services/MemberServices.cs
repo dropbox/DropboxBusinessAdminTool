@@ -6,6 +6,7 @@
     using System.IO;
     using System.IO.Compression;
     using System.Net;
+    using System.Collections.Generic;
 
     public class MemberServices
         : IMemberServices {
@@ -41,6 +42,8 @@
         public string SetProfileUrl { get; set; }
 
         public string GetGroupsUrl { get; set; }
+
+        public string ExportGroupsUrl { get; set; }
 
         public string CreateGroupUrl { get; set; }
 
@@ -383,6 +386,40 @@
                         request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
 
                     }
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse ExportGroups(IMemberData data, List<string> groupIds, string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(ExportGroupsUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(ExportGroupsUrl, Method.POST);
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    //set up properties for JSON to the API
+                    JObject jsonExportGroupInfo = new JObject(
+                    new JProperty(".tag", "group_ids"),
+                    new JProperty("group_ids",
+                            new JArray(groupIds))
+                    );
+                    request.AddParameter("application/json", jsonExportGroupInfo, ParameterType.RequestBody);
+
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);

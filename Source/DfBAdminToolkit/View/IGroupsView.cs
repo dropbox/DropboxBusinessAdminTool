@@ -9,6 +9,7 @@
     {
         event EventHandler CommandGetGroups;
         event EventHandler CommandCreateGroup;
+        event EventHandler CommandExportGroups;
         event EventHandler CommandAddMember;
         event EventHandler CommandDeleteMember;
 

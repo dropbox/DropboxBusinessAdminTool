@@ -1,4 +1,7 @@
-﻿namespace DfBAdminToolkit.Common.Services {
+﻿using System.Collections.Generic;
+
+namespace DfBAdminToolkit.Common.Services
+{
     public interface IMemberServices {
 
         #region Endpoint urls
@@ -26,6 +29,8 @@
         string DumpDevicesUrl { get; set; }
 
         string GetGroupsUrl { get; set; }
+
+        string ExportGroupsUrl { get; set; }
 
         string CreateGroupUrl { get; set; }
 
@@ -76,6 +81,8 @@
         IServiceResponse SetProfile(IMemberData data, string authToken);
 
         IDataResponse GetGroups(IMemberData data, string authToken);
+
+        IDataResponse ExportGroups(IMemberData data, List<string> groupIds, string authToken);
 
         IServiceResponse CreateGroup(string groupName, string groupType, string authToken);
 

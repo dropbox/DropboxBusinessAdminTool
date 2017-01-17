@@ -8,5 +8,7 @@
         string AccessToken { get; set; }
 
         List<GroupListViewItemModel> Groups { get; set; }
+
+        List<GroupInfoItemModel> GroupInfo { get; set; }
     }
 }
