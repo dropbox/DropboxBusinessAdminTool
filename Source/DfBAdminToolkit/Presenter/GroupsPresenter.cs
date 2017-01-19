@@ -570,16 +570,48 @@
                             {
                                 //create CSV file in My Documents folder
                                 sPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\GroupInfoExport.csv";
-
-                                StreamWriter SaveFile = new StreamWriter(sPath);
-                                //create header line
-                                SaveFile.WriteLine("GroupName,GroupId,GroupType,TeamMemberId,Email,EmailVerified,Status,MembershipType,JoinedOn,AccessType");
-                                foreach (var item in model.GroupInfo)
+                                CsvConfiguration config = new CsvConfiguration()
                                 {
-                                    SaveFile.WriteLine(item.GroupName + "," + item.GroupId + "," + item.GroupType + "," + item.TeamMemberId + "," + item.Email + "," + item.EmailVerified + "," + item.Status + "," + item.MembershipType + "," + item.JoinedOn + "," + item.AccessType);
+                                    HasHeaderRecord = true,
+                                    Delimiter = ",",
+                                    Encoding = System.Text.Encoding.UTF8
+                                };
+                                config.RegisterClassMap(new GroupInfoHeaderMap());
+                                int total = model.GroupInfo.Count;
+                                using (CsvWriter writer = new CsvWriter(new StreamWriter(sPath), config))
+                                {
+                                    writer.WriteHeader<GroupInfoHeaderRecord>();
+                                    int count = 0;
+                                    foreach (var item in model.GroupInfo)
+                                    {
+                                        writer.WriteField<string>(item.GroupName);
+                                        writer.WriteField<string>(item.GroupId);
+                                        writer.WriteField<string>(item.GroupType);
+                                        writer.WriteField<string>(!string.IsNullOrEmpty(item.TeamMemberId) ? item.TeamMemberId : "");
+                                        writer.WriteField<string>(!string.IsNullOrEmpty(item.Email) ? item.Email : "");
+                                        writer.WriteField<string>(!string.IsNullOrEmpty(item.EmailVerified) ? item.EmailVerified : "");
+                                        writer.WriteField<string>(!string.IsNullOrEmpty(item.Status) ? item.Status : "");
+                                        writer.WriteField<string>(!string.IsNullOrEmpty(item.MembershipType) ? item.MembershipType : "");
+                                        writer.WriteField<string>(!string.IsNullOrEmpty(item.JoinedOn) ? item.JoinedOn : "");
+                                        writer.WriteField<string>(!string.IsNullOrEmpty(item.AccessType) ? item.AccessType : "");
+                                        count++;
+                                        if (SyncContext != null)
+                                        {
+                                            SyncContext.Post(delegate
+                                            {
+                                                presenter.UpdateProgressInfo(string.Format("Writing Record: {0}/{1}", (count), total));
+                                            }, null);
+                                        }
+                                        writer.NextRecord();
+                                    }
                                 }
-                                SaveFile.Close();
-                                presenter.UpdateProgressInfo("Completed. Exported file located at " + sPath);
+                                if (SyncContext != null)
+                                {
+                                    SyncContext.Post(delegate
+                                    {
+                                        presenter.UpdateProgressInfo("Completed. Exported file located at " + sPath);
+                                    }, null);
+                                }
                             }
                             if (model.GroupInfo.Count == 0)
                             {
