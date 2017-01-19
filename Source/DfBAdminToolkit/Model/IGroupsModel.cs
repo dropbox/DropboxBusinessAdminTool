@@ -10,5 +10,7 @@
         List<GroupListViewItemModel> Groups { get; set; }
 
         List<GroupInfoItemModel> GroupInfo { get; set; }
+
+        List<GroupPermsItemModel> GroupPerms { get; set; }
     }
 }

@@ -38,6 +38,7 @@
                 view.CommandGetGroups += OnCommandGetGroups;
                 view.CommandCreateGroup += OnCommandCreateGroup;
                 view.CommandExportGroups += OnCommandExportGroups;
+                view.CommandExportGroupPerms += OnCommandExportGroupPerms;
                 view.CommandAddMember += OnCommandAddMemberGroup;
                 view.CommandDeleteMember += OnCommandDeleteMemberGroup;
                 IsViewEventsWired = true;
@@ -71,23 +72,58 @@
             IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.GetGroupsUrl = ApplicationResource.ActionGetGroups;
             service.UserAgentVersion = ApplicationResource.UserAgent;
-                IDataResponse response = service.GetGroups(new MemberData()
-                {
-                }, model.AccessToken);
+            IDataResponse response = service.GetGroups(new MemberData()
+            {
+            }, model.AccessToken);
 
-                if (response.StatusCode == HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                if (response.Data != null)
                 {
-                    if (response.Data != null)
+                    string data = response.Data.ToString();
+                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+
+                    // clear existing data first
+                    model.Groups.Clear();
+                    int resultCount = jsonData["groups"].Count;
+                    for (int i = 0; i < resultCount; i++)
                     {
-                        string data = response.Data.ToString();
-                        dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+                        dynamic groups = jsonData["groups"][i];
+                        dynamic groupName = groups["group_name"];
+                        dynamic groupType = groups["group_management_type"][".tag"];
+                        dynamic groupId = groups["group_id"];
+                        dynamic memberCount = groups["member_count"];
 
-                        // clear existing data first
-                        model.Groups.Clear();
-                        int resultCount = jsonData["groups"].Count;
-                        for (int i = 0; i < resultCount; i++)
+                        // update model
+                        GroupListViewItemModel lvItem = new GroupListViewItemModel()
                         {
-                            dynamic groups = jsonData["groups"][i];
+                            GroupName = groupName,
+                            GroupType = groupType,
+                            GroupId = groupId,
+                            MemberCount = memberCount
+                        };
+
+                        model.Groups.Add(lvItem);
+                    }
+                    //if the group count is above limit - default 1000 we need to grab the cursor and call continue
+                    bool hasMore = jsonData["has_more"];
+                    string cursor = jsonData["cursor"];
+
+                    while (hasMore)
+                    {
+                        service.GetGroupsUrl = ApplicationResource.ActionGetGroupsContinuation;
+                        IDataResponse responseCont = service.GetGroups(new MemberData()
+                        {
+                            Cursor = cursor
+                        }, model.AccessToken);
+
+                        string dataCont = responseCont.Data.ToString();
+                        dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
+
+                        int resultContCount = jsonDataCont["groups"].Count;
+                        for (int i = 0; i < resultContCount; i++)
+                        {
+                            dynamic groups = jsonDataCont["groups"][i];
                             dynamic groupName = groups["group_name"];
                             dynamic groupType = groups["group_management_type"][".tag"];
                             dynamic groupId = groups["group_id"];
@@ -101,48 +137,13 @@
                                 GroupId = groupId,
                                 MemberCount = memberCount
                             };
-
                             model.Groups.Add(lvItem);
                         }
-                        //if the group count is above limit - default 1000 we need to grab the cursor and call continue
-                        bool hasMore = jsonData["has_more"];
-                        string cursor = jsonData["cursor"];
-
-                        while (hasMore)
-                        {
-                            service.GetGroupsUrl = ApplicationResource.ActionGetGroupsContinuation;
-                            IDataResponse responseCont = service.GetGroups(new MemberData()
-                            {
-                                Cursor = cursor
-                            }, model.AccessToken);
-
-                            string dataCont = responseCont.Data.ToString();
-                            dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
-
-                            int resultContCount = jsonDataCont["groups"].Count;
-                            for (int i = 0; i < resultContCount; i++)
-                            {
-                                dynamic groups = jsonDataCont["groups"][i];
-                                dynamic groupName = groups["group_name"];
-                                dynamic groupType = groups["group_management_type"][".tag"];
-                                dynamic groupId = groups["group_id"];
-                                dynamic memberCount = groups["member_count"];
-
-                                // update model
-                                GroupListViewItemModel lvItem = new GroupListViewItemModel()
-                                {
-                                    GroupName = groupName,
-                                    GroupType = groupType,
-                                    GroupId = groupId,
-                                    MemberCount = memberCount
-                                };
-                                model.Groups.Add(lvItem);
-                            }
-                            hasMore = jsonDataCont["has_more"];
-                            cursor = jsonDataCont["cursor"];
-                        }
+                        hasMore = jsonDataCont["has_more"];
+                        cursor = jsonDataCont["cursor"];
                     }
                 }
+            }
         }
 
         private void ExportGroups(IGroupsModel model, IMainPresenter presenter)
@@ -154,7 +155,7 @@
 
             foreach (GroupListViewItemModel item in model.Groups.Where(m => m.IsChecked).ToList())
             {
-                groupIdList.Add(item.GroupId);      
+                groupIdList.Add(item.GroupId);
             }
             //if at least one is checked to export, lets do it
             if (groupIdList.Count > 0)
@@ -173,7 +174,7 @@
                         // clear existing data first
                         model.GroupInfo.Clear();
                         int resultCount = jsonData.Count;
-                        
+
                         for (int i = 0; i < resultCount; i++)
                         {
                             dynamic groupInfo = jsonData[i];
@@ -188,7 +189,7 @@
                             dynamic joinedOn = string.Empty;
                             dynamic accessType = string.Empty;
 
-                            
+
                             if (groupType == "user_managed")
                             {
                                 int memberCount = groupInfo["members"].Count;
@@ -227,22 +228,139 @@
                                 {
                                     GroupName = groupName,
                                     GroupId = groupId,
-                                    GroupType = groupType,
-                                    TeamMemberId = teamMemberId,
-                                    Email = email,
-                                    EmailVerified = emailVerified,
-                                    Status = status,
-                                    MembershipType = membershipType,
-                                    JoinedOn = joinedOn,
-                                    AccessType = accessType
+                                    GroupType = groupType
                                 };
                                 model.GroupInfo.Add(lvItem);
                             }
                         }
                     }
                 }
+            }
+        }
 
+        private List<Tuple<string, string, string, string>> GetSharedFolders(IGroupsModel model, IMainPresenter presenter)
+        {
+            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.ListSharedFoldersUrl = ApplicationResource.ActionSharingListFolders;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            var sharedFolders = new List<Tuple<string, string, string, string>>();
+            IDataResponse response = service.ListSharedFolders(new MemberData()
+            {
+            }, model.AccessToken);
 
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                if (response.Data != null)
+                {
+                    string data = response.Data.ToString();
+                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+
+                    int resultCount = jsonData["entries"].Count;
+                    for (int i = 0; i < resultCount; i++)
+                    {
+                        dynamic entries = jsonData["entries"][i];
+                        dynamic sharedFolderId = entries["shared_folder_id"];
+                        dynamic sharedFolderName = entries["name"];
+                        dynamic isInsideTeamFolder = entries["is_inside_team_folder"];
+                        dynamic isTeamFolder = entries["is_team_folder"];
+
+                        var tuple = Tuple.Create(sharedFolderId,sharedFolderName,isInsideTeamFolder,isTeamFolder);
+                        sharedFolders.Add(tuple);
+                    }
+                    //if the group count is above limit - default 1000 we need to grab the cursor and call continue
+                    string cursor = jsonData["cursor"];
+
+                    do
+                    {
+                        service.ListSharedFoldersUrl = ApplicationResource.ActionSharingListFoldersContinuation;
+                        IDataResponse responseCont = service.ListSharedFolders(new MemberData()
+                        {
+                            Cursor = cursor
+                        }, model.AccessToken);
+
+                        string dataCont = responseCont.Data.ToString();
+                        dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
+
+                        int resultContCount = jsonDataCont["entries"].Count;
+                        for (int i = 0; i < resultContCount; i++)
+                        {
+                            dynamic entries = jsonData["entries"][i];
+                            dynamic sharedFolderId = entries["shared_folder_id"];
+                            dynamic sharedFolderName = entries["name"];
+                            dynamic isInsideTeamFolder = entries["is_inside_team_folder"];
+                            dynamic isTeamFolder = entries["is_team_folder"];
+
+                            var tuple = Tuple.Create(sharedFolderId, sharedFolderName, isInsideTeamFolder, isTeamFolder);
+                            sharedFolders.Add(tuple);
+                        }
+                        cursor = jsonDataCont["cursor"];
+                    }
+                    while (!string.IsNullOrEmpty(cursor));
+                }
+            }
+            return sharedFolders;
+        }
+
+        //still need continuation
+        private void ExportGroupPerms(IGroupsModel model, IMainPresenter presenter)
+        {
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.ExportGroupPermsUrl = ApplicationResource.ActionSharingListFolderMembers;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            //List<string> groupIdList = new List<string>();
+            List<Tuple<string, string, string, string>> sharedFolders = GetSharedFolders(model, presenter);
+ 
+            foreach (GroupListViewItemModel itemGroup in model.Groups.Where(m => m.IsChecked).ToList())
+            {
+                foreach (var item in sharedFolders)
+                {
+                    IDataResponse response = service.ExportGroupPerms(new MemberData()
+                    {
+                    }, item.Item1, model.AccessToken);
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        if (response.Data != null)
+                        {
+                            string data = response.Data.ToString();
+                            dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+
+                            // clear existing data first
+                            model.GroupPerms.Clear();
+
+                            int resultCount = jsonData.Count;
+
+                            for (int i = 0; i < resultCount; i++)
+                            {
+                                dynamic groups = jsonData[i];
+                                dynamic groupName = groups["group"][i]["group_name"];
+                                dynamic groupId = groups["group"][i]["group_id"];
+                                dynamic groupType = groups["group"][i]["group_management_type"][".tag"];
+                                dynamic accessType = groups["access_type"][".tag"];
+                                dynamic sharedFolderName = item.Item2;
+                                dynamic sharedFolderId = item.Item1;
+                                dynamic isInherited = groups["is_inherited"];
+                                dynamic isTeamFolder = item.Item4;
+                                dynamic isInsideTeamFolder = item.Item3;
+
+                                // update model
+                                GroupPermsItemModel lvItem = new GroupPermsItemModel()
+                                {
+                                    GroupName = groupName,
+                                    GroupId = groupId,
+                                    GroupType = groupType,
+                                    AccessType = accessType,
+                                    SharedFolderName = sharedFolderName,
+                                    SharedFolderId = sharedFolderId,
+                                    IsInherited = isInherited,
+                                    IsTeamFolder = isTeamFolder,
+                                    IsInsideTeamFolder = isInsideTeamFolder
+                                };
+                                model.GroupPerms.Add(lvItem);
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -457,6 +575,68 @@
                 }
             });
             exportgroups.Start();
+        }
+        //need work
+        private void OnCommandExportGroupPerms(object sender, System.EventArgs e)
+        {
+            IGroupsView view = base._view as IGroupsView;
+            IGroupsModel model = base._model as IGroupsModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Processing...");
+                }, null);
+            }
+            Thread exportgroupperms = new Thread(() => {
+                if (string.IsNullOrEmpty(model.AccessToken))
+                {
+                    SyncContext.Post(delegate {
+                        presenter.EnableControl(true);
+                        presenter.ActivateSpinner(false);
+                        presenter.UpdateProgressInfo("");
+                    }, null);
+                }
+                else
+                {
+                    //need to get groups checked then get shared folders for each
+                    this.ExportGroups(model, presenter);
+                    this.ExportGroupPerms(model, presenter);
+
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate
+                        {
+                            // update result and update view.
+                            PresenterBase.SetViewPropertiesFromModel<IGroupsView, IGroupsModel>(
+                                ref view, model
+                            );
+                            string sPath = string.Empty;
+                            if (model.GroupInfo.Count > 0)
+                            {
+                                //create CSV file in My Documents folder
+                                sPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\GroupPermsExport.csv";
+
+                                StreamWriter SaveFile = new StreamWriter(sPath);
+                                //create header line
+                                SaveFile.WriteLine("GroupName,GroupId,GroupType,SharedFolder,SharedFolderId,IsInherited,IsTeamFolder,IsInsideTeamFolder");
+                                foreach (var item in model.GroupInfo)
+                                {
+                                    SaveFile.WriteLine(item.GroupName + "," + item.GroupId + "," + item.GroupType + "," + item.TeamMemberId + "," + item.Email + "," + item.EmailVerified + "," + item.Status + "," + item.MembershipType);
+                                }
+                                SaveFile.Close();
+                            }
+                            presenter.UpdateProgressInfo("Completed. Exported file located at " + sPath);
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                        }, null);
+                    }
+                }
+            });
+            exportgroupperms.Start();
         }
 
         private void OnCommandCreateGroup(object sender, System.EventArgs e)

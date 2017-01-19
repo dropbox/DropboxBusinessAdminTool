@@ -45,6 +45,14 @@
 
         public string ExportGroupsUrl { get; set; }
 
+        public string ListSharedFoldersUrl { get; set; }
+
+        public string ListSharedFoldersContinuationUrl { get; set; }
+
+        public string ExportGroupPermsUrl { get; set; }
+
+        public string ExportGroupPermsContinuationUrl { get; set; }
+
         public string CreateGroupUrl { get; set; }
 
         public string AddMemberGroupUrl { get; set; }
@@ -420,6 +428,91 @@
                     );
                     request.AddParameter("application/json", jsonExportGroupInfo, ParameterType.RequestBody);
 
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse ListSharedFolders(IMemberData data, string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(ListSharedFoldersUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(ListSharedFoldersUrl, Method.POST);
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    if (String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //set up properties for JSON to the API
+                        JObject jsonExportGroupInfo = new JObject(
+                        new JProperty("limit", 1000)
+                        );
+                        request.AddParameter("application/json", jsonExportGroupInfo, ParameterType.RequestBody);
+                    }
+                    if (!String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //set up properties for JSON to the API
+                        JObject jsonExportGroupInfo = new JObject(
+                        new JProperty("cursor", data.Cursor)
+                       );
+                        request.AddParameter("application/json", jsonExportGroupInfo, ParameterType.RequestBody);
+                    }
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse ExportGroupPerms(IMemberData data, string shareId, string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(ExportGroupPermsUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(ExportGroupPermsUrl, Method.POST);
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    if (String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //set up properties for JSON to the API
+                        JObject jsonExportGroupInfo = new JObject(
+                        new JProperty("shared_folder_id", shareId),
+                        new JProperty("limit", 1000)
+                        );
+                        request.AddParameter("application/json", jsonExportGroupInfo, ParameterType.RequestBody);
+                    }
+                    if (!String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //set up properties for JSON to the API
+                        JObject jsonExportGroupInfo = new JObject(
+                        new JProperty("cursor", data.Cursor)
+                       );
+                        request.AddParameter("application/json", jsonExportGroupInfo, ParameterType.RequestBody);
+                    }
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);

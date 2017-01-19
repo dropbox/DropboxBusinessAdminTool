@@ -40,6 +40,26 @@
             get { return ConfigurationManager.AppSettings.Get("ActionListFolderContinuation"); }
         }
 
+        public static string ActionSharingListFolders
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionSharingListFolders"); }
+        }
+
+        public static string ActionSharingListFoldersContinuation
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionSharingListFoldersContinuation"); }
+        }
+
+        public static string ActionSharingListFolderMembers
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionListFolderMembers"); }
+        }
+
+        public static string ActionSharingListFolderMembersContinuation
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionSharingListFolderMembersContinuation"); }
+        }
+
         public static string ActionGetGroups
         {
             get { return ConfigurationManager.AppSettings.Get("ActionGetGroups"); }

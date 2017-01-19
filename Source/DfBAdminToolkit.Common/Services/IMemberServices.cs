@@ -32,6 +32,14 @@ namespace DfBAdminToolkit.Common.Services
 
         string ExportGroupsUrl { get; set; }
 
+        string ListSharedFoldersUrl { get; set; }
+
+        string ListSharedFoldersContinuationUrl { get; set; }
+
+        string ExportGroupPermsUrl { get; set; }
+
+        string ExportGroupPermsContinuationUrl { get; set; }
+
         string CreateGroupUrl { get; set; }
 
         string AddMemberGroupUrl { get; set; }
@@ -82,7 +90,11 @@ namespace DfBAdminToolkit.Common.Services
 
         IDataResponse GetGroups(IMemberData data, string authToken);
 
+        IDataResponse ListSharedFolders(IMemberData data, string authToken);
+
         IDataResponse ExportGroups(IMemberData data, List<string> groupIds, string authToken);
+
+        IDataResponse ExportGroupPerms(IMemberData data, string shareId, string authToken);
 
         IServiceResponse CreateGroup(string groupName, string groupType, string authToken);
 

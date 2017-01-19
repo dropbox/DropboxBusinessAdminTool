@@ -11,6 +11,8 @@
 
         public List<GroupInfoItemModel> GroupInfo { get; set; }
 
+        public List<GroupPermsItemModel> GroupPerms { get; set; }
+
         public GroupsModel() {
             Initialize();
         }
@@ -18,6 +20,7 @@
         public void Initialize() {
             Groups = new List<GroupListViewItemModel>();
             GroupInfo = new List<GroupInfoItemModel>();
+            GroupPerms = new List<GroupPermsItemModel>();
             AccessToken = ApplicationResource.DefaultProvisionToken;
         }
 
