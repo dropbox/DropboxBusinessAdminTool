@@ -453,6 +453,7 @@
                     RestRequest request = new RestRequest(ListSharedFoldersUrl, Method.POST);
                     request.AddHeader("Authorization", "Bearer " + authToken);
                     request.AddHeader("Content-Type", "application/json");
+                    request.AddHeader("Dropbox-API-Select-User", data.MemberId);
 
                     if (String.IsNullOrEmpty(data.Cursor))
                     {
@@ -495,23 +496,24 @@
                     RestRequest request = new RestRequest(ExportGroupPermsUrl, Method.POST);
                     request.AddHeader("Authorization", "Bearer " + authToken);
                     request.AddHeader("Content-Type", "application/json");
+                    request.AddHeader("Dropbox-API-Select-User", data.MemberId);
 
                     if (String.IsNullOrEmpty(data.Cursor))
                     {
                         //set up properties for JSON to the API
-                        JObject jsonExportGroupInfo = new JObject(
+                        JObject jsonExportGroupPerms = new JObject(
                         new JProperty("shared_folder_id", shareId),
                         new JProperty("limit", 1000)
                         );
-                        request.AddParameter("application/json", jsonExportGroupInfo, ParameterType.RequestBody);
+                        request.AddParameter("application/json", jsonExportGroupPerms, ParameterType.RequestBody);
                     }
                     if (!String.IsNullOrEmpty(data.Cursor))
                     {
                         //set up properties for JSON to the API
-                        JObject jsonExportGroupInfo = new JObject(
+                        JObject jsonExportGroupPerms = new JObject(
                         new JProperty("cursor", data.Cursor)
                        );
-                        request.AddParameter("application/json", jsonExportGroupInfo, ParameterType.RequestBody);
+                        request.AddParameter("application/json", jsonExportGroupPerms, ParameterType.RequestBody);
                     }
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);

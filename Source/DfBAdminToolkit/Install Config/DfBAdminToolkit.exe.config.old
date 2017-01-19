@@ -18,16 +18,11 @@
     <add key="ActionFileSearch" value="files/search" />
     <add key="ActionListFolder" value="files/list_folder" />
     <add key="ActionListFolderContinuation" value="files/list_folder/continue" />
-    <add key="ActionSharingListFolders" value="sharing/list_folders" />
-    <add key="ActionSharingListFoldersContinuation" value="sharing/list_folders/continue" />
-    <add key="ActionSharingListFolderMembers" value="sharing/list_folder_members" />
-    <add key="ActionSharingListFolderMembersContinuation" value="sharing/list_folder_members/continue" />
     <add key="ActionGetGroups" value="team/groups/list" />
     <add key="ActionGetGroupsContinuation" value="team/groups/list/continue" />
     <add key="ActionCreateGroup" value="team/groups/create" />
     <add key="ActionAddMemberGroup" value="team/groups/members/add" />
     <add key="ActionDeleteMemberGroup" value="team/groups/members/remove" />
-    <add key="ActionGetGroupInfo" value="team/groups/get_info" />
     <add key="ActionFilesDownload" value="files/download" />
     <add key="ActionAddMember" value="team/members/add" />
     <add key="ActionRemoveMember" value="team/members/remove" />
@@ -42,7 +37,8 @@
     <add key="ActionArchiveTeamFolder" value="team/team_folder/archive" />
     <add key="ActionCreateTeamFolder" value="team/team_folder/create" />
     <add key="ActionListTeamFolder" value="team/team_folder/list" />
-    <add key="ActionUpdateDefaultSyncSettingTeamFolder" value="team/team_folder/update_default_sync_setting" />
+    <add key="ActionUpdateMembersTeamFolder" value="team/team_folder/update_members" />
+	  <add key="ActionUpdateDefaultSyncSettingTeamFolder" value="team/team_folder/update_default_sync_setting" />
 
     <!-- registry handling -->
     <add key="RegistryEntryPoint" value="SOFTWARE\Dropbox Business Toolkit" />

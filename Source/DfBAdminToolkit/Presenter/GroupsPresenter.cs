@@ -2,6 +2,8 @@
 
     using Common.Services;
     using Common.Utils;
+    using CsvHelper;
+    using CsvHelper.Configuration;
     using Model;
     using View;
     using Newtonsoft.Json;
@@ -52,6 +54,7 @@
                 view.CommandGetGroups -= OnCommandGetGroups;
                 view.CommandCreateGroup -= OnCommandCreateGroup;
                 view.CommandExportGroups -= OnCommandExportGroups;
+                view.CommandExportGroupPerms -= OnCommandExportGroupPerms;
                 view.CommandAddMember -= OnCommandAddMemberGroup;
                 view.CommandDeleteMember -= OnCommandDeleteMemberGroup;
                 IsViewEventsWired = false;
@@ -102,7 +105,6 @@
                             GroupId = groupId,
                             MemberCount = memberCount
                         };
-
                         model.Groups.Add(lvItem);
                     }
                     //if the group count is above limit - default 1000 we need to grab the cursor and call continue
@@ -188,12 +190,10 @@
                             dynamic membershipType = string.Empty;
                             dynamic joinedOn = string.Empty;
                             dynamic accessType = string.Empty;
-
-
+                            //You can only get member profile info from user managed groups
                             if (groupType == "user_managed")
                             {
                                 int memberCount = groupInfo["members"].Count;
-
                                 for (int m = 0; m < memberCount; m++)
                                 {
                                     teamMemberId = groupInfo["members"][m]["profile"]["team_member_id"];
@@ -244,8 +244,14 @@
             service.ListSharedFoldersUrl = ApplicationResource.ActionSharingListFolders;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             var sharedFolders = new List<Tuple<string, string, string, string>>();
+            string memberId = string.Empty;
+            foreach (var item in model.GroupInfo)
+            {
+                memberId = item.TeamMemberId;
+            }
             IDataResponse response = service.ListSharedFolders(new MemberData()
             {
+                MemberId = memberId
             }, model.AccessToken);
 
             if (response.StatusCode == HttpStatusCode.OK)
@@ -259,22 +265,25 @@
                     for (int i = 0; i < resultCount; i++)
                     {
                         dynamic entries = jsonData["entries"][i];
-                        dynamic sharedFolderId = entries["shared_folder_id"];
-                        dynamic sharedFolderName = entries["name"];
-                        dynamic isInsideTeamFolder = entries["is_inside_team_folder"];
-                        dynamic isTeamFolder = entries["is_team_folder"];
+                        dynamic sharedFolderId = Convert.ToString(entries["shared_folder_id"]);
+                        dynamic sharedFolderName = Convert.ToString(entries["name"]);
+                        dynamic isInsideTeamFolder = Convert.ToString(entries["is_inside_team_folder"]);
+                        dynamic isTeamFolder = Convert.ToString(entries["is_team_folder"]);
 
-                        var tuple = Tuple.Create(sharedFolderId,sharedFolderName,isInsideTeamFolder,isTeamFolder);
-                        sharedFolders.Add(tuple);
+                        var tuple = Tuple.Create(sharedFolderId,sharedFolderName, isInsideTeamFolder,isTeamFolder);
+                        if (!sharedFolders.Contains(tuple))
+                        {
+                            sharedFolders.Add(tuple);
+                        }
                     }
                     //if the group count is above limit - default 1000 we need to grab the cursor and call continue
                     string cursor = jsonData["cursor"];
-
-                    do
+                    while (!string.IsNullOrEmpty(cursor))
                     {
                         service.ListSharedFoldersUrl = ApplicationResource.ActionSharingListFoldersContinuation;
                         IDataResponse responseCont = service.ListSharedFolders(new MemberData()
                         {
+                            MemberId = memberId,
                             Cursor = cursor
                         }, model.AccessToken);
 
@@ -285,17 +294,19 @@
                         for (int i = 0; i < resultContCount; i++)
                         {
                             dynamic entries = jsonData["entries"][i];
-                            dynamic sharedFolderId = entries["shared_folder_id"];
-                            dynamic sharedFolderName = entries["name"];
-                            dynamic isInsideTeamFolder = entries["is_inside_team_folder"];
-                            dynamic isTeamFolder = entries["is_team_folder"];
+                            dynamic sharedFolderId = Convert.ToString(entries["shared_folder_id"]);
+                            dynamic sharedFolderName = Convert.ToString(entries["name"]);
+                            dynamic isInsideTeamFolder = Convert.ToString(entries["is_inside_team_folder"]);
+                            dynamic isTeamFolder = Convert.ToString(entries["is_team_folder"]);
 
                             var tuple = Tuple.Create(sharedFolderId, sharedFolderName, isInsideTeamFolder, isTeamFolder);
-                            sharedFolders.Add(tuple);
+                            if (!sharedFolders.Contains(tuple))
+                            {
+                                sharedFolders.Add(tuple);
+                            }
                         }
                         cursor = jsonDataCont["cursor"];
                     }
-                    while (!string.IsNullOrEmpty(cursor));
                 }
             }
             return sharedFolders;
@@ -307,15 +318,19 @@
             IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.ExportGroupPermsUrl = ApplicationResource.ActionSharingListFolderMembers;
             service.UserAgentVersion = ApplicationResource.UserAgent;
-            //List<string> groupIdList = new List<string>();
-            List<Tuple<string, string, string, string>> sharedFolders = GetSharedFolders(model, presenter);
- 
+            string memberId = string.Empty;
+            foreach (var item in model.GroupInfo)
+            {
+                memberId = item.TeamMemberId;
+            }
+            List<Tuple<string, string, string, string>> sharedFolders = this.GetSharedFolders(model, presenter);
             foreach (GroupListViewItemModel itemGroup in model.Groups.Where(m => m.IsChecked).ToList())
             {
                 foreach (var item in sharedFolders)
                 {
                     IDataResponse response = service.ExportGroupPerms(new MemberData()
                     {
+                        MemberId = memberId
                     }, item.Item1, model.AccessToken);
 
                     if (response.StatusCode == HttpStatusCode.OK)
@@ -325,24 +340,21 @@
                             string data = response.Data.ToString();
                             dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
 
-                            // clear existing data first
-                            model.GroupPerms.Clear();
-
-                            int resultCount = jsonData.Count;
-
+                            
+                            int resultCount = jsonData["groups"].Count;
                             for (int i = 0; i < resultCount; i++)
                             {
-                                dynamic groups = jsonData[i];
-                                dynamic groupName = groups["group"][i]["group_name"];
-                                dynamic groupId = groups["group"][i]["group_id"];
-                                dynamic groupType = groups["group"][i]["group_management_type"][".tag"];
-                                dynamic accessType = groups["access_type"][".tag"];
-                                dynamic sharedFolderName = item.Item2;
+                                dynamic groups = jsonData["groups"][i];
+                                dynamic groupName = Convert.ToString(groups["group"]["group_name"]);
+                                dynamic groupId = Convert.ToString(groups["group"]["group_id"]);
+                                dynamic groupType = Convert.ToString(groups["group"]["group_management_type"][".tag"]);
+                                dynamic accessType = Convert.ToString(groups["access_type"][".tag"]);
+                                dynamic isInherited = Convert.ToString(groups["is_inherited"]);
                                 dynamic sharedFolderId = item.Item1;
-                                dynamic isInherited = groups["is_inherited"];
-                                dynamic isTeamFolder = item.Item4;
+                                dynamic sharedFolderName = item.Item2;  
                                 dynamic isInsideTeamFolder = item.Item3;
-
+                                dynamic isTeamFolder = item.Item4;
+                   
                                 // update model
                                 GroupPermsItemModel lvItem = new GroupPermsItemModel()
                                 {
@@ -553,6 +565,7 @@
                                 ref view, model
                             );
                             string sPath = string.Empty;
+                            
                             if (model.GroupInfo.Count > 0)
                             {
                                 //create CSV file in My Documents folder
@@ -566,8 +579,12 @@
                                     SaveFile.WriteLine(item.GroupName + "," + item.GroupId + "," + item.GroupType + "," + item.TeamMemberId + "," + item.Email + "," + item.EmailVerified + "," + item.Status + "," + item.MembershipType + "," + item.JoinedOn + "," + item.AccessType);
                                 }
                                 SaveFile.Close();
+                                presenter.UpdateProgressInfo("Completed. Exported file located at " + sPath);
                             }
-                            presenter.UpdateProgressInfo("Completed. Exported file located at " + sPath);
+                            if (model.GroupInfo.Count == 0)
+                            {
+                                presenter.UpdateProgressInfo("No groups were chosen to export.");
+                            }
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
                         }, null);
@@ -615,21 +632,57 @@
                                 ref view, model
                             );
                             string sPath = string.Empty;
-                            if (model.GroupInfo.Count > 0)
+                            if (model.GroupPerms.Count > 0)
                             {
                                 //create CSV file in My Documents folder
                                 sPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\GroupPermsExport.csv";
-
-                                StreamWriter SaveFile = new StreamWriter(sPath);
-                                //create header line
-                                SaveFile.WriteLine("GroupName,GroupId,GroupType,SharedFolder,SharedFolderId,IsInherited,IsTeamFolder,IsInsideTeamFolder");
-                                foreach (var item in model.GroupInfo)
+                                CsvConfiguration config = new CsvConfiguration()
                                 {
-                                    SaveFile.WriteLine(item.GroupName + "," + item.GroupId + "," + item.GroupType + "," + item.TeamMemberId + "," + item.Email + "," + item.EmailVerified + "," + item.Status + "," + item.MembershipType);
+                                    HasHeaderRecord = true,
+                                    Delimiter = ",",
+                                    Encoding = System.Text.Encoding.UTF8
+                                };
+                                config.RegisterClassMap(new GroupPermsHeaderMap());
+                                int total = model.GroupPerms.Count;
+                                using (CsvWriter writer = new CsvWriter(new StreamWriter(sPath), config))
+                                {
+                                    writer.WriteHeader<GroupPermsHeaderRecord>();
+                                    int count = 0;
+                                    foreach (var item in model.GroupPerms)
+                                    {
+                                        writer.WriteField<string>(item.GroupName);
+                                        writer.WriteField<string>(item.GroupId);
+                                        writer.WriteField<string>(item.GroupType);
+                                        writer.WriteField<string>(item.SharedFolderName);
+                                        writer.WriteField<string>(item.SharedFolderId);
+                                        writer.WriteField<string>(item.AccessType);
+                                        writer.WriteField<string>(item.IsInherited);
+                                        writer.WriteField<string>(item.IsTeamFolder);
+                                        writer.WriteField<string>(item.IsInsideTeamFolder);
+                                        count++;
+                                        if (SyncContext != null)
+                                        {
+                                            SyncContext.Post(delegate
+                                            {
+                                                presenter.UpdateProgressInfo(string.Format("Writing Record: {0}/{1}", (count), total));
+                                            }, null);
+                                        }
+                                        writer.NextRecord();  
+                                    }
                                 }
-                                SaveFile.Close();
+                                if (SyncContext != null)
+                                {
+                                    SyncContext.Post(delegate
+                                    {
+                                        presenter.UpdateProgressInfo("Completed. Exported file located at " + sPath);
+                                    }, null);
+                                }
+                                
                             }
-                            presenter.UpdateProgressInfo("Completed. Exported file located at " + sPath);
+                            if (model.GroupPerms.Count == 0)
+                            {
+                                presenter.UpdateProgressInfo("No groups were selected to export.");
+                            }
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
                         }, null);

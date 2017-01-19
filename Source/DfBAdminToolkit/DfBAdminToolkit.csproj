@@ -114,6 +114,7 @@
     <Compile Include="Model\GroupInfoItemModel.cs" />
     <Compile Include="Model\GroupListViewItemModel.cs" />
     <Compile Include="Model\GroupPermsItemModel.cs" />
+    <Compile Include="Model\GroupsHeaderRecord.cs" />
     <Compile Include="Model\GroupsModel.cs" />
     <Compile Include="Model\IDataMigrationModel.cs" />
     <Compile Include="Model\IDevicesModel.cs" />

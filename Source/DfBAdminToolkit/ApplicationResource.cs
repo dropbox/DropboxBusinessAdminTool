@@ -52,7 +52,7 @@
 
         public static string ActionSharingListFolderMembers
         {
-            get { return ConfigurationManager.AppSettings.Get("ActionListFolderMembers"); }
+            get { return ConfigurationManager.AppSettings.Get("ActionSharingListFolderMembers"); }
         }
 
         public static string ActionSharingListFolderMembersContinuation
