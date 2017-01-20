@@ -509,7 +509,7 @@
                     }
                     if (!String.IsNullOrEmpty(data.Cursor))
                     {
-                        //set up properties for JSON to the API
+                        //continuation from cursor
                         JObject jsonExportGroupPerms = new JObject(
                         new JProperty("cursor", data.Cursor)
                        );

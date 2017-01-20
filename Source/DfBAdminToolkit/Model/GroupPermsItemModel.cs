@@ -7,7 +7,10 @@
     {
         private string _groupName;
         private string _groupId;
+        private string _groupManagementType;
         private string _groupType;
+        private string _isMember;
+        private string _isOwner;
         private string _accessType;
         private string _sharedFolderName;
         private string _sharedFolderId;
@@ -36,6 +39,16 @@
             }
         }
 
+        public string GroupManagementType
+        {
+            get { return _groupManagementType; }
+            set
+            {
+                _groupManagementType = value;
+                OnPropertyChanged("GroupManagementType");
+            }
+        }
+
         public string GroupType
         {
             get { return _groupType; }
@@ -43,6 +56,26 @@
             {
                 _groupType = value;
                 OnPropertyChanged("GroupType");
+            }
+        }
+
+        public string IsMember
+        {
+            get { return _isMember; }
+            set
+            {
+                _isMember = value;
+                OnPropertyChanged("IsMember");
+            }
+        }
+
+        public string IsOwner
+        {
+            get { return _isOwner; }
+            set
+            {
+                _isOwner = value;
+                OnPropertyChanged("IsOwner");
             }
         }
 

@@ -5,9 +5,6 @@ namespace DfBAdminToolkit.Model
 
     public class GroupInfoHeaderRecord
     {
-        //item.GroupName + "," + item.GroupId + "," + item.GroupType + "," + 
-        //item.TeamMemberId + "," + item.Email + "," + item.EmailVerified + "," 
-        //item.Status + "," + item.MembershipType + "," + item.JoinedOn + "," + item.AccessType);
         public string GroupName { get; set; }
         public string GroupId { get; set; }
         public string GroupType { get; set; }
@@ -26,7 +23,7 @@ namespace DfBAdminToolkit.Model
         {
             Map(m => m.GroupName).Name("GroupName");
             Map(m => m.GroupId).Name("GroupId");
-            Map(m => m.GroupType).Name("GroupType");
+            Map(m => m.GroupType).Name("GroupManagementType");
             Map(m => m.TeamMemberId).Name("TeamMemberId");
             Map(m => m.Email).Name("Email");
             Map(m => m.EmailVerified).Name("EmailVerified");

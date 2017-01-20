@@ -190,6 +190,7 @@
                             dynamic membershipType = string.Empty;
                             dynamic joinedOn = string.Empty;
                             dynamic accessType = string.Empty;
+                            
                             //You can only get member profile info from user managed groups
                             if (groupType == "user_managed")
                             {
@@ -247,7 +248,11 @@
             string memberId = string.Empty;
             foreach (var item in model.GroupInfo)
             {
-                memberId = item.TeamMemberId;
+                if (!string.IsNullOrEmpty(item.TeamMemberId))
+                {
+                    memberId = item.TeamMemberId;
+                    break;
+                }
             }
             IDataResponse response = service.ListSharedFolders(new MemberData()
             {
@@ -293,7 +298,7 @@
                         int resultContCount = jsonDataCont["entries"].Count;
                         for (int i = 0; i < resultContCount; i++)
                         {
-                            dynamic entries = jsonData["entries"][i];
+                            dynamic entries = jsonDataCont["entries"][i];
                             dynamic sharedFolderId = Convert.ToString(entries["shared_folder_id"]);
                             dynamic sharedFolderName = Convert.ToString(entries["name"]);
                             dynamic isInsideTeamFolder = Convert.ToString(entries["is_inside_team_folder"]);
@@ -312,7 +317,6 @@
             return sharedFolders;
         }
 
-        //still need continuation
         private void ExportGroupPerms(IGroupsModel model, IMainPresenter presenter)
         {
             IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
@@ -321,46 +325,101 @@
             string memberId = string.Empty;
             foreach (var item in model.GroupInfo)
             {
-                memberId = item.TeamMemberId;
+                if (!string.IsNullOrEmpty(item.TeamMemberId))
+                {
+                    memberId = item.TeamMemberId;
+                    break;
+                }
             }
             List<Tuple<string, string, string, string>> sharedFolders = this.GetSharedFolders(model, presenter);
-            foreach (GroupListViewItemModel itemGroup in model.Groups.Where(m => m.IsChecked).ToList())
+            foreach (var item in sharedFolders)
             {
-                foreach (var item in sharedFolders)
+                IDataResponse response = service.ExportGroupPerms(new MemberData()
                 {
-                    IDataResponse response = service.ExportGroupPerms(new MemberData()
-                    {
-                        MemberId = memberId
-                    }, item.Item1, model.AccessToken);
+                    MemberId = memberId
+                }, item.Item1, model.AccessToken);
 
-                    if (response.StatusCode == HttpStatusCode.OK)
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (response.Data != null)
                     {
-                        if (response.Data != null)
+                        string data = response.Data.ToString();
+                        dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);         
+                        int resultCount = jsonData["groups"].Count;
+                        for (int i = 0; i < resultCount; i++)
                         {
-                            string data = response.Data.ToString();
-                            dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
-
-                            
-                            int resultCount = jsonData["groups"].Count;
-                            for (int i = 0; i < resultCount; i++)
+                            dynamic groups = jsonData["groups"][i];
+                            dynamic groupName = Convert.ToString(groups["group"]["group_name"]);
+                            dynamic groupId = Convert.ToString(groups["group"]["group_id"]);
+                            dynamic groupMgmtType = Convert.ToString(groups["group"]["group_management_type"][".tag"]);
+                            dynamic groupType = Convert.ToString(groups["group"]["group_type"][".tag"]);
+                            dynamic isMember = Convert.ToString(groups["group"]["is_member"]);
+                            dynamic isOwner = Convert.ToString(groups["group"]["is_owner"]);
+                            dynamic accessType = Convert.ToString(groups["access_type"][".tag"]);
+                            dynamic isInherited = Convert.ToString(groups["is_inherited"]);
+                            dynamic sharedFolderId = item.Item1;
+                            dynamic sharedFolderName = item.Item2;  
+                            dynamic isInsideTeamFolder = item.Item3;
+                            dynamic isTeamFolder = item.Item4;
+                   
+                            // update model
+                            GroupPermsItemModel lvItem = new GroupPermsItemModel()
                             {
-                                dynamic groups = jsonData["groups"][i];
+                                GroupName = groupName,
+                                GroupId = groupId,
+                                GroupManagementType = groupMgmtType,
+                                GroupType = groupType,
+                                IsMember = isMember,
+                                IsOwner = isOwner,
+                                AccessType = accessType,
+                                SharedFolderName = sharedFolderName,
+                                SharedFolderId = sharedFolderId,
+                                IsInherited = isInherited,
+                                IsTeamFolder = isTeamFolder,
+                                IsInsideTeamFolder = isInsideTeamFolder
+                            };
+                            model.GroupPerms.Add(lvItem);
+                        }
+                        //if the group count is above limit - default 1000 we need to grab the cursor and call continue
+                        string cursor = jsonData["cursor"];
+
+                        while (!string.IsNullOrEmpty(cursor))
+                        {
+                            service.ExportGroupPermsUrl = ApplicationResource.ActionSharingListFolderMembersContinuation;
+                            IDataResponse responseCont = service.ExportGroupPerms(new MemberData()
+                            {
+                                MemberId = memberId,
+                                Cursor = cursor
+                            }, item.Item1, model.AccessToken);
+
+                            string dataCont = responseCont.Data.ToString();
+                            dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
+                            int resultCountCont = jsonDataCont["groups"].Count;
+                            for (int i = 0; i < resultCountCont; i++)
+                            {
+                                dynamic groups = jsonDataCont["groups"][i];
                                 dynamic groupName = Convert.ToString(groups["group"]["group_name"]);
                                 dynamic groupId = Convert.ToString(groups["group"]["group_id"]);
-                                dynamic groupType = Convert.ToString(groups["group"]["group_management_type"][".tag"]);
+                                dynamic groupMgmtType = Convert.ToString(groups["group"]["group_management_type"][".tag"]);
+                                dynamic groupType = Convert.ToString(groups["group"]["group_type"][".tag"]);
+                                dynamic isMember = Convert.ToString(groups["group"]["is_member"]);
+                                dynamic isOwner = Convert.ToString(groups["group"]["is_owner"]);
                                 dynamic accessType = Convert.ToString(groups["access_type"][".tag"]);
                                 dynamic isInherited = Convert.ToString(groups["is_inherited"]);
                                 dynamic sharedFolderId = item.Item1;
-                                dynamic sharedFolderName = item.Item2;  
+                                dynamic sharedFolderName = item.Item2;
                                 dynamic isInsideTeamFolder = item.Item3;
                                 dynamic isTeamFolder = item.Item4;
-                   
+
                                 // update model
                                 GroupPermsItemModel lvItem = new GroupPermsItemModel()
                                 {
                                     GroupName = groupName,
                                     GroupId = groupId,
+                                    GroupManagementType = groupMgmtType,
                                     GroupType = groupType,
+                                    IsMember = isMember,
+                                    IsOwner = isOwner,
                                     AccessType = accessType,
                                     SharedFolderName = sharedFolderName,
                                     SharedFolderId = sharedFolderId,
@@ -370,6 +429,7 @@
                                 };
                                 model.GroupPerms.Add(lvItem);
                             }
+                            cursor = jsonDataCont["cursor"];
                         }
                     }
                 }
@@ -681,12 +741,15 @@
                                     writer.WriteHeader<GroupPermsHeaderRecord>();
                                     int count = 0;
                                     foreach (var item in model.GroupPerms)
-                                    {
-                                        writer.WriteField<string>(item.GroupName);
-                                        writer.WriteField<string>(item.GroupId);
-                                        writer.WriteField<string>(item.GroupType);
+                                    {  
                                         writer.WriteField<string>(item.SharedFolderName);
                                         writer.WriteField<string>(item.SharedFolderId);
+                                        writer.WriteField<string>(item.GroupName);
+                                        writer.WriteField<string>(item.GroupId);
+                                        writer.WriteField<string>(item.GroupManagementType);
+                                        writer.WriteField<string>(item.GroupType);
+                                        writer.WriteField<string>(item.IsMember);
+                                        writer.WriteField<string>(item.IsOwner);
                                         writer.WriteField<string>(item.AccessType);
                                         writer.WriteField<string>(item.IsInherited);
                                         writer.WriteField<string>(item.IsTeamFolder);

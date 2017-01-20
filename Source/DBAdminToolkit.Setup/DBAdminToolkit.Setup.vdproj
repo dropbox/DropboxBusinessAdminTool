@@ -813,7 +813,7 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Dropbox Business Admin Toolkit"
-        "ProductCode" = "8:{F0DACDCF-F9AE-44AB-B3DD-F4625906FF93"
+        "ProductCode" = "8:{F0DACDCF-F9AE-44AB-B3DD-F4625906FF93}"
         "PackageCode" = "8:{4F507568-2104-402C-812B-BF0F65944546}"
         "UpgradeCode" = "8:{F6F4214B-C1CB-4F20-B1B3-35E1B7262F93}"
         "AspNetVersion" = "8:4.0.30319.0"
