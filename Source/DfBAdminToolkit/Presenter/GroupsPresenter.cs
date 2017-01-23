@@ -862,7 +862,19 @@
                 }
                 else
                 {
-                    this.AddMemberGroup(model, email, presenter);
+                    if (email.Contains(","))
+                    {
+                        char delimiter = ',';
+                        string[] emails = email.Split(delimiter);
+                        foreach (string newEmail in emails)
+                        {
+                            this.AddMemberGroup(model, newEmail, presenter);
+                        }
+                    }
+                    if (!email.Contains(","))
+                    {
+                        this.AddMemberGroup(model, email, presenter);
+                    }     
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate
@@ -909,7 +921,20 @@
                 }
                 else
                 {
-                    this.DeleteMemberGroup(model, email, presenter);
+                    if (email.Contains(","))
+                    {
+                        char delimiter = ',';
+                        string[] emails = email.Split(delimiter);
+                        foreach (string newEmail in emails)
+                        {
+                            this.DeleteMemberGroup(model, newEmail, presenter);
+                        }
+                    }
+                    if (!email.Contains(","))
+                    {
+                        this.DeleteMemberGroup(model, email, presenter);
+                    }
+                    
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate
