@@ -257,7 +257,7 @@
             IDataResponse response = service.ListSharedFolders(new MemberData()
             {
                 MemberId = memberId
-            }, model.AccessToken);
+            }, ApplicationResource.DefaultAccessToken);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -337,7 +337,7 @@
                 IDataResponse response = service.ExportGroupPerms(new MemberData()
                 {
                     MemberId = memberId
-                }, item.Item1, model.AccessToken);
+                }, item.Item1, ApplicationResource.DefaultAccessToken);
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {

@@ -21,7 +21,7 @@
             Groups = new List<GroupListViewItemModel>();
             GroupInfo = new List<GroupInfoItemModel>();
             GroupPerms = new List<GroupPermsItemModel>();
-            AccessToken = ApplicationResource.DefaultAccessToken;
+            AccessToken = ApplicationResource.DefaultProvisionToken;
         }
 
         public void CleanUp() {
