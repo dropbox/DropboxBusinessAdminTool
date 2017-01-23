@@ -22,13 +22,13 @@ namespace DfBAdminToolkit.Model
     public class GroupPermsHeaderMap : CsvClassMap<GroupPermsHeaderRecord>
     {
         public GroupPermsHeaderMap()
-        {    
-            Map(m => m.SharedFolderName).Name("SharedFolderName");
-            Map(m => m.SharedFolderId).Name("SharedFolderId");
+        {      
             Map(m => m.GroupName).Name("GroupName");
             Map(m => m.GroupId).Name("GroupId");
             Map(m => m.GroupManagementType).Name("GroupManagementType");
             Map(m => m.GroupType).Name("GroupType");
+            Map(m => m.SharedFolderName).Name("SharedFolderName");
+            Map(m => m.SharedFolderId).Name("SharedFolderId");
             Map(m => m.IsMember).Name("IsMember");
             Map(m => m.IsOwner).Name("IsOwner");
             Map(m => m.AccessType).Name("AccessType");

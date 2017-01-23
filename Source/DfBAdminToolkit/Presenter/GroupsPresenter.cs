@@ -741,13 +741,13 @@
                                     writer.WriteHeader<GroupPermsHeaderRecord>();
                                     int count = 0;
                                     foreach (var item in model.GroupPerms)
-                                    {  
-                                        writer.WriteField<string>(item.SharedFolderName);
-                                        writer.WriteField<string>(item.SharedFolderId);
+                                    {       
                                         writer.WriteField<string>(item.GroupName);
                                         writer.WriteField<string>(item.GroupId);
                                         writer.WriteField<string>(item.GroupManagementType);
                                         writer.WriteField<string>(item.GroupType);
+                                        writer.WriteField<string>(item.SharedFolderName);
+                                        writer.WriteField<string>(item.SharedFolderId);
                                         writer.WriteField<string>(item.IsMember);
                                         writer.WriteField<string>(item.IsOwner);
                                         writer.WriteField<string>(item.AccessType);
