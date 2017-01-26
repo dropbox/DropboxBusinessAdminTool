@@ -129,11 +129,6 @@
                 {
                     return (model != null) ? model.TeamFolderName : string.Empty;
                 };
-            //olv.GetColumn((int)OlvMembersIndex.DefaultSyncSetting).AspectGetter
-            //    = delegate (TeamFoldersListViewItemModel model)
-            //    {
-            //        return (model != null) ? model.DefaultSyncSetting : string.Empty;
-            //    };
             olv.GetColumn((int)OlvMembersIndex.TeamFolderId).AspectGetter
                 = delegate (TeamFoldersListViewItemModel model)
                 {

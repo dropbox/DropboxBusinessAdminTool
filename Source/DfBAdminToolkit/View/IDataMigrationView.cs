@@ -6,6 +6,7 @@
         : IView {
         event EventHandler CommandDisplayContent;
         event EventHandler CommandExportContent;
+        event EventHandler CommandExportContentExcel;
 
         string OutputFileName { get; set; }
 

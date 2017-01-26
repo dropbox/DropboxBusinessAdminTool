@@ -6,6 +6,7 @@
     using System.IO;
     using System.IO.Compression;
     using System.Net;
+    using System.Collections.Generic;
 
     public class MemberServices
         : IMemberServices {
@@ -41,6 +42,16 @@
         public string SetProfileUrl { get; set; }
 
         public string GetGroupsUrl { get; set; }
+
+        public string ExportGroupsUrl { get; set; }
+
+        public string ListSharedFoldersUrl { get; set; }
+
+        public string ListSharedFoldersContinuationUrl { get; set; }
+
+        public string ExportGroupPermsUrl { get; set; }
+
+        public string ExportGroupPermsContinuationUrl { get; set; }
 
         public string CreateGroupUrl { get; set; }
 
@@ -395,7 +406,128 @@
             return dataResponse;
         }
 
-        public IServiceResponse CreateGroup(string groupName, string authToken)
+        public IDataResponse ExportGroups(IMemberData data, List<string> groupIds, string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(ExportGroupsUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(ExportGroupsUrl, Method.POST);
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    //set up properties for JSON to the API
+                    JObject jsonExportGroupInfo = new JObject(
+                    new JProperty(".tag", "group_ids"),
+                    new JProperty("group_ids",
+                            new JArray(groupIds))
+                    );
+                    request.AddParameter("application/json", jsonExportGroupInfo, ParameterType.RequestBody);
+
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse ListSharedFolders(IMemberData data, string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(ListSharedFoldersUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(ListSharedFoldersUrl, Method.POST);
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+                    request.AddHeader("Dropbox-API-Select-User", data.MemberId);
+
+                    if (String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //set up properties for JSON to the API
+                        JObject jsonExportGroupInfo = new JObject(
+                        new JProperty("limit", 1000)
+                        );
+                        request.AddParameter("application/json", jsonExportGroupInfo, ParameterType.RequestBody);
+                    }
+                    if (!String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //set up properties for JSON to the API
+                        JObject jsonExportGroupInfo = new JObject(
+                        new JProperty("cursor", data.Cursor)
+                       );
+                        request.AddParameter("application/json", jsonExportGroupInfo, ParameterType.RequestBody);
+                    }
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse ExportGroupPerms(IMemberData data, string shareId, string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(ExportGroupPermsUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(ExportGroupPermsUrl, Method.POST);
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+                    request.AddHeader("Dropbox-API-Select-User", data.MemberId);
+
+                    if (String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //set up properties for JSON to the API
+                        JObject jsonExportGroupPerms = new JObject(
+                        new JProperty("shared_folder_id", shareId),
+                        new JProperty("limit", 1000)
+                        );
+                        request.AddParameter("application/json", jsonExportGroupPerms, ParameterType.RequestBody);
+                    }
+                    if (!String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //continuation from cursor
+                        JObject jsonExportGroupPerms = new JObject(
+                        new JProperty("cursor", data.Cursor)
+                       );
+                        request.AddParameter("application/json", jsonExportGroupPerms, ParameterType.RequestBody);
+                    }
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IServiceResponse CreateGroup(string groupName, string groupType, string authToken)
         {
             IServiceResponse serviceResponse = null;
             try
@@ -408,7 +540,8 @@
                     request.AddHeader("Content-Type", "application/json");
 
                     JObject json = new JObject(
-                        new JProperty("group_name", groupName)
+                        new JProperty("group_name", groupName),
+                        new JProperty("group_management_type", groupType)
                     );
 
                     request.AddParameter("application/json", json, ParameterType.RequestBody);

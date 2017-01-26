@@ -9,6 +9,8 @@
     {
         event EventHandler CommandGetGroups;
         event EventHandler CommandCreateGroup;
+        event EventHandler CommandExportGroups;
+        event EventHandler CommandExportGroupPerms;
         event EventHandler CommandAddMember;
         event EventHandler CommandDeleteMember;
 
@@ -17,6 +19,8 @@
         void RefreshAccessToken();
 
         string GroupName { get; set; }
+
+        string GroupType { get; set; }
 
         string UserEmail { get; set; }
 
