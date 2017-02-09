@@ -1,11 +1,16 @@
 ![Dropbox Business Admin Toolkit] (https://dl.dropboxusercontent.com/u/354544978/MKTG-DEMO/static/dropbox_s.png)
 
+## Release 5.0
+
 ## Features
 
 - [x] Search for content across the entire Dropbox Business team by name or full text search
-- [x] Download and save content from any team members Dropbox for holding or audit purposes
-- [x] Provision & Deprovision bulk users from csv files
-- [x] Get accurate Dropbox usage numbers for the entire team
+- [x] Download and save content from any team members Dropbox for holding or audit purposes while taking action on their account (suspend, delete)
+- [x] Expeditiously provision, deprovision in bulk from CSV
+- [x] View accurate Dropbox usage numbers for the entire team while exporting member uses, status and member type
+- [x] Create group(s) and provision multiple members to a single group
+- [x] Export group relationships by user, folder, and team folder
+- [x] Create team folder(s) or view your existing team folders and their state
 - [x] Report (and search) on Device usage associated Dropbox
 - [x] Take actions on Devices attached to your Dropbox team (remote wipe)
 - [x] Report on all files in your Dropbox team
@@ -17,7 +22,7 @@
 
 ## Notes
 
-The Admin toolkit is a showcase of the Dropbox Business and Dropbox Core API's. It should be seen as an example of what is possible rather than an end to end solution (frankly it only scratches the surface of API capabilites). If you are a Dropbox Business or Enterprise customer please talk to your Dropbox representative about ideas for custom solutions for your Dropbox team. The custom solution development team are able to assist with advisory or full solution work to help you leverage Dropbox as a platform in your business.  
+The Admin toolkit is a showcase of the Dropbox Business and Dropbox Core API's. It should be seen as an example of what is possible rather than an end to end solution (frankly it only scratches the surface of API capabilities). If you are a Dropbox Business or Enterprise customer please talk to your Dropbox representative about ideas for custom solutions for your Dropbox team. The custom solution development team are able to assist with advisory or full solution work to help you leverage Dropbox as a platform in your business. 
 
 ## Licensing
 
@@ -27,19 +32,35 @@ Please carefully note:
 
 "Disclaimer of Warranty. [...] the Work (and each Contributor provides its Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for determining the appropriateness of using or redistributing the Work and assume any risks associated with Your exercise of permissions under this License."
 
+
 ## Images
 
 Full Text Search:
-![Full Text Search](https://dl.dropboxusercontent.com/u/354544978/AdminTool/full-text-search.png)
 
-Export Content:
-![Export Content](https://dl.dropboxusercontent.com/u/354544978/AdminTool/capture-user-content.png)
+![Full Text Search](https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1486667912234_file.png)
+
+Download User Contents:
+
+![Download User Contents](https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1486667944356_file.png)
 
 Bulk Provisioning and Reporting:
-![Bulk Provisioning and Reporting](https://dl.dropboxusercontent.com/u/354544978/AdminTool/provisioning-and-usage.png)
+(dependent on radio button selection)
 
-Full Team Content Reporting (Migration Reporting):
-![Full Team Content Reporting](https://dl.dropboxusercontent.com/u/354544978/AdminTool/migration-reporting.png)
+![Bulk Provisioning and Reporting](https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1486081635407_file.png)
+
+Group Creation, Edit and Audit
+
+![Group Creation, Edit and Audit](https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1486668042272_file.png)
+
+Team Folder Creation, Edit and Audit
+
+![Team Folder Creation, Edit and Audit](https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1486668058572_file.png)
 
 Device Management:
-![Device Management](https://dl.dropboxusercontent.com/u/354544978/AdminTool/device-management.png)
+
+![Device Management](https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1486668077441_file.png)
+
+Team Content Audit:
+
+![Team Content Audit](https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1486668106618_file.png)
+
