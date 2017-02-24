@@ -20,6 +20,8 @@
 
         string ProvisionStatus { get; set; }
 
+        string JoinedOn { get; set; }
+
         List<MemberListViewItemModel> Members { get; set; }
     }
 }

@@ -15,6 +15,7 @@
         private string _newEmail;
         private string _newExternalId;
         private string _provisionStatus;
+        private string _joinedOn;
         private bool _isChecked;
 
         public string Email {
@@ -110,6 +111,16 @@
             {
                 _provisionStatus = value;
                 OnPropertyChanged("ProvisionStatus");
+            }
+        }
+
+        public string JoinedOn
+        {
+            get { return _joinedOn; }
+            set
+            {
+                _joinedOn = value;
+                OnPropertyChanged("JoinedOn");
             }
         }
 

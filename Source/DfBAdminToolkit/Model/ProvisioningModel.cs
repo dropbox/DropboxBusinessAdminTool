@@ -20,6 +20,8 @@
 
         public string ProvisionStatus { get; set; }
 
+        public string JoinedOn { get; set; }
+
         public List<MemberListViewItemModel> Members { get; set; }
 
         public ProvisioningModel() {
