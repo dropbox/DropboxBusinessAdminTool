@@ -6,17 +6,6 @@
 
 - [x] Search for content across the entire Dropbox Business team by name or full text search
 - [x] Download and save content from any team members Dropbox for holding or audit purposes while taking action on their account (suspend, delete)
-- [x] Expeditiously provision, deprovision in bulk from CSV
-- [x] View accurate Dropbox usage numbers for the entire team while exporting member uses, status and member type
-- [x] Create group(s) and provision multiple members to a single group
-- [x] Export group relationships by user, folder, and team folder
-- [x] Create team folder(s) or view your existing team folders and their state
-- [x] Report (and search) on Device usage associated Dropbox
-- [x] Take actions on Devices attached to your Dropbox team (remote wipe)
-- [x] Report on all files in your Dropbox team
-- [x] Export full team member list with status
-- [x] Search for content across the entire Dropbox Business team by name or full text search
-- [x] Download and save content from any team members Dropbox for holding or audit purposes while taking action on their account (suspend, delete)
 - [x] Quickly access CSV templates from file menu
 - [x] Expeditiously provision, deprovision in bulk from CSV
 - [x] View accurate Dropbox usage numbers for the entire team while exporting member users, status and member type
