@@ -540,8 +540,8 @@
                     request.AddHeader("Content-Type", "application/json");
 
                     JObject json = new JObject(
-                        new JProperty("group_name", groupName),
-                        new JProperty("group_management_type", groupType)
+                        new JProperty("group_name", groupName.Trim()),
+                        new JProperty("group_management_type", groupType.Trim())
                     );
                     request.AddParameter("application/json", json, ParameterType.RequestBody);
                     request.RequestFormat = DataFormat.Json;
@@ -579,7 +579,7 @@
                         new JProperty("group",
                                         new JObject(
                                             new JProperty(".tag", "group_id"),
-                                            new JProperty("group_id", data.GroupId)
+                                            new JProperty("group_id", data.GroupId.Trim())
                                         )
                                     ),
                         new JProperty("members",
@@ -588,7 +588,7 @@
                                     new JProperty("user",
                                         new JObject(
                                             new JProperty(".tag", "email"),
-                                            new JProperty("email", data.GroupEmail)
+                                            new JProperty("email", data.GroupEmail.Trim())
                                         )
                                     ),
                                     new JProperty("access_type",
@@ -637,7 +637,7 @@
                         new JProperty("group",
                                         new JObject(
                                             new JProperty(".tag", "group_id"),
-                                            new JProperty("group_id", data.GroupId)
+                                            new JProperty("group_id", data.GroupId.Trim())
                                         )
                                     ),
                         new JProperty("users",
@@ -721,7 +721,7 @@
                     RestRequest request = new RestRequest(GetUsageUrl, Method.POST);
                     //add headers
                     request.AddHeader("Authorization", "Bearer " + authToken);
-                    request.AddHeader("Dropbox-API-Select-User", data.MemberId);
+                    request.AddHeader("Dropbox-API-Select-User", data.MemberId.Trim());
 
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
@@ -788,11 +788,11 @@
                         new JProperty("user",
                                 new JObject(
                                     new JProperty(".tag", "email"),
-                                    new JProperty("email", data.Email)
+                                    new JProperty("email", data.Email.Trim())
                                 )
                         ),
                         new JProperty("new_email", data.NewEmail),
-                        new JProperty("new_external_id", data.NewExternalId)
+                        new JProperty("new_external_id", data.NewExternalId.Trim())
                         );
                         request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
                     }
@@ -875,7 +875,7 @@
                     request.AddHeader("Content-Type", "application/json");
 
                     JObject json = new JObject(
-                        new JProperty("name", teamFolderName)
+                        new JProperty("name", teamFolderName.Trim())
                     );
 
                     request.AddParameter("application/json", json, ParameterType.RequestBody);
