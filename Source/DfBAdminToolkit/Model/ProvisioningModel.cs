@@ -1,6 +1,7 @@
 ﻿namespace DfBAdminToolkit.Model {
 
     using System.Collections.Generic;
+    using System;
 
     public class ProvisioningModel
        : IProvisioningModel {
@@ -19,6 +20,8 @@
         public string NewExternalId { get; set; }
 
         public string ProvisionStatus { get; set; }
+
+        public DateTime JoinedOn { get; set; }
 
         public List<MemberListViewItemModel> Members { get; set; }
 

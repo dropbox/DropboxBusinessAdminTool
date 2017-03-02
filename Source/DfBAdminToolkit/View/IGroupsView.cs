@@ -13,6 +13,8 @@
         event EventHandler CommandExportGroupPerms;
         event EventHandler CommandAddMember;
         event EventHandler CommandDeleteMember;
+        event EventHandler CommandLoadGroupsInputFile;
+        event EventHandler CommandLoadGroupsMembersInputFile;
 
         string AccessToken { get; set; }
 
@@ -24,6 +26,18 @@
 
         string UserEmail { get; set; }
 
-        void RenderGroupList();
+        string AddStatus { get; set; }
+
+        string GroupInputFilePath { get; set; }
+
+        string GroupMemberInputFilePath { get; set; }
+
+        void RenderGroupList(List<GroupListViewItemModel> groups);
+
+        void RenderGroupsStatus(List<GroupListViewItemModel> groups);
+
+        bool MultiGroupCreateCheck();
+
+        bool MultiGroupMemberCreateCheck();
     }
 }

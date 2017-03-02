@@ -1,6 +1,5 @@
 ﻿namespace DfBAdminToolkit.Presenter
 {
-
     using CsvHelper;
     using CsvHelper.Configuration;
     using Common.Services;
@@ -495,6 +494,7 @@
                         for (int i = 0; i < resultCount; i++)
                         {
                             dynamic emailObj = jsonData["members"][i]["profile"]["email"];
+                            dynamic joinedOnObj = jsonData["members"][i]["profile"]["joined_on"];
                             dynamic teamIdObj = jsonData["members"][i]["profile"]["team_member_id"];
                             dynamic statusObj = jsonData["members"][i]["profile"]["status"][".tag"];
                             dynamic firstNameObj = jsonData["members"][i]["profile"]["name"]["given_name"];
@@ -502,6 +502,7 @@
                             dynamic roleObj = jsonData["members"][i]["role"][".tag"];
                             string role = roleObj.Value as string;
                             string email = emailObj.Value as string;
+                            DateTime joinedOn = joinedOnObj;
                             string status = statusObj.Value as string;
                             string firstName = firstNameObj.Value as string;
                             string lastName = lastNameObj.Value as string;
@@ -533,7 +534,8 @@
                                 LastName = lastName,
                                 Status = status,
                                 Role = role,
-                                Usage = FileUtil.FormatFileSizeMB(used)
+                                Usage = FileUtil.FormatFileSizeMB(used),
+                                JoinedOn = joinedOn
                             };
 
                             model.Members.Add(lvItem);
@@ -556,6 +558,7 @@
                             for (int i = 0; i < resultContCount; i++)
                             {
                                 dynamic emailObj = jsonDataCont["members"][i]["profile"]["email"];
+                                dynamic joinedOnObj = jsonData["members"][i]["profile"]["joined_on"];
                                 dynamic teamIdObj = jsonDataCont["members"][i]["profile"]["team_member_id"];
                                 dynamic statusObj = jsonDataCont["members"][i]["profile"]["status"][".tag"];
                                 dynamic firstNameObj = jsonDataCont["members"][i]["profile"]["name"]["given_name"];
@@ -563,6 +566,7 @@
                                 dynamic roleObj = jsonDataCont["members"][i]["role"][".tag"];
                                 string role = roleObj.Value as string;
                                 string email = emailObj.Value as string;
+                                DateTime joinedOn = joinedOnObj;
                                 string status = statusObj.Value as string;
                                 string firstName = firstNameObj.Value as string;
                                 string lastName = lastNameObj.Value as string;
@@ -593,7 +597,8 @@
                                     LastName = lastName,
                                     Status = status,
                                     Role = role,
-                                    Usage = FileUtil.FormatFileSizeMB(used)
+                                    Usage = FileUtil.FormatFileSizeMB(used),
+                                    JoinedOn = joinedOn
                                 };
 
                                 model.Members.Add(lvItem);
@@ -640,10 +645,14 @@
                             dynamic firstNameObj = jsonData["members"][i]["profile"]["name"]["given_name"];
                             dynamic lastNameObj = jsonData["members"][i]["profile"]["name"]["surname"];
                             dynamic idObj = jsonData["members"][i]["profile"]["team_member_id"];
+                            dynamic joinedOnObj = jsonData["members"][i]["profile"]["joined_on"];
+                            dynamic statusObj = jsonData["members"][i]["profile"]["status"][".tag"];
                             string teamId = idObj.Value as string;
                             string email = emailObj.Value as string;
                             string firstName = firstNameObj.Value as string;
                             string lastName = lastNameObj.Value as string;
+                            DateTime joinedOn = joinedOnObj;
+                            string status = statusObj.Value as string;
 
                             IDataResponse responseUsage = serviceUsage.GetUsage(new MemberData()
                             {
@@ -670,7 +679,9 @@
                                 MemberId = teamId,
                                 FirstName = firstName,
                                 LastName = lastName,
-                                Usage = FileUtil.FormatFileSizeMB(used)
+                                Status = status,
+                                Usage = FileUtil.FormatFileSizeMB(used),
+                                JoinedOn = joinedOn
                             };
 
                             model.Members.Add(lvItem);
@@ -697,10 +708,14 @@
                                 dynamic firstNameObj = jsonDataCont["members"][i]["profile"]["name"]["given_name"];
                                 dynamic lastNameObj = jsonDataCont["members"][i]["profile"]["name"]["surname"];
                                 dynamic idObj = jsonData["members"][i]["profile"]["team_member_id"];
+                                dynamic joinedOnObj = jsonData["members"][i]["profile"]["joined_on"];
+                                dynamic statusObj = jsonDataCont["members"][i]["profile"]["status"][".tag"];
                                 string teamId = idObj.Value as string;
                                 string email = emailObj.Value as string;
                                 string firstName = firstNameObj.Value as string;
                                 string lastName = lastNameObj.Value as string;
+                                DateTime joinedOn = joinedOnObj;
+                                string status = statusObj.Value as string;
 
                                 IDataResponse responseUsage = serviceUsage.GetUsage(new MemberData()
                                 {
@@ -726,7 +741,9 @@
                                     MemberId = teamId,
                                     FirstName = firstName,
                                     LastName = lastName,
-                                    Usage = FileUtil.FormatFileSizeMB(used)
+                                    Status = status,
+                                    Usage = FileUtil.FormatFileSizeMB(used),
+                                    JoinedOn = joinedOn
                                 };
                                 model.Members.Add(lvItem);
                             }
@@ -1128,7 +1145,7 @@
                                 StreamWriter SaveFile = new StreamWriter(sPath);
                                 foreach (var item in model.Members)
                                 {
-                                    SaveFile.WriteLine(item.Email + "," + item.FirstName + "," + item.LastName + "," + item.Status + "," + item.Role + "," + item.Usage);
+                                    SaveFile.WriteLine(item.Email + "," + item.FirstName + "," + item.LastName + "," + item.Status + "," + item.Role + "," + item.Usage + "," + item.JoinedOn);
                                 }
                                 SaveFile.Close();
                             }

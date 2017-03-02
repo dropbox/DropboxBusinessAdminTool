@@ -19,6 +19,8 @@
         public event EventHandler CommandExportGroupPerms;
         public event EventHandler CommandAddMember;
         public event EventHandler CommandDeleteMember;
+        public event EventHandler CommandLoadGroupsInputFile;
+        public event EventHandler CommandLoadGroupsMembersInputFile;
 
         public SynchronizationContext SyncContext { get; set; }
 
@@ -32,6 +34,12 @@
 
         public string UserEmail { get; set; }
 
+        public string AddStatus { get; set; }
+
+        public string GroupInputFilePath { get; set; }
+
+        public string GroupMemberInputFilePath { get; set; }
+
         public List<GroupListViewItemModel> Groups { get; set; }
 
         public enum OlvMembersIndex : int
@@ -39,7 +47,9 @@
             GroupName,
             MemberCount,
             GroupType,
-            GroupId
+            GroupId,
+            Email,
+            AddStatus
         }
 
         public GroupsView()
@@ -63,9 +73,11 @@
                 this.textBox_GroupsAccessToken.TextChanged += TextBox_GroupsAccessToken_TextChanged;
                 this.buttonEx_GroupsLoadGroups.Click += buttonEx_GroupsLoadGroups_Click;
                 this.buttonEx_GroupsCreateGroup.Click += buttonEx_GroupsCreateGroup_Click;
+                this.buttonEx_GroupFileInputSelect.Click += buttonEx_GroupFileInputSelect_Click;
                 this.buttonEx_GroupsExportGroups.Click += buttonEx_GroupsExportGroups_Click;
                 this.buttonEx_GroupExportPerms.Click += buttonEx_GroupExportPerms_Click;
                 this.buttonEx_GroupsAddMember.Click += buttonEx_GroupsAddMember_Click;
+                this.buttonEx_GroupMemberFileInput.Click += buttonEx_GroupMemberFileInput_Click;
                 this.buttonEx_GroupsDeleteMember.Click += buttonEx_GroupsDeleteMember_Click;
                 this.textBoxGroup.TextChanged += TextBox_textBoxGroup_TextChanged;
                 this.textBoxAddMember.TextChanged += TextBox_textBoxAddMember_TextChanged;
@@ -84,9 +96,11 @@
                 this.textBox_GroupsAccessToken.TextChanged -= TextBox_GroupsAccessToken_TextChanged;
                 this.buttonEx_GroupsLoadGroups.Click -= buttonEx_GroupsLoadGroups_Click;
                 this.buttonEx_GroupsCreateGroup.Click -= buttonEx_GroupsCreateGroup_Click;
+                this.buttonEx_GroupFileInputSelect.Click -= buttonEx_GroupFileInputSelect_Click;
                 this.buttonEx_GroupsExportGroups.Click -= buttonEx_GroupsExportGroups_Click;
                 this.buttonEx_GroupExportPerms.Click -= buttonEx_GroupExportPerms_Click;
                 this.buttonEx_GroupsAddMember.Click -= buttonEx_GroupsAddMember_Click;
+                this.buttonEx_GroupMemberFileInput.Click -= buttonEx_GroupMemberFileInput_Click;
                 this.buttonEx_GroupsDeleteMember.Click -= buttonEx_GroupsDeleteMember_Click;
                 this.textBoxGroup.TextChanged -= TextBox_textBoxGroup_TextChanged;
                 this.textBoxAddMember.TextChanged -= TextBox_textBoxAddMember_TextChanged;
@@ -106,14 +120,16 @@
             Dock = DockStyle.Fill;
             Groups = new List<GroupListViewItemModel>();
             this.buttonEx_GroupsLoadGroups.Enabled = true;
-            this.radioCompany.Checked = true;
-            GroupType = "company_managed";
+            this.radioUser.Checked = true;
+            GroupType = "user_managed";
+            olvColumnGroups_AddStatus.IsVisible = false;
+            olvColumnGroups_Email.IsVisible = false;
         }
 
         private void InitializeOLVMembers()
         {
             // don't allow edit
-            this.objectListView_GroupsMembers.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.None;
+            this.objectListView_GroupsMembers.CellEditActivation = ObjectListView.CellEditActivateMode.None;
             this.objectListView_GroupsMembers.UseExplorerTheme = false;
             this.objectListView_GroupsMembers.UseTranslucentHotItem = true;
             this.objectListView_GroupsMembers.FullRowSelect = false;
@@ -145,6 +161,16 @@
                 = delegate (GroupListViewItemModel model)
                 {
                     return (model != null) ? model.GroupId : string.Empty;
+                };
+            olv.GetColumn((int)OlvMembersIndex.Email).AspectGetter
+                = delegate (GroupListViewItemModel model)
+                {
+                    return (model != null) ? model.Email : string.Empty;
+                };
+            olv.GetColumn((int)OlvMembersIndex.AddStatus).AspectGetter
+                = delegate (GroupListViewItemModel model)
+                {
+                    return (model != null) ? model.AddStatus : string.Empty;
                 };
         }
 
@@ -199,13 +225,42 @@
             }
         }
 
-        public void RenderGroupList()
+        public void RenderGroupList(List<GroupListViewItemModel> groups)
         {
             this.objectListView_GroupsMembers.SetObjects(Groups);
             if (this.objectListView_GroupsMembers.GetItemCount() == this.objectListView_GroupsMembers.CheckedObjects.Count)
             {
                 this.objectListView_GroupsMembers.CheckHeaderCheckBox(olvColumnGroups_GroupName);
             }
+        }
+
+        public void RenderGroupsStatus(List<GroupListViewItemModel> groups)
+        {
+            Groups = groups;
+            this.objectListView_GroupsMembers.SetObjects(Groups);
+            objectListView_GroupsMembers.BuildList();
+        }
+
+        public bool MultiGroupCreateCheck()
+        {
+            bool check = false;
+
+            if ((textBoxGroup.Text).Contains(".csv"))
+            {
+                check = true;
+            }
+            return check;
+        }
+
+        public bool MultiGroupMemberCreateCheck()
+        {
+            bool check = false;
+
+            if ((textBoxAddMember.Text).Contains(".csv"))
+            {
+                check = true;
+            }
+            return check;
         }
 
         private void UncheckHeaderCheckbox(ObjectListView olv, OLVColumn col)
@@ -222,6 +277,13 @@
 
         private void buttonEx_GroupsLoadGroups_Click(object sender, EventArgs e)
         {
+            olvColumnGroups_MemberCount.IsVisible = true;
+            olvColumnGroups_GroupType.IsVisible = true;
+            olvColumnGroups_GroupId.IsVisible = true;
+            olvColumnGroups_Email.IsVisible = false;
+            olvColumnGroups_AddStatus.IsVisible = false;
+            this.objectListView_GroupsMembers.RebuildColumns();
+
             InvokeDataChanged(sender, e);
             if (CommandGetGroups != null)
             {
@@ -231,10 +293,45 @@
 
         private void buttonEx_GroupsCreateGroup_Click(object sender, EventArgs e)
         {
+            olvColumnGroups_MemberCount.IsVisible = false;
+            olvColumnGroups_GroupType.IsVisible = true;
+            olvColumnGroups_GroupId.IsVisible = false;
+            olvColumnGroups_Email.IsVisible = false;
+            olvColumnGroups_AddStatus.IsVisible = true;
+            this.objectListView_GroupsMembers.RebuildColumns();
+
             InvokeDataChanged(sender, e);
             if (CommandCreateGroup != null)
             {
                 CommandCreateGroup(sender, e);
+            }
+        }
+
+        private void buttonEx_GroupFileInputSelect_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog inputFile = new OpenFileDialog();
+            inputFile.Title = "Please select a CSV file";
+            inputFile.Filter = "CSV File|*.csv";
+            DialogResult result = inputFile.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                //make all columns hidden except GroupName, GroupType and AddStatus
+                olvColumnGroups_MemberCount.IsVisible = false;
+                olvColumnGroups_GroupType.IsVisible = true;
+                olvColumnGroups_GroupId.IsVisible = false;
+                olvColumnGroups_Email.IsVisible = false;
+                olvColumnGroups_AddStatus.IsVisible = true;
+                this.objectListView_GroupsMembers.RebuildColumns();
+
+                textBoxGroup.Text = inputFile.FileName;
+                GroupInputFilePath = inputFile.FileName;
+                InvokeDataChanged(sender, e);
+
+                if (CommandLoadGroupsInputFile != null)
+                {
+                    CommandLoadGroupsInputFile(sender, e);
+                }
             }
         }
 
@@ -258,6 +355,13 @@
 
         private void buttonEx_GroupsAddMember_Click(object sender, EventArgs e)
         {
+            olvColumnGroups_MemberCount.IsVisible = false;
+            olvColumnGroups_GroupType.IsVisible = false;
+            olvColumnGroups_GroupId.IsVisible = true;
+            olvColumnGroups_Email.IsVisible = true;
+            olvColumnGroups_AddStatus.IsVisible = true;
+            this.objectListView_GroupsMembers.RebuildColumns();
+
             InvokeDataChanged(sender, e);
             if (CommandAddMember != null)
             {
@@ -265,12 +369,49 @@
             }
         }
 
+        private void buttonEx_GroupMemberFileInput_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog inputFile = new OpenFileDialog();
+            inputFile.Title = "Please select a CSV file";
+            inputFile.Filter = "CSV File|*.csv";
+            DialogResult result = inputFile.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                //make columns hidden except GroupName, Email, and AddStatus
+                olvColumnGroups_MemberCount.IsVisible = false;
+                olvColumnGroups_GroupType.IsVisible = false;
+                olvColumnGroups_GroupId.IsVisible = true;
+                olvColumnGroups_Email.IsVisible = true;
+                olvColumnGroups_AddStatus.IsVisible = true;
+                this.objectListView_GroupsMembers.RebuildColumns();
+
+                textBoxAddMember.Text = inputFile.FileName;
+                GroupMemberInputFilePath = inputFile.FileName;
+                InvokeDataChanged(sender, e);
+
+                if (CommandLoadGroupsMembersInputFile != null)
+                {
+                    CommandLoadGroupsMembersInputFile(sender, e);
+                }
+            }
+        }
+
         private void buttonEx_GroupsDeleteMember_Click(object sender, EventArgs e)
         {
-            InvokeDataChanged(sender, e);
-            if (CommandDeleteMember != null)
+            bool multiCheck = MultiGroupMemberCreateCheck();
+
+            if (!multiCheck)
             {
-                CommandDeleteMember(sender, e);
+                InvokeDataChanged(sender, e);
+                if (CommandDeleteMember != null)
+                {
+                    CommandDeleteMember(sender, e);
+                }
+            }
+            if (multiCheck)
+            {
+                MessageBoxUtil.ShowError(this, "You cannot mass delete members from groups at this time. Only single members can be deleted from this version of the toolkit.");
             }
         }
 
@@ -315,6 +456,5 @@
         }
 
         #endregion Events
-
     }
 }

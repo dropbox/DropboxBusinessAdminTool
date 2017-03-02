@@ -1,15 +1,17 @@
 ﻿namespace DfBAdminToolkit.Presenter {
 
-    using DfBAdminToolkit.Common.Services;
-    using DfBAdminToolkit.Common.Utils;
-    using DfBAdminToolkit.Model;
-    using DfBAdminToolkit.View;
+    using CsvHelper;
+    using CsvHelper.Configuration;
+    using Common.Services;
+    using Common.Utils;
+    using Model;
+    using View;
     using Newtonsoft.Json;
     using System;
+    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Threading;
-    using System.Collections;
     using System.Collections.Generic;
 
     public class DevicesPresenter
@@ -38,6 +40,7 @@
                 view.DataChanged += OnDataChanged;
                 view.CommandGetDevices += OnCommandGetDevices;
                 view.CommandDumpDevices += OnCommandDumpDevices;
+                view.CommandExportDevices += OnCommandExportDevices;
                 IsViewEventsWired = true;
             }
         }
@@ -48,6 +51,7 @@
                 view.DataChanged -= OnDataChanged;
                 view.CommandGetDevices -= OnCommandGetDevices;
                 view.CommandDumpDevices -= OnCommandDumpDevices;
+                view.CommandExportDevices -= OnCommandExportDevices;
                 IsViewEventsWired = false;
             }
         }
@@ -825,6 +829,92 @@
                 }
             });
             dumpDevices.Start();
+        }
+
+        private void OnCommandExportDevices(object sender, EventArgs e)
+        {
+            // Export to CSV
+            IDevicesView view = base._view as IDevicesView;
+            IDevicesModel model = base._model as IDevicesModel;
+            PresenterBase.SetModelPropertiesFromView<IDevicesModel, IDevicesView>(
+                ref model, view
+            );
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+            try
+            {
+                if (SyncContext != null)
+                {
+                    SyncContext.Post(delegate {
+                        presenter.EnableControl(false);
+                        presenter.ActivateSpinner(true);
+                        presenter.UpdateProgressInfo("Preparing Report...");
+                    }, null);
+                }
+
+                FileInfo fileInfo = new FileInfo(model.OutputFileName);
+                if (Directory.Exists(fileInfo.DirectoryName))
+                {
+                    Thread writeReport = new Thread(() => {
+                        CsvConfiguration config = new CsvConfiguration()
+                        {
+                            HasHeaderRecord = true,
+                            Delimiter = ",",
+                            Encoding = System.Text.Encoding.UTF8
+                        };
+                        config.RegisterClassMap(new DevicesHeaderMap());
+                        int total = model.DeviceList.Count;
+                        using (CsvWriter writer = new CsvWriter(new StreamWriter(model.OutputFileName), config))
+                        {
+                            writer.WriteHeader<DevicesHeaderRecord>();
+                            for (int i = 0; i < model.DeviceList.Count; i++)
+                            {
+                                DeviceListViewItemModel lvItem = model.DeviceList[i];
+                                writer.WriteField<string>(!string.IsNullOrEmpty(lvItem.Created.ToString()) ? lvItem.Created.ToString() : "");
+                                writer.WriteField<string>(!string.IsNullOrEmpty(lvItem.Email) ? lvItem.Email : "");
+                                writer.WriteField<string>(!string.IsNullOrEmpty(lvItem.TeamId) ? lvItem.TeamId : "");
+                                writer.WriteField<string>(!string.IsNullOrEmpty(lvItem.DeviceName) ? lvItem.DeviceName : "");
+                                writer.WriteField<string>(!string.IsNullOrEmpty(lvItem.IpAddress) ? lvItem.IpAddress : "");
+                                writer.WriteField<string>(!string.IsNullOrEmpty(lvItem.SessionId) ? lvItem.SessionId : "");
+                                writer.WriteField<string>(!string.IsNullOrEmpty(lvItem.ClientType) ? lvItem.ClientType : "");
+                                writer.NextRecord();
+
+                                if (SyncContext != null)
+                                {
+                                    SyncContext.Post(delegate
+                                    {
+                                        presenter.UpdateProgressInfo(string.Format("Writing Record: {0}/{1}", (i + 1), total));
+                                    }, null);
+                                }
+                            }
+                        }
+
+                        if (SyncContext != null)
+                        {
+                            SyncContext.Post(delegate {
+                                presenter.EnableControl(true);
+                                presenter.ActivateSpinner(false);
+                                presenter.UpdateProgressInfo("Completed");
+                            }, null);
+                        }
+                    });
+                    writeReport.Start();
+                }
+                else
+                {
+                    throw new InvalidDataException(ErrorMessages.INVALID_EXPORT_FOLDER);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (SyncContext != null)
+                {
+                    SyncContext.Post(delegate {
+                        presenter.EnableControl(true);
+                        presenter.ActivateSpinner(false);
+                        presenter.UpdateProgressInfo("Completed with exception: " + ex.Message);
+                    }, null);
+                }
+            }
         }
 
         #endregion Events

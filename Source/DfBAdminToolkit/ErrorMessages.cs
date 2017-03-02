@@ -33,6 +33,8 @@
         public readonly static string FAILED_TO_CREATE_GROUP_GROUP_EXISTS = "Group was not created. Reason: Group name already exists.";
         public readonly static string FAILED_TO_CREATE_GROUP_GROUP_INVALID = "Group was not created. Reason: Group name was invalid.";
         public readonly static string FAILED_TO_ADD_MEMBER_TO_GROUP = "Bad request to the API, possibly due to no permissions on your app to add members to groups.";
+        public readonly static string FAILED_TO_ADD_MEMBER_TO_GROUP_NOT_FOUND = "Member was not added to group. Reason: Group not found.";
+        public readonly static string FAILED_TO_ADD_MEMBER_TO_GROUP_NOT_DUPLICATE = "Member was not added to group. Reason: Duplicate user.";
         public readonly static string FAILED_TO_DELETE_MEMBER_FROM_GROUP = "Bad request to the API, possibly due to no permissions on your app to delete members from groups.";
         public readonly static string FAILED_TO_GET_TEAMFOLDERS = "Bad request to the API, possibly due to no permissions to get team folders.";
         public readonly static string FAILED_TO_CREATE_TEAMFOLDER = "Bad request to the API, possibly due to no permissions on your app to create team folders.";

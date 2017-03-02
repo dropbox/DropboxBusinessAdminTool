@@ -19,6 +19,7 @@ namespace ProviderLauncher
         public Main()
         {
             InitializeComponent();
+            listBoxProviderList.MouseDoubleClick += new MouseEventHandler(listBoxProviderList_DoubleClick);
             StartPosition = FormStartPosition.CenterScreen;
             LoadProviderNames();
         }
@@ -124,9 +125,13 @@ namespace ProviderLauncher
             }   
         }
 
-        void listBoxProviderList_MouseDoubleClick(object sender, MouseEventArgs e)
+        void listBoxProviderList_DoubleClick(object sender, MouseEventArgs e)
         {
-            LaunchProvider();
+            int index = this.listBoxProviderList.IndexFromPoint(e.Location);
+            if (index != ListBox.NoMatches)
+            {
+                LaunchProvider();
+            }
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)

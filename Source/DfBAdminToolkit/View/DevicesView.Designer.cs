@@ -28,12 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             DfBAdminToolkit.Common.Component.Office2010Blue office2010Blue1 = new DfBAdminToolkit.Common.Component.Office2010Blue();
+            DfBAdminToolkit.Common.Component.Office2010White office2010White1 = new DfBAdminToolkit.Common.Component.Office2010White();
             this.tableLayoutPanel_DevicesMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel_MemberListGroup = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel_DevicesFileCommandGroup = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonEx_ExportDevices = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.label_DevicesOutputDir = new System.Windows.Forms.Label();
             this.tableLayoutPanel_DevicesFileSelection = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonEx_DevicesSelectFolder = new DfBAdminToolkit.Common.Component.ButtonEx();
+            this.textBox_DevicesOutputPath = new DfBAdminToolkit.Common.Component.TextBoxEx(this.components);
             this.objectListView_DeviceList = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnContent_Email = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnContent_DeviceName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -54,6 +59,7 @@
             this.tableLayoutPanel_DevicesMain.SuspendLayout();
             this.tableLayoutPanel_MemberListGroup.SuspendLayout();
             this.tableLayoutPanel_DevicesFileCommandGroup.SuspendLayout();
+            this.tableLayoutPanel_DevicesFileSelection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView_DeviceList)).BeginInit();
             this.tableLayoutPanel_DevicesSplitContainer.SuspendLayout();
             this.SuspendLayout();
@@ -96,11 +102,11 @@
             this.tableLayoutPanel_DevicesFileCommandGroup.ColumnCount = 3;
             this.tableLayoutPanel_DevicesFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tableLayoutPanel_DevicesFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_DevicesFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115F));
+            this.tableLayoutPanel_DevicesFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel_DevicesFileCommandGroup.Controls.Add(this.buttonEx_ExportDevices, 2, 0);
             this.tableLayoutPanel_DevicesFileCommandGroup.Controls.Add(this.label_DevicesOutputDir, 0, 0);
             this.tableLayoutPanel_DevicesFileCommandGroup.Controls.Add(this.tableLayoutPanel_DevicesFileSelection, 1, 0);
             this.tableLayoutPanel_DevicesFileCommandGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_DevicesFileCommandGroup.Enabled = false;
             this.tableLayoutPanel_DevicesFileCommandGroup.Location = new System.Drawing.Point(1, 414);
             this.tableLayoutPanel_DevicesFileCommandGroup.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel_DevicesFileCommandGroup.Name = "tableLayoutPanel_DevicesFileCommandGroup";
@@ -108,6 +114,35 @@
             this.tableLayoutPanel_DevicesFileCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_DevicesFileCommandGroup.Size = new System.Drawing.Size(473, 36);
             this.tableLayoutPanel_DevicesFileCommandGroup.TabIndex = 2;
+            // 
+            // buttonEx_ExportDevices
+            // 
+            office2010Blue1.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
+            office2010Blue1.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
+            office2010Blue1.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010Blue1.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010Blue1.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
+            office2010Blue1.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
+            office2010Blue1.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
+            office2010Blue1.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
+            office2010Blue1.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(97)))), ((int)(((byte)(181)))));
+            office2010Blue1.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(125)))), ((int)(((byte)(219)))));
+            office2010Blue1.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010Blue1.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010Blue1.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
+            office2010Blue1.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
+            office2010Blue1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010Blue1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010Blue1.TextColor = System.Drawing.Color.White;
+            this.buttonEx_ExportDevices.ColorTable = office2010Blue1;
+            this.buttonEx_ExportDevices.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonEx_ExportDevices.Location = new System.Drawing.Point(376, 3);
+            this.buttonEx_ExportDevices.Name = "buttonEx_ExportDevices";
+            this.buttonEx_ExportDevices.Size = new System.Drawing.Size(94, 30);
+            this.buttonEx_ExportDevices.TabIndex = 5;
+            this.buttonEx_ExportDevices.Text = "Export To CSV";
+            this.buttonEx_ExportDevices.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
+            this.buttonEx_ExportDevices.UseVisualStyleBackColor = true;
             // 
             // label_DevicesOutputDir
             // 
@@ -124,14 +159,57 @@
             this.tableLayoutPanel_DevicesFileSelection.ColumnCount = 2;
             this.tableLayoutPanel_DevicesFileSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_DevicesFileSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel_DevicesFileSelection.Controls.Add(this.buttonEx_DevicesSelectFolder, 0, 0);
+            this.tableLayoutPanel_DevicesFileSelection.Controls.Add(this.textBox_DevicesOutputPath, 0, 0);
             this.tableLayoutPanel_DevicesFileSelection.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_DevicesFileSelection.Location = new System.Drawing.Point(91, 1);
             this.tableLayoutPanel_DevicesFileSelection.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel_DevicesFileSelection.Name = "tableLayoutPanel_DevicesFileSelection";
             this.tableLayoutPanel_DevicesFileSelection.RowCount = 1;
             this.tableLayoutPanel_DevicesFileSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_DevicesFileSelection.Size = new System.Drawing.Size(266, 34);
+            this.tableLayoutPanel_DevicesFileSelection.Size = new System.Drawing.Size(281, 34);
             this.tableLayoutPanel_DevicesFileSelection.TabIndex = 1;
+            // 
+            // buttonEx_DevicesSelectFolder
+            // 
+            office2010White1.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
+            office2010White1.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
+            office2010White1.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010White1.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010White1.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
+            office2010White1.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
+            office2010White1.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(154)))), ((int)(((byte)(154)))), ((int)(((byte)(154)))));
+            office2010White1.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            office2010White1.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            office2010White1.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            office2010White1.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010White1.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010White1.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
+            office2010White1.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
+            office2010White1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010White1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010White1.TextColor = System.Drawing.Color.Black;
+            this.buttonEx_DevicesSelectFolder.ColorTable = office2010White1;
+            this.buttonEx_DevicesSelectFolder.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonEx_DevicesSelectFolder.Location = new System.Drawing.Point(224, 2);
+            this.buttonEx_DevicesSelectFolder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.buttonEx_DevicesSelectFolder.Name = "buttonEx_DevicesSelectFolder";
+            this.buttonEx_DevicesSelectFolder.Size = new System.Drawing.Size(54, 30);
+            this.buttonEx_DevicesSelectFolder.TabIndex = 3;
+            this.buttonEx_DevicesSelectFolder.Text = "Select";
+            this.buttonEx_DevicesSelectFolder.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
+            this.buttonEx_DevicesSelectFolder.UseVisualStyleBackColor = true;
+            // 
+            // textBox_DevicesOutputPath
+            // 
+            this.textBox_DevicesOutputPath.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox_DevicesOutputPath.FileFilter = null;
+            this.textBox_DevicesOutputPath.Location = new System.Drawing.Point(3, 5);
+            this.textBox_DevicesOutputPath.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+            this.textBox_DevicesOutputPath.Name = "textBox_DevicesOutputPath";
+            this.textBox_DevicesOutputPath.ReadOnly = true;
+            this.textBox_DevicesOutputPath.Size = new System.Drawing.Size(215, 22);
+            this.textBox_DevicesOutputPath.TabIndex = 2;
             // 
             // objectListView_DeviceList
             // 
@@ -254,23 +332,6 @@
             // 
             // buttonEx_DevicesDump
             // 
-            office2010Blue1.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
-            office2010Blue1.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
-            office2010Blue1.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
-            office2010Blue1.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
-            office2010Blue1.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
-            office2010Blue1.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
-            office2010Blue1.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
-            office2010Blue1.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
-            office2010Blue1.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(97)))), ((int)(((byte)(181)))));
-            office2010Blue1.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(125)))), ((int)(((byte)(219)))));
-            office2010Blue1.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
-            office2010Blue1.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
-            office2010Blue1.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
-            office2010Blue1.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
-            office2010Blue1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            office2010Blue1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            office2010Blue1.TextColor = System.Drawing.Color.White;
             this.buttonEx_DevicesDump.ColorTable = office2010Blue1;
             this.buttonEx_DevicesDump.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonEx_DevicesDump.Enabled = false;
@@ -375,6 +436,8 @@
             this.tableLayoutPanel_MemberListGroup.PerformLayout();
             this.tableLayoutPanel_DevicesFileCommandGroup.ResumeLayout(false);
             this.tableLayoutPanel_DevicesFileCommandGroup.PerformLayout();
+            this.tableLayoutPanel_DevicesFileSelection.ResumeLayout(false);
+            this.tableLayoutPanel_DevicesFileSelection.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView_DeviceList)).EndInit();
             this.tableLayoutPanel_DevicesSplitContainer.ResumeLayout(false);
             this.tableLayoutPanel_DevicesSplitContainer.PerformLayout();
@@ -406,5 +469,8 @@
         private Common.Component.ButtonEx buttonLoadDevices;
         private Common.Component.ButtonEx buttonEx_DevicesDump;
         private BrightIdeasSoftware.OLVColumn olvColumnContent_Email;
+        private Common.Component.ButtonEx buttonEx_ExportDevices;
+        private Common.Component.TextBoxEx textBox_DevicesOutputPath;
+        private Common.Component.ButtonEx buttonEx_DevicesSelectFolder;
     }
 }

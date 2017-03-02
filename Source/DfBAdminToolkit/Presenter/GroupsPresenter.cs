@@ -43,6 +43,8 @@
                 view.CommandExportGroupPerms += OnCommandExportGroupPerms;
                 view.CommandAddMember += OnCommandAddMemberGroup;
                 view.CommandDeleteMember += OnCommandDeleteMemberGroup;
+                view.CommandLoadGroupsInputFile += OnCommandLoadGroupInputFile;
+                view.CommandLoadGroupsMembersInputFile += OnCommandLoadGroupMemberInputFile;
                 IsViewEventsWired = true;
             }
         }
@@ -57,6 +59,8 @@
                 view.CommandExportGroupPerms -= OnCommandExportGroupPerms;
                 view.CommandAddMember -= OnCommandAddMemberGroup;
                 view.CommandDeleteMember -= OnCommandDeleteMemberGroup;
+                view.CommandLoadGroupsInputFile -= OnCommandLoadGroupInputFile;
+                view.CommandLoadGroupsMembersInputFile -= OnCommandLoadGroupMemberInputFile;
                 IsViewEventsWired = false;
             }
         }
@@ -221,6 +225,18 @@
                                     };
                                     model.GroupInfo.Add(lvItem1);
                                 }
+                            }
+                            //if user managed group has no members we output 1 line for exported CSV so we can see group ID etc if needed
+                            if (groupType == "user_managed" && groupInfo["members"].Count == 0)
+                            {
+                                // update model
+                                GroupInfoItemModel lvItem2 = new GroupInfoItemModel()
+                                {
+                                    GroupName = groupName,
+                                    GroupId = groupId,
+                                    GroupType = groupType
+                                };
+                                model.GroupInfo.Add(lvItem2);
                             }
                             if (groupType != "user_managed")
                             {
@@ -436,49 +452,103 @@
             }
         }
 
-        private string CreateGroup(IGroupsModel model, string groupName, string groupType, IMainPresenter presenter)
+        private string CreateGroup(IGroupsModel model, string groupName, string groupType, bool multiCheck, IMainPresenter presenter)
         {
             string errorMessage = string.Empty;
             IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.CreateGroupUrl = ApplicationResource.ActionCreateGroup;
             service.UserAgentVersion = ApplicationResource.UserAgent;
-            IServiceResponse response = service.CreateGroup(groupName, groupType, model.AccessToken);
+            string newGroupName = string.Empty;
+            string newGroupType = string.Empty;
 
-            if (response.StatusCode == HttpStatusCode.OK)
+            if (!multiCheck)
             {
-                if (SyncContext != null)
+                IServiceResponse response = null;
+                response = service.CreateGroup(groupName, groupType, model.AccessToken);
+
+                if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    SyncContext.Post(delegate {
-                        presenter.UpdateProgressInfo(string.Format("Created group [" + groupName + "]"));
-                    }, null);
+                    if (SyncContext != null)
+                    {
+                        if (response.Message.Contains("group_management_type"))
+                        {
+                            SyncContext.Post(delegate
+                            {
+                                errorMessage = "Successful";
+                                presenter.UpdateProgressInfo(string.Format("Created group [" + groupName + "]"));
+                            }, null);
+                        }
+                    }
                 }
-            }
-            if (response.Message.Contains("group_name_already_used"))
-            {
-                if (SyncContext != null)
+                else
                 {
-                    SyncContext.Post(delegate {
-                        presenter.UpdateProgressInfo(ErrorMessages.FAILED_TO_CREATE_GROUP_GROUP_EXISTS);
-                    }, null);
+                    if (response.Message.Contains("group_name_already_used"))
+                    {
+                        SyncContext.Post(delegate
+                        {
+                            if (response.Message.Contains("group_name_already_used"))
+                            {
+                                errorMessage = ErrorMessages.FAILED_TO_CREATE_GROUP_GROUP_EXISTS;
+                                presenter.UpdateProgressInfo(ErrorMessages.FAILED_TO_CREATE_GROUP_GROUP_EXISTS);
+                            }
+                            if (response.Message.Contains("group_name_invalid"))
+                            {
+                                errorMessage = ErrorMessages.FAILED_TO_CREATE_GROUP_GROUP_INVALID;
+                                presenter.UpdateProgressInfo(ErrorMessages.FAILED_TO_CREATE_GROUP_GROUP_INVALID);
+                            }
+                        }, null);
+                    }
                 }
+                return errorMessage;
             }
-            if (response.Message.Contains("group_name_invalid"))
+            if (multiCheck)
             {
-                if (SyncContext != null)
+                IServiceResponse response = null;
+                foreach (GroupListViewItemModel item in model.Groups)
                 {
-                    SyncContext.Post(delegate {
-                        presenter.UpdateProgressInfo(ErrorMessages.FAILED_TO_CREATE_GROUP_GROUP_INVALID);
-                    }, null);
-                }
-            }
-            else
-            {
-                errorMessage = ErrorMessages.FAILED_TO_CREATE_GROUP;
+                    response = service.CreateGroup(item.GroupName, item.GroupType, model.AccessToken);
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        if (SyncContext != null)
+                        {
+                            if (response.Message.Contains("group_management_type"))
+                            {
+                                SyncContext.Post(delegate
+                                {
+                                    item.AddStatus = "Successful";
+                                    presenter.UpdateProgressInfo(string.Format("Created group [" + groupName + "]"));
+                                }, null);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SyncContext.Post(delegate
+                        {
+                            if (response.Message.Contains("group_name_already_used"))
+                            {
+                                item.AddStatus = ErrorMessages.FAILED_TO_CREATE_GROUP_GROUP_EXISTS;
+                                presenter.UpdateProgressInfo(ErrorMessages.FAILED_TO_CREATE_GROUP_GROUP_EXISTS);
+                            }
+                            if (response.Message.Contains("group_name_invalid"))
+                            {
+                                item.AddStatus = ErrorMessages.FAILED_TO_CREATE_GROUP_GROUP_INVALID;
+                                presenter.UpdateProgressInfo(ErrorMessages.FAILED_TO_CREATE_GROUP_GROUP_INVALID);
+                            }
+                            else
+                            {
+                                item.AddStatus = response.Message;
+                                presenter.UpdateProgressInfo(response.Message);
+                            }
+                        }, null);
+                    }
+                }      
             }
             return errorMessage;
         }
 
-        private string AddMemberGroup(IGroupsModel model, string email, IMainPresenter presenter)
+        private string AddMemberGroup(IGroupsModel model, string email, bool multiCheck, IMainPresenter presenter)
         {
             string errorMessage = string.Empty;
             IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
@@ -486,11 +556,21 @@
             service.UserAgentVersion = ApplicationResource.UserAgent;
             foreach (GroupListViewItemModel item in model.Groups.Where(m => m.IsChecked).ToList())
             {
+                string newEmail = string.Empty;
+                if (multiCheck)
+                {
+                    newEmail = item.Email;
+                }
+                if (!multiCheck)
+                {
+                    newEmail = email;
+                }
                 IServiceResponse response = service.AddMemberGroup(new MemberData()
                 {
                     GroupId = item.GroupId,
-                    GroupName = item.GroupName   
-                }, email, model.AccessToken);
+                    GroupName = item.GroupName,
+                    GroupEmail = newEmail   
+                }, model.AccessToken);
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -498,13 +578,37 @@
                     {
                         SyncContext.Post(delegate
                         {
-                            presenter.UpdateProgressInfo(string.Format("Added user [" + email + "] to group [" + item.GroupName + "]"));
+                            if (response.Message.Contains("group_management_type"))
+                            {
+                                item.AddStatus = "Successful.";
+                                presenter.UpdateProgressInfo(string.Format("Added user [" + item.Email + "] to group [" + item.GroupName + "]"));
+                            }
                         }, null);
                     }
                 }
                 else
                 {
-                    errorMessage = ErrorMessages.FAILED_TO_ADD_MEMBER_TO_GROUP;
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate
+                        {
+                            if (response.Message.Contains("group_not_found"))
+                            {
+                                item.AddStatus = ErrorMessages.FAILED_TO_ADD_MEMBER_TO_GROUP_NOT_FOUND;
+                                presenter.UpdateProgressInfo(ErrorMessages.FAILED_TO_ADD_MEMBER_TO_GROUP_NOT_FOUND);
+                            }
+                            if (response.Message.Contains("duplicate_user"))
+                            {
+                                item.AddStatus = ErrorMessages.FAILED_TO_ADD_MEMBER_TO_GROUP_NOT_DUPLICATE;
+                                presenter.UpdateProgressInfo(ErrorMessages.FAILED_TO_ADD_MEMBER_TO_GROUP_NOT_DUPLICATE);
+                            }
+                            else
+                            {
+                                item.AddStatus = response.Message;
+                                presenter.UpdateProgressInfo(response.Message);
+                            }
+                        }, null);
+                    }
                 }
             }
             return errorMessage;
@@ -540,6 +644,121 @@
                 }
             }
             return errorMessage;
+        }
+
+        public bool LoadGroupInputFile(IGroupsModel model, IMainPresenter presenter)
+        {
+            bool loaded = true;
+            try
+            {
+                FileInfo fInfo = new FileInfo(model.GroupInputFilePath);
+                if (fInfo.Exists)
+                {
+                    // try load.
+                    model.Groups.Clear();
+                    CsvConfiguration config = new CsvConfiguration()
+                    {
+                        HasHeaderRecord = false
+                    };
+                    using (CsvReader reader = new CsvReader(new StreamReader(fInfo.FullName), config))
+                    {
+                        while (reader.Read())
+                        {
+                            try
+                            {
+                                GroupListViewItemModel lvItem = new GroupListViewItemModel()
+                                {
+                                    GroupName = reader.GetField<string>(0),
+                                    GroupType = reader.GetField<string>(1),
+                                    IsChecked = true
+                                };
+                                model.Groups.Add(lvItem);
+                            }
+                            catch
+                            {
+                                throw new InvalidDataException(ErrorMessages.INVALID_CSV_DATA);
+                            }
+                        }
+                        if (model.Groups.Any())
+                        {
+                            loaded = true;
+                        }
+                    }
+                }
+                else
+                {
+                    throw new InvalidDataException(ErrorMessages.MISSING_CSV_FILE);
+                }
+            }
+            catch (Exception e)
+            {
+                // error message.
+                SyncContext.Post(delegate {
+                    presenter.ShowErrorMessage(e.Message, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
+            }
+            return loaded;
+        }
+
+        public bool LoadGroupMemberInputFile(IGroupsModel model, IMainPresenter presenter)
+        {
+            bool loaded = true;
+            try
+            {
+                FileInfo fInfo = new FileInfo(model.GroupMemberInputFilePath);
+                if (fInfo.Exists)
+                {
+                    // try load.
+                    model.Groups.Clear();
+                    CsvConfiguration config = new CsvConfiguration()
+                    {
+                        HasHeaderRecord = false
+                    };
+                    using (CsvReader reader = new CsvReader(new StreamReader(fInfo.FullName), config))
+                    {
+                        while (reader.Read())
+                        {
+                            try
+                            {
+                                GroupListViewItemModel lvItem = new GroupListViewItemModel()
+                                {
+                                    GroupName = reader.GetField<string>(0),
+                                    GroupId = reader.GetField<string>(1),
+                                    Email = reader.GetField<string>(2),
+                                    IsChecked = true
+                                };
+                                model.Groups.Add(lvItem);
+                            }
+                            catch
+                            {
+                                throw new InvalidDataException(ErrorMessages.INVALID_CSV_DATA);
+                            }
+                        }
+                        if (model.Groups.Any())
+                        {
+                            loaded = true;
+                        }
+                    }
+                }
+                else
+                {
+                    throw new InvalidDataException(ErrorMessages.MISSING_CSV_FILE);
+                }
+            }
+            catch (Exception e)
+            {
+                // error message.
+                SyncContext.Post(delegate {
+                    presenter.ShowErrorMessage(e.Message, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
+            }
+            return loaded;
         }
 
         #endregion REST Service
@@ -579,7 +798,7 @@
                                 ref view, model
                             );
                             // update result and update view.
-                            view.RenderGroupList();
+                            view.RenderGroupList(model.Groups);
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
                             presenter.UpdateProgressInfo("Group list completed.");
@@ -771,8 +990,7 @@
                                     {
                                         presenter.UpdateProgressInfo("Completed. Exported file located at " + sPath);
                                     }, null);
-                                }
-                                
+                                } 
                             }
                             if (model.GroupPerms.Count == 0)
                             {
@@ -794,6 +1012,8 @@
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
             string groupName = view.GroupName;
             string groupType = view.GroupType;
+            bool multiCheck = view.MultiGroupCreateCheck();
+            int groupCount = 0;
 
             if (SyncContext != null)
             {
@@ -815,7 +1035,16 @@
                 }
                 else
                 {
-                    this.CreateGroup(model, groupName, groupType, presenter);
+                    if (!multiCheck)
+                    {
+                        this.CreateGroup(model, groupName, groupType, false, presenter);
+                        groupCount++;
+                    }
+                    if (multiCheck)
+                    {
+                        this.CreateGroup(model, string.Empty, string.Empty, true, presenter);
+                        groupCount++;
+                    }
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate
@@ -825,9 +1054,10 @@
                                 ref view, model
                             );
                             // update result and update view.
-                            view.RenderGroupList();
+                            view.RenderGroupsStatus(model.Groups);
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
+                            presenter.UpdateProgressInfo("Completed. Groups created [" + groupCount + "]");
                         }, null);
                     }
                 }
@@ -841,6 +1071,7 @@
             IGroupsModel model = base._model as IGroupsModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
             string email = view.UserEmail;
+            bool multiCheck = view.MultiGroupMemberCreateCheck();
 
             if (SyncContext != null)
             {
@@ -862,19 +1093,26 @@
                 }
                 else
                 {
-                    if (email.Contains(","))
+                    if (!multiCheck)
                     {
-                        char delimiter = ',';
-                        string[] emails = email.Split(delimiter);
-                        foreach (string newEmail in emails)
+                        if (email.Contains(","))
                         {
-                            this.AddMemberGroup(model, newEmail, presenter);
+                            char delimiter = ',';
+                            string[] emails = email.Split(delimiter);
+                            foreach (string newEmail in emails)
+                            {
+                                this.AddMemberGroup(model, newEmail, false, presenter);
+                            }
+                        }
+                        if (!email.Contains(","))
+                        {
+                            this.AddMemberGroup(model, email, false, presenter);
                         }
                     }
-                    if (!email.Contains(","))
+                    if (multiCheck)
                     {
-                        this.AddMemberGroup(model, email, presenter);
-                    }     
+                        this.AddMemberGroup(model, string.Empty, true, presenter);
+                    }    
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate
@@ -884,7 +1122,7 @@
                                 ref view, model
                             );
                             // update result and update view.
-                            view.RenderGroupList();
+                            view.RenderGroupsStatus(model.Groups);
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
                             presenter.UpdateProgressInfo("Completed.");
@@ -901,6 +1139,7 @@
             IGroupsModel model = base._model as IGroupsModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
             string email = view.UserEmail;
+            bool multiCheck = view.MultiGroupMemberCreateCheck();
 
             if (SyncContext != null)
             {
@@ -933,8 +1172,7 @@
                     if (!email.Contains(","))
                     {
                         this.DeleteMemberGroup(model, email, presenter);
-                    }
-                    
+                    }  
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate
@@ -944,7 +1182,7 @@
                                 ref view, model
                             );
                             // update result and update view.
-                            view.RenderGroupList();
+                            view.RenderGroupsStatus(model.Groups);
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
                             presenter.UpdateProgressInfo("Completed.");
@@ -953,6 +1191,70 @@
                 }
             });
             deletemembergroup.Start();
+        }
+
+        private void OnCommandLoadGroupInputFile(object sender, EventArgs e)
+        {
+            IGroupsView view = base._view as IGroupsView;
+            IGroupsModel model = base._model as IGroupsModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Loading groups input File...");
+                }, null);
+            }
+            Thread groupsLoad = new Thread(() => {
+                if (!string.IsNullOrEmpty(model.AccessToken))
+                {
+                    bool loaded = this.LoadGroupInputFile(model, presenter);
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate {
+                            // update result and update view.
+                            view.RenderGroupList(model.Groups);
+                            presenter.UpdateProgressInfo("Groups CSV Loaded");
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                        }, null);
+                    }
+                }
+            });
+            groupsLoad.Start();
+        }
+
+        private void OnCommandLoadGroupMemberInputFile(object sender, EventArgs e)
+        {
+            IGroupsView view = base._view as IGroupsView;
+            IGroupsModel model = base._model as IGroupsModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Loading group members input File...");
+                }, null);
+            }
+            Thread groupMembersLoad = new Thread(() => {
+                if (!string.IsNullOrEmpty(model.AccessToken))
+                {
+                    bool loaded = this.LoadGroupMemberInputFile(model, presenter);
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate {
+                            // update result and update view.
+                            view.RenderGroupList(model.Groups);
+                            presenter.UpdateProgressInfo("Group members CSV Loaded");
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                        }, null);
+                    }
+                }
+            });
+            groupMembersLoad.Start();
         }
 
         private void OnDataChanged(object sender, System.EventArgs e) {

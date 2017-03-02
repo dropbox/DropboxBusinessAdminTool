@@ -18,6 +18,7 @@
         public event EventHandler DataChanged;
         public event EventHandler CommandGetDevices;
         public event EventHandler CommandDumpDevices;
+        public event EventHandler CommandExportDevices;
 
         public SynchronizationContext SyncContext { get; set; }
 
@@ -30,6 +31,8 @@
         public string FilterType { get; set; }
 
         public string FilterCriteria { get; set; }
+
+        public string OutputFileName { get; set; }
 
         public List<DeviceListViewItemModel> DeviceList { get; set; }
 
@@ -51,6 +54,7 @@
             WireComponentEvents();
             this.radioIpAddress.Checked = true;
             this.comboFilterCriteria.Text = "CONTAINS";
+            this.buttonEx_ExportDevices.Enabled = false;
         }
 
         ~DevicesView()
@@ -80,6 +84,8 @@
                 this.comboFilterCriteria.TextChanged += comboFilterCriteria_TextChanged;
                 this.buttonEx_DevicesDump.Click += Button_DevicesDump_Click;
                 this.buttonLoadDevices.Click += Button_DevicesList_Click;
+                this.buttonEx_ExportDevices.Click += ButtonEx_ExportDevices_Click;
+                this.buttonEx_DevicesSelectFolder.Click += ButtonEx_DevicesSelectFolder_Click;
                 this.objectListView_DeviceList.ItemChecked += ObjectListView_DeviceList_ItemChecked;
                 this.objectListView_DeviceList.HeaderCheckBoxChanging += ObjectListView_DeviceList_HeaderCheckBoxChanging;
                 this.objectListView_DeviceList.ItemCheck += ObjectListView_DeviceList_ItemCheck;
@@ -97,6 +103,8 @@
                 this.comboFilterCriteria.TextChanged -= comboFilterCriteria_TextChanged;
                 this.buttonEx_DevicesDump.Click -= Button_DevicesDump_Click;
                 this.buttonLoadDevices.Click -= Button_DevicesList_Click;
+                this.buttonEx_ExportDevices.Click -= ButtonEx_ExportDevices_Click;
+                this.buttonEx_DevicesSelectFolder.Click -= ButtonEx_DevicesSelectFolder_Click;
                 this.objectListView_DeviceList.ItemChecked -= ObjectListView_DeviceList_ItemChecked;
                 this.objectListView_DeviceList.HeaderCheckBoxChanging -= ObjectListView_DeviceList_HeaderCheckBoxChanging;
                 this.objectListView_DeviceList.ItemCheck -= ObjectListView_DeviceList_ItemCheck;
@@ -222,6 +230,12 @@
             olv.HeaderCheckBoxChanging += ObjectListView_DeviceList_HeaderCheckBoxChanging;
         }
 
+        public void EnableExportButton(bool enable)
+        {
+            this.buttonEx_ExportDevices.Enabled = enable;
+            this.buttonEx_ExportDevices.Update();
+        }
+
         public void ShowGroups(bool show)
         {
             this.objectListView_DeviceList.ShowGroups = show;
@@ -238,6 +252,29 @@
             if (CommandGetDevices != null)
             {
                 CommandGetDevices(sender, e);
+            }
+        }
+
+        private void ButtonEx_ExportDevices_Click(object sender, EventArgs e)
+        {
+            InvokeDataChanged(sender, e);
+            if (CommandExportDevices != null)
+            {
+                CommandExportDevices(sender, e);
+            }
+        }
+
+        private void ButtonEx_DevicesSelectFolder_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog outputFileDlg = new SaveFileDialog();
+            outputFileDlg.Filter = "CSV|*.csv|Excel|*.xls";
+            outputFileDlg.Title = "Please provide CSV file name";
+            outputFileDlg.ShowDialog();
+            if (!string.IsNullOrEmpty(outputFileDlg.FileName))
+            {
+                OutputFileName = outputFileDlg.FileName;
+                this.textBox_DevicesOutputPath.Text = OutputFileName;
+                this.EnableExportButton(true);
             }
         }
 

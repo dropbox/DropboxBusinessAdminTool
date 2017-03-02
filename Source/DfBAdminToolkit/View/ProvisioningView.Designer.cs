@@ -54,7 +54,9 @@
             this.olvColumnProvisioning_Email = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_FirstName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_LastName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnProvisioning_UserStatus = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_Usage = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnProvisioning_JoinedOn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_NewEmail = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_NewExternalId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_Status = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -353,7 +355,9 @@
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_Email);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_FirstName);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_LastName);
+            this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_UserStatus);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_Usage);
+            this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_JoinedOn);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_NewEmail);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_NewExternalId);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_Status);
@@ -364,7 +368,9 @@
             this.olvColumnProvisioning_Email,
             this.olvColumnProvisioning_FirstName,
             this.olvColumnProvisioning_LastName,
+            this.olvColumnProvisioning_UserStatus,
             this.olvColumnProvisioning_Usage,
+            this.olvColumnProvisioning_JoinedOn,
             this.olvColumnProvisioning_NewEmail,
             this.olvColumnProvisioning_NewExternalId,
             this.olvColumnProvisioning_Status});
@@ -412,13 +418,25 @@
             this.olvColumnProvisioning_LastName.UseInitialLetterForGroup = true;
             this.olvColumnProvisioning_LastName.Width = 120;
             // 
+            // olvColumnProvisioning_UserStatus
+            // 
+            this.olvColumnProvisioning_UserStatus.AspectName = "Status";
+            this.olvColumnProvisioning_UserStatus.Text = "Status";
+            // 
             // olvColumnProvisioning_Usage
             // 
             this.olvColumnProvisioning_Usage.AspectName = "Usage (MB)";
-            this.olvColumnProvisioning_Usage.FillsFreeSpace = true;
             this.olvColumnProvisioning_Usage.MinimumWidth = 100;
             this.olvColumnProvisioning_Usage.Text = "Usage (MB)";
             this.olvColumnProvisioning_Usage.Width = 100;
+            // 
+            // olvColumnProvisioning_JoinedOn
+            // 
+            this.olvColumnProvisioning_JoinedOn.AspectName = "JoinedOn";
+            this.olvColumnProvisioning_JoinedOn.FillsFreeSpace = true;
+            this.olvColumnProvisioning_JoinedOn.MinimumWidth = 100;
+            this.olvColumnProvisioning_JoinedOn.Text = "JoinedOn";
+            this.olvColumnProvisioning_JoinedOn.Width = 100;
             // 
             // olvColumnProvisioning_NewEmail
             // 
@@ -708,5 +726,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private ButtonEx buttonEx_OpenTemplates;
         private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_Status;
+        private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_JoinedOn;
+        private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_UserStatus;
     }
 }

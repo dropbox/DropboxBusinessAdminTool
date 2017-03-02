@@ -51,7 +51,13 @@
 
         public string MemberCount { get; set; }
 
-        #endregion Groupd
+        public string GroupType { get; set; }
+
+        public string GroupEmail { get; set; }
+
+        public string GroupAddStatus { get; set; }
+
+        #endregion Groups
 
         #region Dump related
 

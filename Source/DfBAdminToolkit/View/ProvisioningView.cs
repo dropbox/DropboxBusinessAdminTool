@@ -23,7 +23,6 @@
         public event EventHandler CommandLoadInputFile;
         public event EventHandler CommandLoadUpdateInputFile;
         public event EventHandler CommandCreateCSV;
-        //public event EventHandler CommandOpenTemplates;
         public event EventHandler CommandGetUsage;
 
         public SynchronizationContext SyncContext { get; set; }
@@ -47,7 +46,9 @@
             Email,
             FirstName,
             LastName,
-            Usage
+            Status,
+            Usage,
+            JoinedOn
         }
 
         public ProvisioningView()
@@ -191,11 +192,20 @@
                 {
                     return (model != null) ? model.LastName : string.Empty;
                 };
-
+            olv.GetColumn((int)OlvMembersIndex.Status).AspectGetter
+                = delegate (MemberListViewItemModel model)
+                {
+                    return (model != null) ? model.Status : string.Empty;
+                };
             olv.GetColumn((int)OlvMembersIndex.Usage).AspectGetter
                 = delegate (MemberListViewItemModel model)
                 {
                     return (model != null) ? model.Usage : 0;
+                };
+            olv.GetColumn((int)OlvMembersIndex.JoinedOn).AspectGetter
+                = delegate (MemberListViewItemModel model)
+                {
+                    return (model != null) ? model.JoinedOn : DateTime.Now;
                 };
         }
 
@@ -457,8 +467,9 @@
 
         private void Button_ProvisioningLoadInputFile_Click(object sender, EventArgs e)
         {
-            //make Usage column hidden
+            //make Usage and JoinedOn column hidden
             olvColumnProvisioning_Usage.IsVisible = false;
+            olvColumnProvisioning_JoinedOn.IsVisible = false;
             olvColumnProvisioning_FirstName.IsVisible = true;
             olvColumnProvisioning_LastName.IsVisible = true;
             olvColumnProvisioning_NewEmail.IsVisible = false;
@@ -474,8 +485,9 @@
 
         private void Button_ProvisioningLoadUpdateInputFile_Click(object sender, EventArgs e)
         {
-            //make Usage column hidden
+            //make Usage and JoinedOn column hidden
             olvColumnProvisioning_Usage.IsVisible = false;
+            olvColumnProvisioning_JoinedOn.IsVisible = false;
             olvColumnProvisioning_FirstName.IsVisible = false;
             olvColumnProvisioning_LastName.IsVisible = false;
             olvColumnProvisioning_NewEmail.IsVisible = true;
@@ -503,8 +515,9 @@
 
         private void ButtonEx_GetUsage_Click(object sender, EventArgs e)
         {
-            //make Usage column visible
+            //make Usage and JoinedOn column visible
             olvColumnProvisioning_Usage.IsVisible = true;
+            olvColumnProvisioning_JoinedOn.IsVisible = true;
             olvColumnProvisioning_FirstName.IsVisible = true;
             olvColumnProvisioning_LastName.IsVisible = true;
             olvColumnProvisioning_NewEmail.IsVisible = false;
@@ -762,7 +775,6 @@
                     this.tableLayoutPanel2.SetColumn(c2, 1);
                 }
             }
-
         }
 
         private void radioViewStatistics_CheckedChanged(object sender, EventArgs e)

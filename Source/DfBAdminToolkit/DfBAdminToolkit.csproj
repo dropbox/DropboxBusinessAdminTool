@@ -108,6 +108,7 @@
     <Compile Include="Model\DataMigrationModel.cs" />
     <Compile Include="Model\DataMigrationHeaderRecord.cs" />
     <Compile Include="Model\DeviceListViewItemModel.cs" />
+    <Compile Include="Model\DevicesHeaderRecord.cs" />
     <Compile Include="Model\DevicesModel.cs" />
     <Compile Include="Model\DumpUserContentModel.cs" />
     <Compile Include="Model\FileListViewItemModel.cs" />
@@ -296,6 +297,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Templates\GroupsBulkAddMembersTemplate.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\GroupsBulkAddTemplate.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\ProvisioningTemplate.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -36,6 +36,12 @@
 
         string MemberCount { get; set; }
 
+        string GroupType { get; set; }
+
+        string GroupEmail { get; set; }
+
+        string GroupAddStatus { get; set; }
+
         #endregion Groups
 
         #region Search Text

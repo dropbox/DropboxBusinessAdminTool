@@ -55,6 +55,18 @@
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
+		"Entry"
+        {
+        "MsmKey" = "8:_849030045CBA4F5090FA4DBB6CA51E8F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+		"Entry"
+        {
+        "MsmKey" = "8:_749030045CBA4F5090FA4DBB6CA51E8F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
         "Entry"
         {
         "MsmKey" = "8:_5661ECFE82564529A2FCAA07988A44AF"
@@ -459,6 +471,46 @@
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
+            }		
+			"{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_849030045CBA4F5090FA4DBB6CA51E8F"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\GroupsBulkAddMembersTemplate.csv"
+            "TargetName" = "8:GroupsBulkAddMembersTemplate.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_DF991A4076234D9C941D22E5025CD05C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+			"{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_749030045CBA4F5090FA4DBB6CA51E8F"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\GroupsBulkAddTemplate.csv"
+            "TargetName" = "8:GroupsBulkAddTemplate.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_DF991A4076234D9C941D22E5025CD05C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5661ECFE82564529A2FCAA07988A44AF"
             {
@@ -813,7 +865,7 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Dropbox Business Admin Toolkit"
-        "ProductCode" = "8:{F0DACDCF-F9AE-44AB-B3DD-F4625906FF93}"
+        "ProductCode" = "8:{70CCF384-279E-4D47-A710-30D19CA83D17}"
         "PackageCode" = "8:{4F507568-2104-402C-812B-BF0F65944546}"
         "UpgradeCode" = "8:{F6F4214B-C1CB-4F20-B1B3-35E1B7262F93}"
         "AspNetVersion" = "8:4.0.30319.0"
@@ -821,7 +873,7 @@
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:5.0.0"
+        "ProductVersion" = "8:5.1.0"
         "Manufacturer" = "8:Dropbox Enterprise Services"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
