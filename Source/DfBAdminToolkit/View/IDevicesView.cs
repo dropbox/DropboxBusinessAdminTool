@@ -10,6 +10,7 @@
     {
         event EventHandler CommandGetDevices;
         event EventHandler CommandDumpDevices;
+        event EventHandler CommandExportDevices;
 
         string UserAccessToken { get; set; }
 
@@ -18,6 +19,8 @@
         string FilterType { get; set; }
 
         string FilterCriteria { get; set; }
+
+        string OutputFileName { get; set; }
 
         List<DeviceListViewItemModel> DeviceList { get; set; }
 
@@ -28,6 +31,8 @@
         void EnableDeviceControl(bool enable);
 
         void EnableDeviceButton(bool enable);
+
+        void EnableExportButton(bool enable);
 
         void ShowGroups(bool show);
     }

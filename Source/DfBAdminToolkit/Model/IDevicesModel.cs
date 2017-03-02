@@ -12,6 +12,8 @@
 
         string FilterCriteria { get; set; }
 
+        string OutputFileName { get; set; }
+
         List<DeviceListViewItemModel> DeviceList { get; set; }
     }
 }

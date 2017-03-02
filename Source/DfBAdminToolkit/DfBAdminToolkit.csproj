@@ -108,6 +108,7 @@
     <Compile Include="Model\DataMigrationModel.cs" />
     <Compile Include="Model\DataMigrationHeaderRecord.cs" />
     <Compile Include="Model\DeviceListViewItemModel.cs" />
+    <Compile Include="Model\DevicesHeaderRecord.cs" />
     <Compile Include="Model\DevicesModel.cs" />
     <Compile Include="Model\DumpUserContentModel.cs" />
     <Compile Include="Model\FileListViewItemModel.cs" />
