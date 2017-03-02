@@ -32,7 +32,7 @@
 
         string GroupMemberInputFilePath { get; set; }
 
-        void RenderGroupList();
+        void RenderGroupList(List<GroupListViewItemModel> groups);
 
         void RenderGroupsStatus(List<GroupListViewItemModel> groups);
 

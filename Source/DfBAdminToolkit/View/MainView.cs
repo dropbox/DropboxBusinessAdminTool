@@ -10,6 +10,7 @@
     using System.Collections.Generic;
     using System.Threading;
     using System.Windows.Forms;
+    using System.Diagnostics;
     using Newtonsoft.Json;
 
     public partial class MainView : Form, IMainView {
@@ -55,6 +56,7 @@
                 // TODO: event wiring
                 _tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
                 settingsToolStripMenuItem.Click += SettingsToolStripMenuItem_Click;
+                templatesToolStripMenuItem.Click += TemplatesToolStripMenuItem_Click;
                 exitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
                 ComponentEventsWired = true;
             }
@@ -65,6 +67,7 @@
                 // TODO: event release
                 _tabControl.SelectedIndexChanged -= TabControl_SelectedIndexChanged;
                 settingsToolStripMenuItem.Click -= SettingsToolStripMenuItem_Click;
+                templatesToolStripMenuItem.Click -= TemplatesToolStripMenuItem_Click;
                 exitToolStripMenuItem.Click -= ExitToolStripMenuItem_Click;
                 ComponentEventsWired = false;
             }
@@ -179,6 +182,11 @@
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e) {
             ISettingsPresenter presenter = GetSettingPresenter();
             presenter.ShowSettings(this);
+        }
+
+        private void TemplatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start(Application.StartupPath + @"\Templates");
         }
 
         public void UpdateTitleBarTeamStats()
@@ -384,6 +392,5 @@
         }
 
         #endregion Message box
-
     }
 }

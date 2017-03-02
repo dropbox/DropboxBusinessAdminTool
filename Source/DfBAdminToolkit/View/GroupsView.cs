@@ -121,7 +121,7 @@
             Groups = new List<GroupListViewItemModel>();
             this.buttonEx_GroupsLoadGroups.Enabled = true;
             this.radioUser.Checked = true;
-            GroupType = "company_managed";
+            GroupType = "user_managed";
             olvColumnGroups_AddStatus.IsVisible = false;
             olvColumnGroups_Email.IsVisible = false;
         }
@@ -225,7 +225,7 @@
             }
         }
 
-        public void RenderGroupList()
+        public void RenderGroupList(List<GroupListViewItemModel> groups)
         {
             this.objectListView_GroupsMembers.SetObjects(Groups);
             if (this.objectListView_GroupsMembers.GetItemCount() == this.objectListView_GroupsMembers.CheckedObjects.Count)
@@ -316,10 +316,6 @@
 
             if (result == DialogResult.OK)
             {
-                textBoxGroup.Text = inputFile.FileName;
-                GroupInputFilePath = inputFile.FileName;
-                InvokeDataChanged(sender, e);
-
                 //make all columns hidden except GroupName, GroupType and AddStatus
                 olvColumnGroups_MemberCount.IsVisible = false;
                 olvColumnGroups_GroupType.IsVisible = true;
@@ -327,6 +323,10 @@
                 olvColumnGroups_Email.IsVisible = false;
                 olvColumnGroups_AddStatus.IsVisible = true;
                 this.objectListView_GroupsMembers.RebuildColumns();
+
+                textBoxGroup.Text = inputFile.FileName;
+                GroupInputFilePath = inputFile.FileName;
+                InvokeDataChanged(sender, e);
 
                 if (CommandLoadGroupsInputFile != null)
                 {
@@ -378,10 +378,6 @@
 
             if (result == DialogResult.OK)
             {
-                textBoxAddMember.Text = inputFile.FileName;
-                GroupMemberInputFilePath = inputFile.FileName;
-                InvokeDataChanged(sender, e);
-
                 //make columns hidden except GroupName, Email, and AddStatus
                 olvColumnGroups_MemberCount.IsVisible = false;
                 olvColumnGroups_GroupType.IsVisible = false;
@@ -389,6 +385,10 @@
                 olvColumnGroups_Email.IsVisible = true;
                 olvColumnGroups_AddStatus.IsVisible = true;
                 this.objectListView_GroupsMembers.RebuildColumns();
+
+                textBoxAddMember.Text = inputFile.FileName;
+                GroupMemberInputFilePath = inputFile.FileName;
+                InvokeDataChanged(sender, e);
 
                 if (CommandLoadGroupsMembersInputFile != null)
                 {

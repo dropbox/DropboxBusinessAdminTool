@@ -55,6 +55,18 @@
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
+		"Entry"
+        {
+        "MsmKey" = "8:_849030045CBA4F5090FA4DBB6CA51E8F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+		"Entry"
+        {
+        "MsmKey" = "8:_749030045CBA4F5090FA4DBB6CA51E8F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
         "Entry"
         {
         "MsmKey" = "8:_5661ECFE82564529A2FCAA07988A44AF"
@@ -444,6 +456,46 @@
             {
             "SourcePath" = "8:..\\..\\..\\..\\ProvisioningTemplate.csv"
             "TargetName" = "8:ProvisioningTemplate.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_DF991A4076234D9C941D22E5025CD05C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }		
+			"{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_849030045CBA4F5090FA4DBB6CA51E8F"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\GroupsBulkAddMembersTemplate.csv"
+            "TargetName" = "8:GroupsBulkAddMembersTemplate.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_DF991A4076234D9C941D22E5025CD05C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+			"{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_749030045CBA4F5090FA4DBB6CA51E8F"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\GroupsBulkAddTemplate.csv"
+            "TargetName" = "8:GroupsBulkAddTemplate.csv"
             "Tag" = "8:"
             "Folder" = "8:_DF991A4076234D9C941D22E5025CD05C"
             "Condition" = "8:"

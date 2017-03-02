@@ -775,7 +775,6 @@
                     this.tableLayoutPanel2.SetColumn(c2, 1);
                 }
             }
-
         }
 
         private void radioViewStatistics_CheckedChanged(object sender, EventArgs e)

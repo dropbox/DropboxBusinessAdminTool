@@ -311,13 +311,13 @@
             // 
             // objectListView_GroupsMembers
             // 
+            this.objectListView_GroupsMembers.Alignment = System.Windows.Forms.ListViewAlignment.SnapToGrid;
             this.objectListView_GroupsMembers.AllColumns.Add(this.olvColumnGroups_GroupName);
             this.objectListView_GroupsMembers.AllColumns.Add(this.olvColumnGroups_MemberCount);
             this.objectListView_GroupsMembers.AllColumns.Add(this.olvColumnGroups_GroupType);
             this.objectListView_GroupsMembers.AllColumns.Add(this.olvColumnGroups_GroupId);
             this.objectListView_GroupsMembers.AllColumns.Add(this.olvColumnGroups_Email);
             this.objectListView_GroupsMembers.AllColumns.Add(this.olvColumnGroups_AddStatus);
-            this.objectListView_GroupsMembers.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.objectListView_GroupsMembers.CellEditUseWholeCell = false;
             this.objectListView_GroupsMembers.CheckBoxes = true;
             this.objectListView_GroupsMembers.CheckedAspectName = "IsChecked";
@@ -348,6 +348,7 @@
             // 
             this.olvColumnGroups_GroupName.AspectName = "GroupName";
             this.olvColumnGroups_GroupName.HeaderCheckBox = true;
+            this.olvColumnGroups_GroupName.HeaderCheckBoxUpdatesRowCheckBoxes = false;
             this.olvColumnGroups_GroupName.Hideable = false;
             this.olvColumnGroups_GroupName.MinimumWidth = 150;
             this.olvColumnGroups_GroupName.Text = "GroupName";

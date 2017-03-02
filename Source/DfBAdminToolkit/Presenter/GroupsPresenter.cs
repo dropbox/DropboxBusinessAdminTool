@@ -798,7 +798,7 @@
                                 ref view, model
                             );
                             // update result and update view.
-                            view.RenderGroupList();
+                            view.RenderGroupList(model.Groups);
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
                             presenter.UpdateProgressInfo("Group list completed.");
@@ -1214,7 +1214,7 @@
                     {
                         SyncContext.Post(delegate {
                             // update result and update view.
-                            view.RenderGroupList();
+                            view.RenderGroupList(model.Groups);
                             presenter.UpdateProgressInfo("Groups CSV Loaded");
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
@@ -1246,7 +1246,7 @@
                     {
                         SyncContext.Post(delegate {
                             // update result and update view.
-                            view.RenderGroupList();
+                            view.RenderGroupList(model.Groups);
                             presenter.UpdateProgressInfo("Group members CSV Loaded");
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
