@@ -15,7 +15,6 @@
 - [x] Take actions on Devices attached to your Dropbox team (remote wipe)
 - [x] Report on all files in your Dropbox team
 - [x] Export full team member list with status
-
 - [x] Search for content across the entire Dropbox Business team by name or full text search
 - [x] Download and save content from any team members Dropbox for holding or audit purposes while taking action on their account (suspend, delete)
 - [x] Quickly access CSV templates from file menu
