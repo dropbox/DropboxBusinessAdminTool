@@ -1,6 +1,7 @@
 ﻿namespace DfBAdminToolkit.Model {
 
     using System.ComponentModel;
+    using System;
 
     public class MemberListViewItemModel
         : INotifyPropertyChanged, IModel {
@@ -15,7 +16,7 @@
         private string _newEmail;
         private string _newExternalId;
         private string _provisionStatus;
-        private string _joinedOn;
+        private DateTime _joinedOn;
         private bool _isChecked;
 
         public string Email {
@@ -114,7 +115,7 @@
             }
         }
 
-        public string JoinedOn
+        public DateTime JoinedOn
         {
             get { return _joinedOn; }
             set

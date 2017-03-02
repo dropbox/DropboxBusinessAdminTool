@@ -54,6 +54,7 @@
             this.olvColumnProvisioning_Email = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_FirstName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_LastName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnProvisioning_UserStatus = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_Usage = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_JoinedOn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_NewEmail = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -354,6 +355,7 @@
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_Email);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_FirstName);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_LastName);
+            this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_UserStatus);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_Usage);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_JoinedOn);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_NewEmail);
@@ -366,6 +368,7 @@
             this.olvColumnProvisioning_Email,
             this.olvColumnProvisioning_FirstName,
             this.olvColumnProvisioning_LastName,
+            this.olvColumnProvisioning_UserStatus,
             this.olvColumnProvisioning_Usage,
             this.olvColumnProvisioning_JoinedOn,
             this.olvColumnProvisioning_NewEmail,
@@ -414,6 +417,11 @@
             this.olvColumnProvisioning_LastName.Text = "Last Name";
             this.olvColumnProvisioning_LastName.UseInitialLetterForGroup = true;
             this.olvColumnProvisioning_LastName.Width = 120;
+            // 
+            // olvColumnProvisioning_UserStatus
+            // 
+            this.olvColumnProvisioning_UserStatus.AspectName = "Status";
+            this.olvColumnProvisioning_UserStatus.Text = "Status";
             // 
             // olvColumnProvisioning_Usage
             // 
@@ -719,5 +727,6 @@
         private ButtonEx buttonEx_OpenTemplates;
         private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_Status;
         private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_JoinedOn;
+        private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_UserStatus;
     }
 }

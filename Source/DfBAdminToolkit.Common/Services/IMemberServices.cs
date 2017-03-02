@@ -98,7 +98,7 @@ namespace DfBAdminToolkit.Common.Services
 
         IServiceResponse CreateGroup(string groupName, string groupType, string authToken);
 
-        IServiceResponse AddMemberGroup(IMemberData data, string email, string authToken);
+        IServiceResponse AddMemberGroup(IMemberData data, string authToken);
 
         IServiceResponse DeleteMemberGroup(IMemberData data, string email, string authToken);
 

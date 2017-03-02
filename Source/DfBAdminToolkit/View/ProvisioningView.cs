@@ -46,6 +46,7 @@
             Email,
             FirstName,
             LastName,
+            Status,
             Usage,
             JoinedOn
         }
@@ -191,7 +192,11 @@
                 {
                     return (model != null) ? model.LastName : string.Empty;
                 };
-
+            olv.GetColumn((int)OlvMembersIndex.Status).AspectGetter
+                = delegate (MemberListViewItemModel model)
+                {
+                    return (model != null) ? model.Status : string.Empty;
+                };
             olv.GetColumn((int)OlvMembersIndex.Usage).AspectGetter
                 = delegate (MemberListViewItemModel model)
                 {
@@ -200,7 +205,7 @@
             olv.GetColumn((int)OlvMembersIndex.JoinedOn).AspectGetter
                 = delegate (MemberListViewItemModel model)
                 {
-                    return (model != null) ? model.JoinedOn : string.Empty;
+                    return (model != null) ? model.JoinedOn : DateTime.Now;
                 };
         }
 

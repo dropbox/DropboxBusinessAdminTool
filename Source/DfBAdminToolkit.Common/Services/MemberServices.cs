@@ -543,7 +543,6 @@
                         new JProperty("group_name", groupName),
                         new JProperty("group_management_type", groupType)
                     );
-
                     request.AddParameter("application/json", json, ParameterType.RequestBody);
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
@@ -562,7 +561,7 @@
             return serviceResponse;
         }
 
-        public IServiceResponse AddMemberGroup(IMemberData data, string email, string authToken)
+        public IServiceResponse AddMemberGroup(IMemberData data, string authToken)
         {
             IServiceResponse serviceResponse = null;
             try
@@ -589,7 +588,7 @@
                                     new JProperty("user",
                                         new JObject(
                                             new JProperty(".tag", "email"),
-                                            new JProperty("email", email.Trim())
+                                            new JProperty("email", data.GroupEmail)
                                         )
                                     ),
                                     new JProperty("access_type",
@@ -606,7 +605,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {

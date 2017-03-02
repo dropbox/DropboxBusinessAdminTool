@@ -7,6 +7,10 @@
 
         public string AccessToken { get; set; }
 
+        public string GroupInputFilePath { get; set; }
+
+        public string GroupMemberInputFilePath { get; set; }
+
         public List<GroupListViewItemModel> Groups { get; set; }
 
         public List<GroupInfoItemModel> GroupInfo { get; set; }

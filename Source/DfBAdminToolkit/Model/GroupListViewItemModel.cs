@@ -8,6 +8,8 @@
         private string _groupType;
         private string _groupId;
         private string _memberCount;
+        private string _email;
+        private string _addStatus;
         private bool _isChecked;
 
         public string GroupName {
@@ -41,6 +43,26 @@
             set {
                 _memberCount = value;
                 OnPropertyChanged("MemberCount");
+            }
+        }
+
+        public string Email
+        {
+            get { return _email; }
+            set
+            {
+                _email = value;
+                OnPropertyChanged("Email");
+            }
+        }
+
+        public string AddStatus
+        {
+            get { return _addStatus; }
+            set
+            {
+                _addStatus = value;
+                OnPropertyChanged("AddStatus");
             }
         }
 
