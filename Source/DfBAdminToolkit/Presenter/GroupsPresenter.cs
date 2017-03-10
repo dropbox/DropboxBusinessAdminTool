@@ -21,6 +21,8 @@
             : base(model, view) {
         }
 
+        int groupCount = 0;
+
         protected override void Initialize() {
             IGroupsView view = base._view as IGroupsView;
             IGroupsModel model = base._model as IGroupsModel;
@@ -510,6 +512,7 @@
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
+                        groupCount++;
                         if (SyncContext != null)
                         {
                             if (response.Message.Contains("group_management_type"))
@@ -1013,7 +1016,7 @@
             string groupName = view.GroupName;
             string groupType = view.GroupType;
             bool multiCheck = view.MultiGroupCreateCheck();
-            int groupCount = 0;
+            groupCount = 0;
 
             if (SyncContext != null)
             {
@@ -1038,12 +1041,11 @@
                     if (!multiCheck)
                     {
                         this.CreateGroup(model, groupName, groupType, false, presenter);
-                        groupCount++;
                     }
                     if (multiCheck)
                     {
                         this.CreateGroup(model, string.Empty, string.Empty, true, presenter);
-                        groupCount++;
+                        groupCount = model.Groups.Count;
                     }
                     if (SyncContext != null)
                     {

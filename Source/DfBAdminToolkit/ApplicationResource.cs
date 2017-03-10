@@ -1,37 +1,46 @@
-﻿namespace DfBAdminToolkit {
+﻿namespace DfBAdminToolkit
+{
 
     using System;
     using System.Configuration;
     using System.Threading;
-    using DfBAdminToolkit.Common.Extensions;
+    using Common.Extensions;
 
-    public static class ApplicationResource {
+    public static class ApplicationResource
+    {
 
-        public static string BaseUrl {
+        public static string BaseUrl
+        {
             get { return ConfigurationManager.AppSettings.Get("BaseUrl"); }
         }
 
-        public static string ContentUrl {
+        public static string ContentUrl
+        {
             get { return ConfigurationManager.AppSettings.Get("ContentUrl"); }
         }
 
-        public static string ApiVersion {
+        public static string ApiVersion
+        {
             get { return ConfigurationManager.AppSettings.Get("ApiVersion"); }
         }
 
-        public static string ActionListMembers {
+        public static string ActionListMembers
+        {
             get { return ConfigurationManager.AppSettings.Get("ActionListMembers"); }
         }
 
-        public static string ActionListMembersContinuation {
+        public static string ActionListMembersContinuation
+        {
             get { return ConfigurationManager.AppSettings.Get("ActionListMembersContinuation"); }
         }
 
-        public static string ActionFileSearch {
+        public static string ActionFileSearch
+        {
             get { return ConfigurationManager.AppSettings.Get("ActionFileSearch"); }
         }
 
-        public static string ActionListFolder {
+        public static string ActionListFolder
+        {
             get { return ConfigurationManager.AppSettings.Get("ActionListFolder"); }
         }
 
@@ -165,7 +174,8 @@
             get { return ConfigurationManager.AppSettings.Get("ActionUpdateMembersTeamFolder"); }
         }
 
-        public static int SearchDefaultLimit {
+        public static int SearchDefaultLimit
+        {
             get {
                 int limit = 1000;
                 int.TryParse(ConfigurationManager.AppSettings.Get("SearchDefaultLimit"), out limit);
@@ -173,7 +183,8 @@
             }
         }
 
-        public static int SearchFileCountLimit {
+        public static int SearchFileCountLimit
+        {
             get {
                 int limit = 65536;
                 int.TryParse(ConfigurationManager.AppSettings.Get("SearchFileCountLimit"), out limit);
@@ -190,15 +201,18 @@
             }
         }
 
-        public static string RegistryEntryPoint {
+        public static string RegistryEntryPoint
+        {
             get { return ConfigurationManager.AppSettings.Get("RegistryEntryPoint"); }
         }
 
-        public static string RegistryKey {
+        public static string RegistryKey
+        {
             get { return ConfigurationManager.AppSettings.Get("RegistryKey"); }
         }
 
-        public static string DefaultAccessToken {
+        public static string DefaultAccessToken
+        {
             get
             {
                 string defaultToken = ConfigurationManager.AppSettings.Get("DefaultAccessToken");
@@ -210,7 +224,8 @@
             }
         }
 
-        public static string DefaultProvisionToken {
+        public static string DefaultProvisionToken
+        {
             get
             {
                 string defaultProvisionToken = ConfigurationManager.AppSettings.Get("DefaultProvisionToken");
@@ -222,7 +237,8 @@
             }
         }
 
-        public static string DefaultOutputReportFilePrefix {
+        public static string DefaultOutputReportFilePrefix
+        {
             get { return ConfigurationManager.AppSettings.Get("DefaultOutputReportFilePrefix"); }
         }
 

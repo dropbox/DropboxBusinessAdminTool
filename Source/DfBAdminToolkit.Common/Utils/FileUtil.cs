@@ -2,9 +2,11 @@
 using System.Linq;
 using System.Reflection;
 
-namespace DfBAdminToolkit.Common.Utils {
+namespace DfBAdminToolkit.Common.Utils
+{
 
-    public static class FileUtil {
+    public static class FileUtil
+    {
 
         public static string FormatFileSize(long size) {
             int[] limits = new int[] { 1024 * 1024 * 1024, 1024 * 1024, 1024 };
@@ -31,7 +33,8 @@ namespace DfBAdminToolkit.Common.Utils {
             return newsize;
         }
 
-        public static void EncryptAppSettings(string section) {
+        public static void EncryptAppSettings(string section)
+        {
             Configuration objConfig = ConfigurationManager.OpenExeConfiguration(GetAppPath() + "DfBAdminToolkit.exe");
             AppSettingsSection objAppsettings = (AppSettingsSection)objConfig.GetSection(section);
             if (!objAppsettings.SectionInformation.IsProtected) {
@@ -41,24 +44,27 @@ namespace DfBAdminToolkit.Common.Utils {
             }
         }
 
-        public static string GetAppPath() {
-            System.Reflection.Module[] modules = System.Reflection.Assembly.GetExecutingAssembly().GetModules();
+        public static string GetAppPath()
+        {
+            Module[] modules = Assembly.GetExecutingAssembly().GetModules();
             string location = System.IO.Path.GetDirectoryName(modules[0].FullyQualifiedName);
             if ((location != "") && (location[location.Length - 1] != '\\'))
                 location += '\\';
             return location;
         }
 
-        public static void UpdateKey(string keyName, string newValue) {
+        public static void UpdateKey(string keyName, string newValue)
+        {
             Configuration config = ConfigurationManager.OpenExeConfiguration(GetAppPath() + "DfBAdminToolkit.exe");
             config.AppSettings.Settings[keyName].Value = newValue;
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
         }
 
-        public static bool TokenCheck() {
+        public static bool TokenCheck()
+        {
             bool result = true;
-            string newValue = "";
+            string newValue = string.Empty;
             Configuration config = ConfigurationManager.OpenExeConfiguration(GetAppPath() + "DfBAdminToolkit.exe");
             newValue = config.AppSettings.Settings["DefaultAccessToken"].Value;
             if (newValue.StartsWith("ENTER")) {
@@ -67,7 +73,25 @@ namespace DfBAdminToolkit.Common.Utils {
             return result;
         }
 
-        public static void ResetConfigMechanism() {
+        public static bool ConfigCheck()
+        {
+            bool result = false;
+            string newValue = string.Empty;
+            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Configuration config = ConfigurationManager.OpenExeConfiguration(GetAppPath() + "DfBAdminToolkit.exe");
+            if (ConfigurationManager.AppSettings["ConfigVersion"] != null)
+            {
+                newValue = config.AppSettings.Settings["ConfigVersion"].Value;
+            }   
+            if (newValue == version)
+            {
+                result = true;
+            }
+            return result;
+        }
+
+        public static void ResetConfigMechanism()
+        {
             typeof(ConfigurationManager)
                 .GetField("s_initState", BindingFlags.NonPublic |
                                          BindingFlags.Static)
