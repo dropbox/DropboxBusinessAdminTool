@@ -11,6 +11,7 @@
     using System.Threading;
     using System.Windows.Forms;
     using System.Diagnostics;
+    using System.IO;
     using Newtonsoft.Json;
 
     public partial class MainView : Form, IMainView {
@@ -40,19 +41,23 @@
 
         public SynchronizationContext SyncContext { get; set; }
 
-        public MainView() {
+        public MainView()
+        {
             InitializeComponent();
             InitializeRuntimeComponent();
             Initialize();
             WireComponentEvents();
         }
 
-        ~MainView() {
+        ~MainView()
+        {
             UnWireComponentEvents();
         }
 
-        public void WireComponentEvents() {
-            if (!ComponentEventsWired) {
+        public void WireComponentEvents()
+        {
+            if (!ComponentEventsWired)
+            {
                 // TODO: event wiring
                 _tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
                 settingsToolStripMenuItem.Click += SettingsToolStripMenuItem_Click;
@@ -62,8 +67,10 @@
             }
         }
 
-        public void UnWireComponentEvents() {
-            if (ComponentEventsWired) {
+        public void UnWireComponentEvents()
+        {
+            if (ComponentEventsWired)
+            {
                 // TODO: event release
                 _tabControl.SelectedIndexChanged -= TabControl_SelectedIndexChanged;
                 settingsToolStripMenuItem.Click -= SettingsToolStripMenuItem_Click;
@@ -73,7 +80,8 @@
             }
         }
 
-        public void Initialize() {
+        public void Initialize()
+        {
             SyncContext = SynchronizationContext.Current;
             StartPosition = FormStartPosition.CenterScreen;
             ComponentEventsWired = false;
@@ -83,7 +91,8 @@
             this.Text = "Dropbox Business Admin Toolkit v" + version;
             //token not configured yet
             bool checkToken = FileUtil.TokenCheck();
-            if (!checkToken) {
+            if (!checkToken)
+            {
                 ShowErrorMessage(ErrorMessages.MISSING_TOKEN, ErrorMessages.DLG_DEFAULT_TITLE);
             }
             //if token configured get team stats and put in title text
@@ -91,19 +100,33 @@
             {
                 this.UpdateTitleBarTeamStats();
             }
-            //check for new vresion on Github
+            //check for valid config, and if incorrect from bad install replace with backup for it
+            bool checkConfig = FileUtil.ConfigCheck();
+            if (!checkConfig)
+            {
+                ShowErrorMessage(ErrorMessages.BAD_CONFIG, ErrorMessages.DLG_DEFAULT_TITLE);
+                //rename and copy, overwriting old config
+                string appPath = FileUtil.GetAppPath();
+                File.Copy(appPath + @"ConfigBackup\DfBAdminToolkit.exe.config", appPath + @"DfBAdminToolkit.exe.config", true);
+                //restart app
+                Application.Restart();
+            }
+            //check for new version on Github
             this.CheckLatestVersion();
         }
 
-        public void ShowView() {
+        public void ShowView()
+        {
             this.Show();
         }
 
-        public void HideView() {
+        public void HideView()
+        {
             this.Hide();
         }
 
-        private void InitializeRuntimeComponent() {
+        private void InitializeRuntimeComponent()
+        {
             _tabControl = new CustomTabControl();
             _tabControl.Name = "tabControl_Main";
             _tabControl.Dock = DockStyle.Fill;

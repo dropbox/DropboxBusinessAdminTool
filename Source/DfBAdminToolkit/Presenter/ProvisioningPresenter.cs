@@ -502,7 +502,11 @@
                             dynamic roleObj = jsonData["members"][i]["role"][".tag"];
                             string role = roleObj.Value as string;
                             string email = emailObj.Value as string;
-                            DateTime joinedOn = joinedOnObj;
+                            DateTime joinedOn = DateTime.MinValue;
+                            if (joinedOnObj != null)
+                            {
+                                joinedOn = joinedOnObj;
+                            }
                             string status = statusObj.Value as string;
                             string firstName = firstNameObj.Value as string;
                             string lastName = lastNameObj.Value as string;
@@ -566,7 +570,11 @@
                                 dynamic roleObj = jsonDataCont["members"][i]["role"][".tag"];
                                 string role = roleObj.Value as string;
                                 string email = emailObj.Value as string;
-                                DateTime joinedOn = joinedOnObj;
+                                DateTime joinedOn = DateTime.MinValue;
+                                if (joinedOnObj != null)
+                                {
+                                    joinedOn = joinedOnObj;
+                                }
                                 string status = statusObj.Value as string;
                                 string firstName = firstNameObj.Value as string;
                                 string lastName = lastNameObj.Value as string;
@@ -651,7 +659,11 @@
                             string email = emailObj.Value as string;
                             string firstName = firstNameObj.Value as string;
                             string lastName = lastNameObj.Value as string;
-                            DateTime joinedOn = joinedOnObj;
+                            DateTime joinedOn = DateTime.MinValue;
+                            if (joinedOnObj != null)
+                            {
+                                joinedOn = joinedOnObj;
+                            }   
                             string status = statusObj.Value as string;
 
                             IDataResponse responseUsage = serviceUsage.GetUsage(new MemberData()
@@ -714,7 +726,11 @@
                                 string email = emailObj.Value as string;
                                 string firstName = firstNameObj.Value as string;
                                 string lastName = lastNameObj.Value as string;
-                                DateTime joinedOn = joinedOnObj;
+                                DateTime joinedOn = DateTime.MinValue;
+                                if (joinedOnObj != null)
+                                {
+                                    joinedOn = joinedOnObj;
+                                }
                                 string status = statusObj.Value as string;
 
                                 IDataResponse responseUsage = serviceUsage.GetUsage(new MemberData()
