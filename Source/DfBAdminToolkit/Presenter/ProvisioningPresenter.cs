@@ -102,10 +102,10 @@
                 } else {
                     throw new InvalidDataException(ErrorMessages.MISSING_CSV_FILE);
                 }
-            } catch (Exception e) {
+            } catch (Exception) {
                 // error message.
                 SyncContext.Post(delegate {
-                    presenter.ShowErrorMessage(e.Message, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.ShowErrorMessage(ErrorMessages.INVALID_CSV_DATA, ErrorMessages.DLG_DEFAULT_TITLE);
                     presenter.UpdateProgressInfo("");
                     presenter.ActivateSpinner(false);
                     presenter.EnableControl(true);
@@ -159,11 +159,11 @@
                     throw new InvalidDataException(ErrorMessages.MISSING_CSV_FILE);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // error message.
                 SyncContext.Post(delegate {
-                    presenter.ShowErrorMessage(e.Message, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.ShowErrorMessage(ErrorMessages.INVALID_CSV_DATA, ErrorMessages.DLG_DEFAULT_TITLE);
                     presenter.UpdateProgressInfo("");
                     presenter.ActivateSpinner(false);
                     presenter.EnableControl(true);
@@ -426,7 +426,7 @@
                         NewEmail = item.NewEmail,
                         NewExternalId = item.NewExternalId
                     }, model.AccessToken);
-
+                    
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         if (SyncContext != null)
@@ -437,14 +437,33 @@
                             }, null);
                         }
                     }
-                    else if ((response.Message).Contains("user_not_found"))
+                    if (response.StatusCode != HttpStatusCode.OK)
                     {
-                        errorMessage = ErrorMessages.USER_NOT_FOUND;
-                    }
-                    else if ((response.Message).Contains("user_not_in_team"))
-                    {
-                        errorMessage = ErrorMessages.USER_NOT_IN_TEAM;
-                    }
+                        if ((response.Message).Contains("user_not_found"))
+                        {
+                            errorMessage = ErrorMessages.USER_NOT_FOUND;
+                        }
+                        if ((response.Message).Contains("user_not_in_team"))
+                        {
+                            errorMessage = ErrorMessages.USER_NOT_IN_TEAM;
+                        }
+                        if ((response.Message).Contains("email_reserved_for_other_user"))
+                        {
+                            errorMessage = ErrorMessages.EMAIL_RESERVED;
+                        }
+                        if ((response.Message).Contains("set_profile_disallowed"))
+                        {
+                            errorMessage = ErrorMessages.SET_PROFILE_DISALLOWED;
+                        }
+                        if ((response.Message).Contains("external_id_used_by_other_user"))
+                        {
+                            errorMessage = ErrorMessages.EXTERNAL_ID_USED;
+                        }
+                        if ((response.Message).Contains("no_new_data_specified"))
+                        {
+                            errorMessage = ErrorMessages.NO_NEW_DATA_SPECIFIED;
+                        }
+                    } 
                     else
                     {
                         errorMessage = "Bad Request: " + response.Message;
@@ -889,7 +908,7 @@
                             }
                             else
                             {
-                                presenter.UpdateProgressInfo("Provisioning completed");
+                                presenter.UpdateProgressInfo("Provisioning completed.");
                                 view.RenderProvisioningStatus(model.Members);
                                 presenter.UpdateTitleBarStats();
                             }
@@ -1100,7 +1119,7 @@
                             }
                             else
                             {
-                                presenter.UpdateProgressInfo("Updating members profiles completed");
+                                presenter.UpdateProgressInfo("Updating members profiles completed.");
                             }
                             // update result and update view.
                             presenter.ActivateSpinner(false);

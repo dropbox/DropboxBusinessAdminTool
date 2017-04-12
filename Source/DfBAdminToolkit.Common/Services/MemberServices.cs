@@ -164,7 +164,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -201,7 +201,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -238,7 +238,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -252,10 +252,13 @@
             return serviceResponse;
         }
 
-        public IDataResponse ListMembers(IMemberData data, string authToken) {
+        public IDataResponse ListMembers(IMemberData data, string authToken)
+        {
             IDataResponse dataResponse = null;
-            try {
-                if (!string.IsNullOrEmpty(ListMembersUrl)) {
+            try
+            {
+                if (!string.IsNullOrEmpty(ListMembersUrl))
+                {
                     RestClient client = new RestClient(
                         string.Format("{0}/{1}/", _baseUrl, _apiVersion)
                     );
@@ -271,10 +274,14 @@
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
-                } else {
+                }
+                else
+                {
                     throw new ArgumentNullException("Missing service url");
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
             }
             return dataResponse;
@@ -348,7 +355,6 @@
                         new JProperty("cursor", data.Cursor)
                        );
                         request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
-
                     }
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
@@ -654,7 +660,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -813,7 +819,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -882,7 +888,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -935,7 +941,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -970,7 +976,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {

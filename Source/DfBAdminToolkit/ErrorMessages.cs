@@ -17,6 +17,10 @@
         public readonly static string FAILED_TO_UPDATE_PROFILE = "Bad request to the API, possibly due to no permissions on your app to update profiles.";
         public readonly static string USER_NOT_FOUND = "No matching user found. The provided email does not exist on this team.";
         public readonly static string USER_NOT_IN_TEAM = "The user is not a member of this team.";
+        public readonly static string EMAIL_RESERVED = "Email is already reserved for another user..";
+        public readonly static string EXTERNAL_ID_USED = "The external ID is already in use by another team member.";
+        public readonly static string SET_PROFILE_DISALLOWED = "Pending team member's email cannot be modified.";
+        public readonly static string NO_NEW_DATA_SPECIFIED = "None of new_email, new_given_name, new_surname, or new_external_id are specified.";
         public readonly static string MISSING_ROLE = "Please select a user role first.";
         public readonly static string MISSING_OUTPUT_FOLDER = "Please select output directory first.";
         public readonly static string MISSING_FILES = "Please list file(s) first. You can do this by right-click and choose [ List file(s) ] option.";
