@@ -17,6 +17,8 @@
         public event EventHandler CommandCreateTeamFolder;
         public event EventHandler CommandSetFolderStatus;
         public event EventHandler CommandSetFolderSyncSetting;
+        public event EventHandler CommandLoadTeamFolders;
+        public event EventHandler CommandExportTeamFolders;
 
         public SynchronizationContext SyncContext { get; set; }
 
@@ -27,6 +29,8 @@
         public string TeamFolderName { get; set; }
 
         public string TeamFolderId { get; set; }
+
+        public string TeamFoldersInputFilePath { get; set; }
 
         public bool SyncSetting { get; set; }
 
@@ -67,6 +71,8 @@
                 this.buttonEx_TeamFoldersCreateTeamFolder.Click += buttonEx_TeamFoldersCreateTeamFolder_Click;
                 this.buttonEx_TeamFoldersSetFolderStatus.Click += buttonEx_TeamFoldersSetFolderStatus_Click;
                 this.buttonEx_TeamFoldersSetFolderSyncSetting.Click += buttonEx_TeamFoldersSetFolderSyncSetting_Click;
+                this.buttonEx_TeamFoldersExportToCSV.Click += buttonEx_TeamFoldersExportToCSV_Click;
+                this.buttonEx_TeamFoldersLoadFromCSV.Click += buttonEx_TeamFoldersLoadFromCSV_Click;
                 this.radioButtonSync.CheckedChanged += radioButtonSync_CheckedChanged;
                 this.radioButton_Active.CheckedChanged += radioButtonActive_CheckedChanged;
                 this.textBoxTeamFolder.TextChanged += TextBox_textBoxTeamFolder_TextChanged;
@@ -85,6 +91,8 @@
                 this.buttonEx_TeamFoldersCreateTeamFolder.Click -= buttonEx_TeamFoldersCreateTeamFolder_Click;
                 this.buttonEx_TeamFoldersSetFolderStatus.Click -= buttonEx_TeamFoldersSetFolderStatus_Click;
                 this.buttonEx_TeamFoldersSetFolderSyncSetting.Click -= buttonEx_TeamFoldersSetFolderSyncSetting_Click;
+                this.buttonEx_TeamFoldersExportToCSV.Click -= buttonEx_TeamFoldersExportToCSV_Click;
+                this.buttonEx_TeamFoldersLoadFromCSV.Click -= buttonEx_TeamFoldersLoadFromCSV_Click;
                 this.radioButtonSync.CheckedChanged -= radioButtonSync_CheckedChanged;
                 this.radioButton_Active.CheckedChanged -= radioButtonActive_CheckedChanged;
                 this.textBoxTeamFolder.TextChanged -= TextBox_textBoxTeamFolder_TextChanged;
@@ -158,6 +166,17 @@
             textBox_TeamFoldersAccessToken.Text = AccessToken;
         }
 
+        public bool MultiTeamFoldersCreateCheck()
+        {
+            bool check = false;
+
+            if ((textBoxTeamFolder.Text).Contains(".csv"))
+            {
+                check = true;
+            }
+            return check;
+        }
+
         private void TextBox_textBoxTeamFolder_TextChanged(object sender, EventArgs e)
         {
             TeamFolderName = this.textBoxTeamFolder.Text;
@@ -166,6 +185,15 @@
         public void RenderTeamFoldersList()
         {
             this.objectListView_TeamFoldersMembers.SetObjects(TeamFolders);
+            if (this.objectListView_TeamFoldersMembers.GetItemCount() == this.objectListView_TeamFoldersMembers.CheckedObjects.Count)
+            {
+                this.objectListView_TeamFoldersMembers.CheckHeaderCheckBox(olvColumnTeamFolders_TeamFolderName);
+            }
+        }
+
+        public void RenderTeamFoldersListFromCSV(List<TeamFoldersListViewItemModel> teamFolders)
+        {
+            this.objectListView_TeamFoldersMembers.SetObjects(teamFolders);
             if (this.objectListView_TeamFoldersMembers.GetItemCount() == this.objectListView_TeamFoldersMembers.CheckedObjects.Count)
             {
                 this.objectListView_TeamFoldersMembers.CheckHeaderCheckBox(olvColumnTeamFolders_TeamFolderName);
@@ -217,6 +245,46 @@
             if (CommandSetFolderStatus != null)
             {
                 CommandSetFolderSyncSetting(sender, e);
+            }
+        }
+
+        private void buttonEx_TeamFoldersExportToCSV_Click(object sender, EventArgs e)
+        {
+            InvokeDataChanged(sender, e);
+            if (CommandExportTeamFolders != null)
+            {
+                CommandExportTeamFolders(sender, e);
+            }
+        }
+
+        private void buttonEx_TeamFoldersLoadFromCSV_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog inputFile = new OpenFileDialog();
+            inputFile.Title = "Please select a CSV file";
+            inputFile.Filter = "CSV File|*.csv";
+            DialogResult result = inputFile.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                olvColumnTeamFolders_TeamFolderName.IsVisible = true;
+                olvColumnTeamFolders_TeamFolderId.IsVisible = true;
+                olvColumnTeamFolders_Status.IsVisible = true;
+                this.objectListView_TeamFoldersMembers.RebuildColumns();
+
+                textBoxTeamFolder.Text = inputFile.FileName;
+                TeamFoldersInputFilePath = inputFile.FileName;
+                InvokeDataChanged(sender, e);
+
+                if (CommandLoadTeamFolders != null)
+                {
+                    CommandLoadTeamFolders(sender, e);
+                }
+            }
+
+            InvokeDataChanged(sender, e);
+            if (CommandLoadTeamFolders != null)
+            {
+                CommandLoadTeamFolders(sender, e);
             }
         }
 
@@ -307,6 +375,5 @@
         }
 
         #endregion Events
-
     }
 }

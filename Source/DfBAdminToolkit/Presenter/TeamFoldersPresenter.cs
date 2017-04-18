@@ -2,11 +2,14 @@
 
     using Common.Services;
     using Common.Utils;
+    using CsvHelper;
+    using CsvHelper.Configuration;
     using Model;
     using View;
     using Newtonsoft.Json;
     using System;
     using System.Configuration;
+    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Threading;
@@ -38,6 +41,8 @@
                 view.CommandCreateTeamFolder += OnCommandCreateTeamFolder;
                 view.CommandSetFolderStatus += OnCommandSetFolderStatus;
                 view.CommandSetFolderSyncSetting += OnCommandSetFolderSyncSetting;
+                view.CommandExportTeamFolders += OnCommandExportTeamFolders;
+                view.CommandLoadTeamFolders += OnCommandLoadTeamFolders;
                 IsViewEventsWired = true;
             }
         }
@@ -50,6 +55,8 @@
                 view.CommandCreateTeamFolder -= OnCommandCreateTeamFolder;
                 view.CommandSetFolderStatus -= OnCommandSetFolderStatus;
                 view.CommandSetFolderSyncSetting -= OnCommandSetFolderSyncSetting;
+                view.CommandExportTeamFolders -= OnCommandExportTeamFolders;
+                view.CommandLoadTeamFolders -= OnCommandLoadTeamFolders;
                 IsViewEventsWired = false;
             }
         }
@@ -198,6 +205,64 @@
             return errorMessage;
         }
 
+        public bool LoadTeamFoldersInputFile(ITeamFoldersModel model, IMainPresenter presenter)
+        {
+            bool loaded = true;
+            try
+            {
+                FileInfo fInfo = new FileInfo(model.TeamFoldersInputFilePath);
+                if (fInfo.Exists)
+                {
+                    // try load.
+                    model.TeamFolders.Clear();
+                    CsvConfiguration config = new CsvConfiguration()
+                    {
+                        HasHeaderRecord = false
+                    };
+                    using (CsvReader reader = new CsvReader(new StreamReader(fInfo.FullName), config))
+                    {
+                        while (reader.Read())
+                        {
+                            try
+                            {
+                                TeamFoldersListViewItemModel lvItem = new TeamFoldersListViewItemModel()
+                                {
+                                    TeamFolderName = reader.GetField<string>(0),
+                                    TeamFolderId = reader.GetField<string>(1),
+                                    Status = reader.GetField<string>(2),
+                                    IsChecked = true
+                                };
+                                model.TeamFolders.Add(lvItem);
+                            }
+                            catch
+                            {
+                                throw new InvalidDataException(ErrorMessages.INVALID_CSV_DATA);
+                            }
+                        }
+                        if (model.TeamFolders.Any())
+                        {
+                            loaded = true;
+                        }
+                    }
+                }
+                else
+                {
+                    throw new InvalidDataException(ErrorMessages.MISSING_CSV_FILE);
+                }
+            }
+            catch (Exception e)
+            {
+                // error message.
+                SyncContext.Post(delegate {
+                    presenter.ShowErrorMessage(e.Message, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
+            }
+            return loaded;
+        }
+
         #endregion REST Service
 
         #region Events
@@ -254,6 +319,7 @@
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
             string teamFolderName = view.TeamFolderName;
             bool syncSetting = view.SyncSetting;
+            bool multiCheck = view.MultiTeamFoldersCreateCheck();
 
             if (SyncContext != null)
             {
@@ -407,6 +473,126 @@
                 }
             });
             setfoldersyncsetting.Start();
+        }
+
+        private void OnCommandExportTeamFolders(object sender, System.EventArgs e)
+        {
+            ITeamFoldersView view = base._view as ITeamFoldersView;
+            ITeamFoldersModel model = base._model as ITeamFoldersModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Processing...");
+                }, null);
+            }
+            Thread exportteamfolders = new Thread(() => {
+                if (string.IsNullOrEmpty(model.AccessToken))
+                {
+                    SyncContext.Post(delegate {
+                        presenter.EnableControl(true);
+                        presenter.ActivateSpinner(false);
+                        presenter.UpdateProgressInfo("");
+                    }, null);
+                }
+                else
+                {
+                    this.GetTeamFolders(model, presenter);
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate
+                        {
+                            PresenterBase.SetViewPropertiesFromModel<ITeamFoldersView, ITeamFoldersModel>(
+                                ref view, model
+                            );
+                            string sPath = string.Empty;
+
+                            if (model.TeamFolders.Count > 0)
+                            {
+                                //create CSV file in My Documents folder
+                                sPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\TeamFolderExport.csv";
+                                CsvConfiguration config = new CsvConfiguration()
+                                {
+                                    HasHeaderRecord = true,
+                                    Delimiter = ",",
+                                    Encoding = System.Text.Encoding.UTF8
+                                };
+                                config.RegisterClassMap(new TeamFoldersHeaderMap());
+                                int total = model.TeamFolders.Count;
+                                using (CsvWriter writer = new CsvWriter(new StreamWriter(sPath), config))
+                                {
+                                    writer.WriteHeader<TeamFoldersHeaderRecord>();
+                                    int count = 0;
+                                    foreach (var item in model.TeamFolders)
+                                    {
+                                        writer.WriteField<string>(item.TeamFolderName);
+                                        writer.WriteField<string>(item.TeamFolderId);
+                                        writer.WriteField<string>(item.Status);
+                                        count++;
+                                        if (SyncContext != null)
+                                        {
+                                            SyncContext.Post(delegate
+                                            {
+                                                presenter.UpdateProgressInfo(string.Format("Writing Record: {0}/{1}", (count), total));
+                                            }, null);
+                                        }
+                                        writer.NextRecord();
+                                    }
+                                }
+                                if (SyncContext != null)
+                                {
+                                    SyncContext.Post(delegate
+                                    {
+                                        presenter.UpdateProgressInfo("Completed. Exported file located at " + sPath);
+                                    }, null);
+                                }
+                            }
+                            if (model.TeamFolders.Count == 0)
+                            {
+                                presenter.UpdateProgressInfo("No team folders were chosen to export.");
+                            }
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                        }, null);
+                    }
+                }
+            });
+            exportteamfolders.Start();
+        }
+
+        private void OnCommandLoadTeamFolders(object sender, EventArgs e)
+        {
+            ITeamFoldersView view = base._view as ITeamFoldersView;
+            ITeamFoldersModel model = base._model as ITeamFoldersModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Loading team folders input File...");
+                }, null);
+            }
+            Thread teamfoldersLoad = new Thread(() => {
+                if (!string.IsNullOrEmpty(model.AccessToken))
+                {
+                    bool loaded = this.LoadTeamFoldersInputFile(model, presenter);
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate {
+                            // update result and update view.
+                            view.RenderTeamFoldersListFromCSV(model.TeamFolders);
+                            presenter.UpdateProgressInfo("Team Folders CSV Loaded");
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                        }, null);
+                    }
+                }
+            });
+            teamfoldersLoad.Start();
         }
 
         private void OnDataChanged(object sender, System.EventArgs e) {

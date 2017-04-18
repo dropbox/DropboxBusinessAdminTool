@@ -149,6 +149,11 @@
             get { return ConfigurationManager.AppSettings.Get("ActionSetProfile"); }
         }
 
+        public static string ActionRecoverMember
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionRecoverMember"); }
+        }
+
         public static string ActionActivateTeamFolder
         {
             get { return ConfigurationManager.AppSettings.Get("ActionActivateTeamFolder"); }

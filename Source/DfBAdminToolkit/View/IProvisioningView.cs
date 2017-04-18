@@ -16,6 +16,7 @@
         event EventHandler CommandLoadUpdateInputFile;
         event EventHandler CommandCreateCSV;
         event EventHandler CommandGetUsage;
+        event EventHandler CommandRecover;
 
         bool SendWelcomeEmail { get; set; }
 
@@ -40,6 +41,8 @@
         void EnableLoadInputFileButton(bool enable);
 
         void EnableUpdateProfileButton(bool enable);
+
+        void EnableRecoverButton(bool enable);
 
         void RefreshAccessToken();
 

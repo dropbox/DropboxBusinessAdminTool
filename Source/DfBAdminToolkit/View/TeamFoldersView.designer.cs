@@ -31,8 +31,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DfBAdminToolkit.Common.Component.Office2010White office2010White2 = new DfBAdminToolkit.Common.Component.Office2010White();
-            DfBAdminToolkit.Common.Component.Office2010Blue office2010Blue2 = new DfBAdminToolkit.Common.Component.Office2010Blue();
+            DfBAdminToolkit.Common.Component.Office2010White office2010White1 = new DfBAdminToolkit.Common.Component.Office2010White();
+            DfBAdminToolkit.Common.Component.Office2010Blue office2010Blue1 = new DfBAdminToolkit.Common.Component.Office2010Blue();
             this.tableLayoutPanel_TeamFolders = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel_TeamFoldersCommandGroup = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel_TeamFoldersAccessToken = new System.Windows.Forms.TableLayoutPanel();
@@ -41,20 +41,22 @@
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup = new System.Windows.Forms.TableLayoutPanel();
             this.buttonEx_TeamFoldersCreateTeamFolder = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.textBoxTeamFolder = new System.Windows.Forms.TextBox();
+            this.buttonEx_TeamFoldersLoadFromCSV = new System.Windows.Forms.Button();
             this.tableLayoutPanel_TeamFoldersSendEmailGroup = new System.Windows.Forms.TableLayoutPanel();
             this.buttonEx_TeamFoldersLoadTeamFolders = new DfBAdminToolkit.Common.Component.ButtonEx();
-            this.radioButtonSync = new System.Windows.Forms.RadioButton();
-            this.radioButtonNoSync = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel_TeamFoldersMembersGroup = new System.Windows.Forms.TableLayoutPanel();
             this.objectListView_TeamFoldersMembers = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnTeamFolders_TeamFolderName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnTeamFolders_TeamFolderId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnTeamFolders_Status = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonEx_TeamFoldersExportToCSV = new DfBAdminToolkit.Common.Component.ButtonEx();
+            this.buttonEx_TeamFoldersSetFolderSyncSetting = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.buttonEx_TeamFoldersSetFolderStatus = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.radioButton_Active = new System.Windows.Forms.RadioButton();
+            this.radioButtonNoSync = new System.Windows.Forms.RadioButton();
+            this.radioButtonSync = new System.Windows.Forms.RadioButton();
             this.radioButton_Archived = new System.Windows.Forms.RadioButton();
-            this.buttonEx_TeamFoldersSetFolderSyncSetting = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.tableLayoutPanel_TeamFolders.SuspendLayout();
             this.tableLayoutPanel_TeamFoldersCommandGroup.SuspendLayout();
             this.tableLayoutPanel_TeamFoldersAccessToken.SuspendLayout();
@@ -88,8 +90,8 @@
             // 
             this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnCount = 4;
             this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 58F));
-            this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 77F));
+            this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+            this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
             this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel_TeamFoldersCommandGroup.Controls.Add(this.tableLayoutPanel_TeamFoldersAccessToken, 3, 0);
             this.tableLayoutPanel_TeamFoldersCommandGroup.Controls.Add(this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup, 0, 1);
@@ -112,12 +114,12 @@
             this.tableLayoutPanel_TeamFoldersAccessToken.Controls.Add(this.label_TeamFoldersAccessToken, 0, 0);
             this.tableLayoutPanel_TeamFoldersAccessToken.Controls.Add(this.textBox_TeamFoldersAccessToken, 1, 0);
             this.tableLayoutPanel_TeamFoldersAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TeamFoldersAccessToken.Location = new System.Drawing.Point(422, 1);
+            this.tableLayoutPanel_TeamFoldersAccessToken.Location = new System.Drawing.Point(391, 1);
             this.tableLayoutPanel_TeamFoldersAccessToken.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel_TeamFoldersAccessToken.Name = "tableLayoutPanel_TeamFoldersAccessToken";
             this.tableLayoutPanel_TeamFoldersAccessToken.RowCount = 1;
             this.tableLayoutPanel_TeamFoldersAccessToken.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TeamFoldersAccessToken.Size = new System.Drawing.Size(284, 25);
+            this.tableLayoutPanel_TeamFoldersAccessToken.Size = new System.Drawing.Size(315, 25);
             this.tableLayoutPanel_TeamFoldersAccessToken.TabIndex = 0;
             // 
             // label_TeamFoldersAccessToken
@@ -138,51 +140,53 @@
             this.textBox_TeamFoldersAccessToken.FileFilter = null;
             this.textBox_TeamFoldersAccessToken.Location = new System.Drawing.Point(93, 3);
             this.textBox_TeamFoldersAccessToken.Name = "textBox_TeamFoldersAccessToken";
-            this.textBox_TeamFoldersAccessToken.Size = new System.Drawing.Size(188, 22);
+            this.textBox_TeamFoldersAccessToken.Size = new System.Drawing.Size(219, 22);
             this.textBox_TeamFoldersAccessToken.TabIndex = 1;
             this.textBox_TeamFoldersAccessToken.Visible = false;
             // 
             // tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup
             // 
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnCount = 2;
+            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnCount = 3;
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Controls.Add(this.buttonEx_TeamFoldersCreateTeamFolder, 0, 0);
+            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Controls.Add(this.buttonEx_TeamFoldersCreateTeamFolder, 2, 0);
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Controls.Add(this.textBoxTeamFolder, 0, 0);
+            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Controls.Add(this.buttonEx_TeamFoldersLoadFromCSV, 1, 0);
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Location = new System.Drawing.Point(3, 30);
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Name = "tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup";
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.RowCount = 1;
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Size = new System.Drawing.Size(280, 31);
+            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Size = new System.Drawing.Size(310, 31);
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.TabIndex = 2;
             // 
             // buttonEx_TeamFoldersCreateTeamFolder
             // 
-            office2010White2.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
-            office2010White2.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
-            office2010White2.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
-            office2010White2.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
-            office2010White2.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
-            office2010White2.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
-            office2010White2.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(154)))), ((int)(((byte)(154)))), ((int)(((byte)(154)))));
-            office2010White2.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            office2010White2.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
-            office2010White2.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            office2010White2.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
-            office2010White2.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
-            office2010White2.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
-            office2010White2.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
-            office2010White2.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            office2010White2.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            office2010White2.TextColor = System.Drawing.Color.Black;
-            this.buttonEx_TeamFoldersCreateTeamFolder.ColorTable = office2010White2;
+            office2010White1.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
+            office2010White1.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
+            office2010White1.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010White1.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010White1.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
+            office2010White1.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
+            office2010White1.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(154)))), ((int)(((byte)(154)))), ((int)(((byte)(154)))));
+            office2010White1.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            office2010White1.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            office2010White1.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            office2010White1.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010White1.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010White1.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
+            office2010White1.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
+            office2010White1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010White1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010White1.TextColor = System.Drawing.Color.Black;
+            this.buttonEx_TeamFoldersCreateTeamFolder.ColorTable = office2010White1;
             this.buttonEx_TeamFoldersCreateTeamFolder.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonEx_TeamFoldersCreateTeamFolder.Location = new System.Drawing.Point(163, 5);
+            this.buttonEx_TeamFoldersCreateTeamFolder.Location = new System.Drawing.Point(199, 5);
             this.buttonEx_TeamFoldersCreateTeamFolder.Name = "buttonEx_TeamFoldersCreateTeamFolder";
-            this.buttonEx_TeamFoldersCreateTeamFolder.Size = new System.Drawing.Size(114, 23);
+            this.buttonEx_TeamFoldersCreateTeamFolder.Size = new System.Drawing.Size(108, 23);
             this.buttonEx_TeamFoldersCreateTeamFolder.TabIndex = 7;
-            this.buttonEx_TeamFoldersCreateTeamFolder.Text = "Create Team Folder";
+            this.buttonEx_TeamFoldersCreateTeamFolder.Text = "Create Team Folder(s)";
             this.buttonEx_TeamFoldersCreateTeamFolder.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
             this.buttonEx_TeamFoldersCreateTeamFolder.UseVisualStyleBackColor = true;
             // 
@@ -194,6 +198,16 @@
             this.textBoxTeamFolder.Size = new System.Drawing.Size(154, 22);
             this.textBoxTeamFolder.TabIndex = 8;
             // 
+            // buttonEx_TeamFoldersLoadFromCSV
+            // 
+            this.buttonEx_TeamFoldersLoadFromCSV.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonEx_TeamFoldersLoadFromCSV.Location = new System.Drawing.Point(163, 5);
+            this.buttonEx_TeamFoldersLoadFromCSV.Name = "buttonEx_TeamFoldersLoadFromCSV";
+            this.buttonEx_TeamFoldersLoadFromCSV.Size = new System.Drawing.Size(30, 23);
+            this.buttonEx_TeamFoldersLoadFromCSV.TabIndex = 9;
+            this.buttonEx_TeamFoldersLoadFromCSV.Text = "...";
+            this.buttonEx_TeamFoldersLoadFromCSV.UseVisualStyleBackColor = true;
+            // 
             // tableLayoutPanel_TeamFoldersSendEmailGroup
             // 
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.ColumnCount = 3;
@@ -202,50 +216,24 @@
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.57143F));
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.Controls.Add(this.buttonEx_TeamFoldersLoadTeamFolders, 2, 0);
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TeamFoldersSendEmailGroup.Location = new System.Drawing.Point(424, 30);
+            this.tableLayoutPanel_TeamFoldersSendEmailGroup.Location = new System.Drawing.Point(393, 30);
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.Name = "tableLayoutPanel_TeamFoldersSendEmailGroup";
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.RowCount = 1;
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel_TeamFoldersSendEmailGroup.Size = new System.Drawing.Size(280, 31);
+            this.tableLayoutPanel_TeamFoldersSendEmailGroup.Size = new System.Drawing.Size(311, 31);
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.TabIndex = 3;
             // 
             // buttonEx_TeamFoldersLoadTeamFolders
             // 
-            this.buttonEx_TeamFoldersLoadTeamFolders.ColorTable = office2010White2;
+            this.buttonEx_TeamFoldersLoadTeamFolders.ColorTable = office2010White1;
             this.buttonEx_TeamFoldersLoadTeamFolders.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonEx_TeamFoldersLoadTeamFolders.Location = new System.Drawing.Point(146, 4);
+            this.buttonEx_TeamFoldersLoadTeamFolders.Location = new System.Drawing.Point(162, 4);
             this.buttonEx_TeamFoldersLoadTeamFolders.Name = "buttonEx_TeamFoldersLoadTeamFolders";
-            this.buttonEx_TeamFoldersLoadTeamFolders.Size = new System.Drawing.Size(131, 24);
+            this.buttonEx_TeamFoldersLoadTeamFolders.Size = new System.Drawing.Size(146, 24);
             this.buttonEx_TeamFoldersLoadTeamFolders.TabIndex = 4;
             this.buttonEx_TeamFoldersLoadTeamFolders.Text = "Load Team Folders";
             this.buttonEx_TeamFoldersLoadTeamFolders.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
             this.buttonEx_TeamFoldersLoadTeamFolders.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonSync
-            // 
-            this.radioButtonSync.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButtonSync.AutoSize = true;
-            this.radioButtonSync.Location = new System.Drawing.Point(383, 9);
-            this.radioButtonSync.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButtonSync.Name = "radioButtonSync";
-            this.radioButtonSync.Size = new System.Drawing.Size(60, 17);
-            this.radioButtonSync.TabIndex = 4;
-            this.radioButtonSync.TabStop = true;
-            this.radioButtonSync.Text = "Sync";
-            this.radioButtonSync.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonNoSync
-            // 
-            this.radioButtonNoSync.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButtonNoSync.AutoSize = true;
-            this.radioButtonNoSync.Location = new System.Drawing.Point(447, 9);
-            this.radioButtonNoSync.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButtonNoSync.Name = "radioButtonNoSync";
-            this.radioButtonNoSync.Size = new System.Drawing.Size(258, 17);
-            this.radioButtonNoSync.TabIndex = 5;
-            this.radioButtonNoSync.TabStop = true;
-            this.radioButtonNoSync.Text = "No Sync";
-            this.radioButtonNoSync.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel_TeamFoldersMembersGroup
             // 
@@ -316,14 +304,17 @@
             // 
             // tableLayoutPanel_TeamFoldersProvisionCommandGroup
             // 
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnCount = 7;
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnCount = 9;
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64F));
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 76F));
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 76F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 86F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 109F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.buttonEx_TeamFoldersExportToCSV, 8, 0);
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.buttonEx_TeamFoldersSetFolderSyncSetting, 4, 0);
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.buttonEx_TeamFoldersSetFolderStatus, 0, 0);
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.radioButton_Active, 1, 0);
@@ -339,9 +330,51 @@
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Size = new System.Drawing.Size(707, 36);
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.TabIndex = 3;
             // 
+            // buttonEx_TeamFoldersExportToCSV
+            // 
+            office2010Blue1.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
+            office2010Blue1.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
+            office2010Blue1.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010Blue1.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010Blue1.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
+            office2010Blue1.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
+            office2010Blue1.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
+            office2010Blue1.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
+            office2010Blue1.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(97)))), ((int)(((byte)(181)))));
+            office2010Blue1.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(125)))), ((int)(((byte)(219)))));
+            office2010Blue1.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010Blue1.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010Blue1.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
+            office2010Blue1.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
+            office2010Blue1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010Blue1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010Blue1.TextColor = System.Drawing.Color.White;
+            this.buttonEx_TeamFoldersExportToCSV.ColorTable = office2010Blue1;
+            this.buttonEx_TeamFoldersExportToCSV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonEx_TeamFoldersExportToCSV.Location = new System.Drawing.Point(622, 3);
+            this.buttonEx_TeamFoldersExportToCSV.Name = "buttonEx_TeamFoldersExportToCSV";
+            this.buttonEx_TeamFoldersExportToCSV.Size = new System.Drawing.Size(103, 30);
+            this.buttonEx_TeamFoldersExportToCSV.TabIndex = 12;
+            this.buttonEx_TeamFoldersExportToCSV.Text = "Export To CSV";
+            this.buttonEx_TeamFoldersExportToCSV.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
+            this.buttonEx_TeamFoldersExportToCSV.UseVisualStyleBackColor = true;
+            // 
+            // buttonEx_TeamFoldersSetFolderSyncSetting
+            // 
+            this.buttonEx_TeamFoldersSetFolderSyncSetting.ColorTable = office2010Blue1;
+            this.buttonEx_TeamFoldersSetFolderSyncSetting.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonEx_TeamFoldersSetFolderSyncSetting.Location = new System.Drawing.Point(264, 3);
+            this.buttonEx_TeamFoldersSetFolderSyncSetting.Name = "buttonEx_TeamFoldersSetFolderSyncSetting";
+            this.buttonEx_TeamFoldersSetFolderSyncSetting.Size = new System.Drawing.Size(114, 30);
+            this.buttonEx_TeamFoldersSetFolderSyncSetting.TabIndex = 11;
+            this.buttonEx_TeamFoldersSetFolderSyncSetting.Text = "Change Sync Setting";
+            this.buttonEx_TeamFoldersSetFolderSyncSetting.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
+            this.buttonEx_TeamFoldersSetFolderSyncSetting.UseVisualStyleBackColor = true;
+            this.buttonEx_TeamFoldersSetFolderSyncSetting.Visible = false;
+            // 
             // buttonEx_TeamFoldersSetFolderStatus
             // 
-            this.buttonEx_TeamFoldersSetFolderStatus.ColorTable = office2010Blue2;
+            this.buttonEx_TeamFoldersSetFolderStatus.ColorTable = office2010Blue1;
             this.buttonEx_TeamFoldersSetFolderStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonEx_TeamFoldersSetFolderStatus.Location = new System.Drawing.Point(3, 3);
             this.buttonEx_TeamFoldersSetFolderStatus.Name = "buttonEx_TeamFoldersSetFolderStatus";
@@ -363,6 +396,34 @@
             this.radioButton_Active.Text = "Active";
             this.radioButton_Active.UseVisualStyleBackColor = true;
             // 
+            // radioButtonNoSync
+            // 
+            this.radioButtonNoSync.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButtonNoSync.AutoSize = true;
+            this.radioButtonNoSync.Location = new System.Drawing.Point(447, 9);
+            this.radioButtonNoSync.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButtonNoSync.Name = "radioButtonNoSync";
+            this.radioButtonNoSync.Size = new System.Drawing.Size(84, 17);
+            this.radioButtonNoSync.TabIndex = 5;
+            this.radioButtonNoSync.TabStop = true;
+            this.radioButtonNoSync.Text = "No Sync";
+            this.radioButtonNoSync.UseVisualStyleBackColor = true;
+            this.radioButtonNoSync.Visible = false;
+            // 
+            // radioButtonSync
+            // 
+            this.radioButtonSync.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButtonSync.AutoSize = true;
+            this.radioButtonSync.Location = new System.Drawing.Point(383, 9);
+            this.radioButtonSync.Margin = new System.Windows.Forms.Padding(2);
+            this.radioButtonSync.Name = "radioButtonSync";
+            this.radioButtonSync.Size = new System.Drawing.Size(60, 17);
+            this.radioButtonSync.TabIndex = 4;
+            this.radioButtonSync.TabStop = true;
+            this.radioButtonSync.Text = "Sync";
+            this.radioButtonSync.UseVisualStyleBackColor = true;
+            this.radioButtonSync.Visible = false;
+            // 
             // radioButton_Archived
             // 
             this.radioButton_Archived.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -374,35 +435,6 @@
             this.radioButton_Archived.TabStop = true;
             this.radioButton_Archived.Text = "Archived";
             this.radioButton_Archived.UseVisualStyleBackColor = true;
-            // 
-            // buttonEx_TeamFoldersSetFolderSyncSetting
-            // 
-            office2010Blue2.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
-            office2010Blue2.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
-            office2010Blue2.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
-            office2010Blue2.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
-            office2010Blue2.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
-            office2010Blue2.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
-            office2010Blue2.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
-            office2010Blue2.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
-            office2010Blue2.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(97)))), ((int)(((byte)(181)))));
-            office2010Blue2.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(125)))), ((int)(((byte)(219)))));
-            office2010Blue2.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
-            office2010Blue2.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
-            office2010Blue2.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
-            office2010Blue2.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
-            office2010Blue2.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            office2010Blue2.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            office2010Blue2.TextColor = System.Drawing.Color.White;
-            this.buttonEx_TeamFoldersSetFolderSyncSetting.ColorTable = office2010Blue2;
-            this.buttonEx_TeamFoldersSetFolderSyncSetting.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_TeamFoldersSetFolderSyncSetting.Location = new System.Drawing.Point(264, 3);
-            this.buttonEx_TeamFoldersSetFolderSyncSetting.Name = "buttonEx_TeamFoldersSetFolderSyncSetting";
-            this.buttonEx_TeamFoldersSetFolderSyncSetting.Size = new System.Drawing.Size(114, 30);
-            this.buttonEx_TeamFoldersSetFolderSyncSetting.TabIndex = 11;
-            this.buttonEx_TeamFoldersSetFolderSyncSetting.Text = "Change Sync Setting";
-            this.buttonEx_TeamFoldersSetFolderSyncSetting.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
-            this.buttonEx_TeamFoldersSetFolderSyncSetting.UseVisualStyleBackColor = true;
             // 
             // TeamFoldersView
             // 
@@ -452,5 +484,7 @@
         private System.Windows.Forms.RadioButton radioButtonSync;
         private System.Windows.Forms.RadioButton radioButtonNoSync;
         private ButtonEx buttonEx_TeamFoldersSetFolderSyncSetting;
+        private ButtonEx buttonEx_TeamFoldersExportToCSV;
+        private System.Windows.Forms.Button buttonEx_TeamFoldersLoadFromCSV;
     }
 }

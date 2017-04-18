@@ -43,6 +43,7 @@
                 view.CommandSuspend += OnCommandSuspend;
                 view.CommandUnsuspend += OnCommandUnsuspend;
                 view.CommandUpdateProfile += OnCommandUpdateProfile;
+                view.CommandRecover += OnCommandRecover;
                 view.CommandLoadInputFile += OnCommandLoadInputFile;
                 view.CommandLoadUpdateInputFile += OnCommandLoadUpdateInputFile;
                 view.CommandCreateCSV += OnCommandListMembersCreateCSV;
@@ -60,6 +61,7 @@
                 view.CommandSuspend -= OnCommandSuspend;
                 view.CommandUnsuspend -= OnCommandUnsuspend;
                 view.CommandUpdateProfile -= OnCommandUpdateProfile;
+                view.CommandRecover -= OnCommandRecover;
                 view.CommandLoadInputFile -= OnCommandLoadInputFile;
                 view.CommandLoadUpdateInputFile -= OnCommandLoadUpdateInputFile;
                 view.CommandCreateCSV -= OnCommandListMembersCreateCSV;
@@ -283,6 +285,7 @@
             service.RemoveMemberUrl = ApplicationResource.ActionRemoveMember;
             service.UserAgentVersion = ApplicationResource.UserAgent;
 
+            //for removing shared folder members
             IMemberServices service2 = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service2.RemoveSharedFolderMemberUrl = ApplicationResource.ActionSharingRemoveFolderMember;
             service2.UserAgentVersion = ApplicationResource.UserAgent;
@@ -292,10 +295,10 @@
                 //now we can safely remove member
                 foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
                 {
-                    //if remove sharing let's do this first before removing
+                    //if Remove Sharing is checked let's do this first before deprovisioning
                     if (model.RemoveSharing)
                     {
-                        //Get team id's for each checked email to remove in listview
+                        //Get team member id's for each checked email to remove in objectlistview
                         IList<TeamListViewItemModel> members = SearchOwners(model, presenter);
                         string memberId = string.Empty;
                         foreach (var memberitem in members)
@@ -308,14 +311,13 @@
                                 }
                             }
                         }
-
                         //Next get folder list for shared folder id's and owner id's
                         List<Tuple<string, string>> sharedFolderInfo = GetSharedFolderOwnerInfo(memberId, model, presenter);
                     
                         foreach (var sharedItem in sharedFolderInfo)
                         {
                             //Last do a remove folder member for each collaborator we are going to remove member
-                            IServiceResponse response2 = service2.RemoveSharedFolderMember(memberId, sharedItem.Item2, item.Email, UserAccessToken);
+                            IServiceResponse response2 = service2.RemoveSharedFolderMember(sharedItem.Item1, sharedItem.Item2, item.Email, UserAccessToken);
 
                             if (response2.StatusCode == HttpStatusCode.OK)
                             {
@@ -323,7 +325,7 @@
                                 {
                                     SyncContext.Post(delegate
                                     {
-                                        presenter.UpdateProgressInfo(string.Format("Removed shared folder."));
+                                        presenter.UpdateProgressInfo(string.Format("Removed shared folder id: [" + sharedItem.Item2 + "] for [" + item.Email + "]"));
                                     }, null);
                                 }
                             }
@@ -451,6 +453,51 @@
                 SyncContext.Post(delegate
                 {
                     presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_UNSUSPEND_MEMBER, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
+            }
+            return errorMessage;
+        }
+
+        private string RecoverMember(IProvisioningModel model, IMainPresenter presenter)
+        {
+            string errorMessage = string.Empty;
+            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.RecoverMemberUrl = ApplicationResource.ActionRecoverMember;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            try
+            {
+                foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
+                {
+                    IServiceResponse response = service.RecoverMember(new MemberData()
+                    {
+                        Email = item.Email
+                    }, model.AccessToken);
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        if (SyncContext != null)
+                        {
+                            SyncContext.Post(delegate
+                            {
+                                presenter.UpdateProgressInfo(string.Format("Recovered Member: {0}", item.Email));
+                            }, null);
+                        }
+                    }
+                    else
+                    {
+                        errorMessage = "Bad Request: " + response.Message;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // error message.
+                SyncContext.Post(delegate
+                {
+                    presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_RECOVER_MEMBER, ErrorMessages.DLG_DEFAULT_TITLE);
                     presenter.UpdateProgressInfo("");
                     presenter.ActivateSpinner(false);
                     presenter.EnableControl(true);
@@ -971,9 +1018,10 @@
                         dynamic entries = jsonData["entries"][i];
                         dynamic sharedFolderId = Convert.ToString(entries["shared_folder_id"]);
                         dynamic sharedFolderName = Convert.ToString(entries["name"]);
+                        dynamic isTeamFolder = Convert.ToBoolean(entries["is_team_folder"]);
 
                         var tuple = Tuple.Create(sharedFolderId, sharedFolderName);
-                        if (!sharedFolders.Contains(tuple))
+                        if (!sharedFolders.Contains(tuple) && !isTeamFolder)
                         {
                             sharedFolders.Add(tuple);
                         }
@@ -1014,7 +1062,6 @@
 
         private List<Tuple<string, string>> GetSharedFolderOwnerInfo(string memberId, IProvisioningModel model, IMainPresenter presenter)
         {
-            //string UserAccessToken = ApplicationResource.DefaultAccessToken;
             IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.ExportGroupPermsUrl = ApplicationResource.ActionSharingListFolderMembers;
             service.UserAgentVersion = ApplicationResource.UserAgent;
@@ -1027,7 +1074,6 @@
                 {
                     MemberId = memberId
                 }, item.Item1, ApplicationResource.DefaultAccessToken);
-                //}, item.Item1, UserAccessToken);
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -1040,7 +1086,7 @@
                         {
                             dynamic users = jsonData["users"][i];
                             dynamic type = Convert.ToString(users["access_type"][".tag"]);
-                            dynamic id = Convert.ToString(users["user"]["account_id"]);
+                            dynamic id = Convert.ToString(users["user"]["team_member_id"]);
                             dynamic sharedFolderId = item.Item1;
 
                             //we only need owner id
@@ -1063,7 +1109,6 @@
                                 MemberId = memberId,
                                 Cursor = cursor
                             }, item.Item1, model.AccessToken);
-                            //}, item.Item1, UserAccessToken);
 
                             string dataCont = responseCont.Data.ToString();
                             dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
@@ -1072,7 +1117,7 @@
                             {
                                 dynamic users = jsonData["users"][i];
                                 dynamic type = Convert.ToString(users["access_type"][".tag"]);
-                                dynamic id = Convert.ToString(users["user"]["account_id"]);
+                                dynamic id = Convert.ToString(users["user"]["team_member_id"]);
                                 dynamic sharedFolderId = item.Item1;
 
                                 //we only need owner id
@@ -1430,6 +1475,58 @@
                 }
             });
             unsuspend.Start();
+        }
+
+        private void OnCommandRecover(object sender, System.EventArgs e)
+        {
+            IProvisioningView view = base._view as IProvisioningView;
+            IProvisioningModel model = base._model as IProvisioningModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate
+                {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Processing...");
+                }, null);
+            }
+            Thread recover = new Thread(() =>
+            {
+                if (string.IsNullOrEmpty(model.AccessToken))
+                {
+                    SyncContext.Post(delegate
+                    {
+                        presenter.EnableControl(true);
+                        presenter.ActivateSpinner(false);
+                        presenter.UpdateProgressInfo("");
+                    }, null);
+                }
+                else
+                {
+                    string error = RecoverMember(model, presenter);
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate
+                        {
+                            if (!string.IsNullOrEmpty(error))
+                            {
+                                presenter.ShowErrorMessage(error, ErrorMessages.DLG_DEFAULT_TITLE);
+                                presenter.UpdateProgressInfo("");
+                            }
+                            else
+                            {
+                                presenter.UpdateProgressInfo("Recovering members completed.");
+                            }
+                            // update result and update view.
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                        }, null);
+                    }
+                }
+            });
+            recover.Start();
         }
 
         private void OnCommandListMembersCreateCSV(object sender, EventArgs e)

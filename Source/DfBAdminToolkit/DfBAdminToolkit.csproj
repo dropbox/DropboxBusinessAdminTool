@@ -134,6 +134,7 @@
     <Compile Include="Model\MemberListViewItemModel.cs" />
     <Compile Include="Model\ProvisioningModel.cs" />
     <Compile Include="Model\SettingsModel.cs" />
+    <Compile Include="Model\TeamFoldersHeaderRecord.cs" />
     <Compile Include="Model\TeamFoldersListViewItemModel.cs" />
     <Compile Include="Model\TeamFoldersModel.cs" />
     <Compile Include="Model\TeamListViewItemModel.cs" />

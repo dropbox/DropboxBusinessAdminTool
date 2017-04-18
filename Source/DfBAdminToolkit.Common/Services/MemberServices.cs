@@ -21,6 +21,8 @@
 
         public string UnSuspendMemberUrl { get; set; }
 
+        public string RecoverMemberUrl { get; set; }
+
         public string ListMembersUrl { get; set; }
 
         public string ListMembersContinuationUrl { get; set; }
@@ -234,6 +236,42 @@
                         new JProperty("user", 
                             new JObject(
                                 new JProperty(".tag", "email"), 
+                                new JProperty("email", data.Email.Trim()))));
+
+                    request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+            return serviceResponse;
+        }
+
+        public IServiceResponse RecoverMember(IMemberData data, string authToken)
+        {
+            IServiceResponse serviceResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(RecoverMemberUrl))
+                {
+                    RestClient client = new RestClient(string.Format("{0}/{1}/", _baseUrl, _apiVersion));
+                    RestRequest request = new RestRequest(RecoverMemberUrl, Method.POST);
+                    request.AddHeader("Authorization", Convert.ToString("Bearer ") + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    JObject jsonProv = new JObject(
+                        new JProperty("user",
+                            new JObject(
+                                new JProperty(".tag", "email"),
                                 new JProperty("email", data.Email.Trim()))));
 
                     request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);

@@ -14,6 +14,8 @@ namespace DfBAdminToolkit.Common.Services
 
         string UnSuspendMemberUrl { get; set; }
 
+        string RecoverMemberUrl { get; set; }
+
         string ListMembersUrl { get; set; }
 
         string ListMembersContinuationUrl { get; set; }
@@ -77,6 +79,8 @@ namespace DfBAdminToolkit.Common.Services
         IServiceResponse SuspendMember(IMemberData data, string authToken);
 
         IServiceResponse UnSuspendMember(IMemberData data, string authToken);
+
+        IServiceResponse RecoverMember(IMemberData data, string authToken);
 
         IDataResponse ListMembers(IMemberData data, string authToken);
 

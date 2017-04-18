@@ -7,6 +7,8 @@
 
         public string AccessToken { get; set; }
 
+        public string TeamFoldersInputFilePath { get; set; }
+
         public List<TeamFoldersListViewItemModel> TeamFolders { get; set; }
 
         public TeamFoldersModel() {
