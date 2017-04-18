@@ -17,5 +17,7 @@
         bool DeleteUser { get; set; }
 
         bool KeepAccount { get; set; }
+
+        bool RemoveSharing { get; set; }
     }
 }

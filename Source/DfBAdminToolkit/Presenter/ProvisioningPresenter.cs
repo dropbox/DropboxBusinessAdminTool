@@ -276,14 +276,63 @@
 
         private string DeprovisionRoles(IProvisioningModel model, IMainPresenter presenter)
         {
+            string UserAccessToken = ApplicationResource.DefaultAccessToken;
             string errorMessage = string.Empty;
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            //for removing members
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.RemoveMemberUrl = ApplicationResource.ActionRemoveMember;
             service.UserAgentVersion = ApplicationResource.UserAgent;
+
+            IMemberServices service2 = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service2.RemoveSharedFolderMemberUrl = ApplicationResource.ActionSharingRemoveFolderMember;
+            service2.UserAgentVersion = ApplicationResource.UserAgent;
+
             try
-            {
+            {  
+                //now we can safely remove member
                 foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
                 {
+                    //if remove sharing let's do this first before removing
+                    if (model.RemoveSharing)
+                    {
+                        //Get team id's for each checked email to remove in listview
+                        IList<TeamListViewItemModel> members = SearchOwners(model, presenter);
+                        string memberId = string.Empty;
+                        foreach (var memberitem in members)
+                        {
+                            if (!string.IsNullOrEmpty(memberitem.TeamId))
+                            {
+                                if (item.Email == memberitem.Email)
+                                {
+                                    memberId = memberitem.TeamId;
+                                }
+                            }
+                        }
+
+                        //Next get folder list for shared folder id's and owner id's
+                        List<Tuple<string, string>> sharedFolderInfo = GetSharedFolderOwnerInfo(memberId, model, presenter);
+                    
+                        foreach (var sharedItem in sharedFolderInfo)
+                        {
+                            //Last do a remove folder member for each collaborator we are going to remove member
+                            IServiceResponse response2 = service2.RemoveSharedFolderMember(memberId, sharedItem.Item2, item.Email, UserAccessToken);
+
+                            if (response2.StatusCode == HttpStatusCode.OK)
+                            {
+                                if (SyncContext != null)
+                                {
+                                    SyncContext.Post(delegate
+                                    {
+                                        presenter.UpdateProgressInfo(string.Format("Removed shared folder."));
+                                    }, null);
+                                }
+                            }
+                            else
+                            {
+                                errorMessage = "Bad Request: " + response2.Message;
+                            }
+                        }
+                    }
                     IServiceResponse response = service.RemoveMember(new MemberData()
                     {
                         Email = item.Email,
@@ -788,6 +837,258 @@
                     }
                 }
             }
+        }
+
+        public IList<TeamListViewItemModel> SearchOwners(IProvisioningModel model, IMainPresenter presenter)
+        {
+            IList<TeamListViewItemModel> members = new List<TeamListViewItemModel>();
+            if (!string.IsNullOrEmpty(model.AccessToken))
+            {
+                MemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+                service.ListMembersUrl = ApplicationResource.ActionListMembers;
+                service.UserAgentVersion = ApplicationResource.UserAgent;
+                IDataResponse response = service.ListMembers(new MemberData()
+                {
+                    SearchLimit = ApplicationResource.SearchDefaultLimit
+                }, model.AccessToken);
+
+                if (SyncContext != null)
+                {
+                    SyncContext.Post(delegate {
+                        presenter.UpdateProgressInfo("Searching users...");
+                    }, null);
+                }
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (response.Data != null)
+                    {
+                        string data = response.Data.ToString();
+                        dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+                        int resultCount = jsonData["members"].Count;
+                        int total = 0;
+                        for (int i = 0; i < resultCount; i++)
+                        {
+                            dynamic profile = jsonData["members"][i]["profile"];
+                            dynamic idObj = profile["team_member_id"];
+                            dynamic emailObj = profile["email"];
+                            dynamic status = profile["status"];
+                            if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended")))
+                            {
+                                string teamId = idObj.Value as string;
+                                string email = emailObj.Value as string;
+                                // update model
+                                TeamListViewItemModel lvItem = new TeamListViewItemModel()
+                                {
+                                    Email = email,
+                                    TeamId = teamId
+                                };
+                                members.Add(lvItem);
+                            }
+                            if (SyncContext != null)
+                            {
+                                SyncContext.Post(delegate {
+                                    presenter.UpdateProgressInfo("Scanning Account(s): " + (++total));
+                                }, null);
+                            }
+                            Thread.Sleep(1);
+                        }
+                        // collect more.
+                        bool hasMore = jsonData["has_more"];
+                        string cursor = jsonData["cursor"];
+
+                        while (hasMore)
+                        {
+                            service.ListMembersContinuationUrl = ApplicationResource.ActionListMembersContinuation;
+                            service.UserAgentVersion = ApplicationResource.UserAgent;
+                            IDataResponse responseCont = service.ListMembersContinuation(new MemberData()
+                            {
+                                Cursor = cursor
+                            }, model.AccessToken);
+
+                            string dataCont = responseCont.Data.ToString();
+                            dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
+
+                            int resultContCount = jsonDataCont["members"].Count;
+                            for (int i = 0; i < resultContCount; i++)
+                            {
+                                dynamic profile = jsonDataCont["members"][i]["profile"];
+                                dynamic idObj = profile["team_member_id"];
+                                dynamic emailObj = profile["email"];
+                                dynamic status = profile["status"];
+
+                                string teamId = idObj.Value as string;
+                                string email = emailObj.Value as string;
+
+                                if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended")))
+                                {
+                                    // update model
+                                    TeamListViewItemModel lvItem = new TeamListViewItemModel()
+                                    {
+                                        Email = email,
+                                        TeamId = teamId
+                                    };
+                                    members.Add(lvItem);
+                                }
+                                if (SyncContext != null)
+                                {
+                                    SyncContext.Post(delegate {
+                                        presenter.UpdateProgressInfo("Scanning Account(s): " + (++total));
+                                    }, null);
+                                }
+                                Thread.Sleep(1);
+                            }
+                            hasMore = jsonDataCont["has_more"];
+                            cursor = jsonDataCont["cursor"];
+                        }
+                    }
+                }
+            }
+            return members;
+        }
+
+        private List<Tuple<string, string>> GetSharedFolders(string memberId, IProvisioningModel model, IMainPresenter presenter)
+        {
+            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.ListSharedFoldersUrl = ApplicationResource.ActionSharingListFolders;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            var sharedFolders = new List<Tuple<string, string>>();
+
+            IDataResponse response = service.ListSharedFolders(new MemberData()
+            {
+                MemberId = memberId
+            }, ApplicationResource.DefaultAccessToken);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                if (response.Data != null)
+                {
+                    string data = response.Data.ToString();
+                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+
+                    int resultCount = jsonData["entries"].Count;
+                    for (int i = 0; i < resultCount; i++)
+                    {
+                        dynamic entries = jsonData["entries"][i];
+                        dynamic sharedFolderId = Convert.ToString(entries["shared_folder_id"]);
+                        dynamic sharedFolderName = Convert.ToString(entries["name"]);
+
+                        var tuple = Tuple.Create(sharedFolderId, sharedFolderName);
+                        if (!sharedFolders.Contains(tuple))
+                        {
+                            sharedFolders.Add(tuple);
+                        }
+                    }
+                    //if the group count is above limit - default 1000 we need to grab the cursor and call continue
+                    string cursor = jsonData["cursor"];
+                    while (!string.IsNullOrEmpty(cursor))
+                    {
+                        service.ListSharedFoldersUrl = ApplicationResource.ActionSharingListFoldersContinuation;
+                        IDataResponse responseCont = service.ListSharedFolders(new MemberData()
+                        {
+                            MemberId = memberId,
+                            Cursor = cursor
+                        }, model.AccessToken);
+
+                        string dataCont = responseCont.Data.ToString();
+                        dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
+
+                        int resultContCount = jsonDataCont["entries"].Count;
+                        for (int i = 0; i < resultContCount; i++)
+                        {
+                            dynamic entries = jsonDataCont["entries"][i];
+                            dynamic sharedFolderId = Convert.ToString(entries["shared_folder_id"]);
+                            dynamic sharedFolderName = Convert.ToString(entries["name"]);
+
+                            var tuple = Tuple.Create(sharedFolderId, sharedFolderName);
+                            if (!sharedFolders.Contains(tuple))
+                            {
+                                sharedFolders.Add(tuple);
+                            }
+                        }
+                        cursor = jsonDataCont["cursor"];
+                    }
+                }
+            }
+            return sharedFolders;
+        }
+
+        private List<Tuple<string, string>> GetSharedFolderOwnerInfo(string memberId, IProvisioningModel model, IMainPresenter presenter)
+        {
+            //string UserAccessToken = ApplicationResource.DefaultAccessToken;
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.ExportGroupPermsUrl = ApplicationResource.ActionSharingListFolderMembers;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            var sharedFolderInfo = new List<Tuple<string, string>>();
+
+            List<Tuple<string, string>> sharedFolders = this.GetSharedFolders(memberId, model, presenter);
+            foreach (var item in sharedFolders)
+            {
+                IDataResponse response = service.ExportGroupPerms(new MemberData()
+                {
+                    MemberId = memberId
+                }, item.Item1, ApplicationResource.DefaultAccessToken);
+                //}, item.Item1, UserAccessToken);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (response.Data != null)
+                    {
+                        string data = response.Data.ToString();
+                        dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+                        int resultCount = jsonData["users"].Count;
+                        for (int i = 0; i < resultCount; i++)
+                        {
+                            dynamic users = jsonData["users"][i];
+                            dynamic type = Convert.ToString(users["access_type"][".tag"]);
+                            dynamic id = Convert.ToString(users["user"]["account_id"]);
+                            dynamic sharedFolderId = item.Item1;
+
+                            //we only need owner id
+                            if (type == "owner")
+                            {
+                                // update list
+                                var tuple = Tuple.Create(id, sharedFolderId);
+                                sharedFolderInfo.Add(tuple);
+                            }
+                        }
+                        //if the group count is above limit - default 1000 we need to grab the cursor and call continue
+                        string cursor = jsonData["cursor"];
+
+                        while (!string.IsNullOrEmpty(cursor))
+                        {
+                            
+                            service.ExportGroupPermsUrl = ApplicationResource.ActionSharingListFolderMembersContinuation;
+                            IDataResponse responseCont = service.ExportGroupPerms(new MemberData()
+                            {
+                                MemberId = memberId,
+                                Cursor = cursor
+                            }, item.Item1, model.AccessToken);
+                            //}, item.Item1, UserAccessToken);
+
+                            string dataCont = responseCont.Data.ToString();
+                            dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
+                            int resultCountCont = jsonDataCont["users"].Count;
+                            for (int i = 0; i < resultCountCont; i++)
+                            {
+                                dynamic users = jsonData["users"][i];
+                                dynamic type = Convert.ToString(users["access_type"][".tag"]);
+                                dynamic id = Convert.ToString(users["user"]["account_id"]);
+                                dynamic sharedFolderId = item.Item1;
+
+                                //we only need owner id
+                                if (type == "owner")
+                                {
+                                    // update list
+                                    var tuple = Tuple.Create(id, sharedFolderId);
+                                    sharedFolderInfo.Add(tuple);
+                                }
+                            }
+                            cursor = jsonDataCont["cursor"];
+                        }
+                    }
+                }
+            }
+            return sharedFolderInfo;
         }
 
         #endregion REST Service

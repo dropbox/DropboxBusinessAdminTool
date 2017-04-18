@@ -19,6 +19,8 @@
 
         public bool KeepAccount { get; set; }
 
+        public bool RemoveSharing { get; set; }
+
         public DumpUserContentModel() {
             UserAccessToken = ApplicationResource.DefaultAccessToken;
             MemberList = new List<TeamListViewItemModel>();

@@ -46,6 +46,7 @@
             this.buttonEx_ProvisioningFileInputSelect = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.tableLayoutPanel_ProvisioningSendEmailGroup = new System.Windows.Forms.TableLayoutPanel();
             this.checkBoxProvisioningKeepAccount = new System.Windows.Forms.CheckBox();
+            this.checkBoxProvisioningRemoveSharing = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.buttonEx_OpenTemplates = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.buttonEx_ProvisioningLoadCSV = new DfBAdminToolkit.Common.Component.ButtonEx();
@@ -270,9 +271,10 @@
             // 
             this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnCount = 3;
             this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.58282F));
-            this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.43558F));
-            this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.28834F));
+            this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.50307F));
+            this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.22086F));
             this.tableLayoutPanel_ProvisioningSendEmailGroup.Controls.Add(this.checkBoxProvisioningKeepAccount, 0, 0);
+            this.tableLayoutPanel_ProvisioningSendEmailGroup.Controls.Add(this.checkBoxProvisioningRemoveSharing, 1, 0);
             this.tableLayoutPanel_ProvisioningSendEmailGroup.Location = new System.Drawing.Point(374, 39);
             this.tableLayoutPanel_ProvisioningSendEmailGroup.Name = "tableLayoutPanel_ProvisioningSendEmailGroup";
             this.tableLayoutPanel_ProvisioningSendEmailGroup.RowCount = 2;
@@ -293,6 +295,20 @@
             this.checkBoxProvisioningKeepAccount.Text = "Keep Account";
             this.checkBoxProvisioningKeepAccount.UseVisualStyleBackColor = true;
             this.checkBoxProvisioningKeepAccount.Visible = false;
+            // 
+            // checkBoxProvisioningRemoveSharing
+            // 
+            this.checkBoxProvisioningRemoveSharing.AutoSize = true;
+            this.checkBoxProvisioningRemoveSharing.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkBoxProvisioningRemoveSharing.Enabled = false;
+            this.checkBoxProvisioningRemoveSharing.Location = new System.Drawing.Point(118, 3);
+            this.checkBoxProvisioningRemoveSharing.Name = "checkBoxProvisioningRemoveSharing";
+            this.checkBoxProvisioningRemoveSharing.Size = new System.Drawing.Size(112, 22);
+            this.checkBoxProvisioningRemoveSharing.TabIndex = 6;
+            this.checkBoxProvisioningRemoveSharing.Text = "Remove Sharing";
+            this.checkBoxProvisioningRemoveSharing.UseVisualStyleBackColor = true;
+            this.checkBoxProvisioningRemoveSharing.Visible = false;
+            this.checkBoxProvisioningRemoveSharing.CheckedChanged += new System.EventHandler(this.CheckBox_ProvisioningRemoveSharing_CheckedChanged);
             // 
             // tableLayoutPanel2
             // 
@@ -728,5 +744,6 @@
         private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_Status;
         private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_JoinedOn;
         private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_UserStatus;
+        private System.Windows.Forms.CheckBox checkBoxProvisioningRemoveSharing;
     }
 }

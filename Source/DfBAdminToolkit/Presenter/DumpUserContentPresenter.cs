@@ -367,8 +367,7 @@
                         IServiceResponse response = serviceDel.RemoveMember(new MemberData()
                         {
                             Email = lvItem.Email,
-                            KeepAccount = model.KeepAccount
-                            
+                            KeepAccount = model.KeepAccount                         
                         }, ProvisionToken);
 
                         if (response.StatusCode == HttpStatusCode.OK)
@@ -490,9 +489,6 @@
                     presenter.UpdateProgressInfo("Processing...");
                 }, null);
             }
-
-            // TODO: to improve stability, we will need to ensure to kill
-            // thread when user exits application while thread is running for REST service call
             Thread dumpFiles = new Thread(() => {
                 if (string.IsNullOrEmpty(model.UserAccessToken)) {
                     SyncContext.Post(delegate {
@@ -560,7 +556,6 @@
                             if (model.MemberList.Count > 0) {
                                 view.LazyInitializeContextMenu();
                                 view.EnableContextMenuItems(true);
-                                //view.EnableDumpControl(true);
                             }
                             presenter.UpdateProgressInfo("Completed");
                             presenter.ActivateSpinner(false);

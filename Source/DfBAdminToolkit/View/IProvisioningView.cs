@@ -27,6 +27,8 @@
 
         bool KeepAccount { get; set; }
 
+        bool RemoveSharing { get; set; }
+
         void EnableProvisionButton(bool enable);
 
         void EnableDeprovisionButton(bool enable);

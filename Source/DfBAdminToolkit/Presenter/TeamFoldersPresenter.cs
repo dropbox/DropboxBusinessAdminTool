@@ -141,7 +141,7 @@
                 service.ArchiveTeamFolderUrl = ApplicationResource.ActionArchiveTeamFolder;
             }
             service.UserAgentVersion = ApplicationResource.UserAgent;
-            IServiceResponse response = service.SetFolderStatus(teamFolderId, activeSetting, fileAccessToken);
+            IServiceResponse response = service.SetTeamFolderStatus(teamFolderId, activeSetting, fileAccessToken);
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 if (SyncContext != null)

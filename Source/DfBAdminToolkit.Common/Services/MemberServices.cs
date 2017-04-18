@@ -49,6 +49,8 @@
 
         public string ListSharedFoldersContinuationUrl { get; set; }
 
+        public string RemoveSharedFolderMemberUrl { get; set; }
+
         public string ExportGroupPermsUrl { get; set; }
 
         public string ExportGroupPermsContinuationUrl { get; set; }
@@ -488,6 +490,46 @@
             }
             return dataResponse;
         }
+        
+        public IServiceResponse RemoveSharedFolderMember(string ownerId, string sharedFolderId, string email, string authToken)
+        {
+            IServiceResponse serviceResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(RemoveSharedFolderMemberUrl))
+                {
+                    RestClient client = new RestClient(string.Format("{0}/{1}/", _baseUrl, _apiVersion));
+                    RestRequest request = new RestRequest(RemoveSharedFolderMemberUrl, Method.POST);
+                    request.AddHeader("Authorization", Convert.ToString("Bearer ") + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+                    request.AddHeader("Dropbox-API-Select-User", ownerId);
+
+                    JObject jsonProv = new JObject(
+                        new JProperty("shared_folder_id", sharedFolderId),
+                        new JProperty("member",
+                            new JObject(
+                                new JProperty(".tag", "email"),
+                                new JProperty("email", email))),
+                        new JProperty("leave_a_copy", false));
+
+                    request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+
+            return serviceResponse;
+        }
 
         public IDataResponse ExportGroupPerms(IMemberData data, string shareId, string authToken)
         {
@@ -902,7 +944,7 @@
             return serviceResponse;
         }
 
-        public IServiceResponse SetFolderStatus(string teamFolderId, bool activeSetting, string authToken)
+        public IServiceResponse SetTeamFolderStatus(string teamFolderId, bool activeSetting, string authToken)
         {
             IServiceResponse serviceResponse = null;
             string url = string.Empty;

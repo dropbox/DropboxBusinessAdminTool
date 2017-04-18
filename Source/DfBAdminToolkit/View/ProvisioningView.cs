@@ -39,6 +39,8 @@
 
         public bool KeepAccount { get; set; }
 
+        public bool RemoveSharing { get; set; }
+
         public List<MemberListViewItemModel> Members { get; set; }
 
         public enum OlvMembersIndex : int
@@ -67,8 +69,9 @@
             //make Member only button checked
             this.radioButton_ProvisioningRoleMemberOnly.Checked = true;
 
-            //make Keep Account checked
+            //make Keep Account and Remove Sharing unchecked
             this.checkBoxProvisioningKeepAccount.Checked = false;
+            this.checkBoxProvisioningRemoveSharing.Checked = false;
 
             //make certain columns non visible on load
             this.olvColumnProvisioning_Usage.IsVisible = false;
@@ -102,6 +105,7 @@
                 this.buttonEx_OpenTemplates.Click += ButtonEx_OpenTemplates_Click;
                 this.checkBox_ProvisioningSendWelcomeEmail.CheckedChanged += CheckBox_ProvisioningSendWelcomeEmail_CheckedChanged;
                 this.checkBoxProvisioningKeepAccount.CheckedChanged += CheckBox_ProvisioningKeepAccount_CheckedChanged;
+                this.checkBoxProvisioningRemoveSharing.CheckedChanged += CheckBox_ProvisioningRemoveSharing_CheckedChanged;
                 this.objectListView_ProvisioningMembers.ItemChecked += ObjectListView_ProvisioningMembers_ItemChecked;
                 this.objectListView_ProvisioningMembers.HeaderCheckBoxChanging += ObjectListView_ProvisioningMembers_HeaderCheckBoxChanging;
                 ComponentEventsWired = true;
@@ -127,6 +131,7 @@
                 this.buttonEx_OpenTemplates.Click -= ButtonEx_OpenTemplates_Click;
                 this.checkBox_ProvisioningSendWelcomeEmail.CheckedChanged -= CheckBox_ProvisioningSendWelcomeEmail_CheckedChanged;
                 this.checkBoxProvisioningKeepAccount.CheckedChanged -= CheckBox_ProvisioningKeepAccount_CheckedChanged;
+                this.checkBoxProvisioningRemoveSharing.CheckedChanged -= CheckBox_ProvisioningRemoveSharing_CheckedChanged;
                 this.objectListView_ProvisioningMembers.ItemChecked -= ObjectListView_ProvisioningMembers_ItemChecked;
                 this.objectListView_ProvisioningMembers.HeaderCheckBoxChanging -= ObjectListView_ProvisioningMembers_HeaderCheckBoxChanging;
                 ComponentEventsWired = false;
@@ -318,10 +323,25 @@
             if (this.checkBoxProvisioningKeepAccount.Checked == true)
             {
                 this.KeepAccount = true;
+                checkBoxProvisioningRemoveSharing.Enabled = true;
             }
             if (this.checkBoxProvisioningKeepAccount.Checked == false)
             {
                 this.KeepAccount = false;
+                checkBoxProvisioningRemoveSharing.Enabled = false;
+                checkBoxProvisioningRemoveSharing.Checked = false;
+            }
+        }
+
+        private void CheckBox_ProvisioningRemoveSharing_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBoxProvisioningRemoveSharing.Checked == true)
+            {
+                this.RemoveSharing = true;
+            }
+            if (this.checkBoxProvisioningRemoveSharing.Checked == false)
+            {
+                this.RemoveSharing = false;
             }
         }
 
@@ -656,6 +676,7 @@
             tableLayoutPanel_ProvisioningRolesSelectionGroup.Visible = false;
             checkBox_ProvisioningSendWelcomeEmail.Visible = false;
             checkBoxProvisioningKeepAccount.Visible = false;
+            checkBoxProvisioningRemoveSharing.Visible = false;
             buttonEx_ProvisioningLoadUpdateCSV.Visible = false;
 
             //things we do need
@@ -700,6 +721,7 @@
 
             //things we need
             checkBoxProvisioningKeepAccount.Visible = true;
+            checkBoxProvisioningRemoveSharing.Visible = true;
             textBox_ProvisioningInputFile.Visible = true;
             buttonEx_ProvisioningLoadCSV.Visible = true;
             buttonEx_ProvisioningFileInputSelect.Visible = true;
@@ -747,12 +769,14 @@
             tableLayoutPanel_ProvisioningRolesSelectionGroup.Visible = false;
             checkBox_ProvisioningSendWelcomeEmail.Visible = false;
             checkBoxProvisioningKeepAccount.Visible = false;
+            checkBoxProvisioningRemoveSharing.Visible = false;
             buttonEx_ProvisioningLoadCSV.Visible = false;
 
             //things we do need
             textBox_ProvisioningInputFile.Visible = true;
             buttonEx_ProvisioningFileInputSelect.Visible = true;
             checkBoxProvisioningKeepAccount.Visible = true;
+            checkBoxProvisioningRemoveSharing.Visible = true;
             buttonEx_ProvisioningLoadUpdateCSV.Visible = true;
             buttonEx_OpenTemplates.Visible = true;
 
@@ -801,6 +825,7 @@
             tableLayoutPanel_ProvisioningRolesSelectionGroup.Visible = false;
             checkBox_ProvisioningSendWelcomeEmail.Visible = false;
             checkBoxProvisioningKeepAccount.Visible = false;
+            checkBoxProvisioningRemoveSharing.Visible = false;
             buttonEx_ProvisioningLoadUpdateCSV.Visible = false;
             textBox_ProvisioningInputFile.Visible = false;
             buttonEx_ProvisioningFileInputSelect.Visible = false;

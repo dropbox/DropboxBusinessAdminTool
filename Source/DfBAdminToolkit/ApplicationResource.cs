@@ -64,6 +64,11 @@
             get { return ConfigurationManager.AppSettings.Get("ActionSharingListFolderMembers"); }
         }
 
+        public static string ActionSharingRemoveFolderMember
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionSharingRemoveFolderMember"); }
+        }
+
         public static string ActionSharingListFolderMembersContinuation
         {
             get { return ConfigurationManager.AppSettings.Get("ActionSharingListFolderMembersContinuation"); }
