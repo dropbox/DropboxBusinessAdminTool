@@ -310,6 +310,9 @@
     <None Include="Templates\ProvisioningTemplate.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Templates\TeamFolderTemplate.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\UpdateMembersTemplate.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
