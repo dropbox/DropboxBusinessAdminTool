@@ -101,7 +101,8 @@
                     {
                         TeamFolderName = teamFolderName,
                         TeamFolderId = teamFolderId,
-                        Status = status
+                        Status = status,
+                        IsChecked = true
                     };
                         model.TeamFolders.Add(lvItem);
                     }
@@ -228,8 +229,6 @@
                                 TeamFoldersListViewItemModel lvItem = new TeamFoldersListViewItemModel()
                                 {
                                     TeamFolderName = reader.GetField<string>(0),
-                                    TeamFolderId = reader.GetField<string>(1),
-                                    Status = reader.GetField<string>(2),
                                     IsChecked = true
                                 };
                                 model.TeamFolders.Add(lvItem);
@@ -320,6 +319,7 @@
             string teamFolderName = view.TeamFolderName;
             bool syncSetting = view.SyncSetting;
             bool multiCheck = view.MultiTeamFoldersCreateCheck();
+            int teamFolderCount = 0;
 
             if (SyncContext != null)
             {
@@ -333,6 +333,7 @@
             }
             Thread createteamfolder = new Thread(() =>
             {
+                string response = string.Empty;
                 if (string.IsNullOrEmpty(model.AccessToken))
                 {
                     SyncContext.Post(delegate
@@ -344,22 +345,51 @@
                 }
                 else
                 {
-                    this.CreateTeamFolder(model, teamFolderName, presenter);
-                    if (SyncContext != null)
+                    if (multiCheck)
                     {
-                        SyncContext.Post(delegate
+                        
+                        foreach (TeamFoldersListViewItemModel item in model.TeamFolders)
                         {
-                            // update result and update view.
-                            PresenterBase.SetViewPropertiesFromModel<ITeamFoldersView, ITeamFoldersModel>(
-                                ref view, model
-                            );
-                            // update result and update view.
-                            view.RenderTeamFoldersList();
-                            presenter.ActivateSpinner(false);
-                            presenter.EnableControl(true);
-                            presenter.UpdateProgressInfo("Completed.");
-                        }, null);
+                            response = this.CreateTeamFolder(model, item.TeamFolderName, presenter);
+                            teamFolderCount++;
+                        }
+                        if (SyncContext != null)
+                        {
+                            SyncContext.Post(delegate
+                            {
+                                // update result and update view.
+                                PresenterBase.SetViewPropertiesFromModel<ITeamFoldersView, ITeamFoldersModel>(
+                                    ref view, model
+                                );
+                                // update result and update view.
+                                //view.RenderTeamFoldersList();
+                                presenter.ActivateSpinner(false);
+                                presenter.EnableControl(true);
+                                presenter.UpdateProgressInfo("Completed. Total Team folders created: [" + teamFolderCount.ToString() + "]");
+                            }, null);
+                        }
                     }
+                    if (!multiCheck)
+                    {
+                        response = this.CreateTeamFolder(model, teamFolderName, presenter);
+                        teamFolderCount++;
+
+                        if (SyncContext != null)
+                        {
+                            SyncContext.Post(delegate
+                            {
+                                // update result and update view.
+                                PresenterBase.SetViewPropertiesFromModel<ITeamFoldersView, ITeamFoldersModel>(
+                                    ref view, model
+                                );
+                                // update result and update view.
+                                //view.RenderTeamFoldersList();
+                                presenter.ActivateSpinner(false);
+                                presenter.EnableControl(true);
+                                presenter.UpdateProgressInfo("Completed. Total Team folders created: [" + teamFolderCount.ToString() + "]");
+                            }, null);
+                        }
+                    }   
                 }
             });
             createteamfolder.Start();
@@ -584,7 +614,8 @@
                     {
                         SyncContext.Post(delegate {
                             // update result and update view.
-                            view.RenderTeamFoldersListFromCSV(model.TeamFolders);
+                            //view.RenderTeamFoldersListFromCSV(model.TeamFolders);
+                            view.RenderTeamFoldersList();
                             presenter.UpdateProgressInfo("Team Folders CSV Loaded");
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);

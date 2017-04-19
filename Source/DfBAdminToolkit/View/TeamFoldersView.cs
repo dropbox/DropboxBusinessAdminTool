@@ -43,7 +43,6 @@
         public enum OlvMembersIndex : int
         {
             TeamFolderName,
-            //DefaultSyncSetting,
             TeamFolderId,
             Status
         }
@@ -279,12 +278,6 @@
                 {
                     CommandLoadTeamFolders(sender, e);
                 }
-            }
-
-            InvokeDataChanged(sender, e);
-            if (CommandLoadTeamFolders != null)
-            {
-                CommandLoadTeamFolders(sender, e);
             }
         }
 
