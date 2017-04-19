@@ -136,7 +136,9 @@
     <Compile Include="Model\SettingsModel.cs" />
     <Compile Include="Model\TeamFoldersHeaderRecord.cs" />
     <Compile Include="Model\TeamFoldersListViewItemModel.cs" />
+    <Compile Include="Model\TeamFoldersMembersHeaderRecord.cs" />
     <Compile Include="Model\TeamFoldersModel.cs" />
+    <Compile Include="Model\TeamFoldersPermsItemModel.cs" />
     <Compile Include="Model\TeamListViewItemModel.cs" />
     <Compile Include="Model\TextSearchModel.cs" />
     <Compile Include="Presenter\DataMigrationPresenter.cs" />

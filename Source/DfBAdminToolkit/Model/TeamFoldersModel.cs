@@ -11,12 +11,15 @@
 
         public List<TeamFoldersListViewItemModel> TeamFolders { get; set; }
 
+        public List<TeamFoldersPermsItemModel> TeamFoldersPerms { get; set; }
+
         public TeamFoldersModel() {
             Initialize();
         }
 
         public void Initialize() {
             TeamFolders = new List<TeamFoldersListViewItemModel>();
+            TeamFoldersPerms = new List<TeamFoldersPermsItemModel>();
             AccessToken = ApplicationResource.DefaultProvisionToken;
         }
 

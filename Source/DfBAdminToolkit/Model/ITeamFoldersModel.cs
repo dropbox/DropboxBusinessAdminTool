@@ -10,5 +10,7 @@
         string TeamFoldersInputFilePath { get; set; }
 
         List<TeamFoldersListViewItemModel> TeamFolders { get; set; }
+
+        List<TeamFoldersPermsItemModel> TeamFoldersPerms { get; set; }
     }
 }

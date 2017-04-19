@@ -338,7 +338,8 @@
                     IServiceResponse response = service.RemoveMember(new MemberData()
                     {
                         Email = item.Email,
-                        KeepAccount = model.KeepAccount
+                        KeepAccount = model.KeepAccount,
+                        ProvisionStatus = item.ProvisionStatus
                     }, model.AccessToken);
 
                     if (response.StatusCode == HttpStatusCode.OK)
@@ -347,13 +348,39 @@
                         {
                             SyncContext.Post(delegate
                             {
-                                presenter.UpdateProgressInfo(string.Format("Removed Member: {0}", item.Email));
+                                if (response.Message.Contains("complete"))
+                                {
+                                    item.ProvisionStatus = "Deprovisioned successfully.";
+                                    presenter.UpdateProgressInfo(string.Format("Removed Member: {0}", item.Email));
+                                }
+                                if (response.Message.Contains("user_not_found"))
+                                {
+                                    item.ProvisionStatus = "No matching user found. The provided team_member_id, email, or external_id does not exist on this team.";
+                                    presenter.UpdateProgressInfo("No matching user found.");
+                                }
+                                if (response.Message.Contains("user_not_in_team"))
+                                {
+                                    item.ProvisionStatus = "The user is not a member of the team.";
+                                    presenter.UpdateProgressInfo(" The user is not a member of the team.");
+                                }
+                                if (response.Message.Contains("remove_last_admin"))
+                                {
+                                    item.ProvisionStatus = "The user is the last admin of the team, so it cannot be removed from it.";
+                                    presenter.UpdateProgressInfo("The user is the last admin of the team, so it cannot be removed from it.");
+                                }
+                                if (response.Message.Contains("email_address_too_long_to_be_disabled"))
+                                {
+                                    item.ProvisionStatus = "The email address of the user is too long to be disabled.";
+                                    presenter.UpdateProgressInfo("The email address of the user is too long to be disabled.");
+                                }
+
                             }, null);
                         }
                     }
                     else
                     {
-                        errorMessage = "Bad Request: " + response.Message;
+                        item.ProvisionStatus = response.Message;
+                        presenter.UpdateProgressInfo(response.Message);
                     }
                 }
             }
@@ -473,7 +500,8 @@
                 {
                     IServiceResponse response = service.RecoverMember(new MemberData()
                     {
-                        Email = item.Email
+                        Email = item.Email,
+                        ProvisionStatus = item.ProvisionStatus
                     }, model.AccessToken);
 
                     if (response.StatusCode == HttpStatusCode.OK)
@@ -482,13 +510,39 @@
                         {
                             SyncContext.Post(delegate
                             {
-                                presenter.UpdateProgressInfo(string.Format("Recovered Member: {0}", item.Email));
+                                if (response.Message == "null")
+                                {
+                                    item.ProvisionStatus = "Recovered successfully.";
+                                    presenter.UpdateProgressInfo(string.Format("Recovered Member: {0}", item.Email));
+                                }
+                                if (response.Message.Contains("user_not_found"))
+                                {
+                                    item.ProvisionStatus = "No matching user found. The provided team_member_id, email, or external_id does not exist on this team.";
+                                    presenter.UpdateProgressInfo("No matching user found.");
+                                }
+                                if (response.Message.Contains("user_unrecoverable"))
+                                {
+                                    item.ProvisionStatus = "The user is not recoverable.";
+                                    presenter.UpdateProgressInfo("The user is not recoverable.");
+                                }
+                                if (response.Message.Contains("user_not_in_team"))
+                                {
+                                    item.ProvisionStatus = "The user is not a member of the team.";
+                                    presenter.UpdateProgressInfo("The user is not a member of the team.");
+                                }
+                                if (response.Message.Contains("team_license_limit"))
+                                {
+                                    item.ProvisionStatus = "The organization has no available licenses.";
+                                    presenter.UpdateProgressInfo("The organization has no available licenses.");
+                                }
+
                             }, null);
                         }
                     }
                     else
                     {
-                        errorMessage = "Bad Request: " + response.Message;
+                        item.ProvisionStatus = response.Message;
+                        presenter.UpdateProgressInfo(response.Message);
                     }
                 }
             }
@@ -1115,7 +1169,7 @@
                             int resultCountCont = jsonDataCont["users"].Count;
                             for (int i = 0; i < resultCountCont; i++)
                             {
-                                dynamic users = jsonData["users"][i];
+                                dynamic users = jsonDataCont["users"][i];
                                 dynamic type = Convert.ToString(users["access_type"][".tag"]);
                                 dynamic id = Convert.ToString(users["user"]["team_member_id"]);
                                 dynamic sharedFolderId = item.Item1;
@@ -1308,7 +1362,8 @@
                             }
                             else
                             {
-                                presenter.UpdateProgressInfo("Deprovisioning completed");
+                                presenter.UpdateProgressInfo("Deprovisioning completed.");
+                                view.RenderProvisioningStatus(model.Members);
                                 presenter.UpdateTitleBarStats();
                             }
                             // update result and update view.
@@ -1518,6 +1573,8 @@
                             else
                             {
                                 presenter.UpdateProgressInfo("Recovering members completed.");
+                                view.RenderProvisioningStatus(model.Members);
+                                presenter.UpdateTitleBarStats();
                             }
                             // update result and update view.
                             presenter.ActivateSpinner(false);

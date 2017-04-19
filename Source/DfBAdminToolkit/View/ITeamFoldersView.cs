@@ -13,6 +13,7 @@
         event EventHandler CommandSetFolderSyncSetting;
         event EventHandler CommandLoadTeamFolders;
         event EventHandler CommandExportTeamFolders;
+        event EventHandler CommandExportTeamFoldersPerms;
 
         string AccessToken { get; set; }
 

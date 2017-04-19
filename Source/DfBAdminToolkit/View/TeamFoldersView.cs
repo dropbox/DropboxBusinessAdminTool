@@ -19,6 +19,7 @@
         public event EventHandler CommandSetFolderSyncSetting;
         public event EventHandler CommandLoadTeamFolders;
         public event EventHandler CommandExportTeamFolders;
+        public event EventHandler CommandExportTeamFoldersPerms;
 
         public SynchronizationContext SyncContext { get; set; }
 
@@ -71,6 +72,7 @@
                 this.buttonEx_TeamFoldersSetFolderStatus.Click += buttonEx_TeamFoldersSetFolderStatus_Click;
                 this.buttonEx_TeamFoldersSetFolderSyncSetting.Click += buttonEx_TeamFoldersSetFolderSyncSetting_Click;
                 this.buttonEx_TeamFoldersExportToCSV.Click += buttonEx_TeamFoldersExportToCSV_Click;
+                this.buttonEx_TeamFoldersPermsExportToCSV.Click += buttonEx_TeamFoldersPermsExportToCSV_Click;
                 this.buttonEx_TeamFoldersLoadFromCSV.Click += buttonEx_TeamFoldersLoadFromCSV_Click;
                 this.radioButtonSync.CheckedChanged += radioButtonSync_CheckedChanged;
                 this.radioButton_Active.CheckedChanged += radioButtonActive_CheckedChanged;
@@ -91,6 +93,7 @@
                 this.buttonEx_TeamFoldersSetFolderStatus.Click -= buttonEx_TeamFoldersSetFolderStatus_Click;
                 this.buttonEx_TeamFoldersSetFolderSyncSetting.Click -= buttonEx_TeamFoldersSetFolderSyncSetting_Click;
                 this.buttonEx_TeamFoldersExportToCSV.Click -= buttonEx_TeamFoldersExportToCSV_Click;
+                this.buttonEx_TeamFoldersPermsExportToCSV.Click -= buttonEx_TeamFoldersPermsExportToCSV_Click;
                 this.buttonEx_TeamFoldersLoadFromCSV.Click -= buttonEx_TeamFoldersLoadFromCSV_Click;
                 this.radioButtonSync.CheckedChanged -= radioButtonSync_CheckedChanged;
                 this.radioButton_Active.CheckedChanged -= radioButtonActive_CheckedChanged;
@@ -253,6 +256,15 @@
             if (CommandExportTeamFolders != null)
             {
                 CommandExportTeamFolders(sender, e);
+            }
+        }
+
+        private void buttonEx_TeamFoldersPermsExportToCSV_Click(object sender, EventArgs e)
+        {
+            InvokeDataChanged(sender, e);
+            if (CommandExportTeamFoldersPerms != null)
+            {
+                CommandExportTeamFoldersPerms(sender, e);
             }
         }
 
