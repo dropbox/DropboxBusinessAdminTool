@@ -16,6 +16,7 @@
         event EventHandler CommandLoadUpdateInputFile;
         event EventHandler CommandCreateCSV;
         event EventHandler CommandGetUsage;
+        event EventHandler CommandRecover;
 
         bool SendWelcomeEmail { get; set; }
 
@@ -26,6 +27,8 @@
         string SelectedRole { get; set; }
 
         bool KeepAccount { get; set; }
+
+        bool RemoveSharing { get; set; }
 
         void EnableProvisionButton(bool enable);
 
@@ -38,6 +41,8 @@
         void EnableLoadInputFileButton(bool enable);
 
         void EnableUpdateProfileButton(bool enable);
+
+        void EnableRecoverButton(bool enable);
 
         void RefreshAccessToken();
 

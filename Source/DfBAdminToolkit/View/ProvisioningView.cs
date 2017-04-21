@@ -24,6 +24,7 @@
         public event EventHandler CommandLoadUpdateInputFile;
         public event EventHandler CommandCreateCSV;
         public event EventHandler CommandGetUsage;
+        public event EventHandler CommandRecover;
 
         public SynchronizationContext SyncContext { get; set; }
 
@@ -38,6 +39,8 @@
         public string SelectedRole { get; set; }
 
         public bool KeepAccount { get; set; }
+
+        public bool RemoveSharing { get; set; }
 
         public List<MemberListViewItemModel> Members { get; set; }
 
@@ -63,12 +66,14 @@
             EnableSuspendButton(false);
             EnableUnSuspendButton(false);
             EnableUpdateProfileButton(false);
+            EnableRecoverButton(false);
 
             //make Member only button checked
             this.radioButton_ProvisioningRoleMemberOnly.Checked = true;
 
-            //make Keep Account checked
+            //make Keep Account and Remove Sharing unchecked
             this.checkBoxProvisioningKeepAccount.Checked = false;
+            this.checkBoxProvisioningRemoveSharing.Checked = false;
 
             //make certain columns non visible on load
             this.olvColumnProvisioning_Usage.IsVisible = false;
@@ -94,6 +99,7 @@
                 this.buttonEx_ProvisioningSuspend.Click += Button_ProvisioningDoSuspend_Click;
                 this.buttonEx_ProvisioningUnsuspend.Click += Button_ProvisioningDoUnsuspend_Click;
                 this.buttonEx_ProvisioningUpdateProfile.Click += Button_ProvisioningUpdateProfile_Click;
+                this.buttonEx_ProvisioningRecoverUsers.Click += Button_ProvisioningRecover_Click;
                 this.buttonEx_ProvisioningFileInputSelect.Click += Button_ProvisioningInputFile_Click;
                 this.buttonEx_ProvisioningLoadCSV.Click += Button_ProvisioningLoadInputFile_Click;
                 this.buttonEx_ProvisioningLoadUpdateCSV.Click += Button_ProvisioningLoadUpdateInputFile_Click;
@@ -102,6 +108,7 @@
                 this.buttonEx_OpenTemplates.Click += ButtonEx_OpenTemplates_Click;
                 this.checkBox_ProvisioningSendWelcomeEmail.CheckedChanged += CheckBox_ProvisioningSendWelcomeEmail_CheckedChanged;
                 this.checkBoxProvisioningKeepAccount.CheckedChanged += CheckBox_ProvisioningKeepAccount_CheckedChanged;
+                this.checkBoxProvisioningRemoveSharing.CheckedChanged += CheckBox_ProvisioningRemoveSharing_CheckedChanged;
                 this.objectListView_ProvisioningMembers.ItemChecked += ObjectListView_ProvisioningMembers_ItemChecked;
                 this.objectListView_ProvisioningMembers.HeaderCheckBoxChanging += ObjectListView_ProvisioningMembers_HeaderCheckBoxChanging;
                 ComponentEventsWired = true;
@@ -119,6 +126,7 @@
                 this.buttonEx_ProvisioningSuspend.Click -= Button_ProvisioningDoSuspend_Click;
                 this.buttonEx_ProvisioningUnsuspend.Click -= Button_ProvisioningDoUnsuspend_Click;
                 this.buttonEx_ProvisioningUpdateProfile.Click -= Button_ProvisioningUpdateProfile_Click;
+                this.buttonEx_ProvisioningRecoverUsers.Click -= Button_ProvisioningRecover_Click;
                 this.buttonEx_ProvisioningFileInputSelect.Click -= Button_ProvisioningInputFile_Click;
                 this.buttonEx_ProvisioningLoadCSV.Click -= Button_ProvisioningLoadInputFile_Click;
                 this.buttonEx_ProvisioningLoadUpdateCSV.Click -= Button_ProvisioningLoadUpdateInputFile_Click;
@@ -127,6 +135,7 @@
                 this.buttonEx_OpenTemplates.Click -= ButtonEx_OpenTemplates_Click;
                 this.checkBox_ProvisioningSendWelcomeEmail.CheckedChanged -= CheckBox_ProvisioningSendWelcomeEmail_CheckedChanged;
                 this.checkBoxProvisioningKeepAccount.CheckedChanged -= CheckBox_ProvisioningKeepAccount_CheckedChanged;
+                this.checkBoxProvisioningRemoveSharing.CheckedChanged -= CheckBox_ProvisioningRemoveSharing_CheckedChanged;
                 this.objectListView_ProvisioningMembers.ItemChecked -= ObjectListView_ProvisioningMembers_ItemChecked;
                 this.objectListView_ProvisioningMembers.HeaderCheckBoxChanging -= ObjectListView_ProvisioningMembers_HeaderCheckBoxChanging;
                 ComponentEventsWired = false;
@@ -257,6 +266,12 @@
             buttonEx_ProvisioningUpdateProfile.Update();
         }
 
+        public void EnableRecoverButton(bool enable)
+        {
+            buttonEx_ProvisioningUpdateProfile.Enabled = enable;
+            buttonEx_ProvisioningUpdateProfile.Update();
+        }
+
         public void RefreshAccessToken()
         {
             textBox_ProvisioningAccessToken.Text = AccessToken;
@@ -318,10 +333,25 @@
             if (this.checkBoxProvisioningKeepAccount.Checked == true)
             {
                 this.KeepAccount = true;
+                checkBoxProvisioningRemoveSharing.Enabled = true;
             }
             if (this.checkBoxProvisioningKeepAccount.Checked == false)
             {
                 this.KeepAccount = false;
+                checkBoxProvisioningRemoveSharing.Enabled = false;
+                checkBoxProvisioningRemoveSharing.Checked = false;
+            }
+        }
+
+        private void CheckBox_ProvisioningRemoveSharing_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBoxProvisioningRemoveSharing.Checked == true)
+            {
+                this.RemoveSharing = true;
+            }
+            if (this.checkBoxProvisioningRemoveSharing.Checked == false)
+            {
+                this.RemoveSharing = false;
             }
         }
 
@@ -441,6 +471,23 @@
                 if (CommandUpdateProfile != null)
                 {
                     CommandUpdateProfile(sender, e);
+                }
+            }
+            else if (d == DialogResult.No)
+            {
+                //do nothing
+            }
+        }
+
+        private void Button_ProvisioningRecover_Click(object sender, EventArgs e)
+        {
+            DialogResult d = MessageBoxUtil.ShowConfirm(this, ErrorMessages.CONFIRM_RECOVER);
+            if (d == DialogResult.Yes)
+            {
+                InvokeDataChanged(sender, e);
+                if (CommandRecover != null)
+                {
+                    CommandRecover(sender, e);
                 }
             }
             else if (d == DialogResult.No)
@@ -589,6 +636,7 @@
             buttonEx_ProvisioningUpdateProfile.ColorTable = ColorTable.Office2010White;
             buttonEx_ProvisioningCreateCSV.ColorTable = ColorTable.Office2010White;
             buttonEx_ProvisioningGetUsage.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningRecoverUsers.ColorTable = ColorTable.Office2010White;
 
             //disable buttons
             buttonEx_ProvisioningProvision.Enabled = false;
@@ -598,9 +646,12 @@
             buttonEx_ProvisioningUpdateProfile.Enabled = false;
             buttonEx_ProvisioningCreateCSV.Enabled = false;
             buttonEx_ProvisioningGetUsage.Enabled = false;
+            buttonEx_ProvisioningRecoverUsers.Enabled = false;
 
             //things we don't need
             buttonEx_ProvisioningLoadUpdateCSV.Visible = false;
+            checkBoxProvisioningKeepAccount.Visible = false;
+            checkBoxProvisioningRemoveSharing.Visible = false;
 
             //things we need for bulk provisioning
             tableLayoutPanel_ProvisioningRolesSelectionGroup.Visible = true;
@@ -642,6 +693,7 @@
             buttonEx_ProvisioningUpdateProfile.ColorTable = ColorTable.Office2010White;
             buttonEx_ProvisioningCreateCSV.ColorTable = ColorTable.Office2010White;
             buttonEx_ProvisioningGetUsage.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningRecoverUsers.ColorTable = ColorTable.Office2010White;
 
             //disable buttons
             buttonEx_ProvisioningProvision.Enabled = false;
@@ -651,11 +703,13 @@
             buttonEx_ProvisioningUpdateProfile.Enabled = false;
             buttonEx_ProvisioningCreateCSV.Enabled = false;
             buttonEx_ProvisioningGetUsage.Enabled = false;
+            buttonEx_ProvisioningRecoverUsers.Enabled = false;
 
             //things we DONT need 
             tableLayoutPanel_ProvisioningRolesSelectionGroup.Visible = false;
             checkBox_ProvisioningSendWelcomeEmail.Visible = false;
             checkBoxProvisioningKeepAccount.Visible = false;
+            checkBoxProvisioningRemoveSharing.Visible = false;
             buttonEx_ProvisioningLoadUpdateCSV.Visible = false;
 
             //things we do need
@@ -680,6 +734,7 @@
             buttonEx_ProvisioningUpdateProfile.ColorTable = ColorTable.Office2010White;
             buttonEx_ProvisioningCreateCSV.ColorTable = ColorTable.Office2010White;
             buttonEx_ProvisioningGetUsage.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningRecoverUsers.ColorTable = ColorTable.Office2010White;
 
             //disable buttons
             buttonEx_ProvisioningProvision.Enabled = false;
@@ -689,6 +744,7 @@
             buttonEx_ProvisioningUpdateProfile.Enabled = false;
             buttonEx_ProvisioningCreateCSV.Enabled = false;
             buttonEx_ProvisioningGetUsage.Enabled = false;
+            buttonEx_ProvisioningRecoverUsers.Enabled = false;
 
             //callable button
             buttonEx_ProvisioningDeprovision.ColorTable = ColorTable.Office2010Red;
@@ -698,8 +754,10 @@
             checkBox_ProvisioningSendWelcomeEmail.Visible = false;
             buttonEx_ProvisioningLoadUpdateCSV.Visible = false;
 
+
             //things we need
             checkBoxProvisioningKeepAccount.Visible = true;
+            checkBoxProvisioningRemoveSharing.Visible = true;
             textBox_ProvisioningInputFile.Visible = true;
             buttonEx_ProvisioningLoadCSV.Visible = true;
             buttonEx_ProvisioningFileInputSelect.Visible = true;
@@ -733,6 +791,7 @@
             buttonEx_ProvisioningUpdateProfile.ColorTable = ColorTable.Office2010White;
             buttonEx_ProvisioningCreateCSV.ColorTable = ColorTable.Office2010White;
             buttonEx_ProvisioningGetUsage.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningRecoverUsers.ColorTable = ColorTable.Office2010White;
 
             //disable buttons
             buttonEx_ProvisioningProvision.Enabled = false;
@@ -742,17 +801,20 @@
             buttonEx_ProvisioningUpdateProfile.Enabled = false;
             buttonEx_ProvisioningCreateCSV.Enabled = false;
             buttonEx_ProvisioningGetUsage.Enabled = false;
+            buttonEx_ProvisioningRecoverUsers.Enabled = false;
 
             //things we dont need
             tableLayoutPanel_ProvisioningRolesSelectionGroup.Visible = false;
             checkBox_ProvisioningSendWelcomeEmail.Visible = false;
             checkBoxProvisioningKeepAccount.Visible = false;
+            checkBoxProvisioningRemoveSharing.Visible = false;
             buttonEx_ProvisioningLoadCSV.Visible = false;
+            checkBoxProvisioningKeepAccount.Visible = false;
+            checkBoxProvisioningRemoveSharing.Visible = false;
 
             //things we do need
             textBox_ProvisioningInputFile.Visible = true;
-            buttonEx_ProvisioningFileInputSelect.Visible = true;
-            checkBoxProvisioningKeepAccount.Visible = true;
+            buttonEx_ProvisioningFileInputSelect.Visible = true;   
             buttonEx_ProvisioningLoadUpdateCSV.Visible = true;
             buttonEx_OpenTemplates.Visible = true;
 
@@ -787,6 +849,7 @@
             buttonEx_ProvisioningUpdateProfile.ColorTable = ColorTable.Office2010White;
             buttonEx_ProvisioningCreateCSV.ColorTable = ColorTable.Office2010White;
             buttonEx_ProvisioningGetUsage.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningRecoverUsers.ColorTable = ColorTable.Office2010White;
 
             //disable buttons
             buttonEx_ProvisioningProvision.Enabled = false;
@@ -796,11 +859,13 @@
             buttonEx_ProvisioningUpdateProfile.Enabled = false;
             buttonEx_ProvisioningCreateCSV.Enabled = false;
             buttonEx_ProvisioningGetUsage.Enabled = false;
+            buttonEx_ProvisioningRecoverUsers.Enabled = false;
 
             //things we dont need
             tableLayoutPanel_ProvisioningRolesSelectionGroup.Visible = false;
             checkBox_ProvisioningSendWelcomeEmail.Visible = false;
             checkBoxProvisioningKeepAccount.Visible = false;
+            checkBoxProvisioningRemoveSharing.Visible = false;
             buttonEx_ProvisioningLoadUpdateCSV.Visible = false;
             textBox_ProvisioningInputFile.Visible = false;
             buttonEx_ProvisioningFileInputSelect.Visible = false;
@@ -814,7 +879,63 @@
             //callable button
             buttonEx_ProvisioningCreateCSV.ColorTable = ColorTable.Office2010Green;
             buttonEx_ProvisioningGetUsage.ColorTable = ColorTable.Office2010Blue;
+        }
 
+        private void radioBulkRecover_CheckedChanged(object sender, EventArgs e)
+        {
+            //grey out all buttons
+            buttonEx_ProvisioningProvision.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningDeprovision.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningSuspend.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningUnsuspend.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningUpdateProfile.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningCreateCSV.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningGetUsage.ColorTable = ColorTable.Office2010White;
+            buttonEx_ProvisioningRecoverUsers.ColorTable = ColorTable.Office2010White;
+
+            //disable buttons
+            buttonEx_ProvisioningProvision.Enabled = false;
+            buttonEx_ProvisioningDeprovision.Enabled = false;
+            buttonEx_ProvisioningSuspend.Enabled = false;
+            buttonEx_ProvisioningUnsuspend.Enabled = false;
+            buttonEx_ProvisioningUpdateProfile.Enabled = false;
+            buttonEx_ProvisioningCreateCSV.Enabled = false;
+            buttonEx_ProvisioningGetUsage.Enabled = false;
+            buttonEx_ProvisioningRecoverUsers.Enabled = false;
+
+            //things we don't need
+            buttonEx_ProvisioningLoadUpdateCSV.Visible = false;
+            checkBox_ProvisioningSendWelcomeEmail.Visible = false;
+            tableLayoutPanel_ProvisioningRolesSelectionGroup.Visible = false;
+            checkBoxProvisioningKeepAccount.Visible = false;
+            checkBoxProvisioningRemoveSharing.Visible = false;
+
+            //things we need for bulk recover
+            textBox_ProvisioningInputFile.Visible = true; 
+            buttonEx_ProvisioningFileInputSelect.Visible = true;
+            buttonEx_ProvisioningLoadCSV.Visible = true;
+            buttonEx_ProvisioningRecoverUsers.Enabled = true;
+            buttonEx_OpenTemplates.Visible = true;
+
+            Control c1 = this.tableLayoutPanel2.GetControlFromPosition(0, 0);
+            Control c2 = this.tableLayoutPanel2.GetControlFromPosition(1, 0);
+
+            if (c1 != null && c2 != null)
+            {
+                if (c1.Text == "Load Input File")
+                {
+                    this.tableLayoutPanel2.SetColumn(c1, 0);
+                    this.tableLayoutPanel2.SetColumn(c2, 1);
+                }
+                if (c1.Text == "Load Update CSV")
+                {
+                    this.tableLayoutPanel2.SetColumn(c1, 1);
+                    this.tableLayoutPanel2.SetColumn(c2, 0);
+                }
+            }
+
+            //callable button
+            buttonEx_ProvisioningRecoverUsers.ColorTable = ColorTable.Office2010Pink;
         }
     }
 }

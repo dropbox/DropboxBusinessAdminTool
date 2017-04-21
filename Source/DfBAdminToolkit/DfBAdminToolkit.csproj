@@ -134,8 +134,11 @@
     <Compile Include="Model\MemberListViewItemModel.cs" />
     <Compile Include="Model\ProvisioningModel.cs" />
     <Compile Include="Model\SettingsModel.cs" />
+    <Compile Include="Model\TeamFoldersHeaderRecord.cs" />
     <Compile Include="Model\TeamFoldersListViewItemModel.cs" />
+    <Compile Include="Model\TeamFoldersMembersHeaderRecord.cs" />
     <Compile Include="Model\TeamFoldersModel.cs" />
+    <Compile Include="Model\TeamFoldersPermsItemModel.cs" />
     <Compile Include="Model\TeamListViewItemModel.cs" />
     <Compile Include="Model\TextSearchModel.cs" />
     <Compile Include="Presenter\DataMigrationPresenter.cs" />
@@ -307,6 +310,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Templates\ProvisioningTemplate.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\TeamFolderTemplate.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Templates\UpdateMembersTemplate.csv">

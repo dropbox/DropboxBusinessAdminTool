@@ -43,6 +43,7 @@
                 view.CommandSuspend += OnCommandSuspend;
                 view.CommandUnsuspend += OnCommandUnsuspend;
                 view.CommandUpdateProfile += OnCommandUpdateProfile;
+                view.CommandRecover += OnCommandRecover;
                 view.CommandLoadInputFile += OnCommandLoadInputFile;
                 view.CommandLoadUpdateInputFile += OnCommandLoadUpdateInputFile;
                 view.CommandCreateCSV += OnCommandListMembersCreateCSV;
@@ -60,6 +61,7 @@
                 view.CommandSuspend -= OnCommandSuspend;
                 view.CommandUnsuspend -= OnCommandUnsuspend;
                 view.CommandUpdateProfile -= OnCommandUpdateProfile;
+                view.CommandRecover -= OnCommandRecover;
                 view.CommandLoadInputFile -= OnCommandLoadInputFile;
                 view.CommandLoadUpdateInputFile -= OnCommandLoadUpdateInputFile;
                 view.CommandCreateCSV -= OnCommandListMembersCreateCSV;
@@ -102,10 +104,10 @@
                 } else {
                     throw new InvalidDataException(ErrorMessages.MISSING_CSV_FILE);
                 }
-            } catch (Exception e) {
+            } catch (Exception) {
                 // error message.
                 SyncContext.Post(delegate {
-                    presenter.ShowErrorMessage(e.Message, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.ShowErrorMessage(ErrorMessages.INVALID_CSV_DATA, ErrorMessages.DLG_DEFAULT_TITLE);
                     presenter.UpdateProgressInfo("");
                     presenter.ActivateSpinner(false);
                     presenter.EnableControl(true);
@@ -159,11 +161,11 @@
                     throw new InvalidDataException(ErrorMessages.MISSING_CSV_FILE);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // error message.
                 SyncContext.Post(delegate {
-                    presenter.ShowErrorMessage(e.Message, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.ShowErrorMessage(ErrorMessages.INVALID_CSV_DATA, ErrorMessages.DLG_DEFAULT_TITLE);
                     presenter.UpdateProgressInfo("");
                     presenter.ActivateSpinner(false);
                     presenter.EnableControl(true);
@@ -276,18 +278,68 @@
 
         private string DeprovisionRoles(IProvisioningModel model, IMainPresenter presenter)
         {
+            string UserAccessToken = ApplicationResource.DefaultAccessToken;
             string errorMessage = string.Empty;
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            //for removing members
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.RemoveMemberUrl = ApplicationResource.ActionRemoveMember;
             service.UserAgentVersion = ApplicationResource.UserAgent;
+
+            //for removing shared folder members
+            IMemberServices service2 = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service2.RemoveSharedFolderMemberUrl = ApplicationResource.ActionSharingRemoveFolderMember;
+            service2.UserAgentVersion = ApplicationResource.UserAgent;
+
             try
-            {
+            {  
+                //now we can safely remove member
                 foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
                 {
+                    //if Remove Sharing is checked let's do this first before deprovisioning
+                    if (model.RemoveSharing)
+                    {
+                        //Get team member id's for each checked email to remove in objectlistview
+                        IList<TeamListViewItemModel> members = SearchOwners(model, presenter);
+                        string memberId = string.Empty;
+                        foreach (var memberitem in members)
+                        {
+                            if (!string.IsNullOrEmpty(memberitem.TeamId))
+                            {
+                                if (item.Email == memberitem.Email)
+                                {
+                                    memberId = memberitem.TeamId;
+                                }
+                            }
+                        }
+                        //Next get folder list for shared folder id's and owner id's
+                        List<Tuple<string, string>> sharedFolderInfo = GetSharedFolderOwnerInfo(memberId, model, presenter);
+                    
+                        foreach (var sharedItem in sharedFolderInfo)
+                        {
+                            //Last do a remove folder member for each collaborator we are going to remove member
+                            IServiceResponse response2 = service2.RemoveSharedFolderMember(sharedItem.Item1, sharedItem.Item2, item.Email, UserAccessToken);
+
+                            if (response2.StatusCode == HttpStatusCode.OK)
+                            {
+                                if (SyncContext != null)
+                                {
+                                    SyncContext.Post(delegate
+                                    {
+                                        presenter.UpdateProgressInfo(string.Format("Removed shared folder id: [" + sharedItem.Item2 + "] for [" + item.Email + "]"));
+                                    }, null);
+                                }
+                            }
+                            else
+                            {
+                                errorMessage = "Bad Request: " + response2.Message;
+                            }
+                        }
+                    }
                     IServiceResponse response = service.RemoveMember(new MemberData()
                     {
                         Email = item.Email,
-                        KeepAccount = model.KeepAccount
+                        KeepAccount = model.KeepAccount,
+                        ProvisionStatus = item.ProvisionStatus
                     }, model.AccessToken);
 
                     if (response.StatusCode == HttpStatusCode.OK)
@@ -296,13 +348,39 @@
                         {
                             SyncContext.Post(delegate
                             {
-                                presenter.UpdateProgressInfo(string.Format("Removed Member: {0}", item.Email));
+                                if (response.Message.Contains("complete"))
+                                {
+                                    item.ProvisionStatus = "Deprovisioned successfully.";
+                                    presenter.UpdateProgressInfo(string.Format("Removed Member: {0}", item.Email));
+                                }
+                                if (response.Message.Contains("user_not_found"))
+                                {
+                                    item.ProvisionStatus = "No matching user found. The provided team_member_id, email, or external_id does not exist on this team.";
+                                    presenter.UpdateProgressInfo("No matching user found.");
+                                }
+                                if (response.Message.Contains("user_not_in_team"))
+                                {
+                                    item.ProvisionStatus = "The user is not a member of the team.";
+                                    presenter.UpdateProgressInfo(" The user is not a member of the team.");
+                                }
+                                if (response.Message.Contains("remove_last_admin"))
+                                {
+                                    item.ProvisionStatus = "The user is the last admin of the team, so it cannot be removed from it.";
+                                    presenter.UpdateProgressInfo("The user is the last admin of the team, so it cannot be removed from it.");
+                                }
+                                if (response.Message.Contains("email_address_too_long_to_be_disabled"))
+                                {
+                                    item.ProvisionStatus = "The email address of the user is too long to be disabled.";
+                                    presenter.UpdateProgressInfo("The email address of the user is too long to be disabled.");
+                                }
+
                             }, null);
                         }
                     }
                     else
                     {
-                        errorMessage = "Bad Request: " + response.Message;
+                        item.ProvisionStatus = response.Message;
+                        presenter.UpdateProgressInfo(response.Message);
                     }
                 }
             }
@@ -410,6 +488,78 @@
             return errorMessage;
         }
 
+        private string RecoverMember(IProvisioningModel model, IMainPresenter presenter)
+        {
+            string errorMessage = string.Empty;
+            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.RecoverMemberUrl = ApplicationResource.ActionRecoverMember;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            try
+            {
+                foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
+                {
+                    IServiceResponse response = service.RecoverMember(new MemberData()
+                    {
+                        Email = item.Email,
+                        ProvisionStatus = item.ProvisionStatus
+                    }, model.AccessToken);
+
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        if (SyncContext != null)
+                        {
+                            SyncContext.Post(delegate
+                            {
+                                if (response.Message == "null")
+                                {
+                                    item.ProvisionStatus = "Recovered successfully.";
+                                    presenter.UpdateProgressInfo(string.Format("Recovered Member: {0}", item.Email));
+                                }
+                                if (response.Message.Contains("user_not_found"))
+                                {
+                                    item.ProvisionStatus = "No matching user found. The provided team_member_id, email, or external_id does not exist on this team.";
+                                    presenter.UpdateProgressInfo("No matching user found.");
+                                }
+                                if (response.Message.Contains("user_unrecoverable"))
+                                {
+                                    item.ProvisionStatus = "The user is not recoverable.";
+                                    presenter.UpdateProgressInfo("The user is not recoverable.");
+                                }
+                                if (response.Message.Contains("user_not_in_team"))
+                                {
+                                    item.ProvisionStatus = "The user is not a member of the team.";
+                                    presenter.UpdateProgressInfo("The user is not a member of the team.");
+                                }
+                                if (response.Message.Contains("team_license_limit"))
+                                {
+                                    item.ProvisionStatus = "The organization has no available licenses.";
+                                    presenter.UpdateProgressInfo("The organization has no available licenses.");
+                                }
+
+                            }, null);
+                        }
+                    }
+                    else
+                    {
+                        item.ProvisionStatus = response.Message;
+                        presenter.UpdateProgressInfo(response.Message);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // error message.
+                SyncContext.Post(delegate
+                {
+                    presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_RECOVER_MEMBER, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
+            }
+            return errorMessage;
+        }
+
         private string UpdateProfile(IProvisioningModel model, IMainPresenter presenter)
         {
             string errorMessage = string.Empty;
@@ -426,7 +576,7 @@
                         NewEmail = item.NewEmail,
                         NewExternalId = item.NewExternalId
                     }, model.AccessToken);
-
+                    
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         if (SyncContext != null)
@@ -437,14 +587,33 @@
                             }, null);
                         }
                     }
-                    else if ((response.Message).Contains("user_not_found"))
+                    if (response.StatusCode != HttpStatusCode.OK)
                     {
-                        errorMessage = ErrorMessages.USER_NOT_FOUND;
-                    }
-                    else if ((response.Message).Contains("user_not_in_team"))
-                    {
-                        errorMessage = ErrorMessages.USER_NOT_IN_TEAM;
-                    }
+                        if ((response.Message).Contains("user_not_found"))
+                        {
+                            errorMessage = ErrorMessages.USER_NOT_FOUND;
+                        }
+                        if ((response.Message).Contains("user_not_in_team"))
+                        {
+                            errorMessage = ErrorMessages.USER_NOT_IN_TEAM;
+                        }
+                        if ((response.Message).Contains("email_reserved_for_other_user"))
+                        {
+                            errorMessage = ErrorMessages.EMAIL_RESERVED;
+                        }
+                        if ((response.Message).Contains("set_profile_disallowed"))
+                        {
+                            errorMessage = ErrorMessages.SET_PROFILE_DISALLOWED;
+                        }
+                        if ((response.Message).Contains("external_id_used_by_other_user"))
+                        {
+                            errorMessage = ErrorMessages.EXTERNAL_ID_USED;
+                        }
+                        if ((response.Message).Contains("no_new_data_specified"))
+                        {
+                            errorMessage = ErrorMessages.NO_NEW_DATA_SPECIFIED;
+                        }
+                    } 
                     else
                     {
                         errorMessage = "Bad Request: " + response.Message;
@@ -771,6 +940,256 @@
             }
         }
 
+        public IList<TeamListViewItemModel> SearchOwners(IProvisioningModel model, IMainPresenter presenter)
+        {
+            IList<TeamListViewItemModel> members = new List<TeamListViewItemModel>();
+            if (!string.IsNullOrEmpty(model.AccessToken))
+            {
+                MemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+                service.ListMembersUrl = ApplicationResource.ActionListMembers;
+                service.UserAgentVersion = ApplicationResource.UserAgent;
+                IDataResponse response = service.ListMembers(new MemberData()
+                {
+                    SearchLimit = ApplicationResource.SearchDefaultLimit
+                }, model.AccessToken);
+
+                if (SyncContext != null)
+                {
+                    SyncContext.Post(delegate {
+                        presenter.UpdateProgressInfo("Searching users...");
+                    }, null);
+                }
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (response.Data != null)
+                    {
+                        string data = response.Data.ToString();
+                        dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+                        int resultCount = jsonData["members"].Count;
+                        int total = 0;
+                        for (int i = 0; i < resultCount; i++)
+                        {
+                            dynamic profile = jsonData["members"][i]["profile"];
+                            dynamic idObj = profile["team_member_id"];
+                            dynamic emailObj = profile["email"];
+                            dynamic status = profile["status"];
+                            if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended")))
+                            {
+                                string teamId = idObj.Value as string;
+                                string email = emailObj.Value as string;
+                                // update model
+                                TeamListViewItemModel lvItem = new TeamListViewItemModel()
+                                {
+                                    Email = email,
+                                    TeamId = teamId
+                                };
+                                members.Add(lvItem);
+                            }
+                            if (SyncContext != null)
+                            {
+                                SyncContext.Post(delegate {
+                                    presenter.UpdateProgressInfo("Scanning Account(s): " + (++total));
+                                }, null);
+                            }
+                            Thread.Sleep(1);
+                        }
+                        // collect more.
+                        bool hasMore = jsonData["has_more"];
+                        string cursor = jsonData["cursor"];
+
+                        while (hasMore)
+                        {
+                            service.ListMembersContinuationUrl = ApplicationResource.ActionListMembersContinuation;
+                            service.UserAgentVersion = ApplicationResource.UserAgent;
+                            IDataResponse responseCont = service.ListMembersContinuation(new MemberData()
+                            {
+                                Cursor = cursor
+                            }, model.AccessToken);
+
+                            string dataCont = responseCont.Data.ToString();
+                            dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
+
+                            int resultContCount = jsonDataCont["members"].Count;
+                            for (int i = 0; i < resultContCount; i++)
+                            {
+                                dynamic profile = jsonDataCont["members"][i]["profile"];
+                                dynamic idObj = profile["team_member_id"];
+                                dynamic emailObj = profile["email"];
+                                dynamic status = profile["status"];
+
+                                string teamId = idObj.Value as string;
+                                string email = emailObj.Value as string;
+
+                                if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended")))
+                                {
+                                    // update model
+                                    TeamListViewItemModel lvItem = new TeamListViewItemModel()
+                                    {
+                                        Email = email,
+                                        TeamId = teamId
+                                    };
+                                    members.Add(lvItem);
+                                }
+                                if (SyncContext != null)
+                                {
+                                    SyncContext.Post(delegate {
+                                        presenter.UpdateProgressInfo("Scanning Account(s): " + (++total));
+                                    }, null);
+                                }
+                                Thread.Sleep(1);
+                            }
+                            hasMore = jsonDataCont["has_more"];
+                            cursor = jsonDataCont["cursor"];
+                        }
+                    }
+                }
+            }
+            return members;
+        }
+
+        private List<Tuple<string, string>> GetSharedFolders(string memberId, IProvisioningModel model, IMainPresenter presenter)
+        {
+            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.ListSharedFoldersUrl = ApplicationResource.ActionSharingListFolders;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            var sharedFolders = new List<Tuple<string, string>>();
+
+            IDataResponse response = service.ListSharedFolders(new MemberData()
+            {
+                MemberId = memberId
+            }, ApplicationResource.DefaultAccessToken);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                if (response.Data != null)
+                {
+                    string data = response.Data.ToString();
+                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+
+                    int resultCount = jsonData["entries"].Count;
+                    for (int i = 0; i < resultCount; i++)
+                    {
+                        dynamic entries = jsonData["entries"][i];
+                        dynamic sharedFolderId = Convert.ToString(entries["shared_folder_id"]);
+                        dynamic sharedFolderName = Convert.ToString(entries["name"]);
+                        dynamic isTeamFolder = Convert.ToBoolean(entries["is_team_folder"]);
+
+                        var tuple = Tuple.Create(sharedFolderId, sharedFolderName);
+                        if (!sharedFolders.Contains(tuple) && !isTeamFolder)
+                        {
+                            sharedFolders.Add(tuple);
+                        }
+                    }
+                    //if the group count is above limit - default 1000 we need to grab the cursor and call continue
+                    string cursor = jsonData["cursor"];
+                    while (!string.IsNullOrEmpty(cursor))
+                    {
+                        service.ListSharedFoldersUrl = ApplicationResource.ActionSharingListFoldersContinuation;
+                        IDataResponse responseCont = service.ListSharedFolders(new MemberData()
+                        {
+                            MemberId = memberId,
+                            Cursor = cursor
+                        }, model.AccessToken);
+
+                        string dataCont = responseCont.Data.ToString();
+                        dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
+
+                        int resultContCount = jsonDataCont["entries"].Count;
+                        for (int i = 0; i < resultContCount; i++)
+                        {
+                            dynamic entries = jsonDataCont["entries"][i];
+                            dynamic sharedFolderId = Convert.ToString(entries["shared_folder_id"]);
+                            dynamic sharedFolderName = Convert.ToString(entries["name"]);
+
+                            var tuple = Tuple.Create(sharedFolderId, sharedFolderName);
+                            if (!sharedFolders.Contains(tuple))
+                            {
+                                sharedFolders.Add(tuple);
+                            }
+                        }
+                        cursor = jsonDataCont["cursor"];
+                    }
+                }
+            }
+            return sharedFolders;
+        }
+
+        private List<Tuple<string, string>> GetSharedFolderOwnerInfo(string memberId, IProvisioningModel model, IMainPresenter presenter)
+        {
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.ExportGroupPermsUrl = ApplicationResource.ActionSharingListFolderMembers;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            var sharedFolderInfo = new List<Tuple<string, string>>();
+
+            List<Tuple<string, string>> sharedFolders = this.GetSharedFolders(memberId, model, presenter);
+            foreach (var item in sharedFolders)
+            {
+                IDataResponse response = service.ExportGroupPerms(new MemberData()
+                {
+                    MemberId = memberId
+                }, item.Item1, ApplicationResource.DefaultAccessToken);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (response.Data != null)
+                    {
+                        string data = response.Data.ToString();
+                        dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+                        int resultCount = jsonData["users"].Count;
+                        for (int i = 0; i < resultCount; i++)
+                        {
+                            dynamic users = jsonData["users"][i];
+                            dynamic type = Convert.ToString(users["access_type"][".tag"]);
+                            dynamic id = Convert.ToString(users["user"]["team_member_id"]);
+                            dynamic sharedFolderId = item.Item1;
+
+                            //we only need owner id
+                            if (type == "owner")
+                            {
+                                // update list
+                                var tuple = Tuple.Create(id, sharedFolderId);
+                                sharedFolderInfo.Add(tuple);
+                            }
+                        }
+                        //if the group count is above limit - default 1000 we need to grab the cursor and call continue
+                        string cursor = jsonData["cursor"];
+
+                        while (!string.IsNullOrEmpty(cursor))
+                        {
+                            
+                            service.ExportGroupPermsUrl = ApplicationResource.ActionSharingListFolderMembersContinuation;
+                            IDataResponse responseCont = service.ExportGroupPerms(new MemberData()
+                            {
+                                MemberId = memberId,
+                                Cursor = cursor
+                            }, item.Item1, model.AccessToken);
+
+                            string dataCont = responseCont.Data.ToString();
+                            dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
+                            int resultCountCont = jsonDataCont["users"].Count;
+                            for (int i = 0; i < resultCountCont; i++)
+                            {
+                                dynamic users = jsonDataCont["users"][i];
+                                dynamic type = Convert.ToString(users["access_type"][".tag"]);
+                                dynamic id = Convert.ToString(users["user"]["team_member_id"]);
+                                dynamic sharedFolderId = item.Item1;
+
+                                //we only need owner id
+                                if (type == "owner")
+                                {
+                                    // update list
+                                    var tuple = Tuple.Create(id, sharedFolderId);
+                                    sharedFolderInfo.Add(tuple);
+                                }
+                            }
+                            cursor = jsonDataCont["cursor"];
+                        }
+                    }
+                }
+            }
+            return sharedFolderInfo;
+        }
+
         #endregion REST Service
 
         #region Events
@@ -889,7 +1308,7 @@
                             }
                             else
                             {
-                                presenter.UpdateProgressInfo("Provisioning completed");
+                                presenter.UpdateProgressInfo("Provisioning completed.");
                                 view.RenderProvisioningStatus(model.Members);
                                 presenter.UpdateTitleBarStats();
                             }
@@ -943,7 +1362,8 @@
                             }
                             else
                             {
-                                presenter.UpdateProgressInfo("Deprovisioning completed");
+                                presenter.UpdateProgressInfo("Deprovisioning completed.");
+                                view.RenderProvisioningStatus(model.Members);
                                 presenter.UpdateTitleBarStats();
                             }
                             // update result and update view.
@@ -1100,7 +1520,7 @@
                             }
                             else
                             {
-                                presenter.UpdateProgressInfo("Updating members profiles completed");
+                                presenter.UpdateProgressInfo("Updating members profiles completed.");
                             }
                             // update result and update view.
                             presenter.ActivateSpinner(false);
@@ -1110,6 +1530,60 @@
                 }
             });
             unsuspend.Start();
+        }
+
+        private void OnCommandRecover(object sender, System.EventArgs e)
+        {
+            IProvisioningView view = base._view as IProvisioningView;
+            IProvisioningModel model = base._model as IProvisioningModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate
+                {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Processing...");
+                }, null);
+            }
+            Thread recover = new Thread(() =>
+            {
+                if (string.IsNullOrEmpty(model.AccessToken))
+                {
+                    SyncContext.Post(delegate
+                    {
+                        presenter.EnableControl(true);
+                        presenter.ActivateSpinner(false);
+                        presenter.UpdateProgressInfo("");
+                    }, null);
+                }
+                else
+                {
+                    string error = RecoverMember(model, presenter);
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate
+                        {
+                            if (!string.IsNullOrEmpty(error))
+                            {
+                                presenter.ShowErrorMessage(error, ErrorMessages.DLG_DEFAULT_TITLE);
+                                presenter.UpdateProgressInfo("");
+                            }
+                            else
+                            {
+                                presenter.UpdateProgressInfo("Recovering members completed.");
+                                view.RenderProvisioningStatus(model.Members);
+                                presenter.UpdateTitleBarStats();
+                            }
+                            // update result and update view.
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                        }, null);
+                    }
+                }
+            });
+            recover.Start();
         }
 
         private void OnCommandListMembersCreateCSV(object sender, EventArgs e)

@@ -15,6 +15,8 @@
 
         bool KeepAccount { get; set; }
 
+        bool RemoveSharing { get; set; }
+
         string NewEmail { get; set; }
 
         string NewExternalId { get; set; }

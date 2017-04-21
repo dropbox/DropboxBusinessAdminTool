@@ -22,6 +22,9 @@
         : PresenterBase, IDataMigrationPresenter
     {
         private static readonly object insertLock = new object();
+        //remove when done debugging
+        public int exceptionCount;
+        public int retryCount;
 
         public DataMigrationPresenter()
             : this(new DataMigrationModel(), new DataMigrationView())
@@ -43,7 +46,8 @@
 
         protected override void WireViewEvents()
         {
-            if (!IsViewEventsWired) {
+            if (!IsViewEventsWired)
+            {
                 IDataMigrationView view = base._view as IDataMigrationView;
                 view.DataChanged += OnDataChanged;
                 view.CommandDisplayContent += OnCommandDisplayContent;
@@ -79,116 +83,32 @@
             IMainPresenter presenter)
         {
             bool SuppressStatus = ApplicationResource.SuppressFilenamesInStatus;
+            bool complete = false;
+            //remove when done debugging
+            exceptionCount = 0;
             try
             {
-                service.ListFolderUrl = ApplicationResource.ActionListFolder;
-                service.UserAgentVersion = ApplicationResource.UserAgent;
-                IDataResponse response = service.ListFolders(
-                   new MemberData() {
-                       MemberId = owner.TeamId
-                   }, model.AccessToken);
-                if (response.StatusCode == HttpStatusCode.OK)
+                while (!complete)
                 {
-                    if (response.Data != null)
+                    service.ListFolderUrl = ApplicationResource.ActionListFolder;
+                    service.UserAgentVersion = ApplicationResource.UserAgent;
+                    IDataResponse response = service.ListFolders(
+                       new MemberData()
+                       {
+                           MemberId = owner.TeamId
+                       }, model.AccessToken);
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        string content = response.Data as string;
-                        dynamic jsonDataSearch = JsonConvert.DeserializeObject<dynamic>(content);
-                        IDictionary<string, long> folderMap = new Dictionary<string, long>();
-                        int entryCount = jsonDataSearch["entries"].Count;
-                        int foundTotal = 0;
-                        for (int i = 0; i < entryCount; i++)
+                        if (response.Data != null)
                         {
-                            dynamic entry = jsonDataSearch["entries"][i];
-                            string type = entry[".tag"].ToString();
-                            ContentDisplayListViewItemModel lvItem = null;
-                            if (type.Equals("folder"))
+                            string content = response.Data as string;
+                            dynamic jsonDataSearch = JsonConvert.DeserializeObject<dynamic>(content);
+                            IDictionary<string, long> folderMap = new Dictionary<string, long>();
+                            int entryCount = jsonDataSearch["entries"].Count;
+                            int foundTotal = 0;
+                            for (int i = 0; i < entryCount; i++)
                             {
-                                lvItem = new ContentDisplayListViewItemModel()
-                                {
-                                    ItemType = type,
-                                    Email = owner.Email,
-                                    MemberId = owner.TeamId,
-                                    FirstName = owner.FirstName,
-                                    LastName = owner.LastName,
-                                    ItemName = entry["name"].ToString(),
-                                    ItemPath = entry["path_lower"].ToString(),
-                                    ItemPathDisplay = entry["path_display"].ToString(),
-                                    ItemSizeByte = 0
-                                };
-                            }
-                            else
-                            {
-                                string serverModified = entry["server_modified"].ToString();
-                                string serverModifiedDate = string.Empty;
-                                if (!string.IsNullOrEmpty(serverModified))
-                                {
-                                    DateTime lastModified = DateTime.SpecifyKind(
-                                        DateTime.Parse(serverModified),
-                                        DateTimeKind.Utc
-                                    );
-                                    serverModifiedDate = lastModified.ToString("dd MMM yyyy");
-                                }
-                                string fileSizeStr = jsonDataSearch["entries"][i]["size"].ToString();
-                                long fileSize = 0;
-                                long.TryParse(fileSizeStr, out fileSize);
-                                lvItem = new ContentDisplayListViewItemModel()
-                                {
-                                    ItemType = type,
-                                    Email = owner.Email,
-                                    MemberId = owner.TeamId,
-                                    FirstName = owner.FirstName,
-                                    LastName = owner.LastName,
-                                    ItemName = entry["name"].ToString(),
-                                    ItemPath = entry["path_lower"].ToString(),
-                                    ItemPathDisplay = entry["path_display"].ToString(),
-                                    ItemSize = FileUtil.FormatFileSize(fileSize),
-                                    ItemSizeByte = fileSize,
-                                    LastModified = serverModifiedDate,
-                                    Uploaded = serverModifiedDate,
-                                    Created = serverModifiedDate
-                                };
-                            }
-                            lock (insertLock)
-                            {
-                                model.Contents.Add(lvItem);
-                            }
-                            if (SyncContext != null)
-                            {
-                                SyncContext.Post(delegate
-                                {
-                                    if (!SuppressStatus)
-                                    {
-                                        presenter.UpdateProgressInfo(string.Format("Owner: [{0}] Item: [{1}] {2}/{3}", lvItem.Email, lvItem.ItemName, (++foundTotal), entryCount));
-                                    }
-                                    else
-                                    {
-                                        presenter.UpdateProgressInfo(string.Format("Owner: [{0}] Item: [{1}] {2}/{3}", lvItem.Email, "Suppressing filename status", (++foundTotal), entryCount));
-                                    }
-                                    
-                                }, null);
-                            }
-                        }
-                        bool hasMore = jsonDataSearch["has_more"];
-                        string cursor = jsonDataSearch["cursor"];
-
-                        while (hasMore)
-                        {
-                            service.ListFolderUrl = ApplicationResource.ActionListFolderContinuation;
-                            IDataResponse responseCont = service.ListFolders(
-                            new MemberData()
-                            {
-                                MemberId = owner.TeamId,
-                                Cursor = cursor
-                            }, model.AccessToken);
-
-                            string contentCont = responseCont.Data as string;
-                            dynamic jsonDataSearchCont = JsonConvert.DeserializeObject<dynamic>(contentCont);
-                            IDictionary<string, long> folderMapCont = new Dictionary<string, long>();
-                            int entryCountCont = jsonDataSearchCont["entries"].Count;
-                            int foundTotalCont = 0;
-                            for (int i = 0; i < entryCountCont; i++)
-                            {
-                                dynamic entry = jsonDataSearchCont["entries"][i];
+                                dynamic entry = jsonDataSearch["entries"][i];
                                 string type = entry[".tag"].ToString();
                                 ContentDisplayListViewItemModel lvItem = null;
                                 if (type.Equals("folder"))
@@ -218,7 +138,7 @@
                                         );
                                         serverModifiedDate = lastModified.ToString("dd MMM yyyy");
                                     }
-                                    string fileSizeStr = jsonDataSearchCont["entries"][i]["size"].ToString();
+                                    string fileSizeStr = jsonDataSearch["entries"][i]["size"].ToString();
                                     long fileSize = 0;
                                     long.TryParse(fileSizeStr, out fileSize);
                                     lvItem = new ContentDisplayListViewItemModel()
@@ -248,24 +168,137 @@
                                     {
                                         if (!SuppressStatus)
                                         {
-                                            presenter.UpdateProgressInfo(string.Format("Owner: [{0}] Item: [{1}] {2}/{3}", lvItem.Email, lvItem.ItemName, (++foundTotalCont), entryCountCont));
+                                            presenter.UpdateProgressInfo(string.Format("Owner: [{0}] Item: [{1}] {2}/{3}", lvItem.Email, lvItem.ItemName, (++foundTotal), entryCount));
                                         }
                                         else
                                         {
-                                            presenter.UpdateProgressInfo(string.Format("Owner: [{0}] Item: [{1}] {2}/{3}", lvItem.Email, "Suppressing filename status", (++foundTotalCont), entryCountCont));
+                                            presenter.UpdateProgressInfo(string.Format("Owner: [{0}] Item: [{1}] {2}/{3}", lvItem.Email, "Suppressing filename status", (++foundTotal), entryCount));
                                         }
-                                        
+
                                     }, null);
                                 }
                             }
-                            hasMore = jsonDataSearchCont["has_more"];
-                            cursor = jsonDataSearchCont["cursor"];     
+                            bool hasMore = jsonDataSearch["has_more"];
+                            string cursor = jsonDataSearch["cursor"];
+
+                            while (hasMore)
+                            {
+                                service.ListFolderUrl = ApplicationResource.ActionListFolderContinuation;
+                                IDataResponse responseCont = service.ListFolders(
+                                new MemberData()
+                                {
+                                    MemberId = owner.TeamId,
+                                    Cursor = cursor
+                                }, model.AccessToken);
+
+                                string contentCont = responseCont.Data as string;
+                                dynamic jsonDataSearchCont = JsonConvert.DeserializeObject<dynamic>(contentCont);
+                                IDictionary<string, long> folderMapCont = new Dictionary<string, long>();
+                                int entryCountCont = jsonDataSearchCont["entries"].Count;
+                                int foundTotalCont = 0;
+                                for (int i = 0; i < entryCountCont; i++)
+                                {
+                                    dynamic entry = jsonDataSearchCont["entries"][i];
+                                    string type = entry[".tag"].ToString();
+                                    ContentDisplayListViewItemModel lvItem = null;
+                                    if (type.Equals("folder"))
+                                    {
+                                        lvItem = new ContentDisplayListViewItemModel()
+                                        {
+                                            ItemType = type,
+                                            Email = owner.Email,
+                                            MemberId = owner.TeamId,
+                                            FirstName = owner.FirstName,
+                                            LastName = owner.LastName,
+                                            ItemName = entry["name"].ToString(),
+                                            ItemPath = entry["path_lower"].ToString(),
+                                            ItemPathDisplay = entry["path_display"].ToString(),
+                                            ItemSizeByte = 0
+                                        };
+                                    }
+                                    else
+                                    {
+                                        string serverModified = entry["server_modified"].ToString();
+                                        string serverModifiedDate = string.Empty;
+                                        if (!string.IsNullOrEmpty(serverModified))
+                                        {
+                                            DateTime lastModified = DateTime.SpecifyKind(
+                                                DateTime.Parse(serverModified),
+                                                DateTimeKind.Utc
+                                            );
+                                            serverModifiedDate = lastModified.ToString("dd MMM yyyy");
+                                        }
+                                        string fileSizeStr = jsonDataSearchCont["entries"][i]["size"].ToString();
+                                        long fileSize = 0;
+                                        long.TryParse(fileSizeStr, out fileSize);
+                                        lvItem = new ContentDisplayListViewItemModel()
+                                        {
+                                            ItemType = type,
+                                            Email = owner.Email,
+                                            MemberId = owner.TeamId,
+                                            FirstName = owner.FirstName,
+                                            LastName = owner.LastName,
+                                            ItemName = entry["name"].ToString(),
+                                            ItemPath = entry["path_lower"].ToString(),
+                                            ItemPathDisplay = entry["path_display"].ToString(),
+                                            ItemSize = FileUtil.FormatFileSize(fileSize),
+                                            ItemSizeByte = fileSize,
+                                            LastModified = serverModifiedDate,
+                                            Uploaded = serverModifiedDate,
+                                            Created = serverModifiedDate
+                                        };
+                                    }
+                                    lock (insertLock)
+                                    {
+                                        model.Contents.Add(lvItem);
+                                    }
+                                    if (SyncContext != null)
+                                    {
+                                        SyncContext.Post(delegate
+                                        {
+                                            if (!SuppressStatus)
+                                            {
+                                                presenter.UpdateProgressInfo(string.Format("Owner: [{0}] Item: [{1}] {2}/{3}", lvItem.Email, lvItem.ItemName, (++foundTotalCont), entryCountCont));
+                                            }
+                                            else
+                                            {
+                                                presenter.UpdateProgressInfo(string.Format("Owner: [{0}] Item: [{1}] {2}/{3}", lvItem.Email, "Suppressing filename status", (++foundTotalCont), entryCountCont));
+                                            }
+
+                                        }, null);
+                                    }
+                                }
+                                hasMore = jsonDataSearchCont["has_more"];
+                                cursor = jsonDataSearchCont["cursor"];
+                            }
+                        }
+                        complete = true;
+                    }
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        //error from API
+                        if (response.Data != null)
+                        {
+                            string data = response.Data.ToString();
+                            dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+                            if (data == "")
+                            {
+                                complete = false;
+                                retryCount++;
+                            }
+                        }
+                        else
+                        {
+                            //response.Data is null so let's retry
+                            complete = false;
+                            retryCount++;
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
+                exceptionCount++;
                 Console.WriteLine(ex.Message);
             }
         }
@@ -278,12 +311,15 @@
                 MemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
                 service.ListMembersUrl = ApplicationResource.ActionListMembers;
                 service.UserAgentVersion = ApplicationResource.UserAgent;
-                IDataResponse response = service.ListMembers(new MemberData() {
+                IDataResponse response = service.ListMembers(new MemberData()
+                {
                     SearchLimit = ApplicationResource.SearchDefaultLimit
                 }, model.AccessToken);
 
-                if (SyncContext != null) {
-                    SyncContext.Post(delegate {
+                if (SyncContext != null)
+                {
+                    SyncContext.Post(delegate 
+                    {
                         presenter.UpdateProgressInfo("Searching Owners...");
                     }, null);
                 }
@@ -311,7 +347,8 @@
                                 string surName = name["surname"].ToString();
 
                                 // update model
-                                TeamListViewItemModel lvItem = new TeamListViewItemModel() {
+                                TeamListViewItemModel lvItem = new TeamListViewItemModel()
+                                {
                                     Email = email,
                                     TeamId = teamId,
                                     FirstName = firstName,
@@ -319,14 +356,12 @@
                                 };
                                 members.Add(lvItem);
                             }
-
                             if (SyncContext != null) {
                                 SyncContext.Post(delegate {
                                     presenter.UpdateProgressInfo("Scanning Account(s): " + (++total));
                                 }, null);
                             }
                         }
-
                         // collect more.
                         bool hasMore = jsonData["has_more"];
                         string cursor = jsonData["cursor"];
@@ -358,7 +393,8 @@
                                 if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended") || status[".tag"].ToString().Equals("invited")))
                                 {
                                     // update model
-                                    TeamListViewItemModel lvItem = new TeamListViewItemModel() {
+                                    TeamListViewItemModel lvItem = new TeamListViewItemModel()
+                                    {
                                         Email = email,
                                         TeamId = teamId,
                                         FirstName = firstName,
@@ -368,7 +404,8 @@
                                 }
                                 if (SyncContext != null)
                                 {
-                                    SyncContext.Post(delegate {
+                                    SyncContext.Post(delegate 
+                                    {
                                         presenter.UpdateProgressInfo("Scanning Account(s): " + (++total));
                                     }, null);
                                 }
@@ -454,7 +491,6 @@
                                 }
                             }
                         }
-
                         if (SyncContext != null)
                         {
                             SyncContext.Post(delegate {
@@ -714,19 +750,22 @@
                         // search all owners first.
                         IList<TeamListViewItemModel> owners = SearchOwner(model, presenter);
                         model.Contents.Clear(); // clear existing contents
-                        Parallel.ForEach(owners, (owner) => {
-                            if (SyncContext != null) {
-                                SyncContext.Post(delegate {
+                        Parallel.ForEach(owners, (owner) => 
+                        {
+                            if (SyncContext != null)
+                            {
+                                SyncContext.Post(delegate 
+                                {
                                     presenter.UpdateProgressInfo(string.Format("Retrieving Owner's Content: {0}", owner.Email));
                                 }, null);
                             }
                             SearchItems(service, owner, model, presenter);
                         });
-
                         // compute folder size.
                         if (SyncContext != null)
                         {
-                            SyncContext.Post(delegate {
+                            SyncContext.Post(delegate 
+                            {
                                 presenter.UpdateProgressInfo(string.Format("Sorting Data..."));
                             }, null);
                         }
@@ -758,7 +797,6 @@
                             }
                         }
                     }
-
                     if (SyncContext != null)
                     {
                         TimeSpan diff = util.Stop();
@@ -771,7 +809,7 @@
                             view.RenderContentSearchResult();
                             view.EnableExportControl(true);
                             presenter.UpdateProgressInfo(
-                                string.Format("Completed. Total Content(s) Count: {0} Elapsed Time: {1}", model.Contents.Count, TimerUtils.ToTimeStamp(diff))
+                                string.Format("Completed. Total Content Count: {0} Elapsed Time: {1} Exception Count: {2} Retry Count : {3}", model.Contents.Count, TimerUtils.ToTimeStamp(diff), exceptionCount, retryCount)
                             );
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);

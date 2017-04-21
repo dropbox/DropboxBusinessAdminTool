@@ -31,7 +31,7 @@
         }
 
         public static string ToTimeStamp(TimeSpan span) {
-            return span.ToString("c");
+            return span.ToString("g");
         }
     }
 }

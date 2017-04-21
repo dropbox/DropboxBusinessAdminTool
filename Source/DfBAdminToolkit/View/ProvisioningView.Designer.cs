@@ -46,6 +46,7 @@
             this.buttonEx_ProvisioningFileInputSelect = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.tableLayoutPanel_ProvisioningSendEmailGroup = new System.Windows.Forms.TableLayoutPanel();
             this.checkBoxProvisioningKeepAccount = new System.Windows.Forms.CheckBox();
+            this.checkBoxProvisioningRemoveSharing = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.buttonEx_OpenTemplates = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.buttonEx_ProvisioningLoadCSV = new DfBAdminToolkit.Common.Component.ButtonEx();
@@ -61,6 +62,7 @@
             this.olvColumnProvisioning_NewExternalId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_Status = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.radioBulkRecover = new System.Windows.Forms.RadioButton();
             this.radioBulkProvisioning = new System.Windows.Forms.RadioButton();
             this.radioBulkOffboard = new System.Windows.Forms.RadioButton();
             this.radioViewStatistics = new System.Windows.Forms.RadioButton();
@@ -68,6 +70,7 @@
             this.radioBulkDelete = new System.Windows.Forms.RadioButton();
             this.radioBulkSuspend = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonEx_ProvisioningRecoverUsers = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.buttonEx_ProvisioningDeprovision = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.buttonEx_ProvisioningProvision = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.buttonEx_ProvisioningSuspend = new DfBAdminToolkit.Common.Component.ButtonEx();
@@ -103,7 +106,7 @@
             this.tableLayoutPanel_Provisioning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 34.84848F));
             this.tableLayoutPanel_Provisioning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 65.15151F));
             this.tableLayoutPanel_Provisioning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            this.tableLayoutPanel_Provisioning.Size = new System.Drawing.Size(713, 470);
+            this.tableLayoutPanel_Provisioning.Size = new System.Drawing.Size(882, 470);
             this.tableLayoutPanel_Provisioning.TabIndex = 1;
             // 
             // tableLayoutPanel_ProvisioningCommandGroup
@@ -270,9 +273,10 @@
             // 
             this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnCount = 3;
             this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.58282F));
-            this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.43558F));
-            this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.28834F));
+            this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.50307F));
+            this.tableLayoutPanel_ProvisioningSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.22086F));
             this.tableLayoutPanel_ProvisioningSendEmailGroup.Controls.Add(this.checkBoxProvisioningKeepAccount, 0, 0);
+            this.tableLayoutPanel_ProvisioningSendEmailGroup.Controls.Add(this.checkBoxProvisioningRemoveSharing, 1, 0);
             this.tableLayoutPanel_ProvisioningSendEmailGroup.Location = new System.Drawing.Point(374, 39);
             this.tableLayoutPanel_ProvisioningSendEmailGroup.Name = "tableLayoutPanel_ProvisioningSendEmailGroup";
             this.tableLayoutPanel_ProvisioningSendEmailGroup.RowCount = 2;
@@ -293,6 +297,20 @@
             this.checkBoxProvisioningKeepAccount.Text = "Keep Account";
             this.checkBoxProvisioningKeepAccount.UseVisualStyleBackColor = true;
             this.checkBoxProvisioningKeepAccount.Visible = false;
+            // 
+            // checkBoxProvisioningRemoveSharing
+            // 
+            this.checkBoxProvisioningRemoveSharing.AutoSize = true;
+            this.checkBoxProvisioningRemoveSharing.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkBoxProvisioningRemoveSharing.Enabled = false;
+            this.checkBoxProvisioningRemoveSharing.Location = new System.Drawing.Point(118, 3);
+            this.checkBoxProvisioningRemoveSharing.Name = "checkBoxProvisioningRemoveSharing";
+            this.checkBoxProvisioningRemoveSharing.Size = new System.Drawing.Size(112, 22);
+            this.checkBoxProvisioningRemoveSharing.TabIndex = 6;
+            this.checkBoxProvisioningRemoveSharing.Text = "Remove Sharing";
+            this.checkBoxProvisioningRemoveSharing.UseVisualStyleBackColor = true;
+            this.checkBoxProvisioningRemoveSharing.Visible = false;
+            this.checkBoxProvisioningRemoveSharing.CheckedChanged += new System.EventHandler(this.CheckBox_ProvisioningRemoveSharing_CheckedChanged);
             // 
             // tableLayoutPanel2
             // 
@@ -384,7 +402,7 @@
             this.objectListView_ProvisioningMembers.Location = new System.Drawing.Point(3, 171);
             this.objectListView_ProvisioningMembers.Name = "objectListView_ProvisioningMembers";
             this.objectListView_ProvisioningMembers.ShowGroups = false;
-            this.objectListView_ProvisioningMembers.Size = new System.Drawing.Size(707, 252);
+            this.objectListView_ProvisioningMembers.Size = new System.Drawing.Size(876, 252);
             this.objectListView_ProvisioningMembers.TabIndex = 1;
             this.objectListView_ProvisioningMembers.UseCompatibleStateImageBehavior = false;
             this.objectListView_ProvisioningMembers.UseNotifyPropertyChanged = true;
@@ -459,25 +477,41 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 6;
+            this.tableLayoutPanel1.ColumnCount = 7;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.radioBulkRecover, 5, 0);
             this.tableLayoutPanel1.Controls.Add(this.radioBulkProvisioning, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.radioBulkOffboard, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.radioViewStatistics, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBox_ProvisioningAccessToken, 5, 0);
+            this.tableLayoutPanel1.Controls.Add(this.textBox_ProvisioningAccessToken, 6, 0);
             this.tableLayoutPanel1.Controls.Add(this.radioBulkDelete, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.radioBulkSuspend, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(707, 23);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(764, 23);
             this.tableLayoutPanel1.TabIndex = 4;
+            // 
+            // radioBulkRecover
+            // 
+            this.radioBulkRecover.AutoSize = true;
+            this.radioBulkRecover.ForeColor = System.Drawing.Color.Black;
+            this.radioBulkRecover.Location = new System.Drawing.Point(644, 3);
+            this.radioBulkRecover.Name = "radioBulkRecover";
+            this.radioBulkRecover.Size = new System.Drawing.Size(96, 17);
+            this.radioBulkRecover.TabIndex = 5;
+            this.radioBulkRecover.TabStop = true;
+            this.radioBulkRecover.Text = "Recover Users";
+            this.radioBulkRecover.UseVisualStyleBackColor = true;
+            this.radioBulkRecover.CheckedChanged += new System.EventHandler(this.radioBulkRecover_CheckedChanged);
             // 
             // radioBulkProvisioning
             // 
@@ -518,7 +552,7 @@
             // textBox_ProvisioningAccessToken
             // 
             this.textBox_ProvisioningAccessToken.FileFilter = null;
-            this.textBox_ProvisioningAccessToken.Location = new System.Drawing.Point(644, 3);
+            this.textBox_ProvisioningAccessToken.Location = new System.Drawing.Point(746, 3);
             this.textBox_ProvisioningAccessToken.Name = "textBox_ProvisioningAccessToken";
             this.textBox_ProvisioningAccessToken.Size = new System.Drawing.Size(10, 22);
             this.textBox_ProvisioningAccessToken.TabIndex = 1;
@@ -551,7 +585,7 @@
             // 
             // tableLayoutPanel_ProvisioningProvisionCommandGroup
             // 
-            this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnCount = 10;
+            this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnCount = 11;
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -562,6 +596,8 @@
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel_ProvisioningProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel_ProvisioningProvisionCommandGroup.Controls.Add(this.buttonEx_ProvisioningRecoverUsers, 10, 0);
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.Controls.Add(this.buttonEx_ProvisioningDeprovision, 2, 0);
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.Controls.Add(this.buttonEx_ProvisioningProvision, 0, 0);
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.Controls.Add(this.buttonEx_ProvisioningSuspend, 5, 0);
@@ -574,8 +610,19 @@
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.Name = "tableLayoutPanel_ProvisioningProvisionCommandGroup";
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.RowCount = 1;
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_ProvisioningProvisionCommandGroup.Size = new System.Drawing.Size(707, 39);
+            this.tableLayoutPanel_ProvisioningProvisionCommandGroup.Size = new System.Drawing.Size(790, 39);
             this.tableLayoutPanel_ProvisioningProvisionCommandGroup.TabIndex = 3;
+            // 
+            // buttonEx_ProvisioningRecoverUsers
+            // 
+            this.buttonEx_ProvisioningRecoverUsers.ColorTable = office2010White1;
+            this.buttonEx_ProvisioningRecoverUsers.Location = new System.Drawing.Point(713, 3);
+            this.buttonEx_ProvisioningRecoverUsers.Name = "buttonEx_ProvisioningRecoverUsers";
+            this.buttonEx_ProvisioningRecoverUsers.Size = new System.Drawing.Size(70, 30);
+            this.buttonEx_ProvisioningRecoverUsers.TabIndex = 9;
+            this.buttonEx_ProvisioningRecoverUsers.Text = "Recover";
+            this.buttonEx_ProvisioningRecoverUsers.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
+            this.buttonEx_ProvisioningRecoverUsers.UseVisualStyleBackColor = true;
             // 
             // buttonEx_ProvisioningDeprovision
             // 
@@ -662,7 +709,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(713, 470);
+            this.ClientSize = new System.Drawing.Size(882, 470);
             this.Controls.Add(this.tableLayoutPanel_Provisioning);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ProvisioningView";
@@ -728,5 +775,8 @@
         private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_Status;
         private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_JoinedOn;
         private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_UserStatus;
+        private System.Windows.Forms.CheckBox checkBoxProvisioningRemoveSharing;
+        private System.Windows.Forms.RadioButton radioBulkRecover;
+        private ButtonEx buttonEx_ProvisioningRecoverUsers;
     }
 }

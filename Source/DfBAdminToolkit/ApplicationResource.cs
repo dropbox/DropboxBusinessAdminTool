@@ -64,6 +64,11 @@
             get { return ConfigurationManager.AppSettings.Get("ActionSharingListFolderMembers"); }
         }
 
+        public static string ActionSharingRemoveFolderMember
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionSharingRemoveFolderMember"); }
+        }
+
         public static string ActionSharingListFolderMembersContinuation
         {
             get { return ConfigurationManager.AppSettings.Get("ActionSharingListFolderMembersContinuation"); }
@@ -142,6 +147,11 @@
         public static string ActionSetProfile
         {
             get { return ConfigurationManager.AppSettings.Get("ActionSetProfile"); }
+        }
+
+        public static string ActionRecoverMember
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionRecoverMember"); }
         }
 
         public static string ActionActivateTeamFolder

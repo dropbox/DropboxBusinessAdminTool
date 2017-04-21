@@ -127,6 +127,12 @@
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
+		"Entry"
+        {
+        "MsmKey" = "8:_959030045CBA4F5090FA4DBB6CA51E8F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
         "Entry"
         {
         "MsmKey" = "8:_98D806DD5327570DE7FD64E4DBD7FD2B"
@@ -707,6 +713,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+			"{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_959030045CBA4F5090FA4DBB6CA51E8F"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\TeamFolderTemplate.csv"
+            "TargetName" = "8:TeamFolderTemplate.csv"
+            "Tag" = "8:"
+            "Folder" = "8:_DF991A4076234D9C941D22E5025CD05C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_98D806DD5327570DE7FD64E4DBD7FD2B"
             {
             "AssemblyRegister" = "3:1"
@@ -928,7 +954,7 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Dropbox Business Admin Toolkit"
-        "ProductCode" = "8:{C22A89DA-69FE-4072-AA19-F6C0C43D7506}"
+        "ProductCode" = "8:{452CE1DA-DC98-4462-BF82-F383FD02A240}"
         "PackageCode" = "8:{4F507568-2104-402C-812B-BF0F65944546}"
         "UpgradeCode" = "8:{F6F4214B-C1CB-4F20-B1B3-35E1B7262F93}"
         "AspNetVersion" = "8:4.0.30319.0"
@@ -936,7 +962,7 @@
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:5.1.1"
+        "ProductVersion" = "8:5.2.0"
         "Manufacturer" = "8:Dropbox Enterprise Services"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

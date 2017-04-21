@@ -907,7 +907,7 @@
             });
             exportgroups.Start();
         }
-        //need work
+
         private void OnCommandExportGroupPerms(object sender, System.EventArgs e)
         {
             IGroupsView view = base._view as IGroupsView;

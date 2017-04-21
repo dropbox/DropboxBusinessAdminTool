@@ -21,6 +21,8 @@
 
         public string UnSuspendMemberUrl { get; set; }
 
+        public string RecoverMemberUrl { get; set; }
+
         public string ListMembersUrl { get; set; }
 
         public string ListMembersContinuationUrl { get; set; }
@@ -48,6 +50,8 @@
         public string ListSharedFoldersUrl { get; set; }
 
         public string ListSharedFoldersContinuationUrl { get; set; }
+
+        public string RemoveSharedFolderMemberUrl { get; set; }
 
         public string ExportGroupPermsUrl { get; set; }
 
@@ -164,7 +168,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -201,7 +205,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -238,7 +242,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -252,10 +256,49 @@
             return serviceResponse;
         }
 
-        public IDataResponse ListMembers(IMemberData data, string authToken) {
+        public IServiceResponse RecoverMember(IMemberData data, string authToken)
+        {
+            IServiceResponse serviceResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(RecoverMemberUrl))
+                {
+                    RestClient client = new RestClient(string.Format("{0}/{1}/", _baseUrl, _apiVersion));
+                    RestRequest request = new RestRequest(RecoverMemberUrl, Method.POST);
+                    request.AddHeader("Authorization", Convert.ToString("Bearer ") + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    JObject jsonProv = new JObject(
+                        new JProperty("user",
+                            new JObject(
+                                new JProperty(".tag", "email"),
+                                new JProperty("email", data.Email.Trim()))));
+
+                    request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+            return serviceResponse;
+        }
+
+        public IDataResponse ListMembers(IMemberData data, string authToken)
+        {
             IDataResponse dataResponse = null;
-            try {
-                if (!string.IsNullOrEmpty(ListMembersUrl)) {
+            try
+            {
+                if (!string.IsNullOrEmpty(ListMembersUrl))
+                {
                     RestClient client = new RestClient(
                         string.Format("{0}/{1}/", _baseUrl, _apiVersion)
                     );
@@ -271,10 +314,14 @@
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
-                } else {
+                }
+                else
+                {
                     throw new ArgumentNullException("Missing service url");
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
             }
             return dataResponse;
@@ -348,7 +395,6 @@
                         new JProperty("cursor", data.Cursor)
                        );
                         request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
-
                     }
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
@@ -481,6 +527,46 @@
                 dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
             }
             return dataResponse;
+        }
+        
+        public IServiceResponse RemoveSharedFolderMember(string ownerId, string sharedFolderId, string email, string authToken)
+        {
+            IServiceResponse serviceResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(RemoveSharedFolderMemberUrl))
+                {
+                    RestClient client = new RestClient(string.Format("{0}/{1}/", _baseUrl, _apiVersion));
+                    RestRequest request = new RestRequest(RemoveSharedFolderMemberUrl, Method.POST);
+                    request.AddHeader("Authorization", Convert.ToString("Bearer ") + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+                    request.AddHeader("Dropbox-API-Select-User", ownerId);
+
+                    JObject jsonProv = new JObject(
+                        new JProperty("shared_folder_id", sharedFolderId),
+                        new JProperty("member",
+                            new JObject(
+                                new JProperty(".tag", "email"),
+                                new JProperty("email", email))),
+                        new JProperty("leave_a_copy", false));
+
+                    request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+
+            return serviceResponse;
         }
 
         public IDataResponse ExportGroupPerms(IMemberData data, string shareId, string authToken)
@@ -654,7 +740,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -813,7 +899,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -882,7 +968,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -896,7 +982,7 @@
             return serviceResponse;
         }
 
-        public IServiceResponse SetFolderStatus(string teamFolderId, bool activeSetting, string authToken)
+        public IServiceResponse SetTeamFolderStatus(string teamFolderId, bool activeSetting, string authToken)
         {
             IServiceResponse serviceResponse = null;
             string url = string.Empty;
@@ -935,7 +1021,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {
@@ -970,7 +1056,7 @@
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.ErrorMessage);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
                 }
                 else
                 {

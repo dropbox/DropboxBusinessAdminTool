@@ -14,6 +14,8 @@ namespace DfBAdminToolkit.Common.Services
 
         string UnSuspendMemberUrl { get; set; }
 
+        string RecoverMemberUrl { get; set; }
+
         string ListMembersUrl { get; set; }
 
         string ListMembersContinuationUrl { get; set; }
@@ -35,6 +37,8 @@ namespace DfBAdminToolkit.Common.Services
         string ListSharedFoldersUrl { get; set; }
 
         string ListSharedFoldersContinuationUrl { get; set; }
+
+        string RemoveSharedFolderMemberUrl { get; set; }
 
         string ExportGroupPermsUrl { get; set; }
 
@@ -76,6 +80,8 @@ namespace DfBAdminToolkit.Common.Services
 
         IServiceResponse UnSuspendMember(IMemberData data, string authToken);
 
+        IServiceResponse RecoverMember(IMemberData data, string authToken);
+
         IDataResponse ListMembers(IMemberData data, string authToken);
 
         IDataResponse SearchFiles(IMemberData data, string authToken);
@@ -91,6 +97,8 @@ namespace DfBAdminToolkit.Common.Services
         IDataResponse GetGroups(IMemberData data, string authToken);
 
         IDataResponse ListSharedFolders(IMemberData data, string authToken);
+
+        IServiceResponse RemoveSharedFolderMember(string ownerId, string sharedFolderId, string email, string authToken);
 
         IDataResponse ExportGroups(IMemberData data, List<string> groupIds, string authToken);
 
@@ -112,7 +120,7 @@ namespace DfBAdminToolkit.Common.Services
 
         IServiceResponse CreateTeamFolder(string teamFolderName, string authToken);
 
-        IServiceResponse SetFolderStatus(string teamFolderId, bool activeSetting, string authToken);
+        IServiceResponse SetTeamFolderStatus(string teamFolderId, bool activeSetting, string authToken);
 
         IServiceResponse SetFolderSyncSetting(string teamFolderId, string syncSetting, string authToken);
     }
