@@ -12,7 +12,10 @@
 - [x] Create group(s) and provision multiple members to a single group
 - [x] Bulk provision groups and bulk provision members to groups
 - [x] Export group relationships by user, folder, and team folder
-- [x] Create team folder(s) or view your existing team folders and their state
+- [x] Downgrade user to basic type, and remove access / shares for any content where user was a member**
+- [x] Export team folder membership to CSV
+- [x] Bulk create team folder(s) or view your existing team folders and their state
+- [x] Bulk recover users, in case of accidental deletion*
 - [x] Report (and search) on Device usage associated Dropbox
 - [x] Take actions on Devices attached to your Dropbox team (remote wipe)
 - [x] Export list of Devices on your Dropbox team 
@@ -49,7 +52,7 @@ Download User Contents:
 Bulk Provisioning and Reporting:
 (dependent on radio button selection)
 
-![Bulk Provisioning and Reporting](https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1488487778834_file.png)
+![Bulk Provisioning and Reporting](https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1493294995773_file.png)
 
 Group Creation, Edit and Audit
 
@@ -57,7 +60,7 @@ Group Creation, Edit and Audit
 
 Team Folder Creation, Edit and Audit
 
-![Team Folder Creation, Edit and Audit](https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1488487914677_file.png)
+![Team Folder Creation, Edit and Audit](https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1493295041794_file.png)
 
 Device Management:
 
