@@ -75,6 +75,10 @@
 
         public string UpdateMembersTeamFolderUrl { get; set; }
 
+        public string ListPaperDocsUrl { get; set; }
+
+        public string GetPaperMetadataUrl { get; set; }
+
         public string UserAgentVersion { get; set; }
 
         public MemberServices(
@@ -1258,6 +1262,86 @@
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse ListPaperDocs(IMemberData data, string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(ListPaperDocsUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(ListPaperDocsUrl, Method.POST);
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    if (String.IsNullOrEmpty(data.Cursor))
+                    {
+                        JObject jsonListPaperDocs = new JObject(
+                        new JProperty("filter_by", "docs_created"),
+                        new JProperty("sort_by", "modified"),
+                        new JProperty("sort_order", "descending"),
+                        new JProperty("limit", 1000)
+                        );
+                        request.AddParameter("application/json", jsonListPaperDocs, ParameterType.RequestBody);
+                    }
+                    if (!String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //continuation from cursor
+                        JObject jsonListPaperDocs = new JObject(
+                        new JProperty("cursor", data.Cursor)
+                       );
+                        request.AddParameter("application/json", jsonListPaperDocs, ParameterType.RequestBody);
+                    }
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse GetPaperMetadata(string docId, string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(GetPaperMetadataUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(GetPaperMetadataUrl, Method.POST);
+                    //add headers
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    //set up properties for JSON to the API
+                    JObject jsonMetadata = new JObject(
+                        new JProperty("doc_id", docId)
+                    );
+                    request.AddParameter("application/json", jsonMetadata, ParameterType.RequestBody);
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
                 }
             }
             catch (Exception e)

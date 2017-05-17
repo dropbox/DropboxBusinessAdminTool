@@ -15,7 +15,7 @@
     using Newtonsoft.Json;
 
     public partial class MainView : Form, IMainView {
-        public event EventHandler CommandQuitApplication;
+        //public event EventHandler CommandQuitApplication;
         public event EventHandler DataChanged;
 
         #region Runtime components
@@ -29,8 +29,10 @@
             Provisioning = 2,
             Groups = 3,
             TeamFolders = 4,
-            Devices = 5,
-            DataMigration = 6 
+            Paper = 5,
+            Devices = 6,
+            //Auditing = 7,
+            DataMigration = 7 
         }
 
         #endregion Runtime components
@@ -175,6 +177,14 @@
                 Padding = new Padding(5, 3, 5, 3),
                 UseVisualStyleBackColor = true
             });
+            _tabPages.Add(new TabPage()
+            {
+                Name = "tabPage_Paper",
+                Text = "Paper",
+                Dock = DockStyle.Fill,
+                Padding = new Padding(5, 3, 5, 3),
+                UseVisualStyleBackColor = true
+            });
             _tabPages.Add(new TabPage() {
                 Name = "tabPage_Devices",
                 Text = "Devices",
@@ -182,6 +192,14 @@
                 Padding = new Padding(5, 3, 5, 3),
                 UseVisualStyleBackColor = true
             });
+            //_tabPages.Add(new TabPage()
+            //{
+            //    Name = "tabPage_Auditing",
+            //    Text = "Auditing",
+            //    Dock = DockStyle.Fill,
+            //    Padding = new Padding(5, 3, 5, 3),
+            //    UseVisualStyleBackColor = true
+            //});
             _tabPages.Add(new TabPage() {
                 Name = "tabPage_DataMigration",
                 Text = "Team Content",
@@ -306,7 +324,9 @@
             _tabPages[(int)TabIndex.Provisioning].Controls.Add(CreateProvisionView());
             _tabPages[(int)TabIndex.Groups].Controls.Add(CreateGroupsView());
             _tabPages[(int)TabIndex.TeamFolders].Controls.Add(CreateTeamFoldersView());
+            _tabPages[(int)TabIndex.Paper].Controls.Add(CreatePaperView());
             _tabPages[(int)TabIndex.Devices].Controls.Add(CreateDevicesView());
+            //_tabPages[(int)TabIndex.Auditing].Controls.Add(CreateAuditingView());
             _tabPages[(int)TabIndex.DataMigration].Controls.Add(CreateDataMigrationView());
 
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.TextSearch]);
@@ -314,7 +334,9 @@
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.Provisioning]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.Groups]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.TeamFolders]);
+            _tabControl.Controls.Add(_tabPages[(int)TabIndex.Paper]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.Devices]);
+            //_tabControl.Controls.Add(_tabPages[(int)TabIndex.Auditing]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.DataMigration]);
 
             // select first tab
@@ -373,6 +395,17 @@
             return view as TeamFoldersView;
         }
 
+        private PaperView CreatePaperView()
+        {
+            IPaperModel model = new PaperModel();
+            IPaperView view = new PaperView();
+            IPaperPresenter presenter = SimpleResolver.Instance.Get<IPaperPresenter>(
+                new object[] { model, view }
+            );
+            view.ShowView();
+            return view as PaperView;
+        }
+
         private DevicesView CreateDevicesView() {
             IDevicesModel model = new DevicesModel();
             IDevicesView view = new DevicesView();
@@ -382,6 +415,17 @@
             view.ShowView();
             return view as DevicesView;
         }
+
+        //private AuditingView CreateAuditingView()
+        //{
+        //    IAuditingModel model = new AuditingModel();
+        //    IAuditingView view = new AuditingView();
+        //    IAuditingPresenter presenter = SimpleResolver.Instance.Get<IAuditingPresenter>(
+        //        new object[] { model, view }
+        //    );
+        //    view.ShowView();
+        //    return view as AuditingView;
+        //}
 
         private DataMigrationView CreateDataMigrationView() {
             IDataMigrationModel model = new DataMigrationModel();

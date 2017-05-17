@@ -125,6 +125,7 @@
     <Compile Include="Model\ILegalModel.cs" />
     <Compile Include="Model\IMainModel.cs" />
     <Compile Include="Model\IModel.cs" />
+    <Compile Include="Model\IPaperModel.cs" />
     <Compile Include="Model\IProvisioningModel.cs" />
     <Compile Include="Model\ISettingsModel.cs" />
     <Compile Include="Model\ITeamFoldersModel.cs" />
@@ -132,6 +133,8 @@
     <Compile Include="Model\LegalModel.cs" />
     <Compile Include="Model\MainModel.cs" />
     <Compile Include="Model\MemberListViewItemModel.cs" />
+    <Compile Include="Model\PaperListViewItemModel.cs" />
+    <Compile Include="Model\PaperModel.cs" />
     <Compile Include="Model\ProvisioningModel.cs" />
     <Compile Include="Model\SettingsModel.cs" />
     <Compile Include="Model\TeamFoldersHeaderRecord.cs" />
@@ -150,6 +153,7 @@
     <Compile Include="Presenter\IDumpUserContentPresenter.cs" />
     <Compile Include="Presenter\IGroupsPresenter.cs" />
     <Compile Include="Presenter\ILegalPresenter.cs" />
+    <Compile Include="Presenter\IPaperPresenter.cs" />
     <Compile Include="Presenter\IProvisioningPresenter.cs" />
     <Compile Include="Presenter\ISettingsPresenter.cs" />
     <Compile Include="Presenter\ITeamFoldersPresenter.cs" />
@@ -158,6 +162,7 @@
     <Compile Include="Presenter\IMainPresenter.cs" />
     <Compile Include="Presenter\IPresenter.cs" />
     <Compile Include="Presenter\MainPresenter.cs" />
+    <Compile Include="Presenter\PaperPresenter.cs" />
     <Compile Include="Presenter\PresenterBase.cs" />
     <Compile Include="Presenter\ProvisioningPresenter.cs" />
     <Compile Include="Presenter\SettingsPresenter.cs" />
@@ -193,11 +198,18 @@
     <Compile Include="View\IDevicesView.cs" />
     <Compile Include="View\IDumpUserContentView.cs" />
     <Compile Include="View\IGroupsView.cs" />
+    <Compile Include="View\IPaperView.cs" />
     <Compile Include="View\IProvisioningView.cs" />
     <Compile Include="View\ISettingsView.cs" />
     <Compile Include="View\ITeamFoldersView.cs" />
     <Compile Include="View\ITextSearchView.cs" />
     <Compile Include="View\Overlay\MemberInfoOverlay.cs" />
+    <Compile Include="View\PaperView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\PaperView.designer.cs">
+      <DependentUpon>PaperView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ProvisioningView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -256,6 +268,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\GroupsView.resx">
       <DependentUpon>GroupsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\PaperView.resx">
+      <DependentUpon>PaperView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ProvisioningView.resx">
       <DependentUpon>ProvisioningView.cs</DependentUpon>

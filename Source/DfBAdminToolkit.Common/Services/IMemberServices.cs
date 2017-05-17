@@ -68,6 +68,10 @@ namespace DfBAdminToolkit.Common.Services
 
         string UpdateMembersTeamFolderUrl { get; set; }
 
+        string ListPaperDocsUrl { get; set; }
+
+        string GetPaperMetadataUrl { get; set; }
+
         string UserAgentVersion { get; set; }
 
         #endregion Endpoint urls
@@ -123,5 +127,9 @@ namespace DfBAdminToolkit.Common.Services
         IServiceResponse SetTeamFolderStatus(string teamFolderId, bool activeSetting, string authToken);
 
         IServiceResponse SetFolderSyncSetting(string teamFolderId, string syncSetting, string authToken);
+
+        IDataResponse ListPaperDocs(IMemberData data, string authToken);
+
+        IDataResponse GetPaperMetadata(string docId, string authToken);
     }
 }

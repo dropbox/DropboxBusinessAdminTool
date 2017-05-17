@@ -962,7 +962,7 @@
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:5.2.0"
+        "ProductVersion" = "8:6.0.0"
         "Manufacturer" = "8:Dropbox Enterprise Services"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

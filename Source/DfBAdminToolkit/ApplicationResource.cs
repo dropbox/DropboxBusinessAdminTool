@@ -184,6 +184,41 @@
             get { return ConfigurationManager.AppSettings.Get("ActionUpdateMembersTeamFolder"); }
         }
 
+        public static string ActionArchivePaperDocs
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionArchivePaperDocs"); }
+        }
+
+        public static string ActionPermanentlyDeletePaperDocs
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionPermanentlyDeletePaperDocs"); }
+        }
+
+        public static string ActionDownloadPaperDocs
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionDownloadPaperDocs"); }
+        }
+
+        public static string ActionListPaperDocs
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionListPaperDocs"); }
+        }
+
+        public static string ActionListContinuationPaperDocs
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionListContinuationPaperDocs"); }
+        }
+
+        public static string ActionAddUsersPaperDocs
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionAddUsersPaperDocs"); }
+        }
+
+        public static string ActionCreatePaperDocs
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionCreatePaperDocs"); }
+        }
+
         public static int SearchDefaultLimit
         {
             get {
