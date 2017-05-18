@@ -72,6 +72,10 @@ namespace DfBAdminToolkit.Common.Services
 
         string GetPaperMetadataUrl { get; set; }
 
+        string ArchivePaperDocUrl { get; set; }
+
+        string PermDeletePaperDocUrl { get; set; }
+
         string GetCurrentAccountUrl{ get; set; }
 
         string UserAgentVersion { get; set; }
@@ -133,6 +137,10 @@ namespace DfBAdminToolkit.Common.Services
         IDataResponse ListPaperDocs(IMemberData data, string authToken);
 
         IDataResponse GetPaperMetadata(string docId, string authToken, string memberId);
+
+        IDataResponse ArchivePaperDoc(IMemberData data, string authToken, string docId);
+
+        IDataResponse PermDeletePaperDoc(IMemberData data, string authToken, string docId);
 
         IDataResponse GetCurrentAccount(string authToken);
     }

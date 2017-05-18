@@ -44,7 +44,6 @@
                 IPaperView view = base._view as IPaperView;
                 view.DataChanged += OnDataChanged;
                 view.CommandGetPaper += OnCommandGetPaper;
-                view.CommandSetPaperStatus += OnCommandSetPaperStatus;
                 view.CommandExportPaper += OnCommandExportPaper;
                 IsViewEventsWired = true;
             }
@@ -56,7 +55,6 @@
                 IPaperView view = base._view as IPaperView;
                 view.DataChanged -= OnDataChanged;
                 view.CommandGetPaper -= OnCommandGetPaper;
-                view.CommandSetPaperStatus -= OnCommandSetPaperStatus;
                 view.CommandExportPaper -= OnCommandExportPaper;
                 IsViewEventsWired = false;
             }
@@ -417,173 +415,6 @@
             return members;
         }
 
-        private void GetTeamFoldersPerms(IPaperModel model, IMainPresenter presenter)
-        {
-            //IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
-            //service.ExportGroupPermsUrl = ApplicationResource.ActionSharingListFolderMembers;
-            //service.UserAgentVersion = ApplicationResource.UserAgent;
-            //List<Tuple<string, string, string>> sharedFolders;
-            ////Get team member id's for each checked email to remove in objectlistview
-            //IList<TeamListViewItemModel> members = SearchOwners(model, presenter);
-            //string memberId = string.Empty;
-            //foreach (var memberitem in members)
-            //{
-            //    if (!string.IsNullOrEmpty(memberitem.TeamId))
-            //    {
-            //        memberId = memberitem.TeamId;
-            //        sharedFolders = this.GetSharedFolders(memberId, model, presenter);
-
-            //        foreach (var item in sharedFolders)
-            //        {
-            //            IDataResponse response = service.ExportGroupPerms(new MemberData()
-            //            {
-            //                MemberId = memberId
-            //            }, item.Item1, ApplicationResource.DefaultAccessToken);
-
-            //            if (response.StatusCode == HttpStatusCode.OK)
-            //            {
-            //                if (response.Data != null)
-            //                {
-            //                    string data = response.Data.ToString();
-            //                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
-            //                    //users
-            //                    int resultCount = jsonData["users"].Count;
-            //                    for (int i = 0; i < resultCount; i++)
-            //                    {
-            //                        dynamic users = jsonData["users"][i];
-            //                        dynamic type = Convert.ToString(users["access_type"][".tag"]);
-            //                        dynamic accountId = Convert.ToString(users["user"]["account_id"]);
-            //                        dynamic id = Convert.ToString(users["user"]["team_member_id"]);
-            //                        dynamic sharedFolderId = item.Item1;
-            //                        dynamic sharedFolderName = item.Item2;
-            //                        dynamic path = item.Item3;
-
-            //                        // update model
-            //                        TeamFoldersPermsItemModel lvItem1 = new TeamFoldersPermsItemModel()
-            //                        {
-            //                            TeamFolderName = sharedFolderName,
-            //                            TeamFolderPath = path,
-            //                            TeamFolderMember = accountId,
-            //                            TeamFolderMemberId = id,
-            //                            AccessType = type,
-            //                            MemberCount = "1"
-            //                        };
-            //                        bool contains = ((model.TeamFoldersPerms.Any(p => p.TeamFolderName == sharedFolderName)) && ((model.TeamFoldersPerms.Any(p => p.TeamFolderMemberId == id))));
-            //                        if (!contains)
-            //                        {
-            //                            model.TeamFoldersPerms.Add(lvItem1);
-            //                        } 
-            //                    }
-            //                    //groups
-            //                    int groupCount = jsonData["groups"].Count;
-            //                    for (int i = 0; i < groupCount; i++)
-            //                    {
-            //                        dynamic groups = jsonData["groups"][i];
-            //                        dynamic groupName = Convert.ToString(groups["group"]["group_name"]);
-            //                        dynamic groupId = Convert.ToString(groups["group"]["group_id"]);
-            //                        dynamic accessType = Convert.ToString(groups["access_type"][".tag"]);
-            //                        dynamic memberCount = Convert.ToString(groups["group"]["member_count"]);
-            //                        dynamic sharedFolderId = item.Item1;
-            //                        dynamic sharedFolderName = item.Item2;
-            //                        dynamic path = item.Item3;
-
-            //                        // update model
-            //                        TeamFoldersPermsItemModel lvItem1 = new TeamFoldersPermsItemModel()
-            //                        {
-            //                            TeamFolderName = sharedFolderName,
-            //                            TeamFolderPath = path,
-            //                            TeamFolderMember = groupName,
-            //                            TeamFolderMemberId = groupId,
-            //                            AccessType = accessType,
-            //                            MemberCount = memberCount
-            //                        };
-            //                        bool contains = ((model.TeamFoldersPerms.Any(p => p.TeamFolderName == sharedFolderName)) && ((model.TeamFoldersPerms.Any(p => p.TeamFolderMemberId == groupId))));
-            //                        if (!contains)
-            //                        {
-            //                            model.TeamFoldersPerms.Add(lvItem1);
-            //                        }
-            //                    }
-            //                    //if the group count is above limit - default 1000 we need to grab the cursor and call continue
-            //                    string cursor = jsonData["cursor"];
-
-            //                    while (!string.IsNullOrEmpty(cursor))
-            //                    {
-            //                        service.ExportGroupPermsUrl = ApplicationResource.ActionSharingListFolderMembersContinuation;
-            //                        IDataResponse responseCont = service.ExportGroupPerms(new MemberData()
-            //                        {
-            //                            MemberId = memberId,
-            //                            Cursor = cursor
-            //                        }, item.Item1, model.AccessToken);
-
-            //                        string dataCont = responseCont.Data.ToString();
-            //                        dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
-
-            //                        //users
-            //                        int resultCountCont = jsonDataCont["users"].Count;
-            //                        for (int i = 0; i < resultCountCont; i++)
-            //                        {
-            //                            dynamic users = jsonDataCont["users"][i];
-            //                            dynamic type = Convert.ToString(users["access_type"][".tag"]);
-            //                            dynamic accountId = Convert.ToString(users["user"]["account_id"]);
-            //                            dynamic id = Convert.ToString(users["user"]["team_member_id"]);
-            //                            dynamic sharedFolderId = item.Item1;
-            //                            dynamic sharedFolderName = item.Item2;
-            //                            dynamic path = item.Item3;
-
-            //                            // update model
-            //                            TeamFoldersPermsItemModel lvItem1 = new TeamFoldersPermsItemModel()
-            //                            {
-            //                                TeamFolderName = sharedFolderName,
-            //                                TeamFolderPath = path,
-            //                                TeamFolderMember = accountId,
-            //                                TeamFolderMemberId = id,
-            //                                AccessType = type,
-            //                                MemberCount = "1"
-            //                            };
-            //                            bool contains = ((model.TeamFoldersPerms.Any(p => p.TeamFolderName == sharedFolderName)) && ((model.TeamFoldersPerms.Any(p => p.TeamFolderMemberId == id))));
-            //                            if (!contains)
-            //                            {
-            //                                model.TeamFoldersPerms.Add(lvItem1);
-            //                            }
-            //                        }
-            //                        //groups
-            //                        int groupCountCont = jsonDataCont["groups"].Count;
-            //                        for (int i = 0; i < groupCountCont; i++)
-            //                        {
-            //                            dynamic groups = jsonDataCont["groups"][i];
-            //                            dynamic groupName = Convert.ToString(groups["group"]["group_name"]);
-            //                            dynamic groupId = Convert.ToString(groups["group"]["group_id"]);
-            //                            dynamic accessType = Convert.ToString(groups["access_type"][".tag"]);
-            //                            dynamic memberCount = Convert.ToString(groups["group"]["member_count"]);
-            //                            dynamic sharedFolderId = item.Item1;
-            //                            dynamic sharedFolderName = item.Item2;
-            //                            dynamic path = item.Item3;
-
-            //                            // update model
-            //                            TeamFoldersPermsItemModel lvItem1 = new TeamFoldersPermsItemModel()
-            //                            {
-            //                                TeamFolderName = sharedFolderName,
-            //                                TeamFolderPath = path,
-            //                                TeamFolderMember = groupName,
-            //                                TeamFolderMemberId = groupId,
-            //                                AccessType = accessType,
-            //                                MemberCount = memberCount
-            //                            };
-            //                            bool contains = ((model.TeamFoldersPerms.Any(p => p.TeamFolderName == sharedFolderName)) && ((model.TeamFoldersPerms.Any(p => p.TeamFolderMemberId == groupId))));
-            //                            if (!contains)
-            //                            {
-            //                                model.TeamFoldersPerms.Add(lvItem1);
-            //                            }
-            //                        }
-            //                        cursor = jsonDataCont["cursor"];
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //}     
-        }
-
         #endregion REST Service
 
         #region Events
@@ -640,61 +471,6 @@
                 }
             });
             getpaperdocs.Start();
-        }
-
-        private void OnCommandSetPaperStatus(object sender, System.EventArgs e)
-        {
-            IPaperView view = base._view as IPaperView;
-            IPaperModel model = base._model as IPaperModel;
-            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
-            PaperModel paperModel = view.GetPaperIds();
-            bool permanentSetting = view.PermanentSetting;
-
-            if (SyncContext != null)
-            {
-                SyncContext.Post(delegate
-                {
-                    presenter.EnableControl(false);
-                    presenter.ActivateSpinner(true);
-                    presenter.UpdateProgressInfo("Processing...");
-
-                }, null);
-            }
-            Thread setfolderstatus = new Thread(() =>
-            {
-                if (string.IsNullOrEmpty(model.AccessToken))
-                {
-                    SyncContext.Post(delegate
-                    {
-                        presenter.EnableControl(true);
-                        presenter.ActivateSpinner(false);
-                        presenter.UpdateProgressInfo("");
-                    }, null);
-                }
-                else
-                {
-                    foreach (PaperListViewItemModel lvItem in paperModel.Paper)
-                    {
-                        this.SetFolderStatus(model, lvItem.PaperId, permanentSetting, presenter);
-                    }
-                    if (SyncContext != null)
-                    {
-                        SyncContext.Post(delegate
-                        {
-                            // update result and update view.
-                            PresenterBase.SetViewPropertiesFromModel<IPaperView, IPaperModel>(
-                                ref view, model
-                            );
-                            // update result and update view.
-                            view.RenderPaperList();
-                            presenter.ActivateSpinner(false);
-                            presenter.EnableControl(true);
-                            presenter.UpdateProgressInfo("Completed.");
-                        }, null);
-                    }
-                }
-            });
-            setfolderstatus.Start();
         }
 
         private void OnCommandSetPaperArchiveSetting(object sender, System.EventArgs e)

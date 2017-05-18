@@ -79,6 +79,10 @@
 
         public string GetPaperMetadataUrl { get; set; }
 
+        public string ArchivePaperDocUrl { get; set; }
+
+        public string PermDeletePaperDocUrl { get; set; }
+
         public string GetCurrentAccountUrl { get; set; }
 
         public string UserAgentVersion { get; set; }
@@ -1369,6 +1373,80 @@
                         new JProperty("doc_id", docId)
                     );
                     request.AddParameter("application/json", jsonMetadata, ParameterType.RequestBody);
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse ArchivePaperDoc(IMemberData data, string authToken, string docId)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(ArchivePaperDocUrl))
+                {
+                    RestClient client = new RestClient(
+                        string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                    );
+                    RestRequest request = new RestRequest(ArchivePaperDocUrl, Method.POST);
+
+                    //add headers
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Dropbox-API-Select-User", data.MemberId);
+
+                    JObject json = new JObject(
+                        new JProperty("doc_id", docId)
+                    );
+                    request.AddParameter("application/json", json, ParameterType.RequestBody);
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse PermDeletePaperDoc(IMemberData data, string authToken, string docId)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(PermDeletePaperDocUrl))
+                {
+                    RestClient client = new RestClient(
+                        string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                    );
+                    RestRequest request = new RestRequest(PermDeletePaperDocUrl, Method.POST);
+
+                    //add headers
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Dropbox-API-Select-User", data.MemberId);
+
+                    JObject json = new JObject(
+                        new JProperty("doc_id", docId)
+                    );
+                    request.AddParameter("application/json", json, ParameterType.RequestBody);
+                    request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);

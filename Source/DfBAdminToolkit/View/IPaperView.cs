@@ -7,8 +7,8 @@
     public interface IPaperView
         : IView
     {
+        event EventHandler DataChanged;
         event EventHandler CommandGetPaper;
-        event EventHandler CommandSetPaperStatus;
         event EventHandler CommandExportPaper;
 
         string AccessToken { get; set; }

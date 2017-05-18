@@ -2,7 +2,6 @@
 {
     using BrightIdeasSoftware;
     using Model;
-    using DfBAdminToolkit.Common.Utils;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -14,7 +13,6 @@
     {
         public event EventHandler DataChanged;
         public event EventHandler CommandGetPaper;
-        public event EventHandler CommandSetPaperStatus;
         public event EventHandler CommandExportPaper;
 
         public SynchronizationContext SyncContext { get; set; }
@@ -69,7 +67,7 @@
             {
                 this.textBox_PaperAccessToken.TextChanged += TextBox_PaperAccessToken_TextChanged;
                 this.buttonEx_PaperLoadPaper.Click += buttonEx_PaperLoadPaper_Click;
-                this.buttonEx_PaperDownload.Click += buttonEx_PaperSetPaperStatus_Click;
+                this.buttonEx_PaperDownload.Click += buttonEx_PaperDownload_Click;
                 this.buttonEx_PaperDelete.Click += buttonEx_PaperDelete_Click;
                 this.buttonEx_PaperDownloadFolder.Click += buttonEx_PaperDownloadFolder_Click;
                 this.radioButton_Archive.CheckedChanged += radioButton_Archive_CheckedChanged;
@@ -226,15 +224,6 @@
             if (CommandGetPaper != null)
             {
                 CommandGetPaper(sender, e);
-            }
-        }
-
-        private void buttonEx_PaperSetPaperStatus_Click(object sender, EventArgs e)
-        {
-            InvokeDataChanged(sender, e);
-            if (CommandSetPaperStatus != null)
-            {
-                CommandSetPaperStatus(sender, e);
             }
         }
 
