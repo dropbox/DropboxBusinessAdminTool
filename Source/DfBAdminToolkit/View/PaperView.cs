@@ -177,7 +177,7 @@
             olv.GetColumn((int)OlvMembersIndex.Revision).AspectGetter
                = delegate (PaperListViewItemModel model)
                {
-                   return (model != null) ? model.Revision : string.Empty;
+                   return (model != null) ? model.Revision : 0;
                };
         }
 

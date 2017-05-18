@@ -12,7 +12,7 @@
         private DateTime _createdDate;
         private DateTime _lastUpdatedDate;
         private string _lastEditor;
-        private string _revision;
+        private UInt64 _revision;
         private bool _isChecked;
 
 		public string PaperName
@@ -81,7 +81,7 @@
             }
         }
 
-        public string Revision
+        public UInt64 Revision
         {
             get { return _revision; }
             set

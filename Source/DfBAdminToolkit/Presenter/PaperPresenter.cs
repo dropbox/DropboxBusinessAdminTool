@@ -17,6 +17,8 @@
     public class PaperPresenter
         : PresenterBase, IPaperPresenter {
 
+        IList<PaperListViewItemModel> docIds;
+
         public PaperPresenter(IPaperModel model, IPaperView view)
             : base(model, view) {
         }
@@ -74,11 +76,18 @@
 
         private void GetPaperDocs(IPaperModel model, IMainPresenter presenter)
         {
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.ListPaperDocsUrl = ApplicationResource.ActionListPaperDocs;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             string paperAccessToken = ApplicationResource.DefaultAccessToken;
-            IDataResponse response = service.ListTeamFolders(paperAccessToken);
+            string memberId = string.Empty;
+
+            docIds = new List<PaperListViewItemModel>();
+
+            IDataResponse response = service.ListPaperDocs(new MemberData()
+            {
+                MemberId = memberId
+            }, paperAccessToken);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -89,25 +98,114 @@
 
                     // clear existing data first
                     model.Paper.Clear();
-                    //changed from entries to team_folders
-                    int resultCount = jsonData["team_folders"].Count;
+                     
+                    int resultCount = jsonData["doc_ids"].Count;
                     for (int i = 0; i < resultCount; i++)
                     {
-                        dynamic team_folders = jsonData["team_folders"][i];
-                        dynamic teamFolderName = team_folders["name"];
-                        dynamic teamFolderId = team_folders["team_folder_id"];
-                        dynamic status = team_folders["status"][".tag"];
+                        dynamic paperDocId = jsonData["doc_ids"][i];
 
                         // update model
                         PaperListViewItemModel lvItem = new PaperListViewItemModel()
-                    {
-                            PaperName = teamFolderName,
-                            PaperId = teamFolderId,
-                            Status = status,
+                        {
+                            PaperId = paperDocId,
                             IsChecked = true
-                    };
-                        model.Paper.Add(lvItem);
+                        };
+                        docIds.Add(lvItem);
                     }
+                    //if the group count is above limit - default 1000 we need to grab the cursor and call continue
+                    string cursor = jsonData["cursor"]["value"];
+                    bool hasMore = jsonData["has_more"];
+                    while (hasMore)
+                    {
+                        service.ListPaperDocsUrl = ApplicationResource.ActionListContinuationPaperDocs;
+                        IDataResponse responseCont = service.ListPaperDocs(new MemberData()
+                        {
+                            Cursor = cursor
+                        }, paperAccessToken);
+
+                        string dataCont = responseCont.Data.ToString();
+                        dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
+
+                        int resultContCount = jsonDataCont["doc_ids"].Count;
+                        for (int i = 0; i < resultContCount; i++)
+                        {
+                            dynamic paperDocId = jsonDataCont["doc_ids"][i];
+                            // update model
+                            PaperListViewItemModel lvItem = new PaperListViewItemModel()
+                            {
+                                PaperId = paperDocId,
+                                IsChecked = true
+                            };
+                            docIds.Add(lvItem);
+                        }
+                        hasMore = jsonDataCont["has_more"];
+                        cursor = jsonDataCont["cursor"]["value"];
+                    }
+                }
+            }
+        }
+
+        private void GetPaperMetadata(IPaperModel model, IMainPresenter presenter, string docId)
+        {
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.GetPaperMetadataUrl = ApplicationResource.ActionGetPaperDocMetadata;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            string paperAccessToken = ApplicationResource.DefaultAccessToken;
+
+            string memberId = string.Empty;
+
+            IDataResponse response = service.GetPaperMetadata(docId, paperAccessToken, memberId);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                if (response.Data != null)
+                {
+                    string data = response.Data.ToString();
+                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+
+                    dynamic paperDocIdobj = jsonData["doc_id"];
+                    dynamic ownerobj = jsonData["owner"];
+                    dynamic paperNameobj = jsonData["title"];
+                    dynamic createdDateobj = jsonData["created_date"];
+                    dynamic statusobj = jsonData["status"][".tag"];
+                    dynamic revisionobj = jsonData["revision"];
+                    dynamic lastUpdatedDateobj = jsonData["last_updated_date"];
+                    dynamic lastEditorobj = jsonData["last_editor"];
+                    
+                    string paperDocId = paperDocIdobj.Value as string;
+                    string owner = ownerobj.Value as string;
+                    string paperName = paperNameobj.Value as string;
+                    DateTime createdDate = DateTime.MinValue;
+                    if (createdDateobj != null)
+                    {
+                        createdDate = createdDateobj;
+                    }
+                    string status = statusobj.Value as string;
+                    UInt64 revision = 0;
+                    if (revisionobj != null)
+                    {
+                        revision = revisionobj;
+                    }
+                    DateTime lastUpdatedDate = DateTime.MinValue;
+                    if (lastUpdatedDateobj != null)
+                    {
+                        lastUpdatedDate = lastUpdatedDateobj;
+                    }
+                    string lastEditor = lastEditorobj.Value as string;
+
+                    // update model
+                    PaperListViewItemModel lvItem = new PaperListViewItemModel()
+                    {
+                        PaperId = paperDocId,
+                        Owner = owner,
+                        PaperName = paperName,
+                        CreatedDate = createdDate,
+                        Status = status,
+                        Revision = revision,
+                        LastUpdatedDate = lastUpdatedDate,
+                        LastEditor = lastEditor,
+                        IsChecked = true
+                    };
+                    model.Paper.Add(lvItem);
                 }
             }
         }
@@ -262,88 +360,6 @@
                 }, null);
             }
             return loaded;
-        }
-
-        private List<Tuple<string, string, string>> GetSharedFolders(string memberId, IPaperModel model, IMainPresenter presenter)
-        {
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
-            service.ListSharedFoldersUrl = ApplicationResource.ActionSharingListFolders;
-            service.UserAgentVersion = ApplicationResource.UserAgent;
-            var sharedFolders = new List<Tuple<string, string, string>>();
-
-            IDataResponse response = service.ListSharedFolders(new MemberData()
-            {
-                MemberId = memberId
-            }, ApplicationResource.DefaultAccessToken);
-
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                if (response.Data != null)
-                {
-                    string data = response.Data.ToString();
-                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
-
-                    int resultCount = jsonData["entries"].Count;
-                    for (int i = 0; i < resultCount; i++)
-                    {
-                        dynamic entries = jsonData["entries"][i];
-                        dynamic pathLower = Convert.ToString(entries["path_lower"]);
-                        dynamic sharedFolderId = Convert.ToString(entries["shared_folder_id"]);
-                        dynamic sharedFolderName = Convert.ToString(entries["name"]);
-                        dynamic isTeamFolder = Convert.ToBoolean(entries["is_team_folder"]);
-
-                        string path = string.Empty;
-                        if (pathLower != null)
-                        {
-                            path = pathLower;
-                        }
-
-                        var tuple = Tuple.Create(sharedFolderId, sharedFolderName, path);
-                        if (!sharedFolders.Contains(tuple) && isTeamFolder)
-                        {
-                            sharedFolders.Add(tuple);
-                        }
-                    }
-                    //if the group count is above limit - default 1000 we need to grab the cursor and call continue
-                    string cursor = jsonData["cursor"];
-                    while (!string.IsNullOrEmpty(cursor))
-                    {
-                        service.ListSharedFoldersUrl = ApplicationResource.ActionSharingListFoldersContinuation;
-                        IDataResponse responseCont = service.ListSharedFolders(new MemberData()
-                        {
-                            MemberId = memberId,
-                            Cursor = cursor
-                        }, model.AccessToken);
-
-                        string dataCont = responseCont.Data.ToString();
-                        dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
-
-                        int resultContCount = jsonDataCont["entries"].Count;
-                        for (int i = 0; i < resultContCount; i++)
-                        {
-                            dynamic entries = jsonDataCont["entries"][i];
-                            dynamic pathLower = Convert.ToString(entries["path_lower"]);
-                            dynamic sharedFolderId = Convert.ToString(entries["shared_folder_id"]);
-                            dynamic sharedFolderName = Convert.ToString(entries["name"]);
-                            dynamic isTeamFolder = Convert.ToBoolean(entries["is_team_folder"]);
-
-                            string path = string.Empty;
-                            if (pathLower != null)
-                            {
-                                path = pathLower;
-                            }
-
-                            var tuple = Tuple.Create(sharedFolderId, sharedFolderName, path);
-                            if (!sharedFolders.Contains(tuple) && isTeamFolder)
-                            {
-                                sharedFolders.Add(tuple);
-                            }
-                        }
-                        cursor = jsonDataCont["cursor"];
-                    }
-                }
-            }
-            return sharedFolders;
         }
 
         private void GetTeamFoldersPerms(IPaperModel model, IMainPresenter presenter)
@@ -513,113 +529,6 @@
             //}     
         }
 
-        public IList<TeamListViewItemModel> SearchOwners(IPaperModel model, IMainPresenter presenter)
-        {
-            IList<TeamListViewItemModel> members = new List<TeamListViewItemModel>();
-            if (!string.IsNullOrEmpty(model.AccessToken))
-            {
-                MemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
-                service.ListMembersUrl = ApplicationResource.ActionListMembers;
-                service.UserAgentVersion = ApplicationResource.UserAgent;
-                IDataResponse response = service.ListMembers(new MemberData()
-                {
-                    SearchLimit = ApplicationResource.SearchDefaultLimit
-                }, model.AccessToken);
-
-                if (SyncContext != null)
-                {
-                    SyncContext.Post(delegate {
-                        presenter.UpdateProgressInfo("Searching users...");
-                    }, null);
-                }
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    if (response.Data != null)
-                    {
-                        string data = response.Data.ToString();
-                        dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
-                        int resultCount = jsonData["members"].Count;
-                        int total = 0;
-                        for (int i = 0; i < resultCount; i++)
-                        {
-                            dynamic profile = jsonData["members"][i]["profile"];
-                            dynamic idObj = profile["team_member_id"];
-                            dynamic emailObj = profile["email"];
-                            dynamic status = profile["status"];
-                            if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended")))
-                            {
-                                string teamId = idObj.Value as string;
-                                string email = emailObj.Value as string;
-                                // update model
-                                TeamListViewItemModel lvItem = new TeamListViewItemModel()
-                                {
-                                    Email = email,
-                                    TeamId = teamId
-                                };
-                                members.Add(lvItem);
-                            }
-                            if (SyncContext != null)
-                            {
-                                SyncContext.Post(delegate {
-                                    presenter.UpdateProgressInfo("Scanning Account(s): " + (++total));
-                                }, null);
-                            }
-                            Thread.Sleep(1);
-                        }
-                        // collect more.
-                        bool hasMore = jsonData["has_more"];
-                        string cursor = jsonData["cursor"];
-
-                        while (hasMore)
-                        {
-                            service.ListMembersContinuationUrl = ApplicationResource.ActionListMembersContinuation;
-                            service.UserAgentVersion = ApplicationResource.UserAgent;
-                            IDataResponse responseCont = service.ListMembersContinuation(new MemberData()
-                            {
-                                Cursor = cursor
-                            }, model.AccessToken);
-
-                            string dataCont = responseCont.Data.ToString();
-                            dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
-
-                            int resultContCount = jsonDataCont["members"].Count;
-                            for (int i = 0; i < resultContCount; i++)
-                            {
-                                dynamic profile = jsonDataCont["members"][i]["profile"];
-                                dynamic idObj = profile["team_member_id"];
-                                dynamic emailObj = profile["email"];
-                                dynamic status = profile["status"];
-
-                                string teamId = idObj.Value as string;
-                                string email = emailObj.Value as string;
-
-                                if (status != null && (status[".tag"].ToString().Equals("active") || status[".tag"].ToString().Equals("suspended")))
-                                {
-                                    // update model
-                                    TeamListViewItemModel lvItem = new TeamListViewItemModel()
-                                    {
-                                        Email = email,
-                                        TeamId = teamId
-                                    };
-                                    members.Add(lvItem);
-                                }
-                                if (SyncContext != null)
-                                {
-                                    SyncContext.Post(delegate {
-                                        presenter.UpdateProgressInfo("Scanning Account(s): " + (++total));
-                                    }, null);
-                                }
-                                Thread.Sleep(1);
-                            }
-                            hasMore = jsonDataCont["has_more"];
-                            cursor = jsonDataCont["cursor"];
-                        }
-                    }
-                }
-            }
-            return members;
-        }
-
         #endregion REST Service
 
         #region Events
@@ -629,6 +538,7 @@
             IPaperView view = base._view as IPaperView;
             IPaperModel model = base._model as IPaperModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+            int paperDocCount = 0;
 
             if (SyncContext != null) {
                 SyncContext.Post(delegate {
@@ -637,7 +547,7 @@
                     presenter.UpdateProgressInfo("Processing...");
                 }, null);
             }
-            Thread getteamfolders = new Thread(() => {
+            Thread getpaperdocs = new Thread(() => {
                 if (string.IsNullOrEmpty(model.AccessToken))
                 {
                     SyncContext.Post(delegate {
@@ -647,8 +557,18 @@
                     }, null);
                 }
                 else
-                {
+                {   
+                    //get Paper Ids
                     this.GetPaperDocs(model, presenter);
+                    
+                    //clear to create new one with all metadata for each docId
+                    //model.Paper.Clear();
+                    //get metadata from ids
+                    foreach (PaperListViewItemModel item in docIds)
+                    {
+                        this.GetPaperMetadata(model, presenter, item.PaperId);
+                        paperDocCount++;
+                    }
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate
@@ -661,12 +581,12 @@
                             view.RenderPaperList();
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
-                            presenter.UpdateProgressInfo("Team folder list completed.");
+                            presenter.UpdateProgressInfo("Paper doc list completed. Total Docs [" + paperDocCount.ToString() + "]");
                         }, null);
                     }
                 }
             });
-            getteamfolders.Start();
+            getpaperdocs.Start();
         }
 
         private void OnCommandCreatePaper(object sender, System.EventArgs e)
@@ -744,7 +664,7 @@
                                 //view.RenderTeamFoldersList();
                                 presenter.ActivateSpinner(false);
                                 presenter.EnableControl(true);
-                                presenter.UpdateProgressInfo("Completed. Total Team folders created: [" + teamFolderCount.ToString() + "]");
+                                presenter.UpdateProgressInfo("Completed. Total Paper docs: [" + teamFolderCount.ToString() + "]");
                             }, null);
                         }
                     }   

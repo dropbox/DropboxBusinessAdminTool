@@ -219,6 +219,16 @@
             get { return ConfigurationManager.AppSettings.Get("ActionCreatePaperDocs"); }
         }
 
+        public static string ActionGetPaperDocMetadata
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetPaperDocMetadata"); }
+        }
+
+        public static string ActionGetCurrentAccount
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetCurrentAccount"); }
+        }
+
         public static int SearchDefaultLimit
         {
             get {

@@ -79,6 +79,8 @@
 
         public string GetPaperMetadataUrl { get; set; }
 
+        public string GetCurrentAccountUrl { get; set; }
+
         public string UserAgentVersion { get; set; }
 
         public MemberServices(
@@ -828,6 +830,36 @@
             return dataResponse;
         }
 
+        public IDataResponse GetCurrentAccount(string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(GetCurrentAccountUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(GetCurrentAccountUrl, Method.POST);
+                    //add headers
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
         public IDataResponse GetInfo(string authToken)
         {
             IDataResponse dataResponse = null;
@@ -1284,6 +1316,7 @@
                     RestRequest request = new RestRequest(ListPaperDocsUrl, Method.POST);
                     request.AddHeader("Authorization", "Bearer " + authToken);
                     request.AddHeader("Content-Type", "application/json");
+                    request.AddHeader("Dropbox-API-Select-User", "dbmid:AAB0b0JFw5Ekelcmo_WGPSo_Yuq9sI8IT1E");
 
                     if (String.IsNullOrEmpty(data.Cursor))
                     {
@@ -1315,7 +1348,7 @@
             return dataResponse;
         }
 
-        public IDataResponse GetPaperMetadata(string docId, string authToken)
+        public IDataResponse GetPaperMetadata(string docId, string authToken, string memberId)
         {
             IDataResponse dataResponse = null;
             try
@@ -1329,6 +1362,7 @@
                     //add headers
                     request.AddHeader("Authorization", "Bearer " + authToken);
                     request.AddHeader("Content-Type", "application/json");
+                    request.AddHeader("Dropbox-API-Select-User", "dbmid: AAB0b0JFw5Ekelcmo_WGPSo_Yuq9sI8IT1E");
 
                     //set up properties for JSON to the API
                     JObject jsonMetadata = new JObject(
