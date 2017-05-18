@@ -538,7 +538,6 @@
             IPaperView view = base._view as IPaperView;
             IPaperModel model = base._model as IPaperModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
-            int paperDocCount = 0;
 
             if (SyncContext != null) {
                 SyncContext.Post(delegate {
@@ -567,7 +566,6 @@
                     foreach (PaperListViewItemModel item in docIds)
                     {
                         this.GetPaperMetadata(model, presenter, item.PaperId);
-                        paperDocCount++;
                     }
                     if (SyncContext != null)
                     {
@@ -581,7 +579,7 @@
                             view.RenderPaperList();
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
-                            presenter.UpdateProgressInfo("Paper doc list completed. Total Docs [" + paperDocCount.ToString() + "]");
+                            presenter.UpdateProgressInfo("Paper doc list completed. Total Docs [" + model.Paper.Count.ToString() + "]");
                         }, null);
                     }
                 }

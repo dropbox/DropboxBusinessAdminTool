@@ -40,8 +40,6 @@
             this.textBox_PaperAccessToken = new DfBAdminToolkit.Common.Component.TextBoxEx(this.components);
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup = new System.Windows.Forms.TableLayoutPanel();
             this.buttonEx_PaperCreatePaper = new DfBAdminToolkit.Common.Component.ButtonEx();
-            this.textBoxPaper = new System.Windows.Forms.TextBox();
-            this.buttonEx_PaperLoadFromCSV = new System.Windows.Forms.Button();
             this.tableLayoutPanel_TeamFoldersSendEmailGroup = new System.Windows.Forms.TableLayoutPanel();
             this.buttonEx_PaperLoadPaper = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.tableLayoutPanel_TeamFoldersMembersGroup = new System.Windows.Forms.TableLayoutPanel();
@@ -55,14 +53,12 @@
             this.olvColumnPaper_LastEditor = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnPaper_Revision = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonEx_PaperPermsExportToCSV = new DfBAdminToolkit.Common.Component.ButtonEx();
-            this.buttonEx_PaperExportToCSV = new DfBAdminToolkit.Common.Component.ButtonEx();
-            this.buttonEx_PaperSetPaperSyncSetting = new DfBAdminToolkit.Common.Component.ButtonEx();
-            this.buttonEx_PaperSetPaperStatus = new DfBAdminToolkit.Common.Component.ButtonEx();
-            this.radioButton_Active = new System.Windows.Forms.RadioButton();
-            this.radioButtonNoSync = new System.Windows.Forms.RadioButton();
-            this.radioButtonSync = new System.Windows.Forms.RadioButton();
-            this.radioButton_Archived = new System.Windows.Forms.RadioButton();
+            this.buttonEx_PaperDownloadFolder = new System.Windows.Forms.Button();
+            this.textBoxPaper = new System.Windows.Forms.TextBox();
+            this.buttonEx_PaperDelete = new DfBAdminToolkit.Common.Component.ButtonEx();
+            this.buttonEx_PaperDownload = new DfBAdminToolkit.Common.Component.ButtonEx();
+            this.radioButton_Permanent = new System.Windows.Forms.RadioButton();
+            this.radioButton_Archive = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel_TeamFolders.SuspendLayout();
             this.tableLayoutPanel_TeamFoldersCommandGroup.SuspendLayout();
             this.tableLayoutPanel_TeamFoldersAccessToken.SuspendLayout();
@@ -157,8 +153,6 @@
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Controls.Add(this.buttonEx_PaperCreatePaper, 2, 0);
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Controls.Add(this.textBoxPaper, 0, 0);
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Controls.Add(this.buttonEx_PaperLoadFromCSV, 1, 0);
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Location = new System.Drawing.Point(3, 30);
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Name = "tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup";
@@ -195,24 +189,7 @@
             this.buttonEx_PaperCreatePaper.Text = "Create Paper Docs(s)";
             this.buttonEx_PaperCreatePaper.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
             this.buttonEx_PaperCreatePaper.UseVisualStyleBackColor = true;
-            // 
-            // textBoxPaper
-            // 
-            this.textBoxPaper.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.textBoxPaper.Location = new System.Drawing.Point(3, 6);
-            this.textBoxPaper.Name = "textBoxPaper";
-            this.textBoxPaper.Size = new System.Drawing.Size(154, 22);
-            this.textBoxPaper.TabIndex = 8;
-            // 
-            // buttonEx_PaperLoadFromCSV
-            // 
-            this.buttonEx_PaperLoadFromCSV.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonEx_PaperLoadFromCSV.Location = new System.Drawing.Point(163, 5);
-            this.buttonEx_PaperLoadFromCSV.Name = "buttonEx_PaperLoadFromCSV";
-            this.buttonEx_PaperLoadFromCSV.Size = new System.Drawing.Size(30, 23);
-            this.buttonEx_PaperLoadFromCSV.TabIndex = 9;
-            this.buttonEx_PaperLoadFromCSV.Text = "...";
-            this.buttonEx_PaperLoadFromCSV.UseVisualStyleBackColor = true;
+            this.buttonEx_PaperCreatePaper.Visible = false;
             // 
             // tableLayoutPanel_TeamFoldersSendEmailGroup
             // 
@@ -321,58 +298,55 @@
             // olvColumnPaper_Owner
             // 
             this.olvColumnPaper_Owner.AspectName = "Owner";
-            this.olvColumnPaper_Owner.MaximumWidth = 100;
+            this.olvColumnPaper_Owner.MaximumWidth = 120;
             this.olvColumnPaper_Owner.Text = "Owner";
-            this.olvColumnPaper_Owner.Width = 100;
+            this.olvColumnPaper_Owner.Width = 120;
             // 
             // olvColumnPaper_CreatedDate
             // 
             this.olvColumnPaper_CreatedDate.AspectName = "CreatedDate";
-            this.olvColumnPaper_CreatedDate.MaximumWidth = 80;
+            this.olvColumnPaper_CreatedDate.MaximumWidth = 110;
             this.olvColumnPaper_CreatedDate.Text = "CreatedDate";
-            this.olvColumnPaper_CreatedDate.Width = 80;
+            this.olvColumnPaper_CreatedDate.Width = 110;
             // 
             // olvColumnPaper_LastUpdatedDate
             // 
             this.olvColumnPaper_LastUpdatedDate.AspectName = "LastUpdatedDate";
-            this.olvColumnPaper_LastUpdatedDate.MaximumWidth = 100;
+            this.olvColumnPaper_LastUpdatedDate.MaximumWidth = 110;
             this.olvColumnPaper_LastUpdatedDate.Text = "LastUpdatedDate";
-            this.olvColumnPaper_LastUpdatedDate.Width = 100;
+            this.olvColumnPaper_LastUpdatedDate.Width = 110;
             // 
             // olvColumnPaper_LastEditor
             // 
             this.olvColumnPaper_LastEditor.AspectName = "LastEditor";
-            this.olvColumnPaper_LastEditor.MaximumWidth = 100;
+            this.olvColumnPaper_LastEditor.MaximumWidth = 120;
             this.olvColumnPaper_LastEditor.Text = "LastEditor";
-            this.olvColumnPaper_LastEditor.Width = 100;
+            this.olvColumnPaper_LastEditor.Width = 120;
             // 
             // olvColumnPaper_Revision
             // 
             this.olvColumnPaper_Revision.AspectName = "Revision";
-            this.olvColumnPaper_Revision.MaximumWidth = 80;
+            this.olvColumnPaper_Revision.MaximumWidth = 60;
             this.olvColumnPaper_Revision.Text = "Revision";
-            this.olvColumnPaper_Revision.Width = 80;
             // 
             // tableLayoutPanel_TeamFoldersProvisionCommandGroup
             // 
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnCount = 9;
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 76F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 104F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 129F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 156F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 91F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 68F));
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 107F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.buttonEx_PaperPermsExportToCSV, 8, 0);
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.buttonEx_PaperExportToCSV, 7, 0);
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.buttonEx_PaperSetPaperSyncSetting, 4, 0);
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.buttonEx_PaperSetPaperStatus, 0, 0);
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.radioButton_Active, 1, 0);
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.radioButtonNoSync, 6, 0);
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.radioButtonSync, 5, 0);
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.radioButton_Archived, 2, 0);
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.buttonEx_PaperDownloadFolder, 0, 0);
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.textBoxPaper, 0, 0);
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.buttonEx_PaperDelete, 4, 0);
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.buttonEx_PaperDownload, 0, 0);
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.radioButton_Permanent, 6, 0);
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.radioButton_Archive, 5, 0);
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Location = new System.Drawing.Point(3, 397);
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -382,7 +356,27 @@
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Size = new System.Drawing.Size(707, 36);
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.TabIndex = 3;
             // 
-            // buttonEx_PaperPermsExportToCSV
+            // buttonEx_PaperDownloadFolder
+            // 
+            this.buttonEx_PaperDownloadFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonEx_PaperDownloadFolder.Location = new System.Drawing.Point(236, 6);
+            this.buttonEx_PaperDownloadFolder.Name = "buttonEx_PaperDownloadFolder";
+            this.buttonEx_PaperDownloadFolder.Size = new System.Drawing.Size(27, 23);
+            this.buttonEx_PaperDownloadFolder.TabIndex = 13;
+            this.buttonEx_PaperDownloadFolder.Text = "...";
+            this.buttonEx_PaperDownloadFolder.UseVisualStyleBackColor = true;
+            this.buttonEx_PaperDownloadFolder.Visible = false;
+            // 
+            // textBoxPaper
+            // 
+            this.textBoxPaper.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxPaper.Location = new System.Drawing.Point(107, 7);
+            this.textBoxPaper.Name = "textBoxPaper";
+            this.textBoxPaper.Size = new System.Drawing.Size(123, 22);
+            this.textBoxPaper.TabIndex = 12;
+            this.textBoxPaper.Visible = false;
+            // 
+            // buttonEx_PaperDelete
             // 
             office2010Blue1.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
             office2010Blue1.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
@@ -401,104 +395,51 @@
             office2010Blue1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             office2010Blue1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             office2010Blue1.TextColor = System.Drawing.Color.White;
-            this.buttonEx_PaperPermsExportToCSV.ColorTable = office2010Blue1;
-            this.buttonEx_PaperPermsExportToCSV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_PaperPermsExportToCSV.Location = new System.Drawing.Point(624, 3);
-            this.buttonEx_PaperPermsExportToCSV.Name = "buttonEx_PaperPermsExportToCSV";
-            this.buttonEx_PaperPermsExportToCSV.Size = new System.Drawing.Size(101, 30);
-            this.buttonEx_PaperPermsExportToCSV.TabIndex = 13;
-            this.buttonEx_PaperPermsExportToCSV.Text = "Export Paper Members";
-            this.buttonEx_PaperPermsExportToCSV.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
-            this.buttonEx_PaperPermsExportToCSV.UseVisualStyleBackColor = true;
+            this.buttonEx_PaperDelete.ColorTable = office2010Blue1;
+            this.buttonEx_PaperDelete.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonEx_PaperDelete.Location = new System.Drawing.Point(294, 3);
+            this.buttonEx_PaperDelete.Name = "buttonEx_PaperDelete";
+            this.buttonEx_PaperDelete.Size = new System.Drawing.Size(90, 30);
+            this.buttonEx_PaperDelete.TabIndex = 11;
+            this.buttonEx_PaperDelete.Text = "Delete Docs";
+            this.buttonEx_PaperDelete.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
+            this.buttonEx_PaperDelete.UseVisualStyleBackColor = true;
             // 
-            // buttonEx_PaperExportToCSV
+            // buttonEx_PaperDownload
             // 
-            this.buttonEx_PaperExportToCSV.ColorTable = office2010Blue1;
-            this.buttonEx_PaperExportToCSV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_PaperExportToCSV.Location = new System.Drawing.Point(468, 3);
-            this.buttonEx_PaperExportToCSV.Name = "buttonEx_PaperExportToCSV";
-            this.buttonEx_PaperExportToCSV.Size = new System.Drawing.Size(150, 30);
-            this.buttonEx_PaperExportToCSV.TabIndex = 12;
-            this.buttonEx_PaperExportToCSV.Text = "Export Paper Docs";
-            this.buttonEx_PaperExportToCSV.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
-            this.buttonEx_PaperExportToCSV.UseVisualStyleBackColor = true;
+            this.buttonEx_PaperDownload.ColorTable = office2010Blue1;
+            this.buttonEx_PaperDownload.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonEx_PaperDownload.Location = new System.Drawing.Point(3, 3);
+            this.buttonEx_PaperDownload.Name = "buttonEx_PaperDownload";
+            this.buttonEx_PaperDownload.Size = new System.Drawing.Size(98, 30);
+            this.buttonEx_PaperDownload.TabIndex = 8;
+            this.buttonEx_PaperDownload.Text = "Download Docs";
+            this.buttonEx_PaperDownload.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
+            this.buttonEx_PaperDownload.UseVisualStyleBackColor = true;
             // 
-            // buttonEx_PaperSetPaperSyncSetting
+            // radioButton_Permanent
             // 
-            this.buttonEx_PaperSetPaperSyncSetting.ColorTable = office2010Blue1;
-            this.buttonEx_PaperSetPaperSyncSetting.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_PaperSetPaperSyncSetting.Location = new System.Drawing.Point(264, 3);
-            this.buttonEx_PaperSetPaperSyncSetting.Name = "buttonEx_PaperSetPaperSyncSetting";
-            this.buttonEx_PaperSetPaperSyncSetting.Size = new System.Drawing.Size(114, 30);
-            this.buttonEx_PaperSetPaperSyncSetting.TabIndex = 11;
-            this.buttonEx_PaperSetPaperSyncSetting.Text = "Change Sync Setting";
-            this.buttonEx_PaperSetPaperSyncSetting.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
-            this.buttonEx_PaperSetPaperSyncSetting.UseVisualStyleBackColor = true;
-            this.buttonEx_PaperSetPaperSyncSetting.Visible = false;
+            this.radioButton_Permanent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButton_Permanent.AutoSize = true;
+            this.radioButton_Permanent.Location = new System.Drawing.Point(465, 9);
+            this.radioButton_Permanent.Name = "radioButton_Permanent";
+            this.radioButton_Permanent.Size = new System.Drawing.Size(85, 17);
+            this.radioButton_Permanent.TabIndex = 9;
+            this.radioButton_Permanent.TabStop = true;
+            this.radioButton_Permanent.Text = "Permanent";
+            this.radioButton_Permanent.UseVisualStyleBackColor = true;
             // 
-            // buttonEx_PaperSetPaperStatus
+            // radioButton_Archive
             // 
-            this.buttonEx_PaperSetPaperStatus.ColorTable = office2010Blue1;
-            this.buttonEx_PaperSetPaperStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_PaperSetPaperStatus.Location = new System.Drawing.Point(3, 3);
-            this.buttonEx_PaperSetPaperStatus.Name = "buttonEx_PaperSetPaperStatus";
-            this.buttonEx_PaperSetPaperStatus.Size = new System.Drawing.Size(90, 30);
-            this.buttonEx_PaperSetPaperStatus.TabIndex = 8;
-            this.buttonEx_PaperSetPaperStatus.Text = "Change Status";
-            this.buttonEx_PaperSetPaperStatus.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
-            this.buttonEx_PaperSetPaperStatus.UseVisualStyleBackColor = true;
-            // 
-            // radioButton_Active
-            // 
-            this.radioButton_Active.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton_Active.AutoSize = true;
-            this.radioButton_Active.Location = new System.Drawing.Point(99, 9);
-            this.radioButton_Active.Name = "radioButton_Active";
-            this.radioButton_Active.Size = new System.Drawing.Size(58, 17);
-            this.radioButton_Active.TabIndex = 9;
-            this.radioButton_Active.TabStop = true;
-            this.radioButton_Active.Text = "Active";
-            this.radioButton_Active.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonNoSync
-            // 
-            this.radioButtonNoSync.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButtonNoSync.AutoSize = true;
-            this.radioButtonNoSync.Location = new System.Drawing.Point(447, 9);
-            this.radioButtonNoSync.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButtonNoSync.Name = "radioButtonNoSync";
-            this.radioButtonNoSync.Size = new System.Drawing.Size(16, 17);
-            this.radioButtonNoSync.TabIndex = 5;
-            this.radioButtonNoSync.TabStop = true;
-            this.radioButtonNoSync.Text = "No Sync";
-            this.radioButtonNoSync.UseVisualStyleBackColor = true;
-            this.radioButtonNoSync.Visible = false;
-            // 
-            // radioButtonSync
-            // 
-            this.radioButtonSync.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButtonSync.AutoSize = true;
-            this.radioButtonSync.Location = new System.Drawing.Point(383, 9);
-            this.radioButtonSync.Margin = new System.Windows.Forms.Padding(2);
-            this.radioButtonSync.Name = "radioButtonSync";
-            this.radioButtonSync.Size = new System.Drawing.Size(60, 17);
-            this.radioButtonSync.TabIndex = 4;
-            this.radioButtonSync.TabStop = true;
-            this.radioButtonSync.Text = "Sync";
-            this.radioButtonSync.UseVisualStyleBackColor = true;
-            this.radioButtonSync.Visible = false;
-            // 
-            // radioButton_Archived
-            // 
-            this.radioButton_Archived.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton_Archived.AutoSize = true;
-            this.radioButton_Archived.Location = new System.Drawing.Point(163, 9);
-            this.radioButton_Archived.Name = "radioButton_Archived";
-            this.radioButton_Archived.Size = new System.Drawing.Size(70, 17);
-            this.radioButton_Archived.TabIndex = 10;
-            this.radioButton_Archived.TabStop = true;
-            this.radioButton_Archived.Text = "Archived";
-            this.radioButton_Archived.UseVisualStyleBackColor = true;
+            this.radioButton_Archive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButton_Archive.AutoSize = true;
+            this.radioButton_Archive.Location = new System.Drawing.Point(390, 9);
+            this.radioButton_Archive.Name = "radioButton_Archive";
+            this.radioButton_Archive.Size = new System.Drawing.Size(69, 17);
+            this.radioButton_Archive.TabIndex = 10;
+            this.radioButton_Archive.TabStop = true;
+            this.radioButton_Archive.Text = "Archived";
+            this.radioButton_Archive.UseVisualStyleBackColor = true;
             // 
             // PaperView
             // 
@@ -514,7 +455,6 @@
             this.tableLayoutPanel_TeamFoldersAccessToken.ResumeLayout(false);
             this.tableLayoutPanel_TeamFoldersAccessToken.PerformLayout();
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ResumeLayout(false);
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.PerformLayout();
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.ResumeLayout(false);
             this.tableLayoutPanel_TeamFoldersMembersGroup.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectListView_PaperMembers)).EndInit();
@@ -540,21 +480,17 @@
         private ButtonEx buttonEx_PaperLoadPaper;
         private BrightIdeasSoftware.OLVColumn olvColumnPaper_Status;
         private BrightIdeasSoftware.OLVColumn olvColumnPaper_PaperId;
-        private ButtonEx buttonEx_PaperSetPaperStatus;
+        private ButtonEx buttonEx_PaperDownload;
         private ButtonEx buttonEx_PaperCreatePaper;
-        private System.Windows.Forms.TextBox textBoxPaper;
-        private System.Windows.Forms.RadioButton radioButton_Active;
-        private System.Windows.Forms.RadioButton radioButton_Archived;
-        private System.Windows.Forms.RadioButton radioButtonSync;
-        private System.Windows.Forms.RadioButton radioButtonNoSync;
-        private ButtonEx buttonEx_PaperSetPaperSyncSetting;
-        private ButtonEx buttonEx_PaperExportToCSV;
-        private System.Windows.Forms.Button buttonEx_PaperLoadFromCSV;
-        private ButtonEx buttonEx_PaperPermsExportToCSV;
+        private System.Windows.Forms.RadioButton radioButton_Permanent;
+        private System.Windows.Forms.RadioButton radioButton_Archive;
+        private ButtonEx buttonEx_PaperDelete;
         private BrightIdeasSoftware.OLVColumn olvColumnPaper_Owner;
         private BrightIdeasSoftware.OLVColumn olvColumnPaper_CreatedDate;
         private BrightIdeasSoftware.OLVColumn olvColumnPaper_LastUpdatedDate;
         private BrightIdeasSoftware.OLVColumn olvColumnPaper_LastEditor;
         private BrightIdeasSoftware.OLVColumn olvColumnPaper_Revision;
+        private System.Windows.Forms.Button buttonEx_PaperDownloadFolder;
+        private System.Windows.Forms.TextBox textBoxPaper;
     }
 }

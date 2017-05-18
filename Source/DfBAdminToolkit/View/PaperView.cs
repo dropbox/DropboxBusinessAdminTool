@@ -74,13 +74,13 @@
                 this.textBox_PaperAccessToken.TextChanged += TextBox_PaperAccessToken_TextChanged;
                 this.buttonEx_PaperLoadPaper.Click += buttonEx_PaperLoadPaper_Click;
                 this.buttonEx_PaperCreatePaper.Click += buttonEx_PaperCreatePaper_Click;
-                this.buttonEx_PaperSetPaperStatus.Click += buttonEx_PaperSetPaperStatus_Click;
-                this.buttonEx_PaperSetPaperSyncSetting.Click += buttonEx_PaperSetPaperSyncSetting_Click;
-                this.buttonEx_PaperExportToCSV.Click += buttonEx_PaperExportToCSV_Click;
-                this.buttonEx_PaperPermsExportToCSV.Click += buttonEx_PaperPermsExportToCSV_Click;
-                this.buttonEx_PaperLoadFromCSV.Click += buttonEx_PaperLoadFromCSV_Click;
-                this.radioButtonSync.CheckedChanged += radioButtonSync_CheckedChanged;
-                this.radioButton_Active.CheckedChanged += radioButtonActive_CheckedChanged;
+                this.buttonEx_PaperDownload.Click += buttonEx_PaperSetPaperStatus_Click;
+                this.buttonEx_PaperDelete.Click += buttonEx_PaperDelete_Click;
+                //this.buttonEx_PaperExportToCSV.Click += buttonEx_PaperExportToCSV_Click;
+                //this.buttonEx_PaperPermsExportToCSV.Click += buttonEx_PaperPermsExportToCSV_Click;
+                this.buttonEx_PaperDownloadFolder.Click += buttonEx_PaperDownloadFolder_Click;
+                this.radioButton_Archive.CheckedChanged += radioButton_Archive_CheckedChanged;
+                this.radioButton_Permanent.CheckedChanged += radioButton_Permanent_CheckedChanged;
                 this.textBoxPaper.TextChanged += TextBox_textBoxPaper_TextChanged;
                 this.objectListView_PaperMembers.ItemChecked += ObjectListView_PaperMembers_ItemChecked;
                 this.objectListView_PaperMembers.HeaderCheckBoxChanging += ObjectListView_PaperMembers_HeaderCheckBoxChanging;
@@ -95,13 +95,13 @@
                 this.textBox_PaperAccessToken.TextChanged -= TextBox_PaperAccessToken_TextChanged;
                 this.buttonEx_PaperLoadPaper.Click -= buttonEx_PaperLoadPaper_Click;
                 this.buttonEx_PaperCreatePaper.Click -= buttonEx_PaperCreatePaper_Click;
-                this.buttonEx_PaperSetPaperStatus.Click -= buttonEx_PaperSetPaperStatus_Click;
-                this.buttonEx_PaperSetPaperSyncSetting.Click -= buttonEx_PaperSetPaperSyncSetting_Click;
-                this.buttonEx_PaperExportToCSV.Click -= buttonEx_PaperExportToCSV_Click;
-                this.buttonEx_PaperPermsExportToCSV.Click -= buttonEx_PaperPermsExportToCSV_Click;
-                this.buttonEx_PaperLoadFromCSV.Click -= buttonEx_PaperLoadFromCSV_Click;
-                this.radioButtonSync.CheckedChanged -= radioButtonSync_CheckedChanged;
-                this.radioButton_Active.CheckedChanged -= radioButtonActive_CheckedChanged;
+                this.buttonEx_PaperDownload.Click -= buttonEx_PaperDownload_Click;
+                this.buttonEx_PaperDelete.Click -= buttonEx_PaperDelete_Click;
+                //this.buttonEx_PaperExportToCSV.Click -= buttonEx_PaperExportToCSV_Click;
+                //this.buttonEx_PaperPermsExportToCSV.Click -= buttonEx_PaperPermsExportToCSV_Click;
+                this.buttonEx_PaperDownloadFolder.Click -= buttonEx_PaperDownloadFolder_Click;
+                this.radioButton_Archive.CheckedChanged -= radioButton_Archive_CheckedChanged;
+                this.radioButton_Permanent.CheckedChanged -= radioButton_Permanent_CheckedChanged;
                 this.textBoxPaper.TextChanged -= TextBox_textBoxPaper_TextChanged;
                 this.objectListView_PaperMembers.ItemChecked -= ObjectListView_PaperMembers_ItemChecked;
                 this.objectListView_PaperMembers.HeaderCheckBoxChanging -= ObjectListView_PaperMembers_HeaderCheckBoxChanging;
@@ -119,8 +119,7 @@
             this.buttonEx_PaperLoadPaper.Enabled = true;
 
             //set default for radio buttons
-            this.radioButtonSync.Checked = true;
-            this.radioButton_Active.Checked = true;
+            this.radioButton_Archive.Checked = true;
         }
 
         private void InitializeOLVMembers()
@@ -271,7 +270,7 @@
             }
         }
 
-        private void buttonEx_PaperSetPaperSyncSetting_Click(object sender, EventArgs e)
+        private void buttonEx_PaperDelete_Click(object sender, EventArgs e)
         {
             InvokeDataChanged(sender, e);
             if (CommandSetPaperSyncSetting != null)
@@ -280,7 +279,7 @@
             }
         }
 
-        private void buttonEx_PaperExportToCSV_Click(object sender, EventArgs e)
+        private void buttonEx_PaperDownload_Click(object sender, EventArgs e)
         {
             InvokeDataChanged(sender, e);
             if (CommandExportPaper != null)
@@ -289,16 +288,16 @@
             }
         }
 
-        private void buttonEx_PaperPermsExportToCSV_Click(object sender, EventArgs e)
-        {
-            InvokeDataChanged(sender, e);
-            if (CommandExportPaperPerms != null)
-            {
-                CommandExportPaperPerms(sender, e);
-            }
-        }
+        //private void buttonEx_PaperPermsExportToCSV_Click(object sender, EventArgs e)
+        //{
+        //    InvokeDataChanged(sender, e);
+        //    if (CommandExportPaperPerms != null)
+        //    {
+        //        CommandExportPaperPerms(sender, e);
+        //    }
+        //}
 
-        private void buttonEx_PaperLoadFromCSV_Click(object sender, EventArgs e)
+        private void buttonEx_PaperDownloadFolder_Click(object sender, EventArgs e)
         {
             OpenFileDialog inputFile = new OpenFileDialog();
             inputFile.Title = "Please select a CSV file";
@@ -328,9 +327,9 @@
             AccessToken = this.textBox_PaperAccessToken.Text;
         }
 
-        private void radioButtonSync_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_Archive_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonSync.Checked == true)
+            if (radioButton_Archive.Checked == true)
             {
                 SyncSetting = true;
             }
@@ -340,9 +339,9 @@
             }
         }
 
-        private void radioButtonActive_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_Permanent_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton_Active.Checked == true)
+            if (radioButton_Permanent.Checked == true)
             {
                 ActiveSetting = true;
             }
