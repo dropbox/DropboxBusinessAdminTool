@@ -8,30 +8,26 @@
         : IView
     {
         event EventHandler CommandGetPaper;
-        event EventHandler CommandCreatePaper;
         event EventHandler CommandSetPaperStatus;
-        event EventHandler CommandSetPaperSyncSetting;
-        event EventHandler CommandLoadPaper;
         event EventHandler CommandExportPaper;
-        event EventHandler CommandExportPaperPerms;
 
         string AccessToken { get; set; }
 
         void RefreshAccessToken();
 
-        bool MultiPaperCreateCheck();
+        void EnableDownloadButton(bool enable);
 
         string PaperName { get; set; }
 
         string PaperId { get; set; }
 
-        string PaperInputFilePath { get; set; }
+        bool ArchiveSetting { get; set; }
 
-        bool SyncSetting { get; set; }
-
-        bool ActiveSetting { get; set; }
+        bool PermanentSetting { get; set; }
 
         string UserEmail { get; set; }
+
+        string OutputFolder { get; set; }
 
         void RenderPaperList();
 

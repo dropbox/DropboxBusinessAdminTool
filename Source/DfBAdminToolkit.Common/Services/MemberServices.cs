@@ -1316,7 +1316,7 @@
                     RestRequest request = new RestRequest(ListPaperDocsUrl, Method.POST);
                     request.AddHeader("Authorization", "Bearer " + authToken);
                     request.AddHeader("Content-Type", "application/json");
-                    request.AddHeader("Dropbox-API-Select-User", "dbmid:AAB0b0JFw5Ekelcmo_WGPSo_Yuq9sI8IT1E");
+                    request.AddHeader("Dropbox-API-Select-User", data.MemberId);
 
                     if (String.IsNullOrEmpty(data.Cursor))
                     {
@@ -1362,7 +1362,7 @@
                     //add headers
                     request.AddHeader("Authorization", "Bearer " + authToken);
                     request.AddHeader("Content-Type", "application/json");
-                    request.AddHeader("Dropbox-API-Select-User", "dbmid: AAB0b0JFw5Ekelcmo_WGPSo_Yuq9sI8IT1E");
+                    request.AddHeader("Dropbox-API-Select-User", memberId);
 
                     //set up properties for JSON to the API
                     JObject jsonMetadata = new JObject(

@@ -14,12 +14,8 @@
     {
         public event EventHandler DataChanged;
         public event EventHandler CommandGetPaper;
-        public event EventHandler CommandCreatePaper;
         public event EventHandler CommandSetPaperStatus;
-        public event EventHandler CommandSetPaperSyncSetting;
-        public event EventHandler CommandLoadPaper;
         public event EventHandler CommandExportPaper;
-        public event EventHandler CommandExportPaperPerms;
 
         public SynchronizationContext SyncContext { get; set; }
 
@@ -31,13 +27,13 @@
 
         public string PaperId { get; set; }
 
-        public string PaperInputFilePath { get; set; }
+        public bool ArchiveSetting { get; set; }
 
-        public bool SyncSetting { get; set; }
-
-        public bool ActiveSetting { get; set; }
+        public bool PermanentSetting { get; set; }
 
         public string UserEmail { get; set; }
+
+        public string OutputFolder { get; set; }
 
         public List<PaperListViewItemModel> Paper { get; set; }
 
@@ -73,11 +69,8 @@
             {
                 this.textBox_PaperAccessToken.TextChanged += TextBox_PaperAccessToken_TextChanged;
                 this.buttonEx_PaperLoadPaper.Click += buttonEx_PaperLoadPaper_Click;
-                this.buttonEx_PaperCreatePaper.Click += buttonEx_PaperCreatePaper_Click;
                 this.buttonEx_PaperDownload.Click += buttonEx_PaperSetPaperStatus_Click;
                 this.buttonEx_PaperDelete.Click += buttonEx_PaperDelete_Click;
-                //this.buttonEx_PaperExportToCSV.Click += buttonEx_PaperExportToCSV_Click;
-                //this.buttonEx_PaperPermsExportToCSV.Click += buttonEx_PaperPermsExportToCSV_Click;
                 this.buttonEx_PaperDownloadFolder.Click += buttonEx_PaperDownloadFolder_Click;
                 this.radioButton_Archive.CheckedChanged += radioButton_Archive_CheckedChanged;
                 this.radioButton_Permanent.CheckedChanged += radioButton_Permanent_CheckedChanged;
@@ -94,11 +87,8 @@
             {
                 this.textBox_PaperAccessToken.TextChanged -= TextBox_PaperAccessToken_TextChanged;
                 this.buttonEx_PaperLoadPaper.Click -= buttonEx_PaperLoadPaper_Click;
-                this.buttonEx_PaperCreatePaper.Click -= buttonEx_PaperCreatePaper_Click;
                 this.buttonEx_PaperDownload.Click -= buttonEx_PaperDownload_Click;
                 this.buttonEx_PaperDelete.Click -= buttonEx_PaperDelete_Click;
-                //this.buttonEx_PaperExportToCSV.Click -= buttonEx_PaperExportToCSV_Click;
-                //this.buttonEx_PaperPermsExportToCSV.Click -= buttonEx_PaperPermsExportToCSV_Click;
                 this.buttonEx_PaperDownloadFolder.Click -= buttonEx_PaperDownloadFolder_Click;
                 this.radioButton_Archive.CheckedChanged -= radioButton_Archive_CheckedChanged;
                 this.radioButton_Permanent.CheckedChanged -= radioButton_Permanent_CheckedChanged;
@@ -117,6 +107,7 @@
             Dock = DockStyle.Fill;
             Paper = new List<PaperListViewItemModel>();
             this.buttonEx_PaperLoadPaper.Enabled = true;
+            this.buttonEx_PaperDownload.Enabled = false;
 
             //set default for radio buttons
             this.radioButton_Archive.Checked = true;
@@ -197,15 +188,10 @@
             textBox_PaperAccessToken.Text = AccessToken;
         }
 
-        public bool MultiPaperCreateCheck()
+        public void EnableDownloadButton(bool enable)
         {
-            bool check = false;
-
-            if ((textBoxPaper.Text).Contains(".csv"))
-            {
-                check = true;
-            }
-            return check;
+            this.buttonEx_PaperDownload.Enabled = enable;
+            this.buttonEx_PaperDownload.Update();
         }
 
         private void TextBox_textBoxPaper_TextChanged(object sender, EventArgs e)
@@ -221,15 +207,6 @@
                 this.objectListView_PaperMembers.CheckHeaderCheckBox(olvColumnPaper_PaperName);
             }
         }
-
-        //public void RenderPaperListFromCSV(List<PaperListViewItemModel> paper)
-        //{
-        //    this.objectListView_PaperMembers.SetObjects(paper);
-        //    if (this.objectListView_PaperMembers.GetItemCount() == this.objectListView_PaperMembers.CheckedObjects.Count)
-        //    {
-        //        this.objectListView_PaperMembers.CheckHeaderCheckBox(olvColumnPaper_PaperName);
-        //    }
-        //}
 
         private void UncheckHeaderCheckbox(ObjectListView olv, OLVColumn col)
         {
@@ -252,15 +229,6 @@
             }
         }
 
-        private void buttonEx_PaperCreatePaper_Click(object sender, EventArgs e)
-        {
-            InvokeDataChanged(sender, e);
-            if (CommandCreatePaper != null)
-            {
-                CommandCreatePaper(sender, e);
-            }
-        }
-
         private void buttonEx_PaperSetPaperStatus_Click(object sender, EventArgs e)
         {
             InvokeDataChanged(sender, e);
@@ -272,11 +240,11 @@
 
         private void buttonEx_PaperDelete_Click(object sender, EventArgs e)
         {
-            InvokeDataChanged(sender, e);
-            if (CommandSetPaperSyncSetting != null)
-            {
-                CommandSetPaperSyncSetting(sender, e);
-            }
+            //InvokeDataChanged(sender, e);
+            //if (CommandSetPaperSyncSetting != null)
+            //{
+            //    CommandSetPaperSyncSetting(sender, e);
+            //}
         }
 
         private void buttonEx_PaperDownload_Click(object sender, EventArgs e)
@@ -288,37 +256,18 @@
             }
         }
 
-        //private void buttonEx_PaperPermsExportToCSV_Click(object sender, EventArgs e)
-        //{
-        //    InvokeDataChanged(sender, e);
-        //    if (CommandExportPaperPerms != null)
-        //    {
-        //        CommandExportPaperPerms(sender, e);
-        //    }
-        //}
-
         private void buttonEx_PaperDownloadFolder_Click(object sender, EventArgs e)
         {
-            OpenFileDialog inputFile = new OpenFileDialog();
-            inputFile.Title = "Please select a CSV file";
-            inputFile.Filter = "CSV File|*.csv";
-            DialogResult result = inputFile.ShowDialog();
+            FolderBrowserDialog outputFolderDlg = new FolderBrowserDialog();
+            outputFolderDlg.Description = "Please select an output folder";
+            outputFolderDlg.ShowNewFolderButton = true;
+            DialogResult result = outputFolderDlg.ShowDialog();
 
             if (result == DialogResult.OK)
             {
-                olvColumnPaper_PaperName.IsVisible = true;
-                olvColumnPaper_PaperId.IsVisible = true;
-                olvColumnPaper_Status.IsVisible = true;
-                this.objectListView_PaperMembers.RebuildColumns();
-
-                textBoxPaper.Text = inputFile.FileName;
-                PaperInputFilePath = inputFile.FileName;
-                InvokeDataChanged(sender, e);
-
-                if (CommandLoadPaper != null)
-                {
-                    CommandLoadPaper(sender, e);
-                }
+                textBoxPaper.Text = outputFolderDlg.SelectedPath;
+                OutputFolder = outputFolderDlg.SelectedPath;
+                this.EnableDownloadButton(true);
             }
         }
 
@@ -331,11 +280,11 @@
         {
             if (radioButton_Archive.Checked == true)
             {
-                SyncSetting = true;
+                ArchiveSetting = true;
             }
             else
             {
-                SyncSetting = false;
+                ArchiveSetting = false;
             }
         }
 
@@ -343,11 +292,11 @@
         {
             if (radioButton_Permanent.Checked == true)
             {
-                ActiveSetting = true;
+                PermanentSetting = true;
             }
             else
             {
-                ActiveSetting = false;
+                PermanentSetting = false;
             }
         }
 
