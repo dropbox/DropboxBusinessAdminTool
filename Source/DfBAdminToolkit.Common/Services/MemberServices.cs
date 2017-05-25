@@ -1389,7 +1389,7 @@
             return dataResponse;
         }
 
-        public IDataResponse ArchivePaperDoc(IMemberData data, string authToken, string docId)
+        public IDataResponse ArchivePaperDoc(string memberId, string authToken, string docId)
         {
             IDataResponse dataResponse = null;
             try
@@ -1403,7 +1403,7 @@
 
                     //add headers
                     request.AddHeader("Authorization", "Bearer " + authToken);
-                    request.AddHeader("Dropbox-API-Select-User", data.MemberId);
+                    request.AddHeader("Dropbox-API-Select-User", memberId);
 
                     JObject json = new JObject(
                         new JProperty("doc_id", docId)
@@ -1426,7 +1426,7 @@
             return dataResponse;
         }
 
-        public IDataResponse PermDeletePaperDoc(IMemberData data, string authToken, string docId)
+        public IDataResponse PermDeletePaperDoc(string memberId, string authToken, string docId)
         {
             IDataResponse dataResponse = null;
             try
@@ -1440,7 +1440,7 @@
 
                     //add headers
                     request.AddHeader("Authorization", "Bearer " + authToken);
-                    request.AddHeader("Dropbox-API-Select-User", data.MemberId);
+                    request.AddHeader("Dropbox-API-Select-User", memberId);
 
                     JObject json = new JObject(
                         new JProperty("doc_id", docId)

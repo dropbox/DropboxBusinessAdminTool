@@ -9,6 +9,7 @@
     {
         event EventHandler DataChanged;
         event EventHandler CommandGetPaper;
+        event EventHandler CommandDeletePaper;
         event EventHandler CommandExportPaper;
 
         string AccessToken { get; set; }

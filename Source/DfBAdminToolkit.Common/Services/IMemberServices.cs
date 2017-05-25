@@ -138,9 +138,9 @@ namespace DfBAdminToolkit.Common.Services
 
         IDataResponse GetPaperMetadata(string docId, string authToken, string memberId);
 
-        IDataResponse ArchivePaperDoc(IMemberData data, string authToken, string docId);
+        IDataResponse ArchivePaperDoc(string memberId, string authToken, string docId);
 
-        IDataResponse PermDeletePaperDoc(IMemberData data, string authToken, string docId);
+        IDataResponse PermDeletePaperDoc(string memberId, string authToken, string docId);
 
         IDataResponse GetCurrentAccount(string authToken);
     }

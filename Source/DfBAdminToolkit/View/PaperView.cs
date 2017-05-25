@@ -13,6 +13,7 @@
     {
         public event EventHandler DataChanged;
         public event EventHandler CommandGetPaper;
+        public event EventHandler CommandDeletePaper;
         public event EventHandler CommandExportPaper;
 
         public SynchronizationContext SyncContext { get; set; }
@@ -229,11 +230,11 @@
 
         private void buttonEx_PaperDelete_Click(object sender, EventArgs e)
         {
-            //InvokeDataChanged(sender, e);
-            //if (CommandSetPaperSyncSetting != null)
-            //{
-            //    CommandSetPaperSyncSetting(sender, e);
-            //}
+            InvokeDataChanged(sender, e);
+            if (CommandDeletePaper != null)
+            {
+                CommandDeletePaper(sender, e);
+            }
         }
 
         private void buttonEx_PaperDownload_Click(object sender, EventArgs e)

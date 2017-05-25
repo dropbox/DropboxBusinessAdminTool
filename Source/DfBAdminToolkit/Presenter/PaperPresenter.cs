@@ -44,6 +44,7 @@
                 IPaperView view = base._view as IPaperView;
                 view.DataChanged += OnDataChanged;
                 view.CommandGetPaper += OnCommandGetPaper;
+                view.CommandDeletePaper += OnCommandDeletePaper;
                 view.CommandExportPaper += OnCommandExportPaper;
                 IsViewEventsWired = true;
             }
@@ -55,6 +56,7 @@
                 IPaperView view = base._view as IPaperView;
                 view.DataChanged -= OnDataChanged;
                 view.CommandGetPaper -= OnCommandGetPaper;
+                view.CommandDeletePaper -= OnCommandDeletePaper;
                 view.CommandExportPaper -= OnCommandExportPaper;
                 IsViewEventsWired = false;
             }
@@ -212,98 +214,61 @@
             }
         }
 
-        private string CreateTeamFolder(IPaperModel model, string teamFolderName, IMainPresenter presenter)
+        private string DeletePaperDocs(IPaperModel model, IPaperView view, IMainPresenter presenter)
         {
             string errorMessage = string.Empty;
             string fileAccessToken = ApplicationResource.DefaultAccessToken;
-            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
-            service.CreateTeamFolderUrl = ApplicationResource.ActionCreateTeamFolder;
-            service.UserAgentVersion = ApplicationResource.UserAgent;
-            IServiceResponse response = service.CreateTeamFolder(teamFolderName, fileAccessToken);
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                if (SyncContext != null)
-                {
-                    SyncContext.Post(delegate
-                    {
-                        presenter.UpdateProgressInfo(string.Format("Created team folder [" + teamFolderName + "]"));
-                    }, null);
-                }
-            }
-            else
-            {
-                errorMessage = ErrorMessages.FAILED_TO_CREATE_TEAMFOLDER;
-            }
-            return errorMessage;
-        }
 
-        private string SetFolderStatus(IPaperModel model, string teamFolderId, bool activeSetting, IMainPresenter presenter)
-        {
-            string errorMessage = string.Empty;
-            string fileAccessToken = ApplicationResource.DefaultAccessToken;
             IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
-            if (activeSetting)
-            {
-                service.ActivateTeamFolderUrl = ApplicationResource.ActionActivateTeamFolder;
-            }
-            if (!activeSetting)
-            {
-                service.ArchiveTeamFolderUrl = ApplicationResource.ActionArchiveTeamFolder;
-            }
+            service.ArchivePaperDocUrl = ApplicationResource.ActionArchivePaperDocs;
             service.UserAgentVersion = ApplicationResource.UserAgent;
-            IServiceResponse response = service.SetTeamFolderStatus(teamFolderId, activeSetting, fileAccessToken);
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                if (SyncContext != null)
-                {
-                    SyncContext.Post(delegate
-                    {
-                        presenter.UpdateProgressInfo(string.Format("Updated team folder status for [" + teamFolderId + "]"));
-                    }, null);
-                }
-            }
-            else
-            {
-                errorMessage = ErrorMessages.FAILED_TO_UPDATE_TEAM_FOLDER_STATUS;
-            }
-            return errorMessage;
-        }
+            IServiceResponse response = null;
 
-        private string SetDefaultArchiveSetting(IPaperModel model, string teamFolderId, bool syncSetting, IMainPresenter presenter)
-        {
-            string errorMessage = string.Empty;
-            string fileAccessToken = ApplicationResource.DefaultAccessToken;
-            string syncStringSetting = "sync";
-            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
-            service.SyncSettingTeamFolderUrl = ApplicationResource.ActionUpdateDefaultSyncSettingTeamFolder;
-            if (!syncSetting)
+            IMemberServices service2 = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service2.PermDeletePaperDocUrl = ApplicationResource.ActionPermanentlyDeletePaperDocs;
+            service2.UserAgentVersion = ApplicationResource.UserAgent;
+            IServiceResponse response2 = null;
+
+            foreach (PaperListViewItemModel item in model.Paper)
             {
-                syncStringSetting = "no_sync";
-            }
-            service.UserAgentVersion = ApplicationResource.UserAgent;
-            IServiceResponse response = service.SetFolderSyncSetting(teamFolderId, syncStringSetting, fileAccessToken);
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                if (SyncContext != null)
+                if (view.ArchiveSetting && item.IsChecked)
                 {
-                    SyncContext.Post(delegate
+                    response = service.ArchivePaperDoc(item.MemberId, fileAccessToken, item.PaperId);
+
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        presenter.UpdateProgressInfo(string.Format("Updated default sync setting for [" + teamFolderId + "]"));
-                    }, null);
+                        if (SyncContext != null)
+                        {
+                            SyncContext.Post(delegate
+                            {
+                                presenter.UpdateProgressInfo(string.Format("Archived Paper doc [" + item.PaperName + "]"));
+                            }, null);
+                        }
+                    }
+                    else
+                    {
+                        errorMessage = ErrorMessages.FAILED_TO_DELETE_PAPER;
+                    }
                 }
-            }
-            if (response.StatusCode.ToString() == "BadRequest")
-            {
-                if (SyncContext != null)
+                if (view.PermanentSetting && item.IsChecked)
                 {
-                    SyncContext.Post(delegate {
-                        presenter.UpdateProgressInfo("Error: This endpoint is only available for teams with access to managed sync");
-                    }, null);
+                    response2 = service2.PermDeletePaperDoc(item.MemberId, fileAccessToken, item.PaperId);
+
+                    if (response2.StatusCode == HttpStatusCode.OK)
+                    {
+                        if (SyncContext != null)
+                        {
+                            SyncContext.Post(delegate
+                            {
+                                presenter.UpdateProgressInfo(string.Format("Permanently deleted Paper doc [" + item.PaperName + "]"));
+                            }, null);
+                        }
+                    }
+                    else
+                    {
+                        errorMessage = ErrorMessages.FAILED_TO_DELETE_PAPER;
+                    }
                 }
-            }
-            else
-            {
-                errorMessage = ErrorMessages.FAILED_TO_UPDATE_TEAM_FOLDER_STATUS;
             }
             return errorMessage;
         }
@@ -473,13 +438,11 @@
             getpaperdocs.Start();
         }
 
-        private void OnCommandSetPaperArchiveSetting(object sender, System.EventArgs e)
+        private void OnCommandDeletePaper(object sender, System.EventArgs e)
         {
             IPaperView view = base._view as IPaperView;
             IPaperModel model = base._model as IPaperModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
-            PaperModel teamModel = view.GetPaperIds();
-            bool archiveSetting = view.ArchiveSetting;
 
             if (SyncContext != null)
             {
@@ -491,7 +454,7 @@
 
                 }, null);
             }
-            Thread setfolderarchivesetting = new Thread(() =>
+            Thread deletepaperdocs = new Thread(() =>
             {
                 if (string.IsNullOrEmpty(model.AccessToken))
                 {
@@ -504,10 +467,7 @@
                 }
                 else
                 {
-                    foreach (PaperListViewItemModel lvItem in teamModel.Paper)
-                    {
-                        this.SetDefaultArchiveSetting(model, lvItem.PaperId, archiveSetting, presenter);
-                    }
+                    this.DeletePaperDocs(model, view, presenter);
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate
@@ -524,7 +484,7 @@
                     }
                 }
             });
-            setfolderarchivesetting.Start();
+            deletepaperdocs.Start();
         }
 
         private void OnCommandExportPaper(object sender, System.EventArgs e)
@@ -541,7 +501,7 @@
                     presenter.UpdateProgressInfo("Processing...");
                 }, null);
             }
-            Thread exportteamfolders = new Thread(() => {
+            Thread exportpapertocsv = new Thread(() => {
                 if (string.IsNullOrEmpty(model.AccessToken))
                 {
                     SyncContext.Post(delegate {
@@ -552,7 +512,7 @@
                 }
                 else
                 {
-                    this.GetPaperDocs(model, presenter);
+                    //this.GetPaperDocs(model, presenter);
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate
@@ -612,7 +572,7 @@
                     }
                 }
             });
-            exportteamfolders.Start();
+            exportpapertocsv.Start();
         }
 
         private void OnDataChanged(object sender, System.EventArgs e) {
