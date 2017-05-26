@@ -44,6 +44,7 @@
                 IPaperView view = base._view as IPaperView;
                 view.DataChanged += OnDataChanged;
                 view.CommandGetPaper += OnCommandGetPaper;
+                view.CommandDownloadPaper += OnCommandDownloadPaper;
                 view.CommandDeletePaper += OnCommandDeletePaper;
                 view.CommandExportPaper += OnCommandExportPaper;
                 IsViewEventsWired = true;
@@ -56,6 +57,7 @@
                 IPaperView view = base._view as IPaperView;
                 view.DataChanged -= OnDataChanged;
                 view.CommandGetPaper -= OnCommandGetPaper;
+                view.CommandDownloadPaper -= OnCommandDownloadPaper;
                 view.CommandDeletePaper -= OnCommandDeletePaper;
                 view.CommandExportPaper -= OnCommandExportPaper;
                 IsViewEventsWired = false;
@@ -224,10 +226,10 @@
             service.UserAgentVersion = ApplicationResource.UserAgent;
             IServiceResponse response = null;
 
-            IMemberServices service2 = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
-            service2.PermDeletePaperDocUrl = ApplicationResource.ActionPermanentlyDeletePaperDocs;
-            service2.UserAgentVersion = ApplicationResource.UserAgent;
-            IServiceResponse response2 = null;
+            IMemberServices servicePerm = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            servicePerm.PermDeletePaperDocUrl = ApplicationResource.ActionPermanentlyDeletePaperDocs;
+            servicePerm.UserAgentVersion = ApplicationResource.UserAgent;
+            IServiceResponse responsePerm = null;
 
             foreach (PaperListViewItemModel item in model.Paper)
             {
@@ -252,9 +254,9 @@
                 }
                 if (view.PermanentSetting && item.IsChecked)
                 {
-                    response2 = service2.PermDeletePaperDoc(item.MemberId, fileAccessToken, item.PaperId);
+                    responsePerm = servicePerm.PermDeletePaperDoc(item.MemberId, fileAccessToken, item.PaperId);
 
-                    if (response2.StatusCode == HttpStatusCode.OK)
+                    if (responsePerm.StatusCode == HttpStatusCode.OK)
                     {
                         if (SyncContext != null)
                         {
@@ -267,6 +269,35 @@
                     else
                     {
                         errorMessage = ErrorMessages.FAILED_TO_DELETE_PAPER;
+                    }
+                }
+            }
+            return errorMessage;
+        }
+
+        private string DownloadPaperDocs(IPaperModel model, IPaperView view, IMainPresenter presenter)
+        {
+            string errorMessage = string.Empty;
+            string outputFolder = view.OutputFolder;
+            string fileAccessToken = ApplicationResource.DefaultAccessToken;
+
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.DownloadPaperDocUrl = ApplicationResource.ActionDownloadPaperDocs;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            IServiceResponse response = null;
+
+            foreach (PaperListViewItemModel item in model.Paper)
+            {
+                if (item.IsChecked)
+                {
+                    response = service.DownloadPaperDoc(item.MemberId, item.PaperId, outputFolder, item.PaperName, fileAccessToken);
+
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate
+                        {
+                            presenter.UpdateProgressInfo(string.Format("Downloaded Paper doc [" + item.PaperName + "]"));
+                        }, null);
                     }
                 }
             }
@@ -451,7 +482,6 @@
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
                     presenter.UpdateProgressInfo("Processing...");
-
                 }, null);
             }
             Thread deletepaperdocs = new Thread(() =>
@@ -485,6 +515,54 @@
                 }
             });
             deletepaperdocs.Start();
+        }
+
+        private void OnCommandDownloadPaper(object sender, System.EventArgs e)
+        {
+            IPaperView view = base._view as IPaperView;
+            IPaperModel model = base._model as IPaperModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate
+                {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Processing...");
+                }, null);
+            }
+            Thread downloadpaperdocs = new Thread(() =>
+            {
+                if (string.IsNullOrEmpty(model.AccessToken))
+                {
+                    SyncContext.Post(delegate
+                    {
+                        presenter.EnableControl(true);
+                        presenter.ActivateSpinner(false);
+                        presenter.UpdateProgressInfo("");
+                    }, null);
+                }
+                else
+                {
+                    this.DownloadPaperDocs(model, view, presenter);
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate
+                        {
+                            // update result and update view.
+                            PresenterBase.SetViewPropertiesFromModel<IPaperView, IPaperModel>(
+                                ref view, model
+                            );
+                            // update result and update view.
+                            view.RenderPaperList();
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                        }, null);
+                    }
+                }
+            });
+            downloadpaperdocs.Start();
         }
 
         private void OnCommandExportPaper(object sender, System.EventArgs e)
@@ -525,7 +603,7 @@
                             if (model.Paper.Count > 0)
                             {
                                 //create CSV file in My Documents folder
-                                sPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\PaperExport.csv";
+                                sPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\PaperDocExport.csv";
                                 CsvConfiguration config = new CsvConfiguration()
                                 {
                                     HasHeaderRecord = true,
@@ -564,7 +642,7 @@
                             }
                             if (model.Paper.Count == 0)
                             {
-                                presenter.UpdateProgressInfo("No team folders were chosen to export.");
+                                presenter.UpdateProgressInfo("No Paper docs were chosen to export.");
                             }
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);

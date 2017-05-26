@@ -14,6 +14,7 @@
         public event EventHandler DataChanged;
         public event EventHandler CommandGetPaper;
         public event EventHandler CommandDeletePaper;
+        public event EventHandler CommandDownloadPaper;
         public event EventHandler CommandExportPaper;
 
         public SynchronizationContext SyncContext { get; set; }
@@ -240,9 +241,9 @@
         private void buttonEx_PaperDownload_Click(object sender, EventArgs e)
         {
             InvokeDataChanged(sender, e);
-            if (CommandExportPaper != null)
+            if (CommandDownloadPaper != null)
             {
-                CommandExportPaper(sender, e);
+                CommandDownloadPaper(sender, e);
             }
         }
 

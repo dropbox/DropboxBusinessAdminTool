@@ -13,6 +13,8 @@
         private readonly string _baseUrl;
         private readonly string _apiVersion;
 
+        #region Url properties
+
         public string AddMemberUrl { get; set; }
 
         public string RemoveMemberUrl { get; set; }
@@ -83,9 +85,13 @@
 
         public string PermDeletePaperDocUrl { get; set; }
 
+        public string DownloadPaperDocUrl { get; set; }
+
         public string GetCurrentAccountUrl { get; set; }
 
         public string UserAgentVersion { get; set; }
+
+        #endregion
 
         public MemberServices(
             string baseUrl,
@@ -93,6 +99,8 @@
             _baseUrl = baseUrl;
             _apiVersion = apiVersion;
         }
+
+        #region Provisioning
 
         public IServiceResponse AddMember(IMemberData data, string authToken)
         {
@@ -372,43 +380,28 @@
             return dataResponse;
         }
 
-        public IDataResponse ListFolders(IMemberData data, string authToken)
+        public IDataResponse GetUsage(IMemberData data, string authToken)
         {
             IDataResponse dataResponse = null;
             try
             {
-                if (!string.IsNullOrEmpty(ListFolderUrl))
+                if (!string.IsNullOrEmpty(GetUsageUrl))
                 {
                     RestClient client = new RestClient(
                            string.Format("{0}/{1}/", _baseUrl, _apiVersion)
                        );
-                    RestRequest request = new RestRequest(ListFolderUrl, Method.POST);
+                    RestRequest request = new RestRequest(GetUsageUrl, Method.POST);
+                    //add headers
                     request.AddHeader("Authorization", "Bearer " + authToken);
-                    request.AddHeader("Content-Type", "application/json");
-                    request.AddHeader("Dropbox-API-Select-User", data.MemberId);
+                    request.AddHeader("Dropbox-API-Select-User", data.MemberId.Trim());
 
-                    if (String.IsNullOrEmpty(data.Cursor))
-                    {
-                        //set up properties for JSON to the API
-                        JObject jsonSearch = new JObject(
-                        new JProperty("path", ""),
-                        new JProperty("recursive", true),
-                        new JProperty("include_media_info", false)
-                       );
-                        request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
-                    }
-
-                    if (!String.IsNullOrEmpty(data.Cursor))
-                    {
-                        //set up properties for JSON to the API
-                        JObject jsonSearch = new JObject(
-                        new JProperty("cursor", data.Cursor)
-                       );
-                        request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
-                    }
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
                 }
             }
             catch (Exception e)
@@ -417,6 +410,129 @@
             }
             return dataResponse;
         }
+
+        public IDataResponse GetCurrentAccount(string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(GetCurrentAccountUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(GetCurrentAccountUrl, Method.POST);
+                    //add headers
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse GetInfo(string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(GetInfoUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(GetInfoUrl, Method.POST);
+                    //add headers
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IServiceResponse SetProfile(IMemberData data, string authToken)
+        {
+            IServiceResponse serviceResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(SetProfileUrl))
+                {
+                    RestClient client = new RestClient(
+                        string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                    );
+                    RestRequest request = new RestRequest(SetProfileUrl, Method.POST);
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    //if we are updating external id also
+                    if (!string.IsNullOrEmpty(data.NewExternalId))
+                    {
+                        JObject jsonProv = new JObject(
+                        new JProperty("user",
+                                new JObject(
+                                    new JProperty(".tag", "email"),
+                                    new JProperty("email", data.Email.Trim())
+                                )
+                        ),
+                        new JProperty("new_email", data.NewEmail),
+                        new JProperty("new_external_id", data.NewExternalId.Trim())
+                        );
+                        request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
+                    }
+                    //if we are not updating external id
+                    if (string.IsNullOrEmpty(data.NewExternalId))
+                    {
+                        JObject jsonProv = new JObject(
+                        new JProperty("user",
+                                new JObject(
+                                    new JProperty(".tag", "email"),
+                                    new JProperty("email", data.Email.Trim())
+                                )
+                        ),
+                        new JProperty("new_email", data.NewEmail)
+                        );
+                        request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
+                    }
+                    request.RequestFormat = DataFormat.Json;
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
+            }
+            return serviceResponse;
+        }
+
+        #endregion
+
+        #region Groups/Shared Folders
 
         public IDataResponse GetGroups(IMemberData data, string authToken)
         {
@@ -764,6 +880,56 @@
             return serviceResponse;
         }
 
+        #endregion
+
+        #region Search
+
+        public IDataResponse ListFolders(IMemberData data, string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(ListFolderUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(ListFolderUrl, Method.POST);
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+                    request.AddHeader("Dropbox-API-Select-User", data.MemberId);
+
+                    if (String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //set up properties for JSON to the API
+                        JObject jsonSearch = new JObject(
+                        new JProperty("path", ""),
+                        new JProperty("recursive", true),
+                        new JProperty("include_media_info", false)
+                       );
+                        request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
+                    }
+
+                    if (!String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //set up properties for JSON to the API
+                        JObject jsonSearch = new JObject(
+                        new JProperty("cursor", data.Cursor)
+                       );
+                        request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
+                    }
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
         public IDataResponse SearchFiles(IMemberData data, string authToken)
         {
             IDataResponse dataResponse = null;
@@ -804,154 +970,9 @@
             return dataResponse;
         }
 
-        public IDataResponse GetUsage(IMemberData data, string authToken)
-        {
-            IDataResponse dataResponse = null;
-            try
-            {
-                if (!string.IsNullOrEmpty(GetUsageUrl))
-                {
-                    RestClient client = new RestClient(
-                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
-                       );
-                    RestRequest request = new RestRequest(GetUsageUrl, Method.POST);
-                    //add headers
-                    request.AddHeader("Authorization", "Bearer " + authToken);
-                    request.AddHeader("Dropbox-API-Select-User", data.MemberId.Trim());
+        #endregion
 
-                    client.UserAgent = UserAgentVersion;
-                    IRestResponse response = client.Execute(request);
-                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
-                }
-                else {
-                    throw new ArgumentNullException("Missing service url");
-                }
-            }
-            catch (Exception e)
-            {
-                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
-            }
-            return dataResponse;
-        }
-
-        public IDataResponse GetCurrentAccount(string authToken)
-        {
-            IDataResponse dataResponse = null;
-            try
-            {
-                if (!string.IsNullOrEmpty(GetCurrentAccountUrl))
-                {
-                    RestClient client = new RestClient(
-                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
-                       );
-                    RestRequest request = new RestRequest(GetCurrentAccountUrl, Method.POST);
-                    //add headers
-                    request.AddHeader("Authorization", "Bearer " + authToken);
-
-                    client.UserAgent = UserAgentVersion;
-                    IRestResponse response = client.Execute(request);
-                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
-                }
-                else
-                {
-                    throw new ArgumentNullException("Missing service url");
-                }
-            }
-            catch (Exception e)
-            {
-                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
-            }
-            return dataResponse;
-        }
-
-        public IDataResponse GetInfo(string authToken)
-        {
-            IDataResponse dataResponse = null;
-            try
-            {
-                if (!string.IsNullOrEmpty(GetInfoUrl))
-                {
-                    RestClient client = new RestClient(
-                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
-                       );
-                    RestRequest request = new RestRequest(GetInfoUrl, Method.POST);
-                    //add headers
-                    request.AddHeader("Authorization", "Bearer " + authToken);
-                    client.UserAgent = UserAgentVersion;
-                    IRestResponse response = client.Execute(request);
-                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
-                }
-                else
-                {
-                    throw new ArgumentNullException("Missing service url");
-                }
-            }
-            catch (Exception e)
-            {
-                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
-            }
-            return dataResponse;
-        }
-
-        public IServiceResponse SetProfile(IMemberData data, string authToken)
-        {
-            IServiceResponse serviceResponse = null;
-            try
-            {
-                if (!string.IsNullOrEmpty(SetProfileUrl))
-                {
-                    RestClient client = new RestClient(
-                        string.Format("{0}/{1}/", _baseUrl, _apiVersion)
-                    );
-                    RestRequest request = new RestRequest(SetProfileUrl, Method.POST);
-                    request.AddHeader("Authorization", "Bearer " + authToken);
-                    request.AddHeader("Content-Type", "application/json");
-
-                    //if we are updating external id also
-                    if (!string.IsNullOrEmpty(data.NewExternalId))
-                    {
-                        JObject jsonProv = new JObject(
-                        new JProperty("user",
-                                new JObject(
-                                    new JProperty(".tag", "email"),
-                                    new JProperty("email", data.Email.Trim())
-                                )
-                        ),
-                        new JProperty("new_email", data.NewEmail),
-                        new JProperty("new_external_id", data.NewExternalId.Trim())
-                        );
-                        request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
-                    }
-                    //if we are not updating external id
-                    if (string.IsNullOrEmpty(data.NewExternalId))
-                    {
-                        JObject jsonProv = new JObject(
-                        new JProperty("user",
-                                new JObject(
-                                    new JProperty(".tag", "email"),
-                                    new JProperty("email", data.Email.Trim())
-                                )
-                        ),
-                        new JProperty("new_email", data.NewEmail)
-                        );
-                        request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
-                    }       
-                    request.RequestFormat = DataFormat.Json;
-                    client.UserAgent = UserAgentVersion;
-                    IRestResponse response = client.Execute(request);
-                    serviceResponse = new ServiceResponse(response.StatusCode, response.Content);
-                }
-                else
-                {
-                    throw new ArgumentNullException("Missing service url");
-                }
-            }
-            catch (Exception e)
-            {
-                serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
-            }
-            return serviceResponse;
-        }
+        #region Team Folders
 
         public IDataResponse ListTeamFolders(string authToken)
         {
@@ -1110,6 +1131,10 @@
             return serviceResponse;
         }
 
+        #endregion
+
+        #region Dump Contents
+
         public IDataResponse DumpFile(IMemberData data, string outputFolder, string authToken)
         {
             IDataResponse dataResponse = null;
@@ -1196,6 +1221,10 @@
             }
             return dataResponse;
         }
+
+        #endregion
+
+        #region Devices
 
         public IDataResponse FindDevices(IMemberData data, string authToken)
         {
@@ -1306,6 +1335,10 @@
             }
             return dataResponse;
         }
+
+        #endregion
+
+        #region Paper
 
         public IDataResponse ListPaperDocs(IMemberData data, string authToken)
         {
@@ -1462,5 +1495,39 @@
             }
             return dataResponse;
         }
+
+        public IDataResponse DownloadPaperDoc(string memberId, string docId, string outputFolder, string fileName, string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(DownloadPaperDocUrl))
+                {
+                    //string pathString = string.Concat(@"{""path"":""", newPath, @"""}");
+                    string arg = @"{""doc_id"": """ + docId + @""",""export_format"": ""html""}";
+                    string url = string.Format("{0}/{1}/", _baseUrl, _apiVersion);
+                    RestClient client = new RestClient(url);
+                    RestRequest request = new RestRequest(DownloadPaperDocUrl, Method.GET);
+                    client.UserAgent = UserAgentVersion;
+                    //add headers, include user authentication we pass in with admin privileges
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Dropbox-API-Select-User", memberId);
+                    request.AddHeader("Dropbox-API-Arg", arg);
+
+                    //download file by using raw bytes returned
+                    byte[] jsonResponseDump = client.DownloadData(request);
+
+                    string outputPath = Path.Combine(outputFolder, fileName + ".html");
+                    File.WriteAllBytes(outputPath, jsonResponseDump);
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        #endregion
     }
 }

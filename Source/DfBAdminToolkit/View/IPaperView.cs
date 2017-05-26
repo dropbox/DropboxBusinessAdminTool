@@ -9,6 +9,7 @@
     {
         event EventHandler DataChanged;
         event EventHandler CommandGetPaper;
+        event EventHandler CommandDownloadPaper;
         event EventHandler CommandDeletePaper;
         event EventHandler CommandExportPaper;
 
