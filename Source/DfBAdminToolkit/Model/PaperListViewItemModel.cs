@@ -7,6 +7,7 @@
 		: INotifyPropertyChanged, IModel {
 		private string _paperName;
 		private string _paperId;
+		private string _folderPath;
 		private string _status;
 		private string _owner;
 		private DateTime _createdDate;
@@ -31,6 +32,16 @@
 			set {
 				_paperId = value;
 				OnPropertyChanged("PaperId");
+			}
+		}
+
+		public string FolderPath
+		{
+			get { return _folderPath; }
+			set
+			{
+				_folderPath = value;
+				OnPropertyChanged("FolderPath");
 			}
 		}
 

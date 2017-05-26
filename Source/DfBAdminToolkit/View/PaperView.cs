@@ -5,7 +5,6 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-    using System.Linq;
     using System.Threading;
     using System.Windows.Forms;
 
@@ -41,6 +40,7 @@
         {
             PaperName,
             PaperId,
+            FolderPath,
             Status,
             Owner,
             CreatedDate,
@@ -138,6 +138,11 @@
                 = delegate (PaperListViewItemModel model)
                 {
                     return (model != null) ? model.PaperId : string.Empty;
+                };
+            olv.GetColumn((int)OlvMembersIndex.FolderPath).AspectGetter
+                = delegate (PaperListViewItemModel model)
+                {
+                    return (model != null) ? model.FolderPath : string.Empty;
                 };
             olv.GetColumn((int)OlvMembersIndex.Status).AspectGetter
                 = delegate (PaperListViewItemModel model)

@@ -61,6 +61,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AGauge, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Referenced Dlls\AGauge.dll</HintPath>
+    </Reference>
     <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\packages\CsvHelper.2.13.5.0\lib\net40-client\CsvHelper.dll</HintPath>
       <Private>True</Private>
@@ -343,6 +347,7 @@
   <ItemGroup>
     <Content Include="Misc\dropbox.ico" />
     <Content Include="Misc\LICENSE.txt" />
+    <Content Include="Referenced Dlls\AGauge.dll" />
     <Content Include="Referenced Dlls\CustomTabControl.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

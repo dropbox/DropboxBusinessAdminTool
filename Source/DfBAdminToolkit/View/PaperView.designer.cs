@@ -45,6 +45,7 @@
             this.objectListView_PaperMembers = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnPaper_PaperName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnPaper_PaperId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnPaper_FolderPath = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnPaper_Status = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnPaper_Owner = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnPaper_CreatedDate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -227,6 +228,7 @@
             // 
             this.objectListView_PaperMembers.AllColumns.Add(this.olvColumnPaper_PaperName);
             this.objectListView_PaperMembers.AllColumns.Add(this.olvColumnPaper_PaperId);
+            this.objectListView_PaperMembers.AllColumns.Add(this.olvColumnPaper_FolderPath);
             this.objectListView_PaperMembers.AllColumns.Add(this.olvColumnPaper_Status);
             this.objectListView_PaperMembers.AllColumns.Add(this.olvColumnPaper_Owner);
             this.objectListView_PaperMembers.AllColumns.Add(this.olvColumnPaper_CreatedDate);
@@ -239,6 +241,7 @@
             this.objectListView_PaperMembers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumnPaper_PaperName,
             this.olvColumnPaper_PaperId,
+            this.olvColumnPaper_FolderPath,
             this.olvColumnPaper_Status,
             this.olvColumnPaper_Owner,
             this.olvColumnPaper_CreatedDate,
@@ -275,15 +278,20 @@
             // olvColumnPaper_PaperId
             // 
             this.olvColumnPaper_PaperId.AspectName = "PaperId";
-            this.olvColumnPaper_PaperId.DisplayIndex = 2;
             this.olvColumnPaper_PaperId.MinimumWidth = 100;
             this.olvColumnPaper_PaperId.Text = "PaperId";
             this.olvColumnPaper_PaperId.Width = 100;
             // 
+            // olvColumnPaper_FolderPath
+            // 
+            this.olvColumnPaper_FolderPath.AspectName = "FolderPath";
+            this.olvColumnPaper_FolderPath.MinimumWidth = 75;
+            this.olvColumnPaper_FolderPath.Text = "FolderPath";
+            this.olvColumnPaper_FolderPath.Width = 75;
+            // 
             // olvColumnPaper_Status
             // 
             this.olvColumnPaper_Status.AspectName = "Status";
-            this.olvColumnPaper_Status.DisplayIndex = 1;
             this.olvColumnPaper_Status.MinimumWidth = 50;
             this.olvColumnPaper_Status.Text = "Status";
             this.olvColumnPaper_Status.Width = 50;
@@ -488,5 +496,6 @@
         private BrightIdeasSoftware.OLVColumn olvColumnPaper_Revision;
         private System.Windows.Forms.Button buttonEx_PaperDownloadFolder;
         private System.Windows.Forms.TextBox textBoxPaper;
+        private BrightIdeasSoftware.OLVColumn olvColumnPaper_FolderPath;
     }
 }

@@ -87,6 +87,8 @@
 
         public string DownloadPaperDocUrl { get; set; }
 
+        public string PaperDocFolderInfoUrl { get; set; }
+
         public string GetCurrentAccountUrl { get; set; }
 
         public string UserAgentVersion { get; set; }
@@ -1519,6 +1521,43 @@
 
                     string outputPath = Path.Combine(outputFolder, fileName + ".html");
                     File.WriteAllBytes(outputPath, jsonResponseDump);
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse GetPaperDocFolderInfo(string docId, string authToken, string memberId)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(PaperDocFolderInfoUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(PaperDocFolderInfoUrl, Method.POST);
+                    //add headers
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+                    request.AddHeader("Dropbox-API-Select-User", memberId);
+
+                    //set up properties for JSON to the API
+                    JObject jsonMetadata = new JObject(
+                        new JProperty("doc_id", docId)
+                    );
+                    request.AddParameter("application/json", jsonMetadata, ParameterType.RequestBody);
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
                 }
             }
             catch (Exception e)

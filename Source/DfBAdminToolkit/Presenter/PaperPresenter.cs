@@ -159,6 +159,36 @@
             service.UserAgentVersion = ApplicationResource.UserAgent;
             string paperAccessToken = ApplicationResource.DefaultAccessToken;
 
+            IMemberServices serviceFolderInfo = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            serviceFolderInfo.PaperDocFolderInfoUrl = ApplicationResource.ActionPaperDocFolderInfo;
+            serviceFolderInfo.UserAgentVersion = ApplicationResource.UserAgent;
+            string folderPath = @"/";
+
+            //get paper doc folder info to add to listview object
+            IDataResponse responseFolderInfo = serviceFolderInfo.GetPaperDocFolderInfo(docId, paperAccessToken, memberId);
+
+            if (responseFolderInfo.StatusCode == HttpStatusCode.OK)
+            {
+                if (responseFolderInfo.Data != null)
+                {
+                    string data = responseFolderInfo.Data.ToString();
+                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+                    int resultCount = 0;
+
+                    if (data != "{}")
+                    {
+                        resultCount = jsonData["folders"].Count;
+                        for (int i = 0; i < resultCount; i++)
+                        {
+                            dynamic folders = jsonData["folders"][i];
+                            dynamic folderPathobj = folders["name"];
+                            string folderPathNext = folderPathobj.Value as string;
+                            folderPath = folderPath + folderPathNext + "/";
+                        }
+                    }   
+                }
+            }
+            //now get remainder of metadata
             IDataResponse response = service.GetPaperMetadata(docId, paperAccessToken, memberId);
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -203,6 +233,7 @@
                         PaperId = paperDocId,
                         Owner = owner,
                         PaperName = paperName,
+                        FolderPath = folderPath,
                         CreatedDate = createdDate,
                         Status = status,
                         Revision = revision,

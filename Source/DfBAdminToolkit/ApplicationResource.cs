@@ -224,6 +224,11 @@
             get { return ConfigurationManager.AppSettings.Get("ActionGetPaperDocMetadata"); }
         }
 
+        public static string ActionPaperDocFolderInfo
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionPaperDocFolderInfo"); }
+        }
+
         public static string ActionGetCurrentAccount
         {
             get { return ConfigurationManager.AppSettings.Get("ActionGetCurrentAccount"); }

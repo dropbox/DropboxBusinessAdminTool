@@ -78,6 +78,8 @@ namespace DfBAdminToolkit.Common.Services
 
         string DownloadPaperDocUrl { get; set; }
 
+        string PaperDocFolderInfoUrl { get; set; }
+
         string GetCurrentAccountUrl{ get; set; }
 
         string UserAgentVersion { get; set; }
@@ -145,6 +147,8 @@ namespace DfBAdminToolkit.Common.Services
         IDataResponse PermDeletePaperDoc(string memberId, string authToken, string docId);
 
         IDataResponse DownloadPaperDoc(string memberId, string docId, string outputFolder, string fileName, string authToken);
+
+        IDataResponse GetPaperDocFolderInfo(string docId, string authToken, string memberId);
 
         IDataResponse GetCurrentAccount(string authToken);
     }
