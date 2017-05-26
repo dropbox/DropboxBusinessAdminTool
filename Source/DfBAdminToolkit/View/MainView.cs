@@ -15,7 +15,7 @@
     using Newtonsoft.Json;
 
     public partial class MainView : Form, IMainView {
-        //public event EventHandler CommandQuitApplication;
+
         public event EventHandler DataChanged;
 
         #region Runtime components
@@ -31,8 +31,9 @@
             TeamFolders = 4,
             Paper = 5,
             Devices = 6,
-            //Auditing = 7,
-            DataMigration = 7 
+            TeamAuditing = 7,
+            TeamHealth = 8,
+            DataMigration = 9 
         }
 
         #endregion Runtime components
@@ -192,14 +193,22 @@
                 Padding = new Padding(5, 3, 5, 3),
                 UseVisualStyleBackColor = true
             });
-            //_tabPages.Add(new TabPage()
-            //{
-            //    Name = "tabPage_Auditing",
-            //    Text = "Auditing",
-            //    Dock = DockStyle.Fill,
-            //    Padding = new Padding(5, 3, 5, 3),
-            //    UseVisualStyleBackColor = true
-            //});
+            _tabPages.Add(new TabPage()
+            {
+                Name = "tabPage_TeamAuditing",
+                Text = "Team Auditing",
+                Dock = DockStyle.Fill,
+                Padding = new Padding(5, 3, 5, 3),
+                UseVisualStyleBackColor = true
+            });
+            _tabPages.Add(new TabPage()
+            {
+                Name = "tabPage_TeamHealth",
+                Text = "Team Health",
+                Dock = DockStyle.Fill,
+                Padding = new Padding(5, 3, 5, 3),
+                UseVisualStyleBackColor = true
+            });
             _tabPages.Add(new TabPage() {
                 Name = "tabPage_DataMigration",
                 Text = "Team Content",
@@ -326,7 +335,8 @@
             _tabPages[(int)TabIndex.TeamFolders].Controls.Add(CreateTeamFoldersView());
             _tabPages[(int)TabIndex.Paper].Controls.Add(CreatePaperView());
             _tabPages[(int)TabIndex.Devices].Controls.Add(CreateDevicesView());
-            //_tabPages[(int)TabIndex.Auditing].Controls.Add(CreateAuditingView());
+            _tabPages[(int)TabIndex.TeamAuditing].Controls.Add(CreateTeamAuditingView());
+            _tabPages[(int)TabIndex.TeamHealth].Controls.Add(CreateTeamHealthView());  
             _tabPages[(int)TabIndex.DataMigration].Controls.Add(CreateDataMigrationView());
 
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.TextSearch]);
@@ -336,7 +346,8 @@
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.TeamFolders]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.Paper]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.Devices]);
-            //_tabControl.Controls.Add(_tabPages[(int)TabIndex.Auditing]);
+            _tabControl.Controls.Add(_tabPages[(int)TabIndex.TeamAuditing]);
+            _tabControl.Controls.Add(_tabPages[(int)TabIndex.TeamHealth]);  
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.DataMigration]);
 
             // select first tab
@@ -416,16 +427,27 @@
             return view as DevicesView;
         }
 
-        //private AuditingView CreateAuditingView()
-        //{
-        //    IAuditingModel model = new AuditingModel();
-        //    IAuditingView view = new AuditingView();
-        //    IAuditingPresenter presenter = SimpleResolver.Instance.Get<IAuditingPresenter>(
-        //        new object[] { model, view }
-        //    );
-        //    view.ShowView();
-        //    return view as AuditingView;
-        //}
+        private TeamHealthView CreateTeamHealthView()
+        {
+            ITeamHealthModel model = new TeamHealthModel();
+            ITeamHealthView view = new TeamHealthView();
+            ITeamHealthPresenter presenter = SimpleResolver.Instance.Get<ITeamHealthPresenter>(
+                new object[] { model, view }
+            );
+            view.ShowView();
+            return view as TeamHealthView;
+        }
+
+        private TeamAuditingView CreateTeamAuditingView()
+        {
+            ITeamAuditingModel model = new TeamAuditingModel();
+            ITeamAuditingView view = new TeamAuditingView();
+            ITeamAuditingPresenter presenter = SimpleResolver.Instance.Get<ITeamAuditingPresenter>(
+                new object[] { model, view }
+            );
+            view.ShowView();
+            return view as TeamAuditingView;
+        }
 
         private DataMigrationView CreateDataMigrationView() {
             IDataMigrationModel model = new DataMigrationModel();

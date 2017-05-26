@@ -132,7 +132,9 @@
     <Compile Include="Model\IPaperModel.cs" />
     <Compile Include="Model\IProvisioningModel.cs" />
     <Compile Include="Model\ISettingsModel.cs" />
+    <Compile Include="Model\ITeamAuditingModel.cs" />
     <Compile Include="Model\ITeamFoldersModel.cs" />
+    <Compile Include="Model\ITeamHealthModel.cs" />
     <Compile Include="Model\ITextSearchModel.cs" />
     <Compile Include="Model\LegalModel.cs" />
     <Compile Include="Model\MainModel.cs" />
@@ -141,11 +143,15 @@
     <Compile Include="Model\PaperModel.cs" />
     <Compile Include="Model\ProvisioningModel.cs" />
     <Compile Include="Model\SettingsModel.cs" />
+    <Compile Include="Model\TeamAuditingListViewItemModel.cs" />
+    <Compile Include="Model\TeamAuditingModel.cs" />
     <Compile Include="Model\TeamFoldersHeaderRecord.cs" />
     <Compile Include="Model\TeamFoldersListViewItemModel.cs" />
     <Compile Include="Model\TeamFoldersMembersHeaderRecord.cs" />
     <Compile Include="Model\TeamFoldersModel.cs" />
     <Compile Include="Model\TeamFoldersPermsItemModel.cs" />
+    <Compile Include="Model\TeamHealthListViewItemModel.cs" />
+    <Compile Include="Model\TeamHealthModel.cs" />
     <Compile Include="Model\TeamListViewItemModel.cs" />
     <Compile Include="Model\TextSearchModel.cs" />
     <Compile Include="Presenter\DataMigrationPresenter.cs" />
@@ -160,7 +166,9 @@
     <Compile Include="Presenter\IPaperPresenter.cs" />
     <Compile Include="Presenter\IProvisioningPresenter.cs" />
     <Compile Include="Presenter\ISettingsPresenter.cs" />
+    <Compile Include="Presenter\ITeamAuditingPresenter.cs" />
     <Compile Include="Presenter\ITeamFoldersPresenter.cs" />
+    <Compile Include="Presenter\ITeamHealthPresenter.cs" />
     <Compile Include="Presenter\ITextSearchPresenter.cs" />
     <Compile Include="Presenter\LegalPresenter.cs" />
     <Compile Include="Presenter\IMainPresenter.cs" />
@@ -170,7 +178,9 @@
     <Compile Include="Presenter\PresenterBase.cs" />
     <Compile Include="Presenter\ProvisioningPresenter.cs" />
     <Compile Include="Presenter\SettingsPresenter.cs" />
+    <Compile Include="Presenter\TeamAuditingPresenter.cs" />
     <Compile Include="Presenter\TeamFoldersPresenter.cs" />
+    <Compile Include="Presenter\TeamHealthPresenter.cs" />
     <Compile Include="Presenter\TextSearchPresenter.cs" />
     <Compile Include="Services\GitHubService.cs" />
     <Compile Include="Tooltips.cs" />
@@ -205,7 +215,9 @@
     <Compile Include="View\IPaperView.cs" />
     <Compile Include="View\IProvisioningView.cs" />
     <Compile Include="View\ISettingsView.cs" />
+    <Compile Include="View\ITeamAuditingView.cs" />
     <Compile Include="View\ITeamFoldersView.cs" />
+    <Compile Include="View\ITeamHealthView.cs" />
     <Compile Include="View\ITextSearchView.cs" />
     <Compile Include="View\Overlay\MemberInfoOverlay.cs" />
     <Compile Include="View\PaperView.cs">
@@ -226,11 +238,23 @@
     <Compile Include="View\SettingsView.Designer.cs">
       <DependentUpon>SettingsView.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\TeamAuditingView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TeamAuditingView.designer.cs">
+      <DependentUpon>TeamAuditingView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\TeamFoldersView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\TeamFoldersView.designer.cs">
       <DependentUpon>TeamFoldersView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TeamHealthView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TeamHealthView.designer.cs">
+      <DependentUpon>TeamHealthView.cs</DependentUpon>
     </Compile>
     <Compile Include="View\TextSearchView.cs">
       <SubType>Form</SubType>
@@ -282,8 +306,14 @@
     <EmbeddedResource Include="View\SettingsView.resx">
       <DependentUpon>SettingsView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\TeamAuditingView.resx">
+      <DependentUpon>TeamAuditingView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\TeamFoldersView.resx">
       <DependentUpon>TeamFoldersView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TeamHealthView.resx">
+      <DependentUpon>TeamHealthView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\TextSearchView.resx">
       <DependentUpon>TextSearchView.cs</DependentUpon>

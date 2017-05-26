@@ -58,7 +58,8 @@
             SimpleResolver.Instance.Bind<ITeamFoldersPresenter>(typeof(TeamFoldersPresenter));
             SimpleResolver.Instance.Bind<IPaperPresenter>(typeof(PaperPresenter));
             SimpleResolver.Instance.Bind<IDevicesPresenter>(typeof(DevicesPresenter));
-            //SimpleResolver.Instance.Bind<IAuditingPresenter>(typeof(AuditingPresenter));
+            SimpleResolver.Instance.Bind<ITeamHealthPresenter>(typeof(TeamHealthPresenter));
+            SimpleResolver.Instance.Bind<ITeamAuditingPresenter>(typeof(TeamAuditingPresenter));
             SimpleResolver.Instance.Bind<IDataMigrationPresenter>(typeof(DataMigrationPresenter));
             SimpleResolver.Instance.Bind<ISettingsPresenter>(typeof(SettingsPresenter));
         }
