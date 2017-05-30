@@ -6,5 +6,7 @@
         : IModel {
 
         string AccessToken { get; set; }
+
+        List<TeamAuditingListViewItemModel> TeamAuditing { get; set; }
     }
 }

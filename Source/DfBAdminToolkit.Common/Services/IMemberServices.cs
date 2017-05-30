@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace DfBAdminToolkit.Common.Services
 {
@@ -55,6 +56,8 @@ namespace DfBAdminToolkit.Common.Services
         string GetInfoUrl { get; set; }
 
         string SetProfileUrl { get; set; }
+
+        string GetEventsUrl { get; set; }
 
         string ActivateTeamFolderUrl { get; set; }
 
@@ -137,6 +140,8 @@ namespace DfBAdminToolkit.Common.Services
         IServiceResponse SetTeamFolderStatus(string teamFolderId, bool activeSetting, string authToken);
 
         IServiceResponse SetFolderSyncSetting(string teamFolderId, string syncSetting, string authToken);
+
+        IDataResponse GetEvents(IMemberData data, string authToken, DateTime startTime, DateTime finishTime);
 
         IDataResponse ListPaperDocs(IMemberData data, string authToken);
 

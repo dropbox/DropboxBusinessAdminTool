@@ -45,6 +45,8 @@
 
         public string SetProfileUrl { get; set; }
 
+        public string GetEventsUrl { get; set; }
+
         public string GetGroupsUrl { get; set; }
 
         public string ExportGroupsUrl { get; set; }
@@ -1131,6 +1133,65 @@
                 serviceResponse = new ServiceResponse(HttpStatusCode.InternalServerError, e.Message);
             }
             return serviceResponse;
+        }
+
+        #endregion
+
+        #region Team Log
+
+        public IDataResponse GetEvents(IMemberData data, string authToken, DateTime startTime, DateTime endTime)
+        {
+            IDataResponse dataResponse = null;
+            var dateFrom = startTime.ToUniversalTime().ToString("s") + "Z";
+            var dateTo = endTime.ToUniversalTime().ToString("s") + "Z";
+            try
+            {
+                if (!string.IsNullOrEmpty(GetEventsUrl))
+                {
+                    RestClient client = new RestClient(
+                        string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                    );
+                    RestRequest request = new RestRequest(GetEventsUrl, Method.POST);
+                    //add headers
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    request.AddHeader("Content-Type", "application/json");
+
+                    if (String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //set up properties for JSON to the API
+                        JObject json = new JObject(
+                         new JProperty("limit", 1000),
+                         new JProperty("time",
+                                new JObject(
+                                    new JProperty("start_time", dateFrom),
+                                    new JProperty("end_time", dateTo)
+                                )
+                            )
+                        );
+                        request.AddParameter("application/json", json, ParameterType.RequestBody);
+                    }
+                    if (!String.IsNullOrEmpty(data.Cursor))
+                    {
+                        //set up properties for JSON to the API
+                        JObject json = new JObject(
+                        new JProperty("cursor", data.Cursor)
+                       );
+                        request.AddParameter("application/json", json, ParameterType.RequestBody);
+                    }
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
         }
 
         #endregion

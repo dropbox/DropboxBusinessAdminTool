@@ -7,15 +7,21 @@
 
         public string AccessToken { get; set; }
 
-        public TeamAuditingModel() {
+        public List<TeamAuditingListViewItemModel> TeamAuditing { get; set; }
+
+        public TeamAuditingModel()
+        {
             Initialize();
         }
 
-        public void Initialize() {
+        public void Initialize()
+        {
+            TeamAuditing = new List<TeamAuditingListViewItemModel>();
             AccessToken = ApplicationResource.DefaultProvisionToken;
         }
 
-        public void CleanUp() {
+        public void CleanUp()
+        {
         }
     }
 }

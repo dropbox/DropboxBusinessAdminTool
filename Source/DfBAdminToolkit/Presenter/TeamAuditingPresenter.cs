@@ -18,56 +18,73 @@
         : PresenterBase, ITeamAuditingPresenter {
 
         public TeamAuditingPresenter(ITeamAuditingModel model, ITeamAuditingView view)
-            : base(model, view) {
+            : base(model, view)
+        {
         }
 
-        protected override void Initialize() {
+        protected override void Initialize()
+        {
             ITeamAuditingView view = base._view as ITeamAuditingView;
             ITeamAuditingModel model = base._model as ITeamAuditingModel;
             PresenterBase.SetViewPropertiesFromModel<ITeamAuditingView, ITeamAuditingModel>(
                 ref view, model
             );
 
-            SyncContext.Post(delegate {
+            SyncContext.Post(delegate 
+            {
                 view.RefreshAccessToken();
             }, null);
         }
 
-        protected override void WireViewEvents() {
+        protected override void WireViewEvents()
+        {
             if (!IsViewEventsWired) {
                 ITeamAuditingView view = base._view as ITeamAuditingView;
                 view.DataChanged += DataChanged;
-                //view.CommandLoadTeamFolders += OnCommandLoadTeamFolders;
+                view.CommandLoadTeamEvents += OnCommandLoadEvents;
                 IsViewEventsWired = true;
             }
         }
 
-        protected override void UnWireViewEvents() {
-            if (IsViewEventsWired) {
+        protected override void UnWireViewEvents()
+        {
+            if (IsViewEventsWired)
+            {
                 ITeamAuditingView view = base._view as ITeamAuditingView;
                 view.DataChanged -= DataChanged;
-                //view.CommandLoadTeamHealth -= OnCommandLoadTeamFolders;
+                view.CommandLoadTeamEvents -= OnCommandLoadEvents;
                 IsViewEventsWired = false;
             }
         }
 
-        protected override void CleanUp() {
+        protected override void CleanUp()
+        {
         }
 
-        public void UpdateSettings() {
+        public void UpdateSettings()
+        {
             DataChanged(this, new EventArgs());
         }
 
         #region REST Service
 
-        private void GetPaperDocs(ITeamAuditingModel model, IMainPresenter presenter)
+        private void GetEvents(ITeamAuditingModel model, ITeamAuditingView view, IMainPresenter presenter)
         {
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
-            service.ListTeamFolderUrl = ApplicationResource.ActionListTeamFolder;
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.GetEventsUrl = ApplicationResource.ActionGetEvents;
             service.UserAgentVersion = ApplicationResource.UserAgent;
-            string fileAccessToken = ApplicationResource.DefaultAccessToken;
-            IDataResponse response = service.ListTeamFolders(fileAccessToken);
 
+            IDataResponse response = service.GetEvents(new MemberData()
+            {
+                SearchLimit = ApplicationResource.SearchDefaultLimit
+            }, ApplicationResource.DefaultAccessToken, view.StartTime, view.EndTime);
+
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate {
+                    presenter.UpdateProgressInfo("Gathering events...");
+                }, null);
+            }
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 if (response.Data != null)
@@ -75,26 +92,203 @@
                     string data = response.Data.ToString();
                     dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
 
-                    // clear existing data first
-                    //model.TeamAuditing.Clear();
-                    //changed from entries to team_folders
-                    int resultCount = jsonData["team_folders"].Count;
+                    int resultCount = jsonData["events"].Count;
                     for (int i = 0; i < resultCount; i++)
                     {
-                        dynamic team_folders = jsonData["team_folders"][i];
-                        dynamic teamFolderName = team_folders["name"];
-                        dynamic teamFolderId = team_folders["team_folder_id"];
-                        dynamic status = team_folders["status"][".tag"];
+                        dynamic events = jsonData["events"][i];
+                        dynamic timestampObj = events["timestamp"];
 
-                    // update model
-                    TeamFoldersListViewItemModel lvItem = new TeamFoldersListViewItemModel()
+                        //go through event categories and compare to what we are looking for
+                        int eventCategoryCount = events["event_categories"].Count;      
+                        for (int i2 = 0; i2 < eventCategoryCount; i2++)
+                        {
+                            dynamic eventCategories = events["event_categories"][i2];
+                            dynamic eventCategoryObj = eventCategories[".tag"];
+                            string eventCategory = eventCategoryObj.Value as string;
+                        }
+
+                        dynamic actorType = events["actor"][".tag"];
+                        string actorTypeString = actorType.Value as string;
+                        dynamic emailObj = null;
+
+                        if (actorTypeString == "user")
+                        {
+                            emailObj = events["actor"]["user"]["email"];
+                        }
+                        if (actorTypeString == "admin")
+                        {
+                            emailObj = events["actor"]["app"]["display_name"];
+                        }
+                        if (actorTypeString == "app")
+                        {
+                            emailObj = events["actor"]["app"]["display_name"];
+                        }
+                        if (actorTypeString == "reseller")
+                        {
+                            emailObj = events["actor"]["reseller"]["reseller_name"];
+                        }
+                        if (actorTypeString == "Dropbox")
+                        {
+                            emailObj = "Dropbox";
+                        }
+                        //dynamic contextObj = events["context"];
+                        dynamic eventTypeObj = events["event_type"][".tag"];
+                        dynamic detailsTypeObj = events["details"];
+                        dynamic originObj = events["origin"]["access_method"][".tag"];
+                        dynamic ipAddressObj = events["origin"]["geo_location"]["ip_address"];
+                        dynamic cityObj = events["origin"]["geo_location"]["city"];
+                        dynamic regionObj = events["origin"]["geo_location"]["region"];
+                        dynamic countryObj = events["origin"]["geo_location"]["country"];
+                        //dynamic participantsObj = events["participants"];
+                        //dynamic assetsObj = events["assets"];
+
+                        //render to use
+                        DateTime timestamp = DateTime.MinValue;
+                        if (timestampObj != null)
+                        {
+                            timestamp = timestampObj;
+                        }
+                        string email = emailObj;
+                        //string context = contextObj.Value as string;
+                        string context = string.Empty;
+                        string eventType = eventTypeObj.Value as string;
+                        string details = detailsTypeObj.Value as string;
+                        string origin = originObj.Value as string;
+                        string ipAddress = ipAddressObj.Value as string;
+                        string city = cityObj.Value as string;
+                        string region = regionObj.Value as string;
+                        string country = countryObj.Value as string;
+                        //string participants = participantsObj.Value as string;
+                        //string assets = assetsObj.Value as string;
+                        string participants = string.Empty;
+                        string assets = string.Empty;
+
+                        // update model
+                        TeamAuditingListViewItemModel lvItem = new TeamAuditingListViewItemModel()
+                        {
+                            Timestamp = timestamp,
+                            ActorType = actorTypeString,
+                            Email = email, //actor
+                            Context = context,
+                            EventType = eventType,
+                            Details = details,
+                            Origin = origin,
+                            IpAddress = ipAddress,
+                            City = city,
+                            Region = region,
+                            Country = country,
+                            Participants = participants,
+                            Assets = assets,
+                            IsChecked = true
+                        };
+                        model.TeamAuditing.Add(lvItem);
+                    }
+                    // collect more.
+                    bool hasMore = jsonData["has_more"];
+                    string cursor = jsonData["cursor"];
+
+                    while (hasMore)
                     {
-                        TeamFolderName = teamFolderName,
-                        TeamFolderId = teamFolderId,
-                        Status = status,
-                        IsChecked = true
-                    };
-                        //model.TeamAuditing.Add(lvItem);
+                        service.GetEventsUrl = ApplicationResource.ActionGetEventsContinuation;
+                        IDataResponse responseCont = service.GetEvents(new MemberData()
+                        {
+                            Cursor = cursor
+                        }, ApplicationResource.DefaultAccessToken, view.StartTime, view.EndTime);
+
+                        string dataCont = responseCont.Data.ToString();
+                        dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
+
+                        int resultContCount = jsonDataCont["events"].Count;
+                        for (int i = 0; i < resultContCount; i++)
+                        {
+                            dynamic events = jsonDataCont["events"][i];
+                            dynamic timestampObj = events["timestamp"];
+
+                            //go through event categories and compare to what we are looking for
+                            int eventCategoryCount = events["event_categories"].Count;
+                            for (int i2 = 0; i2 < eventCategoryCount; i2++)
+                            {
+                                dynamic eventCategories = events["event_categories"][i2];
+                                dynamic eventCategoryObj = eventCategories[".tag"];
+                                string eventCategory = eventCategoryObj.Value as string;
+                            }
+
+                            dynamic actorType = events["actor"][".tag"];
+                            string actorTypeString = actorType.Value as string;
+                            dynamic emailObj = null;
+
+                            if (actorTypeString == "user")
+                            {
+                                emailObj = events["actor"]["user"]["email"];
+                            }
+                            if (actorTypeString == "admin")
+                            {
+                                emailObj = events["actor"]["app"]["display_name"];
+                            }
+                            if (actorTypeString == "app")
+                            {
+                                emailObj = events["actor"]["app"]["display_name"];
+                            }
+                            if (actorTypeString == "reseller")
+                            {
+                                emailObj = events["actor"]["reseller"]["reseller_name"];
+                            }
+                            if (actorTypeString == "Dropbox")
+                            {
+                                emailObj = "Dropbox";
+                            }
+                            //dynamic contextObj = events["context"];
+                            dynamic eventTypeObj = events["event_type"][".tag"];
+                            dynamic detailsTypeObj = events["details"];
+                            dynamic originObj = events["origin"]["access_method"][".tag"];
+                            dynamic ipAddressObj = events["origin"]["geo_location"]["ip_address"];
+                            dynamic cityObj = events["origin"]["geo_location"]["city"];
+                            dynamic regionObj = events["origin"]["geo_location"]["region"];
+                            dynamic countryObj = events["origin"]["geo_location"]["country"];
+                            //dynamic participantsObj = events["participants"];
+                            //dynamic assetsObj = events["assets"];
+
+                            //render to use
+                            DateTime timestamp = DateTime.MinValue;
+                            if (timestampObj != null)
+                            {
+                                timestamp = timestampObj;
+                            }
+                            string email = emailObj;
+                            //string context = contextObj.Value as string;
+                            string context = string.Empty;
+                            string eventType = eventTypeObj.Value as string;
+                            string details = detailsTypeObj.Value as string;
+                            string origin = originObj.Value as string;
+                            string ipAddress = ipAddressObj.Value as string;
+                            string city = cityObj.Value as string;
+                            string region = regionObj.Value as string;
+                            string country = countryObj.Value as string;
+                            //string participants = participantsObj.Value as string;
+                            //string assets = assetsObj.Value as string;
+                            string participants = string.Empty;
+                            string assets = string.Empty;
+
+                            // update model
+                            TeamAuditingListViewItemModel lvItem = new TeamAuditingListViewItemModel()
+                            {
+                                Timestamp = timestamp,
+                                ActorType = actorTypeString,
+                                Email = email, //actor
+                                Context = context,
+                                EventType = eventType,
+                                Details = details,
+                                Origin = origin,
+                                IpAddress = ipAddress,
+                                City = city,
+                                Region = region,
+                                Country = country,
+                                Participants = participants,
+                                Assets = assets,
+                                IsChecked = true
+                            };
+                            model.TeamAuditing.Add(lvItem);
+                        }
                     }
                 }
             }
@@ -104,7 +298,7 @@
 
         #region Events
 
-        private void OnCommandLoadTeamFolders(object sender, EventArgs e)
+        private void OnCommandLoadEvents(object sender, EventArgs e)
         {
             ITeamAuditingView view = base._view as ITeamAuditingView;
             ITeamAuditingModel model = base._model as ITeamAuditingModel;
@@ -120,13 +314,13 @@
             Thread teamfoldersLoad = new Thread(() => {
                 if (!string.IsNullOrEmpty(model.AccessToken))
                 {
-                    //bool loaded = this.LoadTeamFoldersInputFile(model, presenter);
+                    this.GetEvents(model, view, presenter);
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate {
                             // update result and update view.
-                            view.RenderTeamAuditingList();
-                            presenter.UpdateProgressInfo("Team Folders CSV Loaded");
+                            view.RenderTeamAuditingList(model.TeamAuditing);
+                            presenter.UpdateProgressInfo("Events loaded.");
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
                         }, null);

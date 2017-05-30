@@ -13,15 +13,19 @@
 	public partial class TeamAuditingView : Form, ITeamAuditingView
 	{
 		public event EventHandler DataChanged;
-        public event EventHandler CommandLoadTeamAuditing;
+		public event EventHandler CommandLoadTeamEvents;
 
-        public SynchronizationContext SyncContext { get; set; }
+		public SynchronizationContext SyncContext { get; set; }
 
 		public bool ComponentEventsWired { get; set; }
 
 		public string AccessToken { get; set; }
 
-		public string TeamFolderName { get; set; }
+        public DateTime StartTime { get; set; }
+
+        public DateTime EndTime { get; set; }
+
+        public string TeamFolderName { get; set; }
 
 		public string TeamFolderId { get; set; }
 
@@ -33,11 +37,20 @@
 
 		public string UserEmail { get; set; }
 
-		public enum OlvMembersIndex : int
+        public enum OlvMembersIndex : int
 		{
-			TeamFolderName,
-			TeamFolderId,
-			Status
+			Timestamp,
+            ActorType,
+			Email,
+            Context,
+            EventType,
+            Details,
+            Origin,
+            IpAddress,
+            City,
+            Region,
+            Country,
+            Participants
 		}
 
 		public TeamAuditingView()
@@ -47,7 +60,17 @@
 			InitializeOLVMembers();
 			WireComponentEvents();
 			this.objectListView_TeamAuditingMembers.RebuildColumns();
-		}
+
+            //set datetime picker defauls
+            // Initialize from picker to yesterday.
+            DateTime resultFrom = DateTime.Today.Subtract(TimeSpan.FromDays(1));
+            dateTimePickerFrom.Value = resultFrom;
+            StartTime = resultFrom;
+            //set To to now
+            DateTime resultTo = DateTime.Now;
+            dateTimePickerFrom.Value = resultTo;
+            EndTime = resultTo;
+        }
 
 		~TeamAuditingView()
 		{
@@ -58,7 +81,7 @@
 		{
 			if (!ComponentEventsWired)
 			{
-				this.buttonEx_TeamAuditingLoadTeamFolders.Click += buttonEx_TeamAuditingLoadTeamAuditing_Click;
+				this.buttonEx_TeamAuditingLoadTeamEvents.Click += buttonEx_TeamAuditingLoadTeamAuditing_Click;
 				this.objectListView_TeamAuditingMembers.ItemChecked += ObjectListView_TeamAuditingMembers_ItemChecked;
 				this.objectListView_TeamAuditingMembers.HeaderCheckBoxChanging += ObjectListView_TeamAuditingMembers_HeaderCheckBoxChanging;
 				ComponentEventsWired = true;
@@ -69,7 +92,7 @@
 		{
 			if (ComponentEventsWired)
 			{
-				this.buttonEx_TeamAuditingLoadTeamFolders.Click -= buttonEx_TeamAuditingLoadTeamAuditing_Click;
+				this.buttonEx_TeamAuditingLoadTeamEvents.Click -= buttonEx_TeamAuditingLoadTeamAuditing_Click;
 				this.objectListView_TeamAuditingMembers.ItemChecked -= ObjectListView_TeamAuditingMembers_ItemChecked;
 				this.objectListView_TeamAuditingMembers.HeaderCheckBoxChanging -= ObjectListView_TeamAuditingMembers_HeaderCheckBoxChanging;
 				ComponentEventsWired = false;
@@ -82,7 +105,7 @@
 			SyncContext = SynchronizationContext.Current;
 			TopLevel = false;
 			Dock = DockStyle.Fill;
-			//this.buttonEx_TeamFoldersLoadTeamFolders.Enabled = true;
+			this.comboBox_EventCategory.Text = "All Events";
 		}
 
 		private void InitializeOLVMembers()
@@ -101,22 +124,72 @@
 				this.objectListView_TeamAuditingMembers
 			);
 
-			olv.GetColumn((int)OlvMembersIndex.TeamFolderName).AspectGetter
+			olv.GetColumn((int)OlvMembersIndex.Timestamp).AspectGetter
 				= delegate (TeamAuditingListViewItemModel model)
 				{
-					return (model != null) ? model.TeamFolderName : string.Empty;
+                    return (model != null) ? model.Timestamp : DateTime.Now;
 				};
-			olv.GetColumn((int)OlvMembersIndex.TeamFolderId).AspectGetter
+            olv.GetColumn((int)OlvMembersIndex.ActorType).AspectGetter
+                = delegate (TeamAuditingListViewItemModel model)
+                {
+                    return (model != null) ? model.ActorType : string.Empty;
+                };
+            olv.GetColumn((int)OlvMembersIndex.Email).AspectGetter
 				= delegate (TeamAuditingListViewItemModel model)
 				{
-					return (model != null) ? model.TeamFolderId : string.Empty;
+					return (model != null) ? model.Email : string.Empty;
 				};
-			olv.GetColumn((int)OlvMembersIndex.Status).AspectGetter
+			olv.GetColumn((int)OlvMembersIndex.Context).AspectGetter
 				= delegate (TeamAuditingListViewItemModel model)
 				{
-					return (model != null) ? model.Status : string.Empty;
+					return (model != null) ? model.Context : string.Empty;
 				};
-		}
+            olv.GetColumn((int)OlvMembersIndex.EventType).AspectGetter
+                = delegate (TeamAuditingListViewItemModel model)
+                {
+                    return (model != null) ? model.EventType : string.Empty;
+                };
+            olv.GetColumn((int)OlvMembersIndex.Details).AspectGetter
+                = delegate (TeamAuditingListViewItemModel model)
+                {
+                    return (model != null) ? model.Details : string.Empty;
+                };
+            olv.GetColumn((int)OlvMembersIndex.Origin).AspectGetter
+                = delegate (TeamAuditingListViewItemModel model)
+                {
+                    return (model != null) ? model.Origin : string.Empty;
+                };
+            olv.GetColumn((int)OlvMembersIndex.IpAddress).AspectGetter
+                = delegate (TeamAuditingListViewItemModel model)
+                {
+                    return (model != null) ? model.IpAddress : string.Empty;
+                };
+            olv.GetColumn((int)OlvMembersIndex.City).AspectGetter
+                = delegate (TeamAuditingListViewItemModel model)
+                {
+                    return (model != null) ? model.City : string.Empty;
+                };
+            olv.GetColumn((int)OlvMembersIndex.Region).AspectGetter
+                = delegate (TeamAuditingListViewItemModel model)
+                {
+                    return (model != null) ? model.Region : string.Empty;
+                };
+            olv.GetColumn((int)OlvMembersIndex.Country).AspectGetter
+                = delegate (TeamAuditingListViewItemModel model)
+                {
+                    return (model != null) ? model.Country : string.Empty;
+                };
+            olv.GetColumn((int)OlvMembersIndex.Participants).AspectGetter
+                = delegate (TeamAuditingListViewItemModel model)
+                {
+                    return (model != null) ? model.Participants : string.Empty;
+                };
+            //olv.GetColumn((int)OlvMembersIndex.Assets).AspectGetter
+            //    = delegate (TeamAuditingListViewItemModel model)
+            //    {
+            //        return (model != null) ? model.Assets : string.Empty;
+            //    };
+        }
 
 		public void ShowView()
 		{
@@ -132,7 +205,7 @@
 
 		public void RefreshAccessToken()
 		{
-            textBox_TeamAuditingAccessToken.Text = AccessToken;
+			textBox_TeamAuditingAccessToken.Text = AccessToken;
 		}
 
 		private void TextBox_textBoxTeamAuditing_TextChanged(object sender, EventArgs e)
@@ -140,12 +213,12 @@
 			TeamFolderName = this.textBoxTeamAuditing.Text;
 		}
 
-		public void RenderTeamAuditingList()
+		public void RenderTeamAuditingList(List<TeamAuditingListViewItemModel> TeamAuditing)
 		{
-			//this.objectListView_TeamAuditingMembers.SetObjects(TeamAuditing);
+			this.objectListView_TeamAuditingMembers.SetObjects(TeamAuditing);
 			if (this.objectListView_TeamAuditingMembers.GetItemCount() == this.objectListView_TeamAuditingMembers.CheckedObjects.Count)
 			{
-				this.objectListView_TeamAuditingMembers.CheckHeaderCheckBox(olvColumnTeamFolders_TeamFolderName);
+				this.objectListView_TeamAuditingMembers.CheckHeaderCheckBox(olvColumnTeamAuditing_Timestamp);
 			}
 		}
 
@@ -164,11 +237,11 @@
 		private void buttonEx_TeamAuditingLoadTeamAuditing_Click(object sender, EventArgs e)
 		{
 			InvokeDataChanged(sender, e);
-			//if (CommandGetTeamFolders != null)
-			//{
-			//	CommandGetTeamFolders(sender, e);
-			//}
-		}
+            if (CommandLoadTeamEvents != null)
+            {
+                CommandLoadTeamEvents(sender, e);
+            }
+        }
 
 		private void TextBox_TeamAuditingAccessToken_TextChanged(object sender, EventArgs e)
 		{
@@ -194,11 +267,11 @@
 			ObjectListView olv = sender as ObjectListView;
 			if (olv.GetItemCount() == olv.CheckedObjects.Count)
 			{
-				olv.CheckHeaderCheckBox(olvColumnTeamFolders_TeamFolderName);
+				olv.CheckHeaderCheckBox(olvColumnTeamAuditing_Timestamp);
 			}
 			else
 			{
-				UncheckHeaderCheckbox(olv, olvColumnTeamFolders_TeamFolderName);
+				UncheckHeaderCheckbox(olv, olvColumnTeamAuditing_Timestamp);
 			}
 		}
 
@@ -210,6 +283,16 @@
 			}
 		}
 
-		#endregion Events
-	}
+        private void dateTimePickerFrom_ValueChanged(object sender, EventArgs e)
+        {
+            StartTime = dateTimePickerFrom.Value;
+        }
+
+        private void dateTimePickerTo_ValueChanged(object sender, EventArgs e)
+        {
+            EndTime = dateTimePickerTo.Value;
+        }
+
+        #endregion Events
+    }
 }

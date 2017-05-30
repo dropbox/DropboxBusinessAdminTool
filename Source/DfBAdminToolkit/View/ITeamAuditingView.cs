@@ -7,9 +7,13 @@
     public interface ITeamAuditingView
         : IView
     {
-        event EventHandler CommandLoadTeamAuditing;
+        event EventHandler CommandLoadTeamEvents;
 
         string AccessToken { get; set; }
+
+        DateTime StartTime { get; set; }
+
+        DateTime EndTime { get; set; }
 
         void RefreshAccessToken();
 
@@ -25,6 +29,6 @@
 
         string UserEmail { get; set; }
 
-        void RenderTeamAuditingList();
+        void RenderTeamAuditingList(List<TeamAuditingListViewItemModel> TeamAuditing);
     }
 }

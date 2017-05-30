@@ -1,6 +1,5 @@
 ﻿namespace DfBAdminToolkit
 {
-
     using System;
     using System.Configuration;
     using System.Threading;
@@ -142,6 +141,16 @@
         public static string ActionGetInfo
         {
             get { return ConfigurationManager.AppSettings.Get("ActionGetInfo"); }
+        }
+
+        public static string ActionGetEvents
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetEvents"); }
+        }
+
+        public static string ActionGetEventsContinuation
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetEventsContinuation"); }
         }
 
         public static string ActionSetProfile
