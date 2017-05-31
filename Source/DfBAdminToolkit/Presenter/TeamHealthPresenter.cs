@@ -60,7 +60,7 @@
 
         #region REST Service
 
-        private void GetPaperDocs(ITeamHealthModel model, IMainPresenter presenter)
+        private void RefreshHealth(ITeamHealthModel model, IMainPresenter presenter)
         {
             IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.ListTeamFolderUrl = ApplicationResource.ActionListTeamFolder;
@@ -75,8 +75,6 @@
                     string data = response.Data.ToString();
                     dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
 
-                    // clear existing data first
-                    //model.TeamHealth.Clear();
                     //changed from entries to team_folders
                     int resultCount = jsonData["team_folders"].Count;
                     for (int i = 0; i < resultCount; i++)
@@ -86,14 +84,14 @@
                         dynamic teamFolderId = team_folders["team_folder_id"];
                         dynamic status = team_folders["status"][".tag"];
 
-                    // update model
-                    TeamFoldersListViewItemModel lvItem = new TeamFoldersListViewItemModel()
-                    {
-                        TeamFolderName = teamFolderName,
-                        TeamFolderId = teamFolderId,
-                        Status = status,
-                        IsChecked = true
-                    };
+                        // update model
+                        TeamFoldersListViewItemModel lvItem = new TeamFoldersListViewItemModel()
+                        {
+                            TeamFolderName = teamFolderName,
+                            TeamFolderId = teamFolderId,
+                            Status = status,
+                            IsChecked = true
+                        };
                         //model.TeamHealth.Add(lvItem);
                     }
                 }
@@ -120,12 +118,12 @@
             Thread teamfoldersLoad = new Thread(() => {
                 if (!string.IsNullOrEmpty(model.AccessToken))
                 {
-                    //bool loaded = this.LoadTeamFoldersInputFile(model, presenter);
+                    //this.LoadTeamFoldersInputFile(model, presenter);
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate {
                             // update result and update view.
-                            view.RenderTeamHealthList();
+                            //view.RenderTeamHealthList();
                             presenter.UpdateProgressInfo("Team Folders CSV Loaded");
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);

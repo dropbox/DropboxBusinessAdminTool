@@ -1,43 +1,36 @@
 ﻿namespace DfBAdminToolkit.Model {
 
 	using System.ComponentModel;
+    using System;
 
 	public class TeamHealthListViewItemModel
 		: INotifyPropertyChanged, IModel {
-		private string _teamFolderName;
-		private string _teamFolderId;
+		private string _usage;
+		private string _provisionedUsers;
 		private string _status;
-		private bool _isChecked;
 
-		public string TeamFolderName {
-			get { return _teamFolderName; }
+		public string Usage {
+			get { return _usage; }
 			set {
-				_teamFolderName = value;
-				OnPropertyChanged("TeamFolderName");
+				_usage = value;
+				OnPropertyChanged("Usage");
 			}
 		}
 
-		public string TeamFolderId {
-			get { return _teamFolderId; }
+		public string ProvisionedUsers
+		{
+			get { return _provisionedUsers; }
 			set {
-				_teamFolderId = value;
-				OnPropertyChanged("TeamFolderId");
+				_provisionedUsers = value;
+				OnPropertyChanged("ProvisionedUsers");
 			}
 		}
 
-        public string Status {
+		public string Status {
 			get { return _status; }
 			set {
 				_status = value;
 				OnPropertyChanged("Status");
-			}
-		}
-
-		public bool IsChecked {
-			get { return _isChecked; }
-			set {
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
 			}
 		}
 

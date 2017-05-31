@@ -17,17 +17,9 @@
 
         void RefreshAccessToken();
 
-        string TeamFolderName { get; set; }
+        string TeamHealthInputFilePath { get; set; }
 
-        string TeamFolderId { get; set; }
-
-        string TeamFoldersInputFilePath { get; set; }
-
-        bool SyncSetting { get; set; }
-
-        bool ActiveSetting { get; set; }
-
-        string UserEmail { get; set; }
+        string EventCategory { get; set; }
 
         void RenderTeamAuditingList(List<TeamAuditingListViewItemModel> TeamAuditing);
     }

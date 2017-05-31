@@ -21,36 +21,28 @@
 
 		public string AccessToken { get; set; }
 
-        public DateTime StartTime { get; set; }
+		public DateTime StartTime { get; set; }
 
-        public DateTime EndTime { get; set; }
+		public DateTime EndTime { get; set; }
 
-        public string TeamFolderName { get; set; }
+		public string TeamHealthInputFilePath { get; set; }
 
-		public string TeamFolderId { get; set; }
-
-		public string TeamFoldersInputFilePath { get; set; }
-
-		public bool SyncSetting { get; set; }
-
-		public bool ActiveSetting { get; set; }
-
-		public string UserEmail { get; set; }
+        public string EventCategory { get; set; }
 
         public enum OlvMembersIndex : int
 		{
 			Timestamp,
-            ActorType,
+			ActorType,
 			Email,
-            Context,
-            EventType,
-            Details,
-            Origin,
-            IpAddress,
-            City,
-            Region,
-            Country,
-            Participants
+			Context,
+			EventType,
+			Details,
+			Origin,
+			IpAddress,
+			City,
+			Region,
+			Country,
+			Participants
 		}
 
 		public TeamAuditingView()
@@ -61,15 +53,20 @@
 			WireComponentEvents();
 			this.objectListView_TeamAuditingMembers.RebuildColumns();
 
-            //set datetime picker defauls
-            // Initialize from picker to yesterday.
-            DateTime resultFrom = DateTime.Today.Subtract(TimeSpan.FromDays(1));
+			// Initialize From picker to yesterday and set format
+            dateTimePickerFrom.Format = DateTimePickerFormat.Custom;
+            dateTimePickerFrom.CustomFormat = "MM-dd-yyyy  hh:mm:ss";
+            DateTime resultFrom = DateTime.Now.Subtract(TimeSpan.FromDays(1));
             dateTimePickerFrom.Value = resultFrom;
             StartTime = resultFrom;
-            //set To to now
+            //set To picker to now and set format. 
+            dateTimePickerTo.Format = DateTimePickerFormat.Custom;
+            dateTimePickerTo.CustomFormat = "MM-dd-yyyy  hh:mm:ss";
             DateTime resultTo = DateTime.Now;
-            dateTimePickerFrom.Value = resultTo;
+            dateTimePickerTo.Value = resultTo;
             EndTime = resultTo;
+
+            EventCategory = comboBox_EventCategory.Text;
         }
 
 		~TeamAuditingView()
@@ -127,14 +124,14 @@
 			olv.GetColumn((int)OlvMembersIndex.Timestamp).AspectGetter
 				= delegate (TeamAuditingListViewItemModel model)
 				{
-                    return (model != null) ? model.Timestamp : DateTime.Now;
+					return (model != null) ? model.Timestamp : DateTime.Now;
 				};
-            olv.GetColumn((int)OlvMembersIndex.ActorType).AspectGetter
-                = delegate (TeamAuditingListViewItemModel model)
-                {
-                    return (model != null) ? model.ActorType : string.Empty;
-                };
-            olv.GetColumn((int)OlvMembersIndex.Email).AspectGetter
+			olv.GetColumn((int)OlvMembersIndex.ActorType).AspectGetter
+				= delegate (TeamAuditingListViewItemModel model)
+				{
+					return (model != null) ? model.ActorType : string.Empty;
+				};
+			olv.GetColumn((int)OlvMembersIndex.Email).AspectGetter
 				= delegate (TeamAuditingListViewItemModel model)
 				{
 					return (model != null) ? model.Email : string.Empty;
@@ -144,52 +141,52 @@
 				{
 					return (model != null) ? model.Context : string.Empty;
 				};
-            olv.GetColumn((int)OlvMembersIndex.EventType).AspectGetter
-                = delegate (TeamAuditingListViewItemModel model)
-                {
-                    return (model != null) ? model.EventType : string.Empty;
-                };
-            olv.GetColumn((int)OlvMembersIndex.Details).AspectGetter
-                = delegate (TeamAuditingListViewItemModel model)
-                {
-                    return (model != null) ? model.Details : string.Empty;
-                };
-            olv.GetColumn((int)OlvMembersIndex.Origin).AspectGetter
-                = delegate (TeamAuditingListViewItemModel model)
-                {
-                    return (model != null) ? model.Origin : string.Empty;
-                };
-            olv.GetColumn((int)OlvMembersIndex.IpAddress).AspectGetter
-                = delegate (TeamAuditingListViewItemModel model)
-                {
-                    return (model != null) ? model.IpAddress : string.Empty;
-                };
-            olv.GetColumn((int)OlvMembersIndex.City).AspectGetter
-                = delegate (TeamAuditingListViewItemModel model)
-                {
-                    return (model != null) ? model.City : string.Empty;
-                };
-            olv.GetColumn((int)OlvMembersIndex.Region).AspectGetter
-                = delegate (TeamAuditingListViewItemModel model)
-                {
-                    return (model != null) ? model.Region : string.Empty;
-                };
-            olv.GetColumn((int)OlvMembersIndex.Country).AspectGetter
-                = delegate (TeamAuditingListViewItemModel model)
-                {
-                    return (model != null) ? model.Country : string.Empty;
-                };
-            olv.GetColumn((int)OlvMembersIndex.Participants).AspectGetter
-                = delegate (TeamAuditingListViewItemModel model)
-                {
-                    return (model != null) ? model.Participants : string.Empty;
-                };
-            //olv.GetColumn((int)OlvMembersIndex.Assets).AspectGetter
-            //    = delegate (TeamAuditingListViewItemModel model)
-            //    {
-            //        return (model != null) ? model.Assets : string.Empty;
-            //    };
-        }
+			olv.GetColumn((int)OlvMembersIndex.EventType).AspectGetter
+				= delegate (TeamAuditingListViewItemModel model)
+				{
+					return (model != null) ? model.EventType : string.Empty;
+				};
+			olv.GetColumn((int)OlvMembersIndex.Details).AspectGetter
+				= delegate (TeamAuditingListViewItemModel model)
+				{
+					return (model != null) ? model.Details : string.Empty;
+				};
+			olv.GetColumn((int)OlvMembersIndex.Origin).AspectGetter
+				= delegate (TeamAuditingListViewItemModel model)
+				{
+					return (model != null) ? model.Origin : string.Empty;
+				};
+			olv.GetColumn((int)OlvMembersIndex.IpAddress).AspectGetter
+				= delegate (TeamAuditingListViewItemModel model)
+				{
+					return (model != null) ? model.IpAddress : string.Empty;
+				};
+			olv.GetColumn((int)OlvMembersIndex.City).AspectGetter
+				= delegate (TeamAuditingListViewItemModel model)
+				{
+					return (model != null) ? model.City : string.Empty;
+				};
+			olv.GetColumn((int)OlvMembersIndex.Region).AspectGetter
+				= delegate (TeamAuditingListViewItemModel model)
+				{
+					return (model != null) ? model.Region : string.Empty;
+				};
+			olv.GetColumn((int)OlvMembersIndex.Country).AspectGetter
+				= delegate (TeamAuditingListViewItemModel model)
+				{
+					return (model != null) ? model.Country : string.Empty;
+				};
+			olv.GetColumn((int)OlvMembersIndex.Participants).AspectGetter
+				= delegate (TeamAuditingListViewItemModel model)
+				{
+					return (model != null) ? model.Participants : string.Empty;
+				};
+			//olv.GetColumn((int)OlvMembersIndex.Assets).AspectGetter
+			//    = delegate (TeamAuditingListViewItemModel model)
+			//    {
+			//        return (model != null) ? model.Assets : string.Empty;
+			//    };
+		}
 
 		public void ShowView()
 		{
@@ -206,11 +203,6 @@
 		public void RefreshAccessToken()
 		{
 			textBox_TeamAuditingAccessToken.Text = AccessToken;
-		}
-
-		private void TextBox_textBoxTeamAuditing_TextChanged(object sender, EventArgs e)
-		{
-			TeamFolderName = this.textBoxTeamAuditing.Text;
 		}
 
 		public void RenderTeamAuditingList(List<TeamAuditingListViewItemModel> TeamAuditing)
@@ -237,11 +229,11 @@
 		private void buttonEx_TeamAuditingLoadTeamAuditing_Click(object sender, EventArgs e)
 		{
 			InvokeDataChanged(sender, e);
-            if (CommandLoadTeamEvents != null)
-            {
-                CommandLoadTeamEvents(sender, e);
-            }
-        }
+			if (CommandLoadTeamEvents != null)
+			{
+				CommandLoadTeamEvents(sender, e);
+			}
+		}
 
 		private void TextBox_TeamAuditingAccessToken_TextChanged(object sender, EventArgs e)
 		{
@@ -283,14 +275,19 @@
 			}
 		}
 
-        private void dateTimePickerFrom_ValueChanged(object sender, EventArgs e)
-        {
-            StartTime = dateTimePickerFrom.Value;
-        }
+		private void dateTimePickerFrom_ValueChanged(object sender, EventArgs e)
+		{
+			StartTime = dateTimePickerFrom.Value;
+		}
 
-        private void dateTimePickerTo_ValueChanged(object sender, EventArgs e)
+		private void dateTimePickerTo_ValueChanged(object sender, EventArgs e)
+		{
+			EndTime = dateTimePickerTo.Value;
+		}  
+
+        private void comboBox_EventCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            EndTime = dateTimePickerTo.Value;
+            EventCategory = comboBox_EventCategory.Text;
         }
 
         #endregion Events

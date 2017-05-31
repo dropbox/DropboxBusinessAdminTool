@@ -64,9 +64,6 @@
             this.olvColumnTeamAuditing_Assets = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup = new System.Windows.Forms.TableLayoutPanel();
             this.buttonEx_TeamAuditingExportToCSV = new DfBAdminToolkit.Common.Component.ButtonEx();
-            this.buttonEx_TeamAuditingSetFolderStatus = new DfBAdminToolkit.Common.Component.ButtonEx();
-            this.radioButton_Active = new System.Windows.Forms.RadioButton();
-            this.radioButton_Archived = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel_TeamFolders.SuspendLayout();
             this.tableLayoutPanel_TeamFoldersCommandGroup.SuspendLayout();
             this.tableLayoutPanel_TeamFoldersAccessToken.SuspendLayout();
@@ -87,22 +84,21 @@
             this.tableLayoutPanel_TeamFolders.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_TeamFolders.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tableLayoutPanel_TeamFolders.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel_TeamFolders.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_TeamFolders.Name = "tableLayoutPanel_TeamFolders";
             this.tableLayoutPanel_TeamFolders.RowCount = 4;
-            this.tableLayoutPanel_TeamFolders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 112F));
-            this.tableLayoutPanel_TeamFolders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+            this.tableLayoutPanel_TeamFolders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 73F));
+            this.tableLayoutPanel_TeamFolders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.tableLayoutPanel_TeamFolders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TeamFolders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
-            this.tableLayoutPanel_TeamFolders.Size = new System.Drawing.Size(1070, 669);
+            this.tableLayoutPanel_TeamFolders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel_TeamFolders.Size = new System.Drawing.Size(713, 435);
             this.tableLayoutPanel_TeamFolders.TabIndex = 1;
             // 
             // tableLayoutPanel_TeamFoldersCommandGroup
             // 
             this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnCount = 4;
             this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
-            this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 285F));
+            this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 63F));
+            this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 190F));
             this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel_TeamFoldersCommandGroup.Controls.Add(this.tableLayoutPanel_TeamFoldersAccessToken, 3, 0);
             this.tableLayoutPanel_TeamFoldersCommandGroup.Controls.Add(this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup, 0, 1);
@@ -111,40 +107,38 @@
             this.tableLayoutPanel_TeamFoldersCommandGroup.Controls.Add(this.comboBox_EventCategory, 2, 0);
             this.tableLayoutPanel_TeamFoldersCommandGroup.Controls.Add(this.label_Categories, 1, 0);
             this.tableLayoutPanel_TeamFoldersCommandGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TeamFoldersCommandGroup.Location = new System.Drawing.Point(4, 5);
-            this.tableLayoutPanel_TeamFoldersCommandGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tableLayoutPanel_TeamFoldersCommandGroup.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel_TeamFoldersCommandGroup.Name = "tableLayoutPanel_TeamFoldersCommandGroup";
             this.tableLayoutPanel_TeamFoldersCommandGroup.RowCount = 2;
             this.tableLayoutPanel_TeamFoldersCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel_TeamFoldersCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel_TeamFoldersCommandGroup.Size = new System.Drawing.Size(1062, 102);
+            this.tableLayoutPanel_TeamFoldersCommandGroup.Size = new System.Drawing.Size(707, 67);
             this.tableLayoutPanel_TeamFoldersCommandGroup.TabIndex = 0;
             // 
             // tableLayoutPanel_TeamFoldersAccessToken
             // 
             this.tableLayoutPanel_TeamFoldersAccessToken.ColumnCount = 2;
-            this.tableLayoutPanel_TeamFoldersAccessToken.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 135F));
+            this.tableLayoutPanel_TeamFoldersAccessToken.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tableLayoutPanel_TeamFoldersAccessToken.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TeamFoldersAccessToken.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel_TeamFoldersAccessToken.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel_TeamFoldersAccessToken.Controls.Add(this.label_TeamFoldersAccessToken, 0, 0);
             this.tableLayoutPanel_TeamFoldersAccessToken.Controls.Add(this.textBox_TeamAuditingAccessToken, 1, 0);
             this.tableLayoutPanel_TeamFoldersAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TeamFoldersAccessToken.Location = new System.Drawing.Point(672, 2);
-            this.tableLayoutPanel_TeamFoldersAccessToken.Margin = new System.Windows.Forms.Padding(2);
+            this.tableLayoutPanel_TeamFoldersAccessToken.Location = new System.Drawing.Point(446, 1);
+            this.tableLayoutPanel_TeamFoldersAccessToken.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel_TeamFoldersAccessToken.Name = "tableLayoutPanel_TeamFoldersAccessToken";
             this.tableLayoutPanel_TeamFoldersAccessToken.RowCount = 1;
             this.tableLayoutPanel_TeamFoldersAccessToken.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TeamFoldersAccessToken.Size = new System.Drawing.Size(388, 38);
+            this.tableLayoutPanel_TeamFoldersAccessToken.Size = new System.Drawing.Size(260, 25);
             this.tableLayoutPanel_TeamFoldersAccessToken.TabIndex = 0;
             // 
             // label_TeamFoldersAccessToken
             // 
             this.label_TeamFoldersAccessToken.AutoSize = true;
             this.label_TeamFoldersAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_TeamFoldersAccessToken.Location = new System.Drawing.Point(4, 0);
-            this.label_TeamFoldersAccessToken.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label_TeamFoldersAccessToken.Location = new System.Drawing.Point(3, 0);
             this.label_TeamFoldersAccessToken.Name = "label_TeamFoldersAccessToken";
-            this.label_TeamFoldersAccessToken.Size = new System.Drawing.Size(127, 38);
+            this.label_TeamFoldersAccessToken.Size = new System.Drawing.Size(84, 25);
             this.label_TeamFoldersAccessToken.TabIndex = 0;
             this.label_TeamFoldersAccessToken.Text = "Access Token";
             this.label_TeamFoldersAccessToken.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -154,46 +148,42 @@
             // 
             this.textBox_TeamAuditingAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_TeamAuditingAccessToken.FileFilter = null;
-            this.textBox_TeamAuditingAccessToken.Location = new System.Drawing.Point(139, 5);
-            this.textBox_TeamAuditingAccessToken.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBox_TeamAuditingAccessToken.Location = new System.Drawing.Point(93, 3);
             this.textBox_TeamAuditingAccessToken.Name = "textBox_TeamAuditingAccessToken";
-            this.textBox_TeamAuditingAccessToken.Size = new System.Drawing.Size(245, 22);
+            this.textBox_TeamAuditingAccessToken.Size = new System.Drawing.Size(164, 22);
             this.textBox_TeamAuditingAccessToken.TabIndex = 1;
             this.textBox_TeamAuditingAccessToken.Visible = false;
             // 
             // tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup
             // 
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnCount = 3;
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 232F));
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 87F));
+            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
+            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 41F));
+            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 58F));
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Controls.Add(this.textBoxTeamAuditing, 0, 0);
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Controls.Add(this.buttonEx_TeamAuditingLoadFromCSV, 1, 0);
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Location = new System.Drawing.Point(4, 47);
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Location = new System.Drawing.Point(3, 30);
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Name = "tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup";
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.RowCount = 1;
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Size = new System.Drawing.Size(283, 50);
+            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Size = new System.Drawing.Size(186, 34);
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.TabIndex = 2;
             // 
             // textBoxTeamAuditing
             // 
             this.textBoxTeamAuditing.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.textBoxTeamAuditing.Location = new System.Drawing.Point(4, 23);
-            this.textBoxTeamAuditing.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxTeamAuditing.Location = new System.Drawing.Point(3, 9);
             this.textBoxTeamAuditing.Name = "textBoxTeamAuditing";
-            this.textBoxTeamAuditing.Size = new System.Drawing.Size(224, 22);
+            this.textBoxTeamAuditing.Size = new System.Drawing.Size(149, 22);
             this.textBoxTeamAuditing.TabIndex = 8;
             // 
             // buttonEx_TeamAuditingLoadFromCSV
             // 
             this.buttonEx_TeamAuditingLoadFromCSV.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonEx_TeamAuditingLoadFromCSV.Location = new System.Drawing.Point(236, 14);
-            this.buttonEx_TeamAuditingLoadFromCSV.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonEx_TeamAuditingLoadFromCSV.Location = new System.Drawing.Point(158, 11);
             this.buttonEx_TeamAuditingLoadFromCSV.Name = "buttonEx_TeamAuditingLoadFromCSV";
-            this.buttonEx_TeamAuditingLoadFromCSV.Size = new System.Drawing.Size(54, 31);
+            this.buttonEx_TeamAuditingLoadFromCSV.Size = new System.Drawing.Size(35, 20);
             this.buttonEx_TeamAuditingLoadFromCSV.TabIndex = 9;
             this.buttonEx_TeamAuditingLoadFromCSV.Text = "...";
             this.buttonEx_TeamAuditingLoadFromCSV.UseVisualStyleBackColor = true;
@@ -202,17 +192,16 @@
             // 
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.ColumnCount = 3;
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel_TeamFoldersSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 285F));
-            this.tableLayoutPanel_TeamFoldersSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 99F));
+            this.tableLayoutPanel_TeamFoldersSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 190F));
+            this.tableLayoutPanel_TeamFoldersSendEmailGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.Controls.Add(this.buttonEx_TeamAuditingLoadTeamEvents, 2, 0);
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.Controls.Add(this.dateTimePickerTo, 1, 0);
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TeamFoldersSendEmailGroup.Location = new System.Drawing.Point(674, 47);
-            this.tableLayoutPanel_TeamFoldersSendEmailGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tableLayoutPanel_TeamFoldersSendEmailGroup.Location = new System.Drawing.Point(448, 30);
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.Name = "tableLayoutPanel_TeamFoldersSendEmailGroup";
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.RowCount = 1;
-            this.tableLayoutPanel_TeamFoldersSendEmailGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel_TeamFoldersSendEmailGroup.Size = new System.Drawing.Size(384, 50);
+            this.tableLayoutPanel_TeamFoldersSendEmailGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel_TeamFoldersSendEmailGroup.Size = new System.Drawing.Size(256, 34);
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.TabIndex = 3;
             // 
             // buttonEx_TeamAuditingLoadTeamEvents
@@ -236,10 +225,9 @@
             office2010White1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             office2010White1.TextColor = System.Drawing.Color.Black;
             this.buttonEx_TeamAuditingLoadTeamEvents.ColorTable = office2010White1;
-            this.buttonEx_TeamAuditingLoadTeamEvents.Location = new System.Drawing.Point(289, 6);
-            this.buttonEx_TeamAuditingLoadTeamEvents.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonEx_TeamAuditingLoadTeamEvents.Location = new System.Drawing.Point(193, 5);
             this.buttonEx_TeamAuditingLoadTeamEvents.Name = "buttonEx_TeamAuditingLoadTeamEvents";
-            this.buttonEx_TeamAuditingLoadTeamEvents.Size = new System.Drawing.Size(91, 37);
+            this.buttonEx_TeamAuditingLoadTeamEvents.Size = new System.Drawing.Size(60, 24);
             this.buttonEx_TeamAuditingLoadTeamEvents.TabIndex = 4;
             this.buttonEx_TeamAuditingLoadTeamEvents.Text = "Load";
             this.buttonEx_TeamAuditingLoadTeamEvents.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
@@ -248,20 +236,18 @@
             // dateTimePickerTo
             // 
             this.dateTimePickerTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.dateTimePickerTo.Location = new System.Drawing.Point(4, 14);
-            this.dateTimePickerTo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dateTimePickerTo.Location = new System.Drawing.Point(3, 6);
             this.dateTimePickerTo.Name = "dateTimePickerTo";
-            this.dateTimePickerTo.Size = new System.Drawing.Size(277, 22);
+            this.dateTimePickerTo.Size = new System.Drawing.Size(184, 22);
             this.dateTimePickerTo.TabIndex = 6;
             this.dateTimePickerTo.ValueChanged += new System.EventHandler(this.dateTimePickerTo_ValueChanged);
             // 
             // dateTimePickerFrom
             // 
             this.dateTimePickerFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.dateTimePickerFrom.Location = new System.Drawing.Point(389, 61);
-            this.dateTimePickerFrom.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dateTimePickerFrom.Location = new System.Drawing.Point(258, 36);
             this.dateTimePickerFrom.Name = "dateTimePickerFrom";
-            this.dateTimePickerFrom.Size = new System.Drawing.Size(277, 22);
+            this.dateTimePickerFrom.Size = new System.Drawing.Size(184, 22);
             this.dateTimePickerFrom.TabIndex = 5;
             this.dateTimePickerFrom.ValueChanged += new System.EventHandler(this.dateTimePickerFrom_ValueChanged);
             // 
@@ -271,20 +257,20 @@
             this.comboBox_EventCategory.FormattingEnabled = true;
             this.comboBox_EventCategory.Items.AddRange(new object[] {
             "All Events",
-            "Account Capture",
+            "Account_Capture",
             "Administration",
             "Apps",
             "Authentication",
             "Comments",
-            "Content Access",
+            "Content_Access",
             "Devices",
-            "Device Approvals",
+            "Device_Approvals",
             "Domains",
             "EMM",
             "Errors",
             "Files",
-            "Files Operations",
-            "File Requests",
+            "File_Operations",
+            "File_Requests",
             "Groups",
             "Logins",
             "Members",
@@ -292,28 +278,31 @@
             "Passwords",
             "Reports",
             "Sessions",
-            "Shared Files",
-            "Shared Folders",
-            "Shared Links",
+            "Shared_Files",
+            "Shared_Folders",
+            "Shared_Links",
             "Sharing",
-            "Sharing Policies",
+            "Sharing_Policies",
             "SSO",
-            "Team Folders",
-            "Team Policies",
-            "Team Profile",
+            "Team_Folders",
+            "Team_Policies",
+            "Team_Profile",
             "TFA"});
-            this.comboBox_EventCategory.Location = new System.Drawing.Point(388, 10);
+            this.comboBox_EventCategory.Location = new System.Drawing.Point(257, 3);
+            this.comboBox_EventCategory.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox_EventCategory.Name = "comboBox_EventCategory";
-            this.comboBox_EventCategory.Size = new System.Drawing.Size(279, 21);
+            this.comboBox_EventCategory.Size = new System.Drawing.Size(186, 21);
             this.comboBox_EventCategory.TabIndex = 6;
+            this.comboBox_EventCategory.SelectedIndexChanged += new System.EventHandler(this.comboBox_EventCategory_SelectedIndexChanged);
             // 
             // label_Categories
             // 
             this.label_Categories.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label_Categories.AutoSize = true;
-            this.label_Categories.Location = new System.Drawing.Point(294, 14);
+            this.label_Categories.Location = new System.Drawing.Point(194, 7);
+            this.label_Categories.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Categories.Name = "label_Categories";
-            this.label_Categories.Size = new System.Drawing.Size(88, 13);
+            this.label_Categories.Size = new System.Drawing.Size(59, 13);
             this.label_Categories.TabIndex = 7;
             this.label_Categories.Text = "Category:";
             // 
@@ -323,12 +312,11 @@
             this.tableLayoutPanel_TeamFoldersMembersGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_TeamFoldersMembersGroup.Controls.Add(this.objectListView_TeamAuditingMembers, 0, 0);
             this.tableLayoutPanel_TeamFoldersMembersGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TeamFoldersMembersGroup.Location = new System.Drawing.Point(4, 125);
-            this.tableLayoutPanel_TeamFoldersMembersGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tableLayoutPanel_TeamFoldersMembersGroup.Location = new System.Drawing.Point(3, 81);
             this.tableLayoutPanel_TeamFoldersMembersGroup.Name = "tableLayoutPanel_TeamFoldersMembersGroup";
             this.tableLayoutPanel_TeamFoldersMembersGroup.RowCount = 1;
             this.tableLayoutPanel_TeamFoldersMembersGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TeamFoldersMembersGroup.Size = new System.Drawing.Size(1062, 477);
+            this.tableLayoutPanel_TeamFoldersMembersGroup.Size = new System.Drawing.Size(707, 311);
             this.tableLayoutPanel_TeamFoldersMembersGroup.TabIndex = 1;
             // 
             // objectListView_TeamAuditingMembers
@@ -370,11 +358,11 @@
             this.objectListView_TeamAuditingMembers.HasCollapsibleGroups = false;
             this.objectListView_TeamAuditingMembers.HighlightBackgroundColor = System.Drawing.Color.Empty;
             this.objectListView_TeamAuditingMembers.HighlightForegroundColor = System.Drawing.Color.Empty;
-            this.objectListView_TeamAuditingMembers.Location = new System.Drawing.Point(4, 5);
-            this.objectListView_TeamAuditingMembers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.objectListView_TeamAuditingMembers.Location = new System.Drawing.Point(3, 3);
             this.objectListView_TeamAuditingMembers.Name = "objectListView_TeamAuditingMembers";
             this.objectListView_TeamAuditingMembers.ShowGroups = false;
-            this.objectListView_TeamAuditingMembers.Size = new System.Drawing.Size(1054, 467);
+            this.objectListView_TeamAuditingMembers.Size = new System.Drawing.Size(701, 305);
+            this.objectListView_TeamAuditingMembers.Sorting = System.Windows.Forms.SortOrder.Descending;
             this.objectListView_TeamAuditingMembers.TabIndex = 1;
             this.objectListView_TeamAuditingMembers.UseCompatibleStateImageBehavior = false;
             this.objectListView_TeamAuditingMembers.UseNotifyPropertyChanged = true;
@@ -407,9 +395,9 @@
             // olvColumnTeamAuditing_Context
             // 
             this.olvColumnTeamAuditing_Context.AspectName = "Context";
-            this.olvColumnTeamAuditing_Context.MinimumWidth = 100;
+            this.olvColumnTeamAuditing_Context.MinimumWidth = 70;
             this.olvColumnTeamAuditing_Context.Text = "Context";
-            this.olvColumnTeamAuditing_Context.Width = 100;
+            this.olvColumnTeamAuditing_Context.Width = 70;
             // 
             // olvColumnTeamAuditing_EventType
             // 
@@ -428,9 +416,9 @@
             // olvColumnTeamAuditing_Origin
             // 
             this.olvColumnTeamAuditing_Origin.AspectName = "Origin";
-            this.olvColumnTeamAuditing_Origin.MinimumWidth = 100;
+            this.olvColumnTeamAuditing_Origin.MinimumWidth = 75;
             this.olvColumnTeamAuditing_Origin.Text = "Origin";
-            this.olvColumnTeamAuditing_Origin.Width = 100;
+            this.olvColumnTeamAuditing_Origin.Width = 75;
             // 
             // olvColumnTeamAuditing_IpAddress
             // 
@@ -442,9 +430,9 @@
             // olvColumnTeamAuditing_City
             // 
             this.olvColumnTeamAuditing_City.AspectName = "City";
-            this.olvColumnTeamAuditing_City.MinimumWidth = 50;
+            this.olvColumnTeamAuditing_City.MinimumWidth = 75;
             this.olvColumnTeamAuditing_City.Text = "City";
-            this.olvColumnTeamAuditing_City.Width = 50;
+            this.olvColumnTeamAuditing_City.Width = 75;
             // 
             // olvColumnTeamAuditing_Region
             // 
@@ -456,6 +444,7 @@
             // olvColumnTEamAuditing_Country
             // 
             this.olvColumnTEamAuditing_Country.AspectName = "Country";
+            this.olvColumnTEamAuditing_Country.MinimumWidth = 60;
             this.olvColumnTEamAuditing_Country.Text = "Country";
             // 
             // olvColumnTeamAuditing_Participants
@@ -475,26 +464,23 @@
             // tableLayoutPanel_TeamFoldersProvisionCommandGroup
             // 
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnCount = 9;
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 144F));
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 114F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 234F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.buttonEx_TeamAuditingExportToCSV, 7, 0);
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.buttonEx_TeamAuditingSetFolderStatus, 0, 0);
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.radioButton_Active, 1, 0);
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.radioButton_Archived, 2, 0);
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 76F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.buttonEx_TeamAuditingExportToCSV, 9, 0);
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Location = new System.Drawing.Point(4, 610);
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Location = new System.Drawing.Point(3, 397);
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Name = "tableLayoutPanel_TeamFoldersProvisionCommandGroup";
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.RowCount = 1;
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 56F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Size = new System.Drawing.Size(1062, 56);
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Size = new System.Drawing.Size(707, 36);
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.TabIndex = 3;
             // 
             // buttonEx_TeamAuditingExportToCSV
@@ -518,62 +504,21 @@
             office2010Blue1.TextColor = System.Drawing.Color.White;
             this.buttonEx_TeamAuditingExportToCSV.ColorTable = office2010Blue1;
             this.buttonEx_TeamAuditingExportToCSV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_TeamAuditingExportToCSV.Location = new System.Drawing.Point(702, 5);
-            this.buttonEx_TeamAuditingExportToCSV.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonEx_TeamAuditingExportToCSV.Location = new System.Drawing.Point(578, 3);
             this.buttonEx_TeamAuditingExportToCSV.Name = "buttonEx_TeamAuditingExportToCSV";
-            this.buttonEx_TeamAuditingExportToCSV.Size = new System.Drawing.Size(226, 46);
+            this.buttonEx_TeamAuditingExportToCSV.Size = new System.Drawing.Size(126, 30);
             this.buttonEx_TeamAuditingExportToCSV.TabIndex = 12;
             this.buttonEx_TeamAuditingExportToCSV.Text = "Export Team Folders ";
             this.buttonEx_TeamAuditingExportToCSV.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
             this.buttonEx_TeamAuditingExportToCSV.UseVisualStyleBackColor = true;
             // 
-            // buttonEx_TeamAuditingSetFolderStatus
-            // 
-            this.buttonEx_TeamAuditingSetFolderStatus.ColorTable = office2010Blue1;
-            this.buttonEx_TeamAuditingSetFolderStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_TeamAuditingSetFolderStatus.Location = new System.Drawing.Point(4, 5);
-            this.buttonEx_TeamAuditingSetFolderStatus.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.buttonEx_TeamAuditingSetFolderStatus.Name = "buttonEx_TeamAuditingSetFolderStatus";
-            this.buttonEx_TeamAuditingSetFolderStatus.Size = new System.Drawing.Size(136, 46);
-            this.buttonEx_TeamAuditingSetFolderStatus.TabIndex = 8;
-            this.buttonEx_TeamAuditingSetFolderStatus.Text = "Change Status";
-            this.buttonEx_TeamAuditingSetFolderStatus.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
-            this.buttonEx_TeamAuditingSetFolderStatus.UseVisualStyleBackColor = true;
-            // 
-            // radioButton_Active
-            // 
-            this.radioButton_Active.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton_Active.AutoSize = true;
-            this.radioButton_Active.Location = new System.Drawing.Point(148, 19);
-            this.radioButton_Active.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.radioButton_Active.Name = "radioButton_Active";
-            this.radioButton_Active.Size = new System.Drawing.Size(88, 17);
-            this.radioButton_Active.TabIndex = 9;
-            this.radioButton_Active.TabStop = true;
-            this.radioButton_Active.Text = "Active";
-            this.radioButton_Active.UseVisualStyleBackColor = true;
-            // 
-            // radioButton_Archived
-            // 
-            this.radioButton_Archived.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton_Archived.AutoSize = true;
-            this.radioButton_Archived.Location = new System.Drawing.Point(244, 19);
-            this.radioButton_Archived.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.radioButton_Archived.Name = "radioButton_Archived";
-            this.radioButton_Archived.Size = new System.Drawing.Size(106, 17);
-            this.radioButton_Archived.TabIndex = 10;
-            this.radioButton_Archived.TabStop = true;
-            this.radioButton_Archived.Text = "Archived";
-            this.radioButton_Archived.UseVisualStyleBackColor = true;
-            // 
             // TeamAuditingView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1070, 669);
+            this.ClientSize = new System.Drawing.Size(713, 435);
             this.Controls.Add(this.tableLayoutPanel_TeamFolders);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "TeamAuditingView";
             this.Text = "TeamFoldersView";
             this.tableLayoutPanel_TeamFolders.ResumeLayout(false);
@@ -587,7 +532,6 @@
             this.tableLayoutPanel_TeamFoldersMembersGroup.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectListView_TeamAuditingMembers)).EndInit();
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ResumeLayout(false);
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -608,9 +552,6 @@
         private ButtonEx buttonEx_TeamAuditingLoadTeamEvents;
         private BrightIdeasSoftware.OLVColumn olvColumnTeamAuditing_Context;
         private BrightIdeasSoftware.OLVColumn olvColumnTeamAuditing_Email;
-        private ButtonEx buttonEx_TeamAuditingSetFolderStatus;
-        private System.Windows.Forms.RadioButton radioButton_Active;
-        private System.Windows.Forms.RadioButton radioButton_Archived;
         private ButtonEx buttonEx_TeamAuditingExportToCSV;
         private System.Windows.Forms.Button buttonEx_TeamAuditingLoadFromCSV;
         private System.Windows.Forms.TextBox textBoxTeamAuditing;

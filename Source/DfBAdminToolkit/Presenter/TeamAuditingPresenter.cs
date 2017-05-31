@@ -22,6 +22,8 @@
         {
         }
 
+        public int EventCount { get; set; }
+
         protected override void Initialize()
         {
             ITeamAuditingView view = base._view as ITeamAuditingView;
@@ -70,6 +72,8 @@
 
         private void GetEvents(ITeamAuditingModel model, ITeamAuditingView view, IMainPresenter presenter)
         {
+            string eventCategory = view.EventCategory;
+            EventCount = 0;
             IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.GetEventsUrl = ApplicationResource.ActionGetEvents;
             service.UserAgentVersion = ApplicationResource.UserAgent;
@@ -95,16 +99,22 @@
                     int resultCount = jsonData["events"].Count;
                     for (int i = 0; i < resultCount; i++)
                     {
+                        bool inCategories = false;
                         dynamic events = jsonData["events"][i];
                         dynamic timestampObj = events["timestamp"];
 
-                        //go through event categories and compare to what we are looking for
+                        //go through event categories and compare to combobox filter
                         int eventCategoryCount = events["event_categories"].Count;      
                         for (int i2 = 0; i2 < eventCategoryCount; i2++)
                         {
                             dynamic eventCategories = events["event_categories"][i2];
                             dynamic eventCategoryObj = eventCategories[".tag"];
-                            string eventCategory = eventCategoryObj.Value as string;
+                            string eventCategoryReturn = eventCategoryObj.Value as string;
+
+                            if (eventCategoryReturn == eventCategory.ToLower())
+                            {
+                                inCategories = true;
+                            }
                         }
 
                         dynamic actorType = events["actor"][".tag"];
@@ -157,31 +167,62 @@
                         string ipAddress = ipAddressObj.Value as string;
                         string city = cityObj.Value as string;
                         string region = regionObj.Value as string;
+
+                        if (region != "Unknown")
+                        {
+                            region = FileUtil.ConvertStateToAbbreviation(region);
+                        }
                         string country = countryObj.Value as string;
                         //string participants = participantsObj.Value as string;
                         //string assets = assetsObj.Value as string;
                         string participants = string.Empty;
                         string assets = string.Empty;
 
-                        // update model
-                        TeamAuditingListViewItemModel lvItem = new TeamAuditingListViewItemModel()
+                        // update model based on category
+                        if (eventCategory == "All Events")
                         {
-                            Timestamp = timestamp,
-                            ActorType = actorTypeString,
-                            Email = email, //actor
-                            Context = context,
-                            EventType = eventType,
-                            Details = details,
-                            Origin = origin,
-                            IpAddress = ipAddress,
-                            City = city,
-                            Region = region,
-                            Country = country,
-                            Participants = participants,
-                            Assets = assets,
-                            IsChecked = true
-                        };
-                        model.TeamAuditing.Add(lvItem);
+                            TeamAuditingListViewItemModel lvItem = new TeamAuditingListViewItemModel()
+                            {
+                                Timestamp = timestamp,
+                                ActorType = actorTypeString,
+                                Email = email, //actor
+                                Context = context,
+                                EventType = eventType,
+                                Details = details,
+                                Origin = origin,
+                                IpAddress = ipAddress,
+                                City = city,
+                                Region = region,
+                                Country = country,
+                                Participants = participants,
+                                Assets = assets,
+                                IsChecked = true
+                            };
+                            model.TeamAuditing.Add(lvItem);
+                            EventCount++;
+                        }
+                        if (eventCategory != "All Events" && inCategories)
+                        {
+                            TeamAuditingListViewItemModel lvItem = new TeamAuditingListViewItemModel()
+                            {
+                                Timestamp = timestamp,
+                                ActorType = actorTypeString,
+                                Email = email, //actor
+                                Context = context,
+                                EventType = eventType,
+                                Details = details,
+                                Origin = origin,
+                                IpAddress = ipAddress,
+                                City = city,
+                                Region = region,
+                                Country = country,
+                                Participants = participants,
+                                Assets = assets,
+                                IsChecked = true
+                            };
+                            model.TeamAuditing.Add(lvItem);
+                            EventCount++;
+                        }
                     }
                     // collect more.
                     bool hasMore = jsonData["has_more"];
@@ -201,16 +242,22 @@
                         int resultContCount = jsonDataCont["events"].Count;
                         for (int i = 0; i < resultContCount; i++)
                         {
+                            bool inCategories = false;
                             dynamic events = jsonDataCont["events"][i];
                             dynamic timestampObj = events["timestamp"];
 
-                            //go through event categories and compare to what we are looking for
+                            //go through event categories and compare to combobox filter
                             int eventCategoryCount = events["event_categories"].Count;
                             for (int i2 = 0; i2 < eventCategoryCount; i2++)
                             {
                                 dynamic eventCategories = events["event_categories"][i2];
                                 dynamic eventCategoryObj = eventCategories[".tag"];
-                                string eventCategory = eventCategoryObj.Value as string;
+                                string eventCategoryReturn = eventCategoryObj.Value as string;
+
+                                if (eventCategoryReturn == eventCategory.ToLower())
+                                {
+                                    inCategories = true;
+                                }
                             }
 
                             dynamic actorType = events["actor"][".tag"];
@@ -263,6 +310,11 @@
                             string ipAddress = ipAddressObj.Value as string;
                             string city = cityObj.Value as string;
                             string region = regionObj.Value as string;
+
+                            if (region != "Unknown")
+                            {
+                                region = FileUtil.ConvertStateToAbbreviation(region);
+                            }
                             string country = countryObj.Value as string;
                             //string participants = participantsObj.Value as string;
                             //string assets = assetsObj.Value as string;
@@ -270,24 +322,50 @@
                             string assets = string.Empty;
 
                             // update model
-                            TeamAuditingListViewItemModel lvItem = new TeamAuditingListViewItemModel()
+                            if (eventCategory == "All Events")
                             {
-                                Timestamp = timestamp,
-                                ActorType = actorTypeString,
-                                Email = email, //actor
-                                Context = context,
-                                EventType = eventType,
-                                Details = details,
-                                Origin = origin,
-                                IpAddress = ipAddress,
-                                City = city,
-                                Region = region,
-                                Country = country,
-                                Participants = participants,
-                                Assets = assets,
-                                IsChecked = true
-                            };
-                            model.TeamAuditing.Add(lvItem);
+                                TeamAuditingListViewItemModel lvItem = new TeamAuditingListViewItemModel()
+                                {
+                                    Timestamp = timestamp,
+                                    ActorType = actorTypeString,
+                                    Email = email, //actor
+                                    Context = context,
+                                    EventType = eventType,
+                                    Details = details,
+                                    Origin = origin,
+                                    IpAddress = ipAddress,
+                                    City = city,
+                                    Region = region,
+                                    Country = country,
+                                    Participants = participants,
+                                    Assets = assets,
+                                    IsChecked = true
+                                };
+                                model.TeamAuditing.Add(lvItem);
+                                EventCount++;
+                            }
+                            if (eventCategory != "All Events" && inCategories)
+                            {
+                                TeamAuditingListViewItemModel lvItem = new TeamAuditingListViewItemModel()
+                                {
+                                    Timestamp = timestamp,
+                                    ActorType = actorTypeString,
+                                    Email = email, //actor
+                                    Context = context,
+                                    EventType = eventType,
+                                    Details = details,
+                                    Origin = origin,
+                                    IpAddress = ipAddress,
+                                    City = city,
+                                    Region = region,
+                                    Country = country,
+                                    Participants = participants,
+                                    Assets = assets,
+                                    IsChecked = true
+                                };
+                                model.TeamAuditing.Add(lvItem);
+                                EventCount++;
+                            }
                         }
                     }
                 }
@@ -314,13 +392,14 @@
             Thread teamfoldersLoad = new Thread(() => {
                 if (!string.IsNullOrEmpty(model.AccessToken))
                 {
+                    model.TeamAuditing.Clear();
                     this.GetEvents(model, view, presenter);
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate {
                             // update result and update view.
                             view.RenderTeamAuditingList(model.TeamAuditing);
-                            presenter.UpdateProgressInfo("Events loaded.");
+                            presenter.UpdateProgressInfo("Events loaded [" + EventCount.ToString() + "]");
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
                         }, null);
