@@ -36,13 +36,13 @@
 			Email,
 			Context,
 			EventType,
-			Details,
 			Origin,
 			IpAddress,
 			City,
 			Region,
 			Country,
-			Participants
+			Participants,
+            Assets
 		}
 
 		public TeamAuditingView()
@@ -52,21 +52,6 @@
 			InitializeOLVMembers();
 			WireComponentEvents();
 			this.objectListView_TeamAuditingMembers.RebuildColumns();
-
-			// Initialize From picker to yesterday and set format
-            dateTimePickerFrom.Format = DateTimePickerFormat.Custom;
-            dateTimePickerFrom.CustomFormat = "MM-dd-yyyy  hh:mm:ss";
-            DateTime resultFrom = DateTime.Now.Subtract(TimeSpan.FromDays(1));
-            dateTimePickerFrom.Value = resultFrom;
-            StartTime = resultFrom;
-            //set To picker to now and set format. 
-            dateTimePickerTo.Format = DateTimePickerFormat.Custom;
-            dateTimePickerTo.CustomFormat = "MM-dd-yyyy  hh:mm:ss";
-            DateTime resultTo = DateTime.Now;
-            dateTimePickerTo.Value = resultTo;
-            EndTime = resultTo;
-
-            EventCategory = comboBox_EventCategory.Text;
         }
 
 		~TeamAuditingView()
@@ -103,7 +88,21 @@
 			TopLevel = false;
 			Dock = DockStyle.Fill;
 			this.comboBox_EventCategory.Text = "All Events";
-		}
+            EventCategory = comboBox_EventCategory.Text;
+
+            // Initialize From picker to yesterday and set format
+            dateTimePickerFrom.Format = DateTimePickerFormat.Custom;
+            dateTimePickerFrom.CustomFormat = "MM-dd-yyyy  hh:mm:ss";
+            DateTime resultFrom = DateTime.Now.Subtract(TimeSpan.FromDays(1));
+            dateTimePickerFrom.Value = resultFrom;
+            StartTime = resultFrom;
+            //set To picker to now and set format. 
+            dateTimePickerTo.Format = DateTimePickerFormat.Custom;
+            dateTimePickerTo.CustomFormat = "MM-dd-yyyy  hh:mm:ss";
+            DateTime resultTo = DateTime.Now;
+            dateTimePickerTo.Value = resultTo;
+            EndTime = resultTo;    
+        }
 
 		private void InitializeOLVMembers()
 		{
@@ -146,11 +145,6 @@
 				{
 					return (model != null) ? model.EventType : string.Empty;
 				};
-			olv.GetColumn((int)OlvMembersIndex.Details).AspectGetter
-				= delegate (TeamAuditingListViewItemModel model)
-				{
-					return (model != null) ? model.Details : string.Empty;
-				};
 			olv.GetColumn((int)OlvMembersIndex.Origin).AspectGetter
 				= delegate (TeamAuditingListViewItemModel model)
 				{
@@ -181,12 +175,12 @@
 				{
 					return (model != null) ? model.Participants : string.Empty;
 				};
-			//olv.GetColumn((int)OlvMembersIndex.Assets).AspectGetter
-			//    = delegate (TeamAuditingListViewItemModel model)
-			//    {
-			//        return (model != null) ? model.Assets : string.Empty;
-			//    };
-		}
+            olv.GetColumn((int)OlvMembersIndex.Assets).AspectGetter
+                = delegate (TeamAuditingListViewItemModel model)
+                {
+                    return (model != null) ? model.Assets : string.Empty;
+                };
+        }
 
 		public void ShowView()
 		{

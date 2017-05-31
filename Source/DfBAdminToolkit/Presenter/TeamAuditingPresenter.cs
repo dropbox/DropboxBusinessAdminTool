@@ -8,9 +8,6 @@
     using View;
     using Newtonsoft.Json;
     using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
     using System.Net;
     using System.Threading;
 
@@ -141,16 +138,98 @@
                         {
                             emailObj = "Dropbox";
                         }
-                        //dynamic contextObj = events["context"];
+                        dynamic contextTypeObj = events["context"][".tag"];
+                        string contextTypeString = contextTypeObj.Value as string;
+                        dynamic contextObj = null;
+                        string context = string.Empty;
+
+                        if (contextTypeString == "team_member" || contextTypeString == "non_team_member")
+                        {
+                            contextObj = events["context"]["email"];
+                            context = contextObj.Value as string;
+                        }
+                        if (contextTypeString == "team")
+                        {
+                            contextObj = "Team";
+                            context = contextObj;
+                        }
                         dynamic eventTypeObj = events["event_type"][".tag"];
-                        dynamic detailsTypeObj = events["details"];
                         dynamic originObj = events["origin"]["access_method"][".tag"];
                         dynamic ipAddressObj = events["origin"]["geo_location"]["ip_address"];
                         dynamic cityObj = events["origin"]["geo_location"]["city"];
                         dynamic regionObj = events["origin"]["geo_location"]["region"];
                         dynamic countryObj = events["origin"]["geo_location"]["country"];
-                        //dynamic participantsObj = events["participants"];
-                        //dynamic assetsObj = events["assets"];
+
+                        string participants = string.Empty;
+                        if (events["participants"] != null)
+                        {
+                            int participantsCount = events["participants"].Count;
+                            dynamic participantsCatObj = null;
+                            string participantsCategory = string.Empty;
+                            dynamic participantsObj = null;
+                            
+                            if (participantsCount > 0)
+                            {
+                                participantsCatObj = events["participants"][0][".tag"];
+                                participantsCategory = participantsCatObj.Value as string;
+
+                                if (participantsCategory == "user")
+                                {
+                                    if (events["participants"][0]["user"]["email"] != null)
+                                    {
+                                        participantsObj = events["participants"][0]["user"]["email"];
+                                        participants = participantsObj.Value as string;
+                                    }   
+                                }
+                                if (participantsCategory == "group")
+                                {
+                                    if (events["participants"][0]["display_name"] != null)
+                                    {
+                                        participantsObj = events["participants"][0]["display_name"];
+                                        participants = participantsObj.Value as string;
+                                    }   
+                                }
+                            }
+                        }
+                        string assets = string.Empty;
+                        if (events["assets"] != null)
+                        {
+                            int assetsCount = events["assets"].Count;
+                            dynamic assetsCatObj = null;
+                            string assetsCat = string.Empty;
+                            dynamic assetsObj = null;
+
+                            if (assetsCount > 0)
+                            {
+                                assetsCatObj = events["assets"][0][".tag"];
+                                assetsCat = assetsCatObj.Value as string;
+
+                                if (assetsCat == "file" || assetsCat == "folder")
+                                {
+                                    if (events["assets"][0]["display_name"] != null)
+                                    {
+                                        assetsObj = events["assets"][0]["display_name"];
+                                        assets = assetsObj.Value as string;
+                                    }
+                                }
+                                if (assetsCat == "paper_document")
+                                {
+                                    if (events["assets"][0]["doc_title"] != null)
+                                    {
+                                        assetsObj = events["assets"][0]["doc_title"];
+                                        assets = assetsObj.Value as string;
+                                    }
+                                }
+                                if (assetsCat == "paper_folder")
+                                {
+                                    if (events["assets"][0]["folder_name"] != null)
+                                    {
+                                        assetsObj = events["assets"][0]["folder_name"];
+                                        assets = assetsObj.Value as string;
+                                    }
+                                }
+                            }
+                        }
 
                         //render to use
                         DateTime timestamp = DateTime.MinValue;
@@ -159,10 +238,7 @@
                             timestamp = timestampObj;
                         }
                         string email = emailObj;
-                        //string context = contextObj.Value as string;
-                        string context = string.Empty;
                         string eventType = eventTypeObj.Value as string;
-                        string details = detailsTypeObj.Value as string;
                         string origin = originObj.Value as string;
                         string ipAddress = ipAddressObj.Value as string;
                         string city = cityObj.Value as string;
@@ -173,10 +249,6 @@
                             region = FileUtil.ConvertStateToAbbreviation(region);
                         }
                         string country = countryObj.Value as string;
-                        //string participants = participantsObj.Value as string;
-                        //string assets = assetsObj.Value as string;
-                        string participants = string.Empty;
-                        string assets = string.Empty;
 
                         // update model based on category
                         if (eventCategory == "All Events")
@@ -185,10 +257,9 @@
                             {
                                 Timestamp = timestamp,
                                 ActorType = actorTypeString,
-                                Email = email, //actor
-                                Context = context,
+                                Email = email,
+                                Context = context, 
                                 EventType = eventType,
-                                Details = details,
                                 Origin = origin,
                                 IpAddress = ipAddress,
                                 City = city,
@@ -207,10 +278,9 @@
                             {
                                 Timestamp = timestamp,
                                 ActorType = actorTypeString,
-                                Email = email, //actor
+                                Email = email,
                                 Context = context,
                                 EventType = eventType,
-                                Details = details,
                                 Origin = origin,
                                 IpAddress = ipAddress,
                                 City = city,
@@ -284,17 +354,98 @@
                             {
                                 emailObj = "Dropbox";
                             }
-                            //dynamic contextObj = events["context"];
+                            dynamic contextTypeObj = events["context"][".tag"];
+                            string contextTypeString = contextTypeObj.Value as string;
+                            dynamic contextObj = null;
+                            string context = string.Empty;
+
+                            if (contextTypeString == "team_member" || contextTypeString == "non_team_member")
+                            {
+                                contextObj = events["context"]["email"];
+                                context = contextObj.Value as string;
+                            }
+                            if (contextTypeString == "team")
+                            {
+                                contextObj = "Team";
+                                context = contextObj;
+                            }
                             dynamic eventTypeObj = events["event_type"][".tag"];
-                            dynamic detailsTypeObj = events["details"];
                             dynamic originObj = events["origin"]["access_method"][".tag"];
                             dynamic ipAddressObj = events["origin"]["geo_location"]["ip_address"];
                             dynamic cityObj = events["origin"]["geo_location"]["city"];
                             dynamic regionObj = events["origin"]["geo_location"]["region"];
                             dynamic countryObj = events["origin"]["geo_location"]["country"];
-                            //dynamic participantsObj = events["participants"];
-                            //dynamic assetsObj = events["assets"];
 
+                            string participants = string.Empty;
+                            if (events["participants"] != null)
+                            {
+                                int participantsCount = events["participants"].Count;
+                                dynamic participantsCatObj = null;
+                                string participantsCategory = string.Empty;
+                                dynamic participantsObj = null;
+
+                                if (participantsCount > 0)
+                                {
+                                    participantsCatObj = events["participants"][0][".tag"];
+                                    participantsCategory = participantsCatObj.Value as string;
+
+                                    if (participantsCategory == "user")
+                                    {
+                                        if (events["participants"][0]["user"]["email"] != null)
+                                        {
+                                            participantsObj = events["participants"][0]["user"]["email"];
+                                            participants = participantsObj.Value as string;
+                                        }
+                                    }
+                                    if (participantsCategory == "group")
+                                    {
+                                        if (events["participants"][0]["display_name"] != null)
+                                        {
+                                            participantsObj = events["participants"][0]["display_name"];
+                                            participants = participantsObj.Value as string;
+                                        }
+                                    }
+                                }
+                            }
+                            string assets = string.Empty;
+                            if (events["assets"] != null)
+                            {
+                                int assetsCount = events["assets"].Count;
+                                dynamic assetsCatObj = null;
+                                string assetsCat = string.Empty;
+                                dynamic assetsObj = null;
+
+                                if (assetsCount > 0)
+                                {
+                                    assetsCatObj = events["assets"][0][".tag"];
+                                    assetsCat = assetsCatObj.Value as string;
+
+                                    if (assetsCat == "file" || assetsCat == "folder")
+                                    {
+                                        if (events["assets"][0]["display_name"] != null)
+                                        {
+                                            assetsObj = events["assets"][0]["display_name"];
+                                            assets = assetsObj.Value as string;
+                                        }
+                                    }
+                                    if (assetsCat == "paper_document")
+                                    {
+                                        if (events["assets"][0]["doc_title"] != null)
+                                        {
+                                            assetsObj = events["assets"][0]["doc_title"];
+                                            assets = assetsObj.Value as string;
+                                        }
+                                    }
+                                    if (assetsCat == "paper_folder")
+                                    {
+                                        if (events["assets"][0]["folder_name"] != null)
+                                        {
+                                            assetsObj = events["assets"][0]["folder_name"];
+                                            assets = assetsObj.Value as string;
+                                        }
+                                    }
+                                }
+                            }
                             //render to use
                             DateTime timestamp = DateTime.MinValue;
                             if (timestampObj != null)
@@ -302,10 +453,7 @@
                                 timestamp = timestampObj;
                             }
                             string email = emailObj;
-                            //string context = contextObj.Value as string;
-                            string context = string.Empty;
                             string eventType = eventTypeObj.Value as string;
-                            string details = detailsTypeObj.Value as string;
                             string origin = originObj.Value as string;
                             string ipAddress = ipAddressObj.Value as string;
                             string city = cityObj.Value as string;
@@ -316,22 +464,17 @@
                                 region = FileUtil.ConvertStateToAbbreviation(region);
                             }
                             string country = countryObj.Value as string;
-                            //string participants = participantsObj.Value as string;
-                            //string assets = assetsObj.Value as string;
-                            string participants = string.Empty;
-                            string assets = string.Empty;
 
-                            // update model
+                            // update model based on category
                             if (eventCategory == "All Events")
                             {
                                 TeamAuditingListViewItemModel lvItem = new TeamAuditingListViewItemModel()
                                 {
                                     Timestamp = timestamp,
                                     ActorType = actorTypeString,
-                                    Email = email, //actor
+                                    Email = email,
                                     Context = context,
                                     EventType = eventType,
-                                    Details = details,
                                     Origin = origin,
                                     IpAddress = ipAddress,
                                     City = city,
@@ -350,10 +493,9 @@
                                 {
                                     Timestamp = timestamp,
                                     ActorType = actorTypeString,
-                                    Email = email, //actor
+                                    Email = email,
                                     Context = context,
                                     EventType = eventType,
-                                    Details = details,
                                     Origin = origin,
                                     IpAddress = ipAddress,
                                     City = city,
