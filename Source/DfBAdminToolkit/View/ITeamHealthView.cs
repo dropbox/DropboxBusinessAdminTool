@@ -13,5 +13,7 @@
 
         void RefreshAccessToken();
 
+        void LoadViewHealthItems(ITeamHealthModel model);
+
     }
 }

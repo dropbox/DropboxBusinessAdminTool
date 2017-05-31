@@ -8,6 +8,7 @@
         : IView
     {
         event EventHandler CommandLoadTeamEvents;
+        event EventHandler CommandLoadCSV;
 
         string AccessToken { get; set; }
 

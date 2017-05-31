@@ -401,7 +401,7 @@
         private string SuspendMember(IProvisioningModel model, IMainPresenter presenter)
         {
             string errorMessage = string.Empty;
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.SuspendMemberUrl = ApplicationResource.ActionSuspendMember;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             try
@@ -446,7 +446,7 @@
         private string UnsuspendMember(IProvisioningModel model, IMainPresenter presenter)
         {
             string errorMessage = string.Empty;
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.UnSuspendMemberUrl = ApplicationResource.ActionUnsuspendMember;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             try
@@ -491,7 +491,7 @@
         private string RecoverMember(IProvisioningModel model, IMainPresenter presenter)
         {
             string errorMessage = string.Empty;
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.RecoverMemberUrl = ApplicationResource.ActionRecoverMember;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             try
@@ -563,7 +563,7 @@
         private string UpdateProfile(IProvisioningModel model, IMainPresenter presenter)
         {
             string errorMessage = string.Empty;
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.SetProfileUrl = ApplicationResource.ActionSetProfile;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             try
@@ -1049,7 +1049,7 @@
 
         private List<Tuple<string, string>> GetSharedFolders(string memberId, IProvisioningModel model, IMainPresenter presenter)
         {
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.ListSharedFoldersUrl = ApplicationResource.ActionSharingListFolders;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             var sharedFolders = new List<Tuple<string, string>>();

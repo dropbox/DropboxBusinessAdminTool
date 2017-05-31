@@ -143,6 +143,21 @@
             get { return ConfigurationManager.AppSettings.Get("ActionGetInfo"); }
         }
 
+        public static string ActionGetActivity
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetActivity"); }
+        }
+
+        public static string ActionGetDevices
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetDevices"); }
+        }
+
+        public static string ActionGetStorage
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetStorage"); }
+        }
+
         public static string ActionGetEvents
         {
             get { return ConfigurationManager.AppSettings.Get("ActionGetEvents"); }

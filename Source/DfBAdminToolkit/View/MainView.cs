@@ -246,7 +246,7 @@
             string name = string.Empty;
 
             //do a call to get team info
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.GetInfoUrl = ApplicationResource.ActionGetInfo;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             string AccessToken = ApplicationResource.DefaultAccessToken;

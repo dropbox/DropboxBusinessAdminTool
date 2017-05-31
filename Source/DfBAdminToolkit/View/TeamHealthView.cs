@@ -76,6 +76,16 @@
             textBox_TeamHealthAccessToken.Text = AccessToken;
         }
 
+        public void LoadViewHealthItems(ITeamHealthModel model)
+        {
+            //populate view controls for everything in model
+            labelRefreshDateTime.Text = "Last refresh: " + model.RefreshDateTime.ToString();
+            labelTeamName.Text = model.TeamName;
+            aquaGaugeUsers.MinValue = 0;
+            aquaGaugeUsers.MaxValue = (float)Convert.ToDouble(model.LicensedUsers);
+            aquaGaugeUsers.Value = (float)Convert.ToDouble(model.ProvisionedUsers);
+        }
+
         #endregion Slots
 
         #region Events
@@ -83,10 +93,10 @@
         private void buttonEx_TeamHealthRefresh_Click(object sender, EventArgs e)
         {
             InvokeDataChanged(sender, e);
-            //if (CommandGetTeamFolders != null)
-            //{
-            //    CommandGetTeamFolders(sender, e);
-            //}
+            if (CommandRefresh != null)
+            {
+                CommandRefresh(sender, e);
+            }
         }
 
         private void TextBox_TeamFoldersAccessToken_TextChanged(object sender, EventArgs e)

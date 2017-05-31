@@ -7,6 +7,8 @@
 
         string AccessToken { get; set; }
 
+        string MemberInputFilePath { get; set; }
+
         List<TeamAuditingListViewItemModel> TeamAuditing { get; set; }
     }
 }

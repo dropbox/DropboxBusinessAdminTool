@@ -43,6 +43,12 @@
 
         public string GetInfoUrl { get; set; }
 
+        public string GetActivityUrl { get; set; }
+
+        public string GetDevicesReportUrl { get; set; }
+
+        public string GetStorageUrl { get; set; }
+
         public string SetProfileUrl { get; set; }
 
         public string GetEventsUrl { get; set; }
@@ -443,36 +449,7 @@
                 dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
             }
             return dataResponse;
-        }
-
-        public IDataResponse GetInfo(string authToken)
-        {
-            IDataResponse dataResponse = null;
-            try
-            {
-                if (!string.IsNullOrEmpty(GetInfoUrl))
-                {
-                    RestClient client = new RestClient(
-                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
-                       );
-                    RestRequest request = new RestRequest(GetInfoUrl, Method.POST);
-                    //add headers
-                    request.AddHeader("Authorization", "Bearer " + authToken);
-                    client.UserAgent = UserAgentVersion;
-                    IRestResponse response = client.Execute(request);
-                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
-                }
-                else
-                {
-                    throw new ArgumentNullException("Missing service url");
-                }
-            }
-            catch (Exception e)
-            {
-                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
-            }
-            return dataResponse;
-        }
+        }  
 
         public IServiceResponse SetProfile(IMemberData data, string authToken)
         {
@@ -1612,6 +1589,138 @@
                         new JProperty("doc_id", docId)
                     );
                     request.AddParameter("application/json", jsonMetadata, ParameterType.RequestBody);
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        #endregion
+
+        #region Reports
+
+        public IDataResponse GetInfo(string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(GetInfoUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(GetInfoUrl, Method.POST);
+                    //add headers
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse GetActivity(string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(GetActivityUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(GetActivityUrl, Method.POST);
+                    //add headers
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    JObject json = new JObject(
+                        new JProperty("start_date", DateTime.Now.Subtract(TimeSpan.FromDays(7)).ToString("yyyy-M-dd")),
+                        new JProperty("end_date", DateTime.Now.ToString("yyyy-M-dd"))
+                    );
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse GetDevicesReport(string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(GetDevicesReportUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(GetDevicesReportUrl, Method.POST);
+                    //add headers
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    JObject json = new JObject(
+                        new JProperty("start_date", DateTime.Now.Subtract(TimeSpan.FromDays(7)).ToString("yyyy-M-dd")),
+                        new JProperty("end_date", DateTime.Now.ToString("yyyy-M-dd"))
+                    );
+                    client.UserAgent = UserAgentVersion;
+                    IRestResponse response = client.Execute(request);
+                    dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);
+                }
+                else
+                {
+                    throw new ArgumentNullException("Missing service url");
+                }
+            }
+            catch (Exception e)
+            {
+                dataResponse = new DataResponse(HttpStatusCode.InternalServerError, e.Message, null);
+            }
+            return dataResponse;
+        }
+
+        public IDataResponse GetStorage(string authToken)
+        {
+            IDataResponse dataResponse = null;
+            try
+            {
+                if (!string.IsNullOrEmpty(GetStorageUrl))
+                {
+                    RestClient client = new RestClient(
+                           string.Format("{0}/{1}/", _baseUrl, _apiVersion)
+                       );
+                    RestRequest request = new RestRequest(GetStorageUrl, Method.POST);
+                    //add headers
+                    request.AddHeader("Authorization", "Bearer " + authToken);
+                    JObject json = new JObject(
+                        new JProperty("start_date", DateTime.Now.Subtract(TimeSpan.FromDays(7)).ToString("yyyy-M-dd")),
+                        new JProperty("end_date", DateTime.Now.ToString("yyyy-M-dd"))
+                    );
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
                     dataResponse = new DataResponse(response.StatusCode, response.ErrorMessage, response.Content);

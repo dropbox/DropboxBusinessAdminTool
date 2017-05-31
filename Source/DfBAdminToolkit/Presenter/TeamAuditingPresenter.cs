@@ -8,8 +8,10 @@
     using View;
     using Newtonsoft.Json;
     using System;
+    using System.IO;
     using System.Net;
     using System.Threading;
+    using System.Collections.Generic;
 
     public class TeamAuditingPresenter
         : PresenterBase, ITeamAuditingPresenter {
@@ -20,6 +22,8 @@
         }
 
         public int EventCount { get; set; }
+
+        List<MemberListViewItemModel> members = new List<MemberListViewItemModel>();
 
         protected override void Initialize()
         {
@@ -41,6 +45,7 @@
                 ITeamAuditingView view = base._view as ITeamAuditingView;
                 view.DataChanged += DataChanged;
                 view.CommandLoadTeamEvents += OnCommandLoadEvents;
+                view.CommandLoadCSV += OnCommandLoadCSV;
                 IsViewEventsWired = true;
             }
         }
@@ -52,6 +57,7 @@
                 ITeamAuditingView view = base._view as ITeamAuditingView;
                 view.DataChanged -= DataChanged;
                 view.CommandLoadTeamEvents -= OnCommandLoadEvents;
+                view.CommandLoadCSV -= OnCommandLoadCSV;
                 IsViewEventsWired = false;
             }
         }
@@ -514,6 +520,56 @@
             }
         }
 
+        public List<MemberListViewItemModel> LoadMemberInputFile(List<MemberListViewItemModel> members, ITeamAuditingModel model, IMainPresenter presenter)
+        {
+            try
+            {
+                FileInfo fInfo = new FileInfo(model.MemberInputFilePath);
+                if (fInfo.Exists)
+                {
+                    // try load.
+                    CsvConfiguration config = new CsvConfiguration()
+                    {
+                        HasHeaderRecord = false
+                    };
+                    using (CsvReader reader = new CsvReader(new StreamReader(fInfo.FullName), config))
+                    {
+                        while (reader.Read())
+                        {
+                            try
+                            {
+                                MemberListViewItemModel lvItem = new MemberListViewItemModel()
+                                {
+                                    Email = reader.GetField<string>(0),
+                                    MemberId = reader.GetField<string>(1)
+                                };
+                                members.Add(lvItem);
+                            }
+                            catch
+                            {
+                                throw new InvalidDataException(ErrorMessages.INVALID_CSV_DATA);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    throw new InvalidDataException(ErrorMessages.MISSING_CSV_FILE);
+                }
+            }
+            catch (Exception e)
+            {
+                // error message.
+                SyncContext.Post(delegate {
+                    presenter.ShowErrorMessage(e.Message, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
+            }
+            return members;
+        }
+
         #endregion REST Service
 
         #region Events
@@ -531,7 +587,7 @@
                     presenter.UpdateProgressInfo("Loading team folders input File...");
                 }, null);
             }
-            Thread teamfoldersLoad = new Thread(() => {
+            Thread teameventsLoad = new Thread(() => {
                 if (!string.IsNullOrEmpty(model.AccessToken))
                 {
                     model.TeamAuditing.Clear();
@@ -548,7 +604,38 @@
                     }
                 }
             });
-            teamfoldersLoad.Start();
+            teameventsLoad.Start();
+        }
+
+        private void OnCommandLoadCSV(object sender, EventArgs e)
+        {
+            ITeamAuditingView view = base._view as ITeamAuditingView;
+            ITeamAuditingModel model = base._model as ITeamAuditingModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Loading members input file to list...");
+                }, null);
+            }
+            Thread groupsLoad = new Thread(() => {
+                if (!string.IsNullOrEmpty(model.AccessToken))
+                {
+                    members.Clear();
+                    members = this.LoadMemberInputFile(members, model, presenter);
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate {
+                            presenter.UpdateProgressInfo("Members CSV Loaded");
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                        }, null);
+                    }
+                }
+            });
+            groupsLoad.Start();
         }
 
         private void DataChanged(object sender, System.EventArgs e) {

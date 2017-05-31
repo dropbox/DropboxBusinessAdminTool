@@ -14,8 +14,9 @@
 	{
 		public event EventHandler DataChanged;
 		public event EventHandler CommandLoadTeamEvents;
+        public event EventHandler CommandLoadCSV;
 
-		public SynchronizationContext SyncContext { get; set; }
+        public SynchronizationContext SyncContext { get; set; }
 
 		public bool ComponentEventsWired { get; set; }
 
@@ -64,7 +65,8 @@
 			if (!ComponentEventsWired)
 			{
 				this.buttonEx_TeamAuditingLoadTeamEvents.Click += buttonEx_TeamAuditingLoadTeamAuditing_Click;
-				this.objectListView_TeamAuditingMembers.ItemChecked += ObjectListView_TeamAuditingMembers_ItemChecked;
+                this.buttonEx_TeamAuditingLoadFromCSV.Click += buttonEx_TeamAuditingLoadFromCSV_Click;
+                this.objectListView_TeamAuditingMembers.ItemChecked += ObjectListView_TeamAuditingMembers_ItemChecked;
 				this.objectListView_TeamAuditingMembers.HeaderCheckBoxChanging += ObjectListView_TeamAuditingMembers_HeaderCheckBoxChanging;
 				ComponentEventsWired = true;
 			}
@@ -75,7 +77,8 @@
 			if (ComponentEventsWired)
 			{
 				this.buttonEx_TeamAuditingLoadTeamEvents.Click -= buttonEx_TeamAuditingLoadTeamAuditing_Click;
-				this.objectListView_TeamAuditingMembers.ItemChecked -= ObjectListView_TeamAuditingMembers_ItemChecked;
+                this.buttonEx_TeamAuditingLoadFromCSV.Click -= buttonEx_TeamAuditingLoadFromCSV_Click;
+                this.objectListView_TeamAuditingMembers.ItemChecked -= ObjectListView_TeamAuditingMembers_ItemChecked;
 				this.objectListView_TeamAuditingMembers.HeaderCheckBoxChanging -= ObjectListView_TeamAuditingMembers_HeaderCheckBoxChanging;
 				ComponentEventsWired = false;
 			}
@@ -229,7 +232,16 @@
 			}
 		}
 
-		private void TextBox_TeamAuditingAccessToken_TextChanged(object sender, EventArgs e)
+        private void buttonEx_TeamAuditingLoadFromCSV_Click(object sender, EventArgs e)
+        {
+            InvokeDataChanged(sender, e);
+            if (CommandLoadCSV != null)
+            {
+                CommandLoadCSV(sender, e);
+            }
+        }
+
+        private void TextBox_TeamAuditingAccessToken_TextChanged(object sender, EventArgs e)
 		{
 			AccessToken = this.textBox_TeamAuditingAccessToken.Text;
 		}

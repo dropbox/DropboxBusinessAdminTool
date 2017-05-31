@@ -55,6 +55,12 @@ namespace DfBAdminToolkit.Common.Services
 
         string GetInfoUrl { get; set; }
 
+        string GetActivityUrl { get; set; }
+
+        string GetDevicesReportUrl { get; set; }
+
+        string GetStorageUrl { get; set; }
+
         string SetProfileUrl { get; set; }
 
         string GetEventsUrl { get; set; }
@@ -108,6 +114,12 @@ namespace DfBAdminToolkit.Common.Services
         IDataResponse GetUsage(IMemberData data, string authToken);
 
         IDataResponse GetInfo(string authToken);
+
+        IDataResponse GetActivity(string authToken);
+
+        IDataResponse GetDevicesReport(string authToken);
+
+        IDataResponse GetStorage(string authToken);
 
         IServiceResponse SetProfile(IMemberData data, string authToken);
 

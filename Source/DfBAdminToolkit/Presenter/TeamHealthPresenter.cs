@@ -37,7 +37,7 @@
             if (!IsViewEventsWired) {
                 ITeamHealthView view = base._view as ITeamHealthView;
                 view.DataChanged += OnDataChanged;
-                //view.CommandLoadTeamFolders += OnCommandLoadTeamFolders;
+                view.CommandRefresh += OnCommandLoadHealth;
                 IsViewEventsWired = true;
             }
         }
@@ -46,7 +46,7 @@
             if (IsViewEventsWired) {
                 ITeamHealthView view = base._view as ITeamHealthView;
                 view.DataChanged -= OnDataChanged;
-                //view.CommandLoadTeamFolders -= OnCommandLoadTeamFolders;
+                view.CommandRefresh -= OnCommandLoadHealth;
                 IsViewEventsWired = false;
             }
         }
@@ -62,11 +62,44 @@
 
         private void RefreshHealth(ITeamHealthModel model, IMainPresenter presenter)
         {
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
-            service.ListTeamFolderUrl = ApplicationResource.ActionListTeamFolder;
-            service.UserAgentVersion = ApplicationResource.UserAgent;
             string fileAccessToken = ApplicationResource.DefaultAccessToken;
-            IDataResponse response = service.ListTeamFolders(fileAccessToken);
+            //set default values so we have something
+            int licensed = 0;
+            int provisioned = 0;
+            string name = string.Empty;
+            string activityStartDate = string.Empty;
+            int adds = 0;
+            int edits = 0;
+            int deletes = 0;
+            int activeSharedFolders28Day = 0;
+            int activeUsers28Day = 0;
+            string devicesStartDate = string.Empty;
+            int activeDevices28Day = 0;
+            string storageStartDate = string.Empty;
+            UInt64 totalStorage = 0;
+            UInt64 sharedStorage = 0;
+            UInt64 unsharedStorage = 0;
+            int sharedFolders = 0;
+
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            service.GetInfoUrl = ApplicationResource.ActionGetInfo;
+            service.UserAgentVersion = ApplicationResource.UserAgent;
+            IDataResponse response = service.GetInfo(fileAccessToken);
+
+            IMemberServices serviceActivity = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            serviceActivity.GetActivityUrl = ApplicationResource.ActionGetActivity;
+            serviceActivity.UserAgentVersion = ApplicationResource.UserAgent;
+            IDataResponse responseActivity = serviceActivity.GetActivity(fileAccessToken);
+
+            IMemberServices serviceDevices = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            serviceDevices.GetDevicesReportUrl = ApplicationResource.ActionGetDevices;
+            serviceDevices.UserAgentVersion = ApplicationResource.UserAgent;
+            IDataResponse responseDevices = serviceDevices.GetDevicesReport(fileAccessToken);
+
+            IMemberServices serviceStorage = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            serviceStorage.GetStorageUrl = ApplicationResource.ActionGetStorage;
+            serviceStorage.UserAgentVersion = ApplicationResource.UserAgent;
+            IDataResponse responseStorage = serviceStorage.GetStorage(fileAccessToken);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -75,34 +108,99 @@
                     string data = response.Data.ToString();
                     dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
 
-                    //changed from entries to team_folders
-                    int resultCount = jsonData["team_folders"].Count;
-                    for (int i = 0; i < resultCount; i++)
-                    {
-                        dynamic team_folders = jsonData["team_folders"][i];
-                        dynamic teamFolderName = team_folders["name"];
-                        dynamic teamFolderId = team_folders["team_folder_id"];
-                        dynamic status = team_folders["status"][".tag"];
-
-                        // update model
-                        TeamFoldersListViewItemModel lvItem = new TeamFoldersListViewItemModel()
-                        {
-                            TeamFolderName = teamFolderName,
-                            TeamFolderId = teamFolderId,
-                            Status = status,
-                            IsChecked = true
-                        };
-                        //model.TeamHealth.Add(lvItem);
-                    }
+                    name = jsonData["name"];
+                    licensed = jsonData["num_licensed_users"];
+                    provisioned = jsonData["num_provisioned_users"];
+                    model.TeamName = name;
+                    model.LicensedUsers = licensed.ToString();
+                    model.ProvisionedUsers = provisioned.ToString();
                 }
             }
+            if (responseActivity.StatusCode == HttpStatusCode.OK)
+            {
+                if (responseActivity.Data != null)
+                {
+                    string data = responseActivity.Data.ToString();
+                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+
+                    activityStartDate = jsonData["start_date"];
+                    if (jsonData["adds"] != null)
+                    {
+                        adds = jsonData["adds"][0];
+                    }
+                    if (jsonData["edits"] != null)
+                    {
+                        edits = jsonData["edits"][0];
+                    }
+                    if (jsonData["deletes"] != null)
+                    {
+                        deletes = jsonData["deletes"][0];
+                    }
+                    if (jsonData["active_shared_folders_28_day"] != null)
+                    {
+                        activeSharedFolders28Day = jsonData["active_shared_folders_28_day"][0];
+                    }
+                    if (jsonData["active_users_28_day"] != null)
+                    {
+                        activeUsers28Day = jsonData["active_users_28_day"][0];
+                    }
+                    model.Adds = adds.ToString();
+                    model.Edits = edits.ToString();
+                    model.Deletes = deletes.ToString();
+                    model.ActiveSharedFolders28Day = activeSharedFolders28Day.ToString();
+                    model.ActiveUsers28Day = activeUsers28Day.ToString();
+                }
+            }
+            if (responseDevices.StatusCode == HttpStatusCode.OK)
+            {
+                if (responseDevices.Data != null)
+                {
+                    string data = responseDevices.Data.ToString();
+                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+
+                    devicesStartDate = jsonData["start_date"];
+                    //activeDevices28Day = jsonData["active_28_day"]; //breakdown for devices
+                    model.ActiveDevices28Day = activeDevices28Day.ToString();
+                }
+            }
+            if (responseStorage.StatusCode == HttpStatusCode.OK)
+            {
+                if (responseStorage.Data != null)
+                {
+                    string data = responseStorage.Data.ToString();
+                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+
+                    storageStartDate = jsonData["start_date"];
+                    if (jsonData["total_usage"] != null)
+                    {
+                        totalStorage = jsonData["total_usage"][0];
+                    }
+                    if (jsonData["shared_usage"] != null)
+                    {
+                        sharedStorage = jsonData["shared_usage"][0];
+                    }
+                    if (jsonData["unshared_usage"] != null)
+                    {
+                        unsharedStorage = jsonData["unshared_usage"][0];
+                    }
+                    if (jsonData["shared_folders"] != null)
+                    {
+                        sharedFolders = jsonData["shared_folders"][0];
+                    }
+                    model.TotalUsage = totalStorage.ToString();
+                    model.SharedUsage = sharedStorage.ToString();
+                    model.UnsharedUsage = unsharedStorage.ToString();
+                    model.SharedFolders = sharedFolders.ToString();
+                }
+            }
+            model.RefreshDateTime = DateTime.Now;
         }
 
         #endregion REST Service
 
         #region Events
 
-        private void OnCommandLoadTeamFolders(object sender, EventArgs e)
+        private void OnCommandLoadHealth(object sender, EventArgs e)
         {
             ITeamHealthView view = base._view as ITeamHealthView;
             ITeamHealthModel model = base._model as ITeamHealthModel;
@@ -112,26 +210,26 @@
                 SyncContext.Post(delegate {
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
-                    presenter.UpdateProgressInfo("Loading team folders input File...");
+                    presenter.UpdateProgressInfo("Pulling health report stats...");
                 }, null);
             }
-            Thread teamfoldersLoad = new Thread(() => {
+            Thread healthrefresh = new Thread(() => {
                 if (!string.IsNullOrEmpty(model.AccessToken))
                 {
-                    //this.LoadTeamFoldersInputFile(model, presenter);
+                    this.RefreshHealth(model, presenter);
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate {
-                            // update result and update view.
-                            //view.RenderTeamHealthList();
-                            presenter.UpdateProgressInfo("Team Folders CSV Loaded");
+                            // update result and update view with model.
+                            view.LoadViewHealthItems(model);
+                            presenter.UpdateProgressInfo("Health stats refreshed at [" + model.RefreshDateTime.ToString() + "]");
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
                         }, null);
                     }
                 }
             });
-            teamfoldersLoad.Start();
+            healthrefresh.Start();
         }
 
         private void OnDataChanged(object sender, System.EventArgs e) {
