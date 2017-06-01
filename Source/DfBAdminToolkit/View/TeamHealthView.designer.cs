@@ -38,17 +38,17 @@
             this.tableLayoutPanel_TeamFolders = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel_TeamFoldersCommandGroup = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel_TeamFoldersAccessToken = new System.Windows.Forms.TableLayoutPanel();
+            this.textBox_TeamHealthAccessToken = new DfBAdminToolkit.Common.Component.TextBoxEx(this.components);
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel_TeamFoldersSendEmailGroup = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonEx_TeamHealthRefresh = new DfBAdminToolkit.Common.Component.ButtonEx();
             this.labelRefreshDateTime = new System.Windows.Forms.Label();
             this.labelTeamName = new System.Windows.Forms.Label();
             this.tableLayoutPanel_TeamFoldersMembersGroup = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelGauge = new System.Windows.Forms.TableLayoutPanel();
             this.aquaGaugeUsers = new AquaControls.AquaGauge();
-            this.textBox_TeamHealthAccessToken = new DfBAdminToolkit.Common.Component.TextBoxEx(this.components);
-            this.buttonEx_TeamHealthRefresh = new DfBAdminToolkit.Common.Component.ButtonEx();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.chartPieDevices = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel_TeamFolders.SuspendLayout();
             this.tableLayoutPanel_TeamFoldersCommandGroup.SuspendLayout();
             this.tableLayoutPanel_TeamFoldersAccessToken.SuspendLayout();
@@ -109,12 +109,23 @@
             this.tableLayoutPanel_TeamFoldersAccessToken.Controls.Add(this.textBox_TeamHealthAccessToken, 1, 0);
             this.tableLayoutPanel_TeamFoldersAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_TeamFoldersAccessToken.Location = new System.Drawing.Point(589, 2);
-            this.tableLayoutPanel_TeamFoldersAccessToken.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel_TeamFoldersAccessToken.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel_TeamFoldersAccessToken.Name = "tableLayoutPanel_TeamFoldersAccessToken";
             this.tableLayoutPanel_TeamFoldersAccessToken.RowCount = 1;
             this.tableLayoutPanel_TeamFoldersAccessToken.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_TeamFoldersAccessToken.Size = new System.Drawing.Size(471, 42);
             this.tableLayoutPanel_TeamFoldersAccessToken.TabIndex = 0;
+            // 
+            // textBox_TeamHealthAccessToken
+            // 
+            this.textBox_TeamHealthAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox_TeamHealthAccessToken.FileFilter = null;
+            this.textBox_TeamHealthAccessToken.Location = new System.Drawing.Point(139, 5);
+            this.textBox_TeamHealthAccessToken.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBox_TeamHealthAccessToken.Name = "textBox_TeamHealthAccessToken";
+            this.textBox_TeamHealthAccessToken.Size = new System.Drawing.Size(328, 22);
+            this.textBox_TeamHealthAccessToken.TabIndex = 1;
+            this.textBox_TeamHealthAccessToken.Visible = false;
             // 
             // tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup
             // 
@@ -147,6 +158,36 @@
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.Size = new System.Drawing.Size(467, 42);
             this.tableLayoutPanel_TeamFoldersSendEmailGroup.TabIndex = 3;
+            // 
+            // buttonEx_TeamHealthRefresh
+            // 
+            office2010White1.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
+            office2010White1.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
+            office2010White1.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010White1.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010White1.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
+            office2010White1.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
+            office2010White1.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(154)))), ((int)(((byte)(154)))), ((int)(((byte)(154)))));
+            office2010White1.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            office2010White1.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            office2010White1.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            office2010White1.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
+            office2010White1.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
+            office2010White1.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
+            office2010White1.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
+            office2010White1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010White1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            office2010White1.TextColor = System.Drawing.Color.Black;
+            this.buttonEx_TeamHealthRefresh.ColorTable = office2010White1;
+            this.buttonEx_TeamHealthRefresh.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonEx_TeamHealthRefresh.Location = new System.Drawing.Point(243, 6);
+            this.buttonEx_TeamHealthRefresh.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonEx_TeamHealthRefresh.Name = "buttonEx_TeamHealthRefresh";
+            this.buttonEx_TeamHealthRefresh.Size = new System.Drawing.Size(220, 37);
+            this.buttonEx_TeamHealthRefresh.TabIndex = 4;
+            this.buttonEx_TeamHealthRefresh.Text = "Refresh";
+            this.buttonEx_TeamHealthRefresh.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
+            this.buttonEx_TeamHealthRefresh.UseVisualStyleBackColor = true;
             // 
             // labelRefreshDateTime
             // 
@@ -215,46 +256,22 @@
             this.aquaGaugeUsers.ThresholdPercent = 90F;
             this.aquaGaugeUsers.Value = 0F;
             // 
-            // textBox_TeamHealthAccessToken
+            // chartPieDevices
             // 
-            this.textBox_TeamHealthAccessToken.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_TeamHealthAccessToken.FileFilter = null;
-            this.textBox_TeamHealthAccessToken.Location = new System.Drawing.Point(139, 5);
-            this.textBox_TeamHealthAccessToken.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.textBox_TeamHealthAccessToken.Name = "textBox_TeamHealthAccessToken";
-            this.textBox_TeamHealthAccessToken.Size = new System.Drawing.Size(328, 22);
-            this.textBox_TeamHealthAccessToken.TabIndex = 1;
-            this.textBox_TeamHealthAccessToken.Visible = false;
-            // 
-            // buttonEx_TeamHealthRefresh
-            // 
-            office2010White1.BorderColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(72)))), ((int)(((byte)(161)))));
-            office2010White1.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(135)))), ((int)(((byte)(228)))));
-            office2010White1.ButtonMouseOverColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
-            office2010White1.ButtonMouseOverColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
-            office2010White1.ButtonMouseOverColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(225)))), ((int)(((byte)(137)))));
-            office2010White1.ButtonMouseOverColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(224)))));
-            office2010White1.ButtonNormalColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(154)))), ((int)(((byte)(154)))), ((int)(((byte)(154)))));
-            office2010White1.ButtonNormalColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            office2010White1.ButtonNormalColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
-            office2010White1.ButtonNormalColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            office2010White1.ButtonSelectedColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(199)))), ((int)(((byte)(87)))));
-            office2010White1.ButtonSelectedColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(243)))), ((int)(((byte)(215)))));
-            office2010White1.ButtonSelectedColor3 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(229)))), ((int)(((byte)(117)))));
-            office2010White1.ButtonSelectedColor4 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(216)))), ((int)(((byte)(107)))));
-            office2010White1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            office2010White1.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            office2010White1.TextColor = System.Drawing.Color.Black;
-            this.buttonEx_TeamHealthRefresh.ColorTable = office2010White1;
-            this.buttonEx_TeamHealthRefresh.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonEx_TeamHealthRefresh.Location = new System.Drawing.Point(243, 6);
-            this.buttonEx_TeamHealthRefresh.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.buttonEx_TeamHealthRefresh.Name = "buttonEx_TeamHealthRefresh";
-            this.buttonEx_TeamHealthRefresh.Size = new System.Drawing.Size(220, 37);
-            this.buttonEx_TeamHealthRefresh.TabIndex = 4;
-            this.buttonEx_TeamHealthRefresh.Text = "Refresh";
-            this.buttonEx_TeamHealthRefresh.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
-            this.buttonEx_TeamHealthRefresh.UseVisualStyleBackColor = true;
+            chartArea1.Name = "ChartArea1";
+            this.chartPieDevices.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartPieDevices.Legends.Add(legend1);
+            this.chartPieDevices.Location = new System.Drawing.Point(417, 3);
+            this.chartPieDevices.Name = "chartPieDevices";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series1.Legend = "Legend1";
+            series1.Name = "pieDevices";
+            this.chartPieDevices.Series.Add(series1);
+            this.chartPieDevices.Size = new System.Drawing.Size(372, 300);
+            this.chartPieDevices.TabIndex = 1;
+            this.chartPieDevices.Text = "Devices";
             // 
             // tableLayoutPanel1
             // 
@@ -268,23 +285,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(200, 6);
             this.tableLayoutPanel1.TabIndex = 5;
-            // 
-            // chartPieDevices
-            // 
-            chartArea1.Name = "ChartArea1";
-            this.chartPieDevices.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chartPieDevices.Legends.Add(legend1);
-            this.chartPieDevices.Location = new System.Drawing.Point(416, 3);
-            this.chartPieDevices.Name = "chartPieDevices";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series1.Legend = "Legend1";
-            series1.Name = "pieDevices";
-            this.chartPieDevices.Series.Add(series1);
-            this.chartPieDevices.Size = new System.Drawing.Size(372, 300);
-            this.chartPieDevices.TabIndex = 1;
-            this.chartPieDevices.Text = "Devices";
             // 
             // TeamHealthView
             // 

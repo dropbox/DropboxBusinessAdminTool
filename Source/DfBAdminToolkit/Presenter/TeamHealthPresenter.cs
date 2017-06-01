@@ -176,21 +176,25 @@
                     dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
 
                     storageStartDate = jsonData["start_date"];
-                    if (jsonData["total_usage"] != null)
+                    if (jsonData["total_usage"][0] != null)
                     {
-                        totalStorage = jsonData["total_usage"][0];
+                        int totalCount = (jsonData["total_usage"].Count) - 1;
+                        totalStorage = jsonData["total_usage"][totalCount];
                     }
-                    if (jsonData["shared_usage"] != null)
+                    if (jsonData["shared_usage"][0] != null)
                     {
-                        sharedStorage = jsonData["shared_usage"][0];
+                        int sharedCount = (jsonData["shared_usage"].Count) - 1;
+                        sharedStorage = jsonData["shared_usage"][sharedCount];
                     }
-                    if (jsonData["unshared_usage"] != null)
+                    if (jsonData["unshared_usage"][0] != null)
                     {
-                        unsharedStorage = jsonData["unshared_usage"][0];
+                        int unsharedCount = (jsonData["unshared_usage"].Count) - 1;
+                        unsharedStorage = jsonData["unshared_usage"][unsharedCount];
                     }
-                    if (jsonData["shared_folders"] != null)
+                    if (jsonData["shared_folders"][0] != null)
                     {
-                        sharedFolders = jsonData["shared_folders"][0];
+                        int sharedFolderCount = (jsonData["shared_folders"].Count) - 1;
+                        sharedFolders = jsonData["shared_folders"][sharedFolderCount];
                     }
                     model.TotalUsage = totalStorage.ToString();
                     model.SharedUsage = sharedStorage.ToString();
