@@ -65,13 +65,13 @@
 
         #region REST Services
 
-        private void DumpDevices(IDevicesModel model, IMainPresenter presenter) {
+        private void DumpDevices(IDevicesModel model, IDevicesView view, IMainPresenter presenter) {
             if (SyncContext != null) {
                 SyncContext.Post(delegate {
                     presenter.UpdateProgressInfo("Preparing Device Removal...");
                 }, null);
             }
-
+            bool remoteWipe = view.RemoteWipe;
             int counter = 0;
             int total = model.DeviceList.Where(d => d.IsChecked && !string.IsNullOrEmpty(d.SessionId)).ToList().Count;
             IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
@@ -93,14 +93,16 @@
                             MemberId = lvItem.TeamId,
                             ClientType = lvItem.ClientType
                         },
-                        model.UserAccessToken
+                        model.UserAccessToken, remoteWipe
                     );
                 }
             }
         }
 
-        private void GetDevices(IDevicesModel model, IMainPresenter presenter) {
-            if (!string.IsNullOrEmpty(model.UserAccessToken)) {
+        private void GetDevices(IDevicesModel model, IMainPresenter presenter)
+        {
+            if (!string.IsNullOrEmpty(model.UserAccessToken))
+            {
                 IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
                 service.GetDevicesUrl = ApplicationResource.ActionListTeamDevices;
                 service.UserAgentVersion = ApplicationResource.UserAgent;
@@ -195,10 +197,13 @@
 
                         // clear existing data first
                         model.DeviceList.Clear();
-
+                        
+                        //user count
                         int resultCount = jsonDevicesData["devices"].Count;
-                        if (resultCount > 0) {
-                            for (int i = 0; i < resultCount; i++) {
+                        if (resultCount > 0)
+                        {
+                            for (int i = 0; i < resultCount; i++)
+                            {
                                 DateTime created = new DateTime();
                                 string teamId = string.Empty;
                                 string deviceName = string.Empty;
@@ -212,23 +217,29 @@
                                 int resultDesktopCount = jsonDevicesData["devices"][i]["desktop_clients"].Count;
                                 int resultMobileCount = jsonDevicesData["devices"][i]["mobile_clients"].Count;
 
-                                if (resultWebCount > 0) {
-                                    for (int i2 = 0; i2 < resultWebCount; i2++) {
+                                if (resultWebCount > 0)
+                                {
+                                    for (int i2 = 0; i2 < resultWebCount; i2++)
+                                    {
                                         dynamic deviceNameObj = jsonDevicesData["devices"][i]["web_sessions"][i2]["user_agent"];
                                         dynamic ipAddressObj = jsonDevicesData["devices"][i]["web_sessions"][i2]["ip_address"];
                                         dynamic sessionIdObj = jsonDevicesData["devices"][i]["web_sessions"][i2]["session_id"];
                                         clientType = "Web";
                                         dynamic createdObj = jsonDevicesData["devices"][i]["web_sessions"][i2]["created"];
-                                        if (idObj != null) {
+                                        if (idObj != null)
+                                        {
                                             teamId = idObj.Value as string;
                                         }
-                                        if (deviceNameObj != null) {
+                                        if (deviceNameObj != null)
+                                        {
                                             deviceName = deviceNameObj.Value as string;
                                         }
-                                        if (ipAddressObj != null) {
+                                        if (ipAddressObj != null)
+                                        {
                                             ipAddress = ipAddressObj.Value as string;
                                         }
-                                        if (sessionIdObj != null) {
+                                        if (sessionIdObj != null)
+                                        {
                                             sessionId = sessionIdObj.Value as string;
                                         }
                                         if (createdObj != null)
@@ -243,7 +254,8 @@
                                             }
                                         }
                                         // update model
-                                        DeviceListViewItemModel lvItem = new DeviceListViewItemModel() {
+                                        DeviceListViewItemModel lvItem = new DeviceListViewItemModel()
+                                        {
                                             Created = created,
                                             TeamId = teamId,
                                             DeviceName = deviceName,
@@ -252,202 +264,257 @@
                                             ClientType = clientType,
                                             Email = email
                                         };
-                                        if (string.IsNullOrEmpty(model.Filter)) {
+                                        if (string.IsNullOrEmpty(model.Filter))
+                                        {
                                             model.DeviceList.Add(lvItem);
                                         }
-                                        if (FilterCriteriaContains && !string.IsNullOrEmpty(model.Filter)) {
-                                            if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter)) {
+                                        if (FilterCriteriaContains && !string.IsNullOrEmpty(model.Filter))
+                                        {
+                                            if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter))
+                                            {
                                                 model.DeviceList.Add(lvItem);
                                             }
-                                            if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter)) {
+                                            if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter))
+                                            {
                                                 model.DeviceList.Add(lvItem);
                                             }
                                         }
-                                        if (FilterCriteriaNotContains && !string.IsNullOrEmpty(model.Filter)) {
-                                            if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter)) {
+                                        if (FilterCriteriaNotContains && !string.IsNullOrEmpty(model.Filter))
+                                        {
+                                            if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter))
+                                            {
                                                 //do nothing, don't add to list
                                             }
-                                            if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter)) {
+                                            if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter))
+                                            {
                                                 //do nothing, don't add to list
                                             }
                                             if ((model.FilterType == "IpAddress" && (!ipAddress.Contains(model.Filter))) || (model.FilterType == "DeviceName" && (!deviceName.Contains(model.Filter)))) {
                                                 model.DeviceList.Add(lvItem);
                                             }
                                         }
-                                        if (FilterCriteriaBeginsWith && !string.IsNullOrEmpty(model.Filter)) {
-                                            if (model.FilterType == "IpAddress" && ipAddress.StartsWith(model.Filter)) {
+                                        if (FilterCriteriaBeginsWith && !string.IsNullOrEmpty(model.Filter))
+                                        {
+                                            if (model.FilterType == "IpAddress" && ipAddress.StartsWith(model.Filter))
+                                            {
                                                 model.DeviceList.Add(lvItem);
                                             }
-                                            if (model.FilterType == "DeviceName" && deviceName.StartsWith(model.Filter)) {
+                                            if (model.FilterType == "DeviceName" && deviceName.StartsWith(model.Filter))
+                                            {
                                                 model.DeviceList.Add(lvItem);
                                             }
                                         }
-                                        if (FilterCriteriaEndsWith && !string.IsNullOrEmpty(model.Filter)) {
-                                            if (model.FilterType == "IpAddress" && ipAddress.EndsWith(model.Filter)) {
+                                        if (FilterCriteriaEndsWith && !string.IsNullOrEmpty(model.Filter))
+                                        {
+                                            if (model.FilterType == "IpAddress" && ipAddress.EndsWith(model.Filter))
+                                            {
                                                 model.DeviceList.Add(lvItem);
                                             }
-                                            if (model.FilterType == "DeviceName" && deviceName.EndsWith(model.Filter)) {
+                                            if (model.FilterType == "DeviceName" && deviceName.EndsWith(model.Filter))
+                                            {
+                                                model.DeviceList.Add(lvItem);
+                                            }
+                                        }
+                                    }      
+                                }
+                                if (resultDesktopCount > 0)
+                                {
+                                    for (int i3 = 0; i3 < resultDesktopCount; i3++)
+                                    {
+                                        dynamic deviceNameObj = jsonDevicesData["devices"][i]["desktop_clients"][i3]["host_name"];
+                                        dynamic ipAddressObj = jsonDevicesData["devices"][i]["desktop_clients"][i3]["ip_address"];
+                                        dynamic sessionIdObj = jsonDevicesData["devices"][i]["desktop_clients"][i3]["session_id"];
+                                        clientType = "Desktop";
+                                        dynamic createdObj = jsonDevicesData["devices"][i]["desktop_clients"][i3]["created"];
+                                        if (idObj != null)
+                                        {
+                                            teamId = idObj.Value as string;
+                                        }
+                                        if (deviceNameObj != null)
+                                        {
+                                            deviceName = deviceNameObj.Value as string;
+                                        }
+                                        if (ipAddressObj != null)
+                                        {
+                                            ipAddress = ipAddressObj.Value as string;
+                                        }
+                                        if (sessionIdObj != null)
+                                        {
+                                            sessionId = sessionIdObj.Value as string;
+                                        }
+                                        if (createdObj != null)
+                                        {
+                                            created = jsonDevicesData["devices"][i]["desktop_clients"][i3]["created"];
+                                        }
+                                        foreach (string[] lvitem in members)
+                                        {
+                                            if (teamId == lvitem[0])
+                                            {
+                                                email = lvitem[1];
+                                            }
+                                        }
+                                        // update model
+                                        DeviceListViewItemModel lvItem = new DeviceListViewItemModel()
+                                        {
+                                            Created = created,
+                                            TeamId = teamId,
+                                            DeviceName = deviceName,
+                                            IpAddress = ipAddress,
+                                            SessionId = sessionId,
+                                            ClientType = clientType,
+                                            Email = email
+                                        };
+                                        if (string.IsNullOrEmpty(model.Filter))
+                                        {
+                                            model.DeviceList.Add(lvItem);
+                                        }
+                                        if (FilterCriteriaContains && !string.IsNullOrEmpty(model.Filter))
+                                        {
+                                            if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter))
+                                            {
+                                                model.DeviceList.Add(lvItem);
+                                            }
+                                            if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter))
+                                            {
+                                                model.DeviceList.Add(lvItem);
+                                            }
+                                        }
+                                        if (FilterCriteriaNotContains && !string.IsNullOrEmpty(model.Filter))
+                                        {
+                                            if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter))
+                                            {
+                                                //do nothing, don't add to list
+                                            }
+                                            if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter))
+                                            {
+                                                //do nothing, don't add to list
+                                            }
+                                            if ((model.FilterType == "IpAddress" && (!ipAddress.Contains(model.Filter))) || (model.FilterType == "DeviceName" && (!deviceName.Contains(model.Filter))))
+                                            {
+                                                model.DeviceList.Add(lvItem);
+                                            }
+                                        }
+                                        if (FilterCriteriaBeginsWith && !string.IsNullOrEmpty(model.Filter))
+                                        {
+                                            if (model.FilterType == "IpAddress" && ipAddress.StartsWith(model.Filter))
+                                            {
+                                                model.DeviceList.Add(lvItem);
+                                            }
+                                            if (model.FilterType == "DeviceName" && deviceName.StartsWith(model.Filter))
+                                            {
+                                                model.DeviceList.Add(lvItem);
+                                            }
+                                        }
+                                        if (FilterCriteriaEndsWith && !string.IsNullOrEmpty(model.Filter))
+                                        {
+                                            if (model.FilterType == "IpAddress" && ipAddress.EndsWith(model.Filter))
+                                            {
+                                                model.DeviceList.Add(lvItem);
+                                            }
+                                            if (model.FilterType == "DeviceName" && deviceName.EndsWith(model.Filter))
+                                            {
                                                 model.DeviceList.Add(lvItem);
                                             }
                                         }
                                     }
-                                    if (resultDesktopCount > 0) {
-                                        for (int i3 = 0; i3 < resultDesktopCount; i3++) {
-                                            dynamic deviceNameObj = jsonDevicesData["devices"][i]["desktop_clients"][i3]["host_name"];
-                                            dynamic ipAddressObj = jsonDevicesData["devices"][i]["desktop_clients"][i3]["ip_address"];
-                                            dynamic sessionIdObj = jsonDevicesData["devices"][i]["desktop_clients"][i3]["session_id"];
-                                            clientType = "Desktop";
-                                            dynamic createdObj = jsonDevicesData["devices"][i]["desktop_clients"][i3]["created"];
-                                            if (idObj != null) {
-                                                teamId = idObj.Value as string;
-                                            }
-                                            if (deviceNameObj != null) {
-                                                deviceName = deviceNameObj.Value as string;
-                                            }
-                                            if (ipAddressObj != null) {
-                                                ipAddress = ipAddressObj.Value as string;
-                                            }
-                                            if (sessionIdObj != null) {
-                                                sessionId = sessionIdObj.Value as string;
-                                            }
-                                            if (createdObj != null)
+                                }
+                                if (resultMobileCount > 0)
+                                {
+                                    for (int i4 = 0; i4 < resultMobileCount; i4++)
+                                    {
+                                        dynamic deviceNameObj = jsonDevicesData["devices"][i]["mobile_clients"][i4]["device_name"];
+                                        dynamic ipAddressObj = jsonDevicesData["devices"][i]["mobile_clients"][i4]["ip_address"];
+                                        dynamic sessionIdObj = jsonDevicesData["devices"][i]["mobile_clients"][i4]["session_id"];
+                                        clientType = "Mobile";
+                                        dynamic createdObj = jsonDevicesData["devices"][i]["mobile_clients"][i4]["created"];
+                                        if (idObj != null)
+                                        {
+                                            teamId = idObj.Value as string;
+                                        }
+                                        if (deviceNameObj != null)
+                                        {
+                                            deviceName = deviceNameObj.Value as string;
+                                        }
+                                        if (ipAddressObj != null)
+                                        {
+                                            ipAddress = ipAddressObj.Value as string;
+                                        }
+                                        if (sessionIdObj != null)
+                                        {
+                                            sessionId = sessionIdObj.Value as string;
+                                        }
+                                        if (createdObj != null)
+                                        {
+                                            created = jsonDevicesData["devices"][i]["mobile_clients"][i4]["created"];
+                                        }
+                                        foreach (string[] lvitem in members)
+                                        {
+                                            if (teamId == lvitem[0])
                                             {
-                                                created = jsonDevicesData["devices"][i]["desktop_clients"][i3]["created"];
-                                            }
-                                            foreach (string[] lvitem in members)
-                                            {
-                                                if (teamId == lvitem[0])
-                                                {
-                                                    email = lvitem[1];
-                                                }
-                                            }
-                                            // update model
-                                            DeviceListViewItemModel lvItem = new DeviceListViewItemModel() {
-                                                Created = created,
-                                                TeamId = teamId,
-                                                DeviceName = deviceName,
-                                                IpAddress = ipAddress,
-                                                SessionId = sessionId,
-                                                ClientType = clientType,
-                                                Email = email
-                                            };
-                                            if (string.IsNullOrEmpty(model.Filter)) {
-                                                model.DeviceList.Add(lvItem);
-                                            }
-                                            if (FilterCriteriaContains && !string.IsNullOrEmpty(model.Filter)) {
-                                                if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter)) {
-                                                    model.DeviceList.Add(lvItem);
-                                                }
-                                                if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter)) {
-                                                    model.DeviceList.Add(lvItem);
-                                                }
-                                            }
-                                            if (FilterCriteriaNotContains && !string.IsNullOrEmpty(model.Filter)) {
-                                                if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter)) {
-                                                    //do nothing, don't add to list
-                                                }
-                                                if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter)) {
-                                                    //do nothing, don't add to list
-                                                }
-                                                if ((model.FilterType == "IpAddress" && (!ipAddress.Contains(model.Filter))) || (model.FilterType == "DeviceName" && (!deviceName.Contains(model.Filter)))) {
-                                                    model.DeviceList.Add(lvItem);
-                                                }
-                                            }
-                                            if (FilterCriteriaBeginsWith && !string.IsNullOrEmpty(model.Filter)) {
-                                                if (model.FilterType == "IpAddress" && ipAddress.StartsWith(model.Filter)) {
-                                                    model.DeviceList.Add(lvItem);
-                                                }
-                                                if (model.FilterType == "DeviceName" && deviceName.StartsWith(model.Filter)) {
-                                                    model.DeviceList.Add(lvItem);
-                                                }
-                                            }
-                                            if (FilterCriteriaEndsWith && !string.IsNullOrEmpty(model.Filter)) {
-                                                if (model.FilterType == "IpAddress" && ipAddress.EndsWith(model.Filter)) {
-                                                    model.DeviceList.Add(lvItem);
-                                                }
-                                                if (model.FilterType == "DeviceName" && deviceName.EndsWith(model.Filter)) {
-                                                    model.DeviceList.Add(lvItem);
-                                                }
+                                                email = lvitem[1];
                                             }
                                         }
-                                    }
-                                    if (resultMobileCount > 0) {
-                                        for (int i4 = 0; i4 < resultMobileCount; i4++) {
-                                            dynamic deviceNameObj = jsonDevicesData["devices"][i]["mobile_clients"][i4]["device_name"];
-                                            dynamic ipAddressObj = jsonDevicesData["devices"][i]["mobile_clients"][i4]["ip_address"];
-                                            dynamic sessionIdObj = jsonDevicesData["devices"][i]["mobile_clients"][i4]["session_id"];
-                                            clientType = "Mobile";
-                                            dynamic createdObj = jsonDevicesData["devices"][i]["mobile_clients"][i4]["created"];
-                                            if (idObj != null) {
-                                                teamId = idObj.Value as string;
-                                            }
-                                            if (deviceNameObj != null) {
-                                                deviceName = deviceNameObj.Value as string;
-                                            }
-                                            if (ipAddressObj != null) {
-                                                ipAddress = ipAddressObj.Value as string;
-                                            }
-                                            if (sessionIdObj != null) {
-                                                sessionId = sessionIdObj.Value as string;
-                                            }
-                                            if (createdObj != null)
+                                        // update model
+                                        DeviceListViewItemModel lvItem = new DeviceListViewItemModel()
+                                        {
+                                            Created = created,
+                                            TeamId = teamId,
+                                            DeviceName = deviceName,
+                                            IpAddress = ipAddress,
+                                            SessionId = sessionId,
+                                            ClientType = clientType,
+                                            Email = email
+                                        };
+                                        if (string.IsNullOrEmpty(model.Filter))
+                                        {
+                                            model.DeviceList.Add(lvItem);
+                                        }
+                                        if (FilterCriteriaContains && !string.IsNullOrEmpty(model.Filter))
+                                        {
+                                            if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter))
                                             {
-                                                created = jsonDevicesData["devices"][i]["mobile_clients"][i4]["created"];
-                                            }
-                                            foreach (string[] lvitem in members)
-                                            {
-                                                if (teamId == lvitem[0])
-                                                {
-                                                    email = lvitem[1];
-                                                }
-                                            }
-                                            // update model
-                                            DeviceListViewItemModel lvItem = new DeviceListViewItemModel() {
-                                                Created = created,
-                                                TeamId = teamId,
-                                                DeviceName = deviceName,
-                                                IpAddress = ipAddress,
-                                                SessionId = sessionId,
-                                                ClientType = clientType,
-                                                Email = email
-                                            };
-                                            if (string.IsNullOrEmpty(model.Filter)) {
                                                 model.DeviceList.Add(lvItem);
                                             }
-                                            if (FilterCriteriaContains && !string.IsNullOrEmpty(model.Filter)) {
-                                                if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter)) {
-                                                    model.DeviceList.Add(lvItem);
-                                                }
-                                                if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter)) {
-                                                    model.DeviceList.Add(lvItem);
-                                                }
+                                            if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter))
+                                            {
+                                                model.DeviceList.Add(lvItem);
                                             }
-                                            if (FilterCriteriaNotContains && !string.IsNullOrEmpty(model.Filter)) {
-                                                if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter)) {
-                                                    //do nothing, don't add to list
-                                                }
-                                                if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter)) {
-                                                    //do nothing, don't add to list
-                                                }
-                                                if ((model.FilterType == "IpAddress" && (!ipAddress.Contains(model.Filter))) || (model.FilterType == "DeviceName" && (!deviceName.Contains(model.Filter)))) {
-                                                    model.DeviceList.Add(lvItem);
-                                                }
+                                        }
+                                        if (FilterCriteriaNotContains && !string.IsNullOrEmpty(model.Filter))
+                                        {
+                                            if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter))
+                                            {
+                                                //do nothing, don't add to list
                                             }
-                                            if (FilterCriteriaBeginsWith && !string.IsNullOrEmpty(model.Filter)) {
-                                                if (model.FilterType == "IpAddress" && ipAddress.StartsWith(model.Filter)) {
-                                                    model.DeviceList.Add(lvItem);
-                                                }
-                                                if (model.FilterType == "DeviceName" && deviceName.StartsWith(model.Filter)) {
-                                                    model.DeviceList.Add(lvItem);
-                                                }
+                                            if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter))
+                                            {
+                                                //do nothing, don't add to list
                                             }
-                                            if (FilterCriteriaEndsWith && !string.IsNullOrEmpty(model.Filter)) {
-                                                if (model.FilterType == "IpAddress" && ipAddress.EndsWith(model.Filter)) {
-                                                    model.DeviceList.Add(lvItem);
-                                                }
-                                                if (model.FilterType == "DeviceName" && deviceName.EndsWith(model.Filter)) {
-                                                    model.DeviceList.Add(lvItem);
-                                                }
+                                            if ((model.FilterType == "IpAddress" && (!ipAddress.Contains(model.Filter))) || (model.FilterType == "DeviceName" && (!deviceName.Contains(model.Filter))))
+                                            {
+                                                model.DeviceList.Add(lvItem);
+                                            }
+                                        }
+                                        if (FilterCriteriaBeginsWith && !string.IsNullOrEmpty(model.Filter))
+                                        {
+                                            if (model.FilterType == "IpAddress" && ipAddress.StartsWith(model.Filter))
+                                            {
+                                                model.DeviceList.Add(lvItem);
+                                            }
+                                            if (model.FilterType == "DeviceName" && deviceName.StartsWith(model.Filter))
+                                            {
+                                                model.DeviceList.Add(lvItem);
+                                            }
+                                        }
+                                        if (FilterCriteriaEndsWith && !string.IsNullOrEmpty(model.Filter))
+                                        {
+                                            if (model.FilterType == "IpAddress" && ipAddress.EndsWith(model.Filter))
+                                            {
+                                                model.DeviceList.Add(lvItem);
+                                            }
+                                            if (model.FilterType == "DeviceName" && deviceName.EndsWith(model.Filter))
+                                            {
+                                                model.DeviceList.Add(lvItem);
                                             }
                                         }
                                     }
@@ -457,9 +524,11 @@
                             bool hasMore = jsonDevicesData["has_more"];
                             string cursor = jsonDevicesData["cursor"];
 
-                            while (hasMore) {
+                            while (hasMore)
+                            {
                                 service.GetDevicesUrl = ApplicationResource.ActionListTeamDevices;
-                                IDataResponse responseCont = service.FindDevices(new MemberData() {
+                                IDataResponse responseCont = service.FindDevices(new MemberData()
+                                {
                                     Cursor = cursor
                                 }, model.UserAccessToken);
 
@@ -467,8 +536,10 @@
                                 dynamic jsonDevicesDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
 
                                 int resultCountCont = jsonDevicesDataCont["devices"].Count;
-                                if (resultCountCont > 0) {
-                                    for (int i = 0; i < resultCountCont; i++) {
+                                if (resultCountCont > 0)
+                                {
+                                    for (int i = 0; i < resultCountCont; i++)
+                                    {
                                         DateTime created = new DateTime();
                                         string teamId = string.Empty;
                                         string deviceName = string.Empty;
@@ -482,23 +553,29 @@
                                         int resultDesktopCount = jsonDevicesDataCont["devices"][i]["desktop_clients"].Count;
                                         int resultMobileCount = jsonDevicesDataCont["devices"][i]["mobile_clients"].Count;
 
-                                        if (resultWebCount > 0) {
-                                            for (int i2 = 0; i2 < resultWebCount; i2++) {
+                                        if (resultWebCount > 0)
+                                        {
+                                            for (int i2 = 0; i2 < resultWebCount; i2++)
+                                            {
                                                 dynamic deviceNameObj = jsonDevicesDataCont["devices"][i]["web_sessions"][i2]["user_agent"];
                                                 dynamic ipAddressObj = jsonDevicesDataCont["devices"][i]["web_sessions"][i2]["ip_address"];
                                                 dynamic sessionIdObj = jsonDevicesDataCont["devices"][i]["web_sessions"][i2]["session_id"];
                                                 clientType = "Web";
                                                 dynamic createdObj = jsonDevicesDataCont["devices"][i]["web_sessions"][i2]["created"];
-                                                if (idObj != null) {
+                                                if (idObj != null)
+                                                {
                                                     teamId = idObj.Value as string;
                                                 }
-                                                if (deviceNameObj != null) {
+                                                if (deviceNameObj != null)
+                                                {
                                                     deviceName = deviceNameObj.Value as string;
                                                 }
-                                                if (ipAddressObj != null) {
+                                                if (ipAddressObj != null)
+                                                {
                                                     ipAddress = ipAddressObj.Value as string;
                                                 }
-                                                if (sessionIdObj != null) {
+                                                if (sessionIdObj != null)
+                                                {
                                                     sessionId = sessionIdObj.Value as string;
                                                 }
                                                 if (createdObj != null)
@@ -513,7 +590,8 @@
                                                     }
                                                 }
                                                 // update model
-                                                DeviceListViewItemModel lvItem = new DeviceListViewItemModel() {
+                                                DeviceListViewItemModel lvItem = new DeviceListViewItemModel()
+                                                {
                                                     Created = created,
                                                     TeamId = teamId,
                                                     DeviceName = deviceName,
@@ -522,63 +600,83 @@
                                                     ClientType = clientType,
                                                     Email = email
                                                 };
-                                                if (string.IsNullOrEmpty(model.Filter)) {
+                                                if (string.IsNullOrEmpty(model.Filter))
+                                                {
                                                     model.DeviceList.Add(lvItem);
                                                 }
-                                                if (FilterCriteriaContains && !string.IsNullOrEmpty(model.Filter)) {
-                                                    if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter)) {
+                                                if (FilterCriteriaContains && !string.IsNullOrEmpty(model.Filter))
+                                                {
+                                                    if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
-                                                    if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter)) {
+                                                    if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
                                                 }
-                                                if (FilterCriteriaNotContains && !string.IsNullOrEmpty(model.Filter)) {
-                                                    if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter)) {
+                                                if (FilterCriteriaNotContains && !string.IsNullOrEmpty(model.Filter))
+                                                {
+                                                    if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter))
+                                                    {
                                                         //do nothing, don't add to list
                                                     }
-                                                    if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter)) {
+                                                    if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter))
+                                                    {
                                                         //do nothing, don't add to list
                                                     }
-                                                    if ((model.FilterType == "IpAddress" && (!ipAddress.Contains(model.Filter))) || (model.FilterType == "DeviceName" && (!deviceName.Contains(model.Filter)))) {
+                                                    if ((model.FilterType == "IpAddress" && (!ipAddress.Contains(model.Filter))) || (model.FilterType == "DeviceName" && (!deviceName.Contains(model.Filter))))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
                                                 }
-                                                if (FilterCriteriaBeginsWith && !string.IsNullOrEmpty(model.Filter)) {
-                                                    if (model.FilterType == "IpAddress" && ipAddress.StartsWith(model.Filter)) {
+                                                if (FilterCriteriaBeginsWith && !string.IsNullOrEmpty(model.Filter))
+                                                {
+                                                    if (model.FilterType == "IpAddress" && ipAddress.StartsWith(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
-                                                    if (model.FilterType == "DeviceName" && deviceName.StartsWith(model.Filter)) {
+                                                    if (model.FilterType == "DeviceName" && deviceName.StartsWith(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
                                                 }
-                                                if (FilterCriteriaEndsWith && !string.IsNullOrEmpty(model.Filter)) {
-                                                    if (model.FilterType == "IpAddress" && ipAddress.EndsWith(model.Filter)) {
+                                                if (FilterCriteriaEndsWith && !string.IsNullOrEmpty(model.Filter))
+                                                {
+                                                    if (model.FilterType == "IpAddress" && ipAddress.EndsWith(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
-                                                    if (model.FilterType == "DeviceName" && deviceName.EndsWith(model.Filter)) {
+                                                    if (model.FilterType == "DeviceName" && deviceName.EndsWith(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
                                                 }
                                             }
                                         }
-                                        if (resultDesktopCount > 0) {
-                                            for (int i3 = 0; i3 < resultDesktopCount; i3++) {
+                                        if (resultDesktopCount > 0)
+                                        {
+                                            for (int i3 = 0; i3 < resultDesktopCount; i3++)
+                                            {
                                                 dynamic deviceNameObj = jsonDevicesDataCont["devices"][i]["desktop_clients"][i3]["host_name"];
                                                 dynamic ipAddressObj = jsonDevicesDataCont["devices"][i]["desktop_clients"][i3]["ip_address"];
                                                 dynamic sessionIdObj = jsonDevicesDataCont["devices"][i]["desktop_clients"][i3]["session_id"];
                                                 clientType = "Desktop";
                                                 dynamic createdObj = jsonDevicesDataCont["devices"][i]["desktop_clients"][i3]["created"];
-                                                if (idObj != null) {
+                                                if (idObj != null)
+                                                {
                                                     teamId = idObj.Value as string;
                                                 }
-                                                if (deviceNameObj != null) {
+                                                if (deviceNameObj != null)
+                                                {
                                                     deviceName = deviceNameObj.Value as string;
                                                 }
-                                                if (ipAddressObj != null) {
+                                                if (ipAddressObj != null)
+                                                {
                                                     ipAddress = ipAddressObj.Value as string;
                                                 }
-                                                if (sessionIdObj != null) {
+                                                if (sessionIdObj != null)
+                                                {
                                                     sessionId = sessionIdObj.Value as string;
                                                 }
                                                 if (createdObj != null)
@@ -593,7 +691,8 @@
                                                     }
                                                 }
                                                 // update model
-                                                DeviceListViewItemModel lvItem = new DeviceListViewItemModel() {
+                                                DeviceListViewItemModel lvItem = new DeviceListViewItemModel()
+                                                {
                                                     Created = created,
                                                     TeamId = teamId,
                                                     DeviceName = deviceName,
@@ -602,63 +701,82 @@
                                                     ClientType = clientType,
                                                     Email = email
                                                 };
-                                                if (string.IsNullOrEmpty(model.Filter)) {
+                                                if (string.IsNullOrEmpty(model.Filter))
+                                                {
                                                     model.DeviceList.Add(lvItem);
                                                 }
-                                                if (FilterCriteriaContains && !string.IsNullOrEmpty(model.Filter)) {
-                                                    if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter)) {
+                                                if (FilterCriteriaContains && !string.IsNullOrEmpty(model.Filter))
+                                                {
+                                                    if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
-                                                    if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter)) {
+                                                    if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
                                                 }
-                                                if (FilterCriteriaNotContains && !string.IsNullOrEmpty(model.Filter)) {
-                                                    if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter)) {
+                                                if (FilterCriteriaNotContains && !string.IsNullOrEmpty(model.Filter))
+                                                {
+                                                    if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter))
+                                                    {
                                                         //do nothing, don't add to list
                                                     }
-                                                    if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter)) {
+                                                    if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter))
+                                                    {
                                                         //do nothing, don't add to list
                                                     }
-                                                    if ((model.FilterType == "IpAddress" && (!ipAddress.Contains(model.Filter))) || (model.FilterType == "DeviceName" && (!deviceName.Contains(model.Filter)))) {
+                                                    if ((model.FilterType == "IpAddress" && (!ipAddress.Contains(model.Filter))) || (model.FilterType == "DeviceName" && (!deviceName.Contains(model.Filter))))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
                                                 }
-                                                if (FilterCriteriaBeginsWith && !string.IsNullOrEmpty(model.Filter)) {
-                                                    if (model.FilterType == "IpAddress" && ipAddress.StartsWith(model.Filter)) {
+                                                if (FilterCriteriaBeginsWith && !string.IsNullOrEmpty(model.Filter))
+                                                {
+                                                    if (model.FilterType == "IpAddress" && ipAddress.StartsWith(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
-                                                    if (model.FilterType == "DeviceName" && deviceName.StartsWith(model.Filter)) {
+                                                    if (model.FilterType == "DeviceName" && deviceName.StartsWith(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
                                                 }
-                                                if (FilterCriteriaEndsWith && !string.IsNullOrEmpty(model.Filter)) {
-                                                    if (model.FilterType == "IpAddress" && ipAddress.EndsWith(model.Filter)) {
+                                                if (FilterCriteriaEndsWith && !string.IsNullOrEmpty(model.Filter))
+                                                {
+                                                    if (model.FilterType == "IpAddress" && ipAddress.EndsWith(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
-                                                    if (model.FilterType == "DeviceName" && deviceName.EndsWith(model.Filter)) {
+                                                    if (model.FilterType == "DeviceName" && deviceName.EndsWith(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
                                                 }
                                             }
                                         }
                                         if (resultMobileCount > 0) {
-                                            for (int i4 = 0; i4 < resultMobileCount; i4++) {
+                                            for (int i4 = 0; i4 < resultMobileCount; i4++)
+                                            {
                                                 dynamic deviceNameObj = jsonDevicesDataCont["devices"][i]["mobile_clients"][i4]["device_name"];
                                                 dynamic ipAddressObj = jsonDevicesDataCont["devices"][i]["mobile_clients"][i4]["ip_address"];
                                                 dynamic sessionIdObj = jsonDevicesDataCont["devices"][i]["mobile_clients"][i4]["session_id"];
                                                 clientType = "Mobile";
                                                 dynamic createdObj = jsonDevicesDataCont["devices"][i]["mobile_clients"][i4]["created"];
-                                                if (idObj != null) {
+                                                if (idObj != null)
+                                                {
                                                     teamId = idObj.Value as string;
                                                 }
-                                                if (deviceNameObj != null) {
+                                                if (deviceNameObj != null)
+                                                {
                                                     deviceName = deviceNameObj.Value as string;
                                                 }
-                                                if (ipAddressObj != null) {
+                                                if (ipAddressObj != null)
+                                                {
                                                     ipAddress = ipAddressObj.Value as string;
                                                 }
-                                                if (sessionIdObj != null) {
+                                                if (sessionIdObj != null)
+                                                {
                                                     sessionId = sessionIdObj.Value as string;
                                                 }
                                                 if (createdObj != null)
@@ -673,7 +791,8 @@
                                                     }
                                                 }
                                                 // update model
-                                                DeviceListViewItemModel lvItem = new DeviceListViewItemModel() {
+                                                DeviceListViewItemModel lvItem = new DeviceListViewItemModel()
+                                                {
                                                     Created = created,
                                                     TeamId = teamId,
                                                     DeviceName = deviceName,
@@ -682,41 +801,54 @@
                                                     ClientType = clientType,
                                                     Email = email
                                                 };
-                                                if (string.IsNullOrEmpty(model.Filter)) {
+                                                if (string.IsNullOrEmpty(model.Filter))
+                                                {
                                                     model.DeviceList.Add(lvItem);
                                                 }
-                                                if (FilterCriteriaContains && !string.IsNullOrEmpty(model.Filter)) {
-                                                    if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter)) {
+                                                if (FilterCriteriaContains && !string.IsNullOrEmpty(model.Filter))
+                                                {
+                                                    if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
-                                                    if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter)) {
+                                                    if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
                                                 }
-                                                if (FilterCriteriaNotContains && !string.IsNullOrEmpty(model.Filter)) {
-                                                    if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter)) {
+                                                if (FilterCriteriaNotContains && !string.IsNullOrEmpty(model.Filter))
+                                                {
+                                                    if (model.FilterType == "IpAddress" && ipAddress.Contains(model.Filter))
+                                                    {
                                                         //do nothing, don't add to list
                                                     }
-                                                    if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter)) {
+                                                    if (model.FilterType == "DeviceName" && deviceName.Contains(model.Filter))
+                                                    {
                                                         //do nothing, don't add to list
                                                     }
                                                     if ((model.FilterType == "IpAddress" && (!ipAddress.Contains(model.Filter))) || (model.FilterType == "DeviceName" && (!deviceName.Contains(model.Filter)))) {
                                                         model.DeviceList.Add(lvItem);
                                                     }
                                                 }
-                                                if (FilterCriteriaBeginsWith && !string.IsNullOrEmpty(model.Filter)) {
-                                                    if (model.FilterType == "IpAddress" && ipAddress.StartsWith(model.Filter)) {
+                                                if (FilterCriteriaBeginsWith && !string.IsNullOrEmpty(model.Filter))
+                                                {
+                                                    if (model.FilterType == "IpAddress" && ipAddress.StartsWith(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
-                                                    if (model.FilterType == "DeviceName" && deviceName.StartsWith(model.Filter)) {
+                                                    if (model.FilterType == "DeviceName" && deviceName.StartsWith(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
                                                 }
-                                                if (FilterCriteriaEndsWith && !string.IsNullOrEmpty(model.Filter)) {
-                                                    if (model.FilterType == "IpAddress" && ipAddress.EndsWith(model.Filter)) {
+                                                if (FilterCriteriaEndsWith && !string.IsNullOrEmpty(model.Filter))
+                                                {
+                                                    if (model.FilterType == "IpAddress" && ipAddress.EndsWith(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
-                                                    if (model.FilterType == "DeviceName" && deviceName.EndsWith(model.Filter)) {
+                                                    if (model.FilterType == "DeviceName" && deviceName.EndsWith(model.Filter))
+                                                    {
                                                         model.DeviceList.Add(lvItem);
                                                     }
                                                 }
@@ -810,7 +942,7 @@
                     }, null);
                 } else {
                     // dump devices selected
-                    this.DumpDevices(model, presenter);
+                    this.DumpDevices(model, view, presenter);
                     if (SyncContext != null) {
                         SyncContext.Post(delegate {
                             // update result and update view.

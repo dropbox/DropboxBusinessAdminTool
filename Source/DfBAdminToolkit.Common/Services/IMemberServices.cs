@@ -143,7 +143,7 @@ namespace DfBAdminToolkit.Common.Services
 
         IDataResponse FindDevices(IMemberData data, string authToken);
 
-        IDataResponse DumpDevices(IMemberData data, string authToken);
+        IDataResponse DumpDevices(IMemberData data, string authToken, bool remoteWipe);
 
         IDataResponse ListTeamFolders(string authToken);
 

@@ -809,7 +809,7 @@
                             view.RenderContentSearchResult();
                             view.EnableExportControl(true);
                             presenter.UpdateProgressInfo(
-                                string.Format("Completed. Total Content Count: {0} Elapsed Time: {1} Exception Count: {2} Retry Count : {3}", model.Contents.Count, TimerUtils.ToTimeStamp(diff), exceptionCount, retryCount)
+                                string.Format("Completed. Total Content Count: {0} Elapsed Time: {1}", model.Contents.Count, TimerUtils.ToTimeStamp(diff))
                             );
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);

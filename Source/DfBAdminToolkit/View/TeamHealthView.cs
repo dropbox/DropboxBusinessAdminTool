@@ -57,6 +57,7 @@
             TopLevel = false;
             Dock = DockStyle.Fill;
             this.buttonEx_TeamHealthRefresh.Enabled = true;
+            this.aquaGaugeUsers.Visible = false;
         }
 
         public void ShowView()
@@ -81,6 +82,8 @@
             //populate view controls for everything in model
             labelRefreshDateTime.Text = "Last refresh: " + model.RefreshDateTime.ToString();
             labelTeamName.Text = model.TeamName;
+            //load users gauge with data
+            this.aquaGaugeUsers.Visible = true;
             aquaGaugeUsers.MinValue = 0;
             aquaGaugeUsers.MaxValue = (float)Convert.ToDouble(model.LicensedUsers);
             aquaGaugeUsers.Value = (float)Convert.ToDouble(model.ProvisionedUsers);

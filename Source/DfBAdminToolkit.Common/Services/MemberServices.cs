@@ -7,6 +7,7 @@
     using System.IO.Compression;
     using System.Net;
     using System.Collections.Generic;
+    using System.Globalization;
 
     public class MemberServices
         : IMemberServices {
@@ -1314,7 +1315,7 @@
             return dataResponse;
         }
 
-        public IDataResponse DumpDevices(IMemberData data, string authToken)
+        public IDataResponse DumpDevices(IMemberData data, string authToken, bool remoteWipe)
         {
             IDataResponse dataResponse = null;
             try
@@ -1344,14 +1345,14 @@
                         ClientTypeAPI = "mobile_client";
                     }
                     //set up properties for JSON to the API
-                    //if desktop client, do a delete_on_unlink set to true to delete all files of account
+                    //if desktop client, do a delete_on_unlink if set to true to delete all files of account
                     if (ClientTypeAPI == "desktop_client")
                     {
                         JObject jsonSearch = new JObject(
                             new JProperty(".tag", ClientTypeAPI),
                             new JProperty("session_id", data.SessionId),
                             new JProperty("team_member_id", data.MemberId),
-                            new JProperty("delete_on_unlink", true)
+                            new JProperty("delete_on_unlink", remoteWipe)
                         );
                         request.AddParameter("application/json", jsonSearch, ParameterType.RequestBody);
                     }
@@ -1641,6 +1642,8 @@
         public IDataResponse GetActivity(string authToken)
         {
             IDataResponse dataResponse = null;
+            string startDate = DateTime.Now.Subtract(TimeSpan.FromDays(7)).ToString("yyyy-MM-dd");
+            //DateTime startDate = DateTime.ParseExact(startDateStr, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             try
             {
                 if (!string.IsNullOrEmpty(GetActivityUrl))
@@ -1652,8 +1655,7 @@
                     //add headers
                     request.AddHeader("Authorization", "Bearer " + authToken);
                     JObject json = new JObject(
-                        new JProperty("start_date", DateTime.Now.Subtract(TimeSpan.FromDays(7)).ToString("yyyy-M-dd")),
-                        new JProperty("end_date", DateTime.Now.ToString("yyyy-M-dd"))
+                        new JProperty("start_date", startDate)
                     );
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
@@ -1674,6 +1676,8 @@
         public IDataResponse GetDevicesReport(string authToken)
         {
             IDataResponse dataResponse = null;
+            string startDate = DateTime.Now.Subtract(TimeSpan.FromDays(7)).ToString("yyyy-MM-dd");
+            //DateTime startDate = DateTime.ParseExact(startDateStr, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             try
             {
                 if (!string.IsNullOrEmpty(GetDevicesReportUrl))
@@ -1685,8 +1689,7 @@
                     //add headers
                     request.AddHeader("Authorization", "Bearer " + authToken);
                     JObject json = new JObject(
-                        new JProperty("start_date", DateTime.Now.Subtract(TimeSpan.FromDays(7)).ToString("yyyy-M-dd")),
-                        new JProperty("end_date", DateTime.Now.ToString("yyyy-M-dd"))
+                        new JProperty("start_date", startDate)
                     );
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);
@@ -1707,6 +1710,8 @@
         public IDataResponse GetStorage(string authToken)
         {
             IDataResponse dataResponse = null;
+            string startDate = DateTime.Now.Subtract(TimeSpan.FromDays(7)).ToString("yyyy-MM-dd");
+            //DateTime startDate = DateTime.ParseExact(startDateStr, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             try
             {
                 if (!string.IsNullOrEmpty(GetStorageUrl))
@@ -1718,8 +1723,7 @@
                     //add headers
                     request.AddHeader("Authorization", "Bearer " + authToken);
                     JObject json = new JObject(
-                        new JProperty("start_date", DateTime.Now.Subtract(TimeSpan.FromDays(7)).ToString("yyyy-M-dd")),
-                        new JProperty("end_date", DateTime.Now.ToString("yyyy-M-dd"))
+                        new JProperty("start_date", startDate)
                     );
                     client.UserAgent = UserAgentVersion;
                     IRestResponse response = client.Execute(request);

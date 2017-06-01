@@ -1,5 +1,5 @@
-﻿namespace DfBAdminToolkit.View {
-
+﻿namespace DfBAdminToolkit.View
+{
     using Common.Utils;
     using Common.Services;
     using Model;
@@ -14,8 +14,8 @@
     using System.IO;
     using Newtonsoft.Json;
 
-    public partial class MainView : Form, IMainView {
-
+    public partial class MainView : Form, IMainView
+    {
         public event EventHandler DataChanged;
 
         #region Runtime components
@@ -23,22 +23,24 @@
         private CustomTabControl _tabControl;
         private IList<TabPage> _tabPages;
 
-        private new enum TabIndex : int {
+        private new enum TabIndex : int
+        {
             TextSearch = 0,
             DumpContent = 1,
             Provisioning = 2,
             Groups = 3,
             TeamFolders = 4,
-            Paper = 5,
-            Devices = 6,
-            TeamAuditing = 7,
-            TeamHealth = 8,
-            DataMigration = 9 
+            //Paper = 5,
+            Devices = 5,
+            //TeamAuditing = 7,
+            //TeamHealth = 8,
+            DataMigration = 6 
         }
 
         #endregion Runtime components
 
-        public bool ComponentEventsWired {
+        public bool ComponentEventsWired
+        {
             get; set;
         }
 
@@ -178,14 +180,14 @@
                 Padding = new Padding(5, 3, 5, 3),
                 UseVisualStyleBackColor = true
             });
-            _tabPages.Add(new TabPage()
-            {
-                Name = "tabPage_Paper",
-                Text = "Paper",
-                Dock = DockStyle.Fill,
-                Padding = new Padding(5, 3, 5, 3),
-                UseVisualStyleBackColor = true
-            });
+            //_tabPages.Add(new TabPage()
+            //{
+            //    Name = "tabPage_Paper",
+            //    Text = "Paper",
+            //    Dock = DockStyle.Fill,
+            //    Padding = new Padding(5, 3, 5, 3),
+            //    UseVisualStyleBackColor = true
+            //});
             _tabPages.Add(new TabPage() {
                 Name = "tabPage_Devices",
                 Text = "Devices",
@@ -193,22 +195,22 @@
                 Padding = new Padding(5, 3, 5, 3),
                 UseVisualStyleBackColor = true
             });
-            _tabPages.Add(new TabPage()
-            {
-                Name = "tabPage_TeamAuditing",
-                Text = "Team Auditing",
-                Dock = DockStyle.Fill,
-                Padding = new Padding(5, 3, 5, 3),
-                UseVisualStyleBackColor = true
-            });
-            _tabPages.Add(new TabPage()
-            {
-                Name = "tabPage_TeamHealth",
-                Text = "Team Health",
-                Dock = DockStyle.Fill,
-                Padding = new Padding(5, 3, 5, 3),
-                UseVisualStyleBackColor = true
-            });
+            //_tabPages.Add(new TabPage()
+            //{
+            //    Name = "tabPage_TeamAuditing",
+            //    Text = "Team Auditing",
+            //    Dock = DockStyle.Fill,
+            //    Padding = new Padding(5, 3, 5, 3),
+            //    UseVisualStyleBackColor = true
+            //});
+            //_tabPages.Add(new TabPage()
+            //{
+            //    Name = "tabPage_TeamHealth",
+            //    Text = "Team Health",
+            //    Dock = DockStyle.Fill,
+            //    Padding = new Padding(5, 3, 5, 3),
+            //    UseVisualStyleBackColor = true
+            //});
             _tabPages.Add(new TabPage() {
                 Name = "tabPage_DataMigration",
                 Text = "Team Content",
@@ -333,10 +335,10 @@
             _tabPages[(int)TabIndex.Provisioning].Controls.Add(CreateProvisionView());
             _tabPages[(int)TabIndex.Groups].Controls.Add(CreateGroupsView());
             _tabPages[(int)TabIndex.TeamFolders].Controls.Add(CreateTeamFoldersView());
-            _tabPages[(int)TabIndex.Paper].Controls.Add(CreatePaperView());
+            //_tabPages[(int)TabIndex.Paper].Controls.Add(CreatePaperView());
             _tabPages[(int)TabIndex.Devices].Controls.Add(CreateDevicesView());
-            _tabPages[(int)TabIndex.TeamAuditing].Controls.Add(CreateTeamAuditingView());
-            _tabPages[(int)TabIndex.TeamHealth].Controls.Add(CreateTeamHealthView());  
+            //_tabPages[(int)TabIndex.TeamAuditing].Controls.Add(CreateTeamAuditingView());
+            //_tabPages[(int)TabIndex.TeamHealth].Controls.Add(CreateTeamHealthView());  
             _tabPages[(int)TabIndex.DataMigration].Controls.Add(CreateDataMigrationView());
 
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.TextSearch]);
@@ -344,10 +346,10 @@
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.Provisioning]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.Groups]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.TeamFolders]);
-            _tabControl.Controls.Add(_tabPages[(int)TabIndex.Paper]);
+            //_tabControl.Controls.Add(_tabPages[(int)TabIndex.Paper]);
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.Devices]);
-            _tabControl.Controls.Add(_tabPages[(int)TabIndex.TeamAuditing]);
-            _tabControl.Controls.Add(_tabPages[(int)TabIndex.TeamHealth]);  
+            //_tabControl.Controls.Add(_tabPages[(int)TabIndex.TeamAuditing]);
+            //_tabControl.Controls.Add(_tabPages[(int)TabIndex.TeamHealth]);  
             _tabControl.Controls.Add(_tabPages[(int)TabIndex.DataMigration]);
 
             // select first tab
@@ -406,16 +408,16 @@
             return view as TeamFoldersView;
         }
 
-        private PaperView CreatePaperView()
-        {
-            IPaperModel model = new PaperModel();
-            IPaperView view = new PaperView();
-            IPaperPresenter presenter = SimpleResolver.Instance.Get<IPaperPresenter>(
-                new object[] { model, view }
-            );
-            view.ShowView();
-            return view as PaperView;
-        }
+        //private PaperView CreatePaperView()
+        //{
+        //    IPaperModel model = new PaperModel();
+        //    IPaperView view = new PaperView();
+        //    IPaperPresenter presenter = SimpleResolver.Instance.Get<IPaperPresenter>(
+        //        new object[] { model, view }
+        //    );
+        //    view.ShowView();
+        //    return view as PaperView;
+        //}
 
         private DevicesView CreateDevicesView() {
             IDevicesModel model = new DevicesModel();
@@ -427,27 +429,27 @@
             return view as DevicesView;
         }
 
-        private TeamHealthView CreateTeamHealthView()
-        {
-            ITeamHealthModel model = new TeamHealthModel();
-            ITeamHealthView view = new TeamHealthView();
-            ITeamHealthPresenter presenter = SimpleResolver.Instance.Get<ITeamHealthPresenter>(
-                new object[] { model, view }
-            );
-            view.ShowView();
-            return view as TeamHealthView;
-        }
+        //private TeamHealthView CreateTeamHealthView()
+        //{
+        //    ITeamHealthModel model = new TeamHealthModel();
+        //    ITeamHealthView view = new TeamHealthView();
+        //    ITeamHealthPresenter presenter = SimpleResolver.Instance.Get<ITeamHealthPresenter>(
+        //        new object[] { model, view }
+        //    );
+        //    view.ShowView();
+        //    return view as TeamHealthView;
+        //}
 
-        private TeamAuditingView CreateTeamAuditingView()
-        {
-            ITeamAuditingModel model = new TeamAuditingModel();
-            ITeamAuditingView view = new TeamAuditingView();
-            ITeamAuditingPresenter presenter = SimpleResolver.Instance.Get<ITeamAuditingPresenter>(
-                new object[] { model, view }
-            );
-            view.ShowView();
-            return view as TeamAuditingView;
-        }
+        //private TeamAuditingView CreateTeamAuditingView()
+        //{
+        //    ITeamAuditingModel model = new TeamAuditingModel();
+        //    ITeamAuditingView view = new TeamAuditingView();
+        //    ITeamAuditingPresenter presenter = SimpleResolver.Instance.Get<ITeamAuditingPresenter>(
+        //        new object[] { model, view }
+        //    );
+        //    view.ShowView();
+        //    return view as TeamAuditingView;
+        //}
 
         private DataMigrationView CreateDataMigrationView() {
             IDataMigrationModel model = new DataMigrationModel();

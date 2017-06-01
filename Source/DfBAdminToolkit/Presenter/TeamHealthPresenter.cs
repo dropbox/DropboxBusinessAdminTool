@@ -124,25 +124,30 @@
                     dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
 
                     activityStartDate = jsonData["start_date"];
-                    if (jsonData["adds"] != null)
+                    if (jsonData["adds"][0] != null)
                     {
-                        adds = jsonData["adds"][0];
+                        int addsCount = (jsonData["adds"].Count) - 1;
+                        adds = jsonData["adds"][addsCount];
                     }
-                    if (jsonData["edits"] != null)
+                    if (jsonData["edits"][0] != null)
                     {
-                        edits = jsonData["edits"][0];
+                        int editsCount = (jsonData["edits"].Count) - 1;
+                        edits = jsonData["edits"][editsCount];
                     }
-                    if (jsonData["deletes"] != null)
+                    if (jsonData["deletes"][0] != null)
                     {
-                        deletes = jsonData["deletes"][0];
+                        int deletesCount = (jsonData["deletes"].Count) - 1;
+                        deletes = jsonData["deletes"][deletesCount];
                     }
-                    if (jsonData["active_shared_folders_28_day"] != null)
+                    if (jsonData["active_shared_folders_28_day"][0] != null)
                     {
-                        activeSharedFolders28Day = jsonData["active_shared_folders_28_day"][0];
+                        int activeSharedCount = (jsonData["active_shared_folders_28_day"].Count) - 1;
+                        activeSharedFolders28Day = jsonData["active_shared_folders_28_day"][activeSharedCount];
                     }
-                    if (jsonData["active_users_28_day"] != null)
+                    if (jsonData["active_users_28_day"][0] != null)
                     {
-                        activeUsers28Day = jsonData["active_users_28_day"][0];
+                        int activeUsers = (jsonData["active_users_28_day"].Count) - 1;
+                        activeUsers28Day = jsonData["active_users_28_day"][activeUsers];
                     }
                     model.Adds = adds.ToString();
                     model.Edits = edits.ToString();

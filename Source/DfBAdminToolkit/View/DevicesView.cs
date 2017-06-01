@@ -34,6 +34,8 @@
 
         public string OutputFileName { get; set; }
 
+        public bool RemoteWipe { get; set; }
+
         public List<DeviceListViewItemModel> DeviceList { get; set; }
 
         public enum OlvDeviceIndex : int
@@ -72,6 +74,8 @@
             Dock = DockStyle.Fill;
             UserAccessToken = string.Empty;
             DeviceList = new List<DeviceListViewItemModel>();
+            checkBoxRemoteWipe.Checked = false;
+            RemoteWipe = false;
         }
 
         public void WireComponentEvents()
@@ -81,6 +85,7 @@
                 this.textBoxDeviceFilter.TextChanged += textBoxDeviceFilter_TextChanged;
                 this.radioIpAddress.CheckedChanged += radioIpAddress_CheckedChanged;
                 this.radioDeviceFilter.CheckedChanged += radioDeviceFilter_CheckedChanged;
+                this.checkBoxRemoteWipe.CheckedChanged += checkBoxRemoteWipe_CheckedChanged;
                 this.comboFilterCriteria.TextChanged += comboFilterCriteria_TextChanged;
                 this.buttonEx_DevicesDump.Click += Button_DevicesDump_Click;
                 this.buttonLoadDevices.Click += Button_DevicesList_Click;
@@ -100,6 +105,7 @@
                 this.textBoxDeviceFilter.TextChanged -= textBoxDeviceFilter_TextChanged;
                 this.radioIpAddress.CheckedChanged -= radioIpAddress_CheckedChanged;
                 this.radioDeviceFilter.CheckedChanged -= radioDeviceFilter_CheckedChanged;
+                this.checkBoxRemoteWipe.CheckedChanged -= checkBoxRemoteWipe_CheckedChanged;
                 this.comboFilterCriteria.TextChanged -= comboFilterCriteria_TextChanged;
                 this.buttonEx_DevicesDump.Click -= Button_DevicesDump_Click;
                 this.buttonLoadDevices.Click -= Button_DevicesList_Click;
@@ -322,6 +328,18 @@
             else
             {
                 FilterType = "IpAddress";
+            }
+        }
+
+        private void checkBoxRemoteWipe_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxRemoteWipe.Checked == true)
+            {
+                RemoteWipe = true;
+            }
+            if (checkBoxRemoteWipe.Checked == false)
+            {
+                RemoteWipe = false;
             }
         }
 
