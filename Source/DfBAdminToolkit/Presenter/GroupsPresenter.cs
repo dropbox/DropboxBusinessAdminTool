@@ -78,7 +78,7 @@
 
         private void GetGroups(IGroupsModel model, IMainPresenter presenter)
         {
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.GetGroupsUrl = ApplicationResource.ActionGetGroups;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             IDataResponse response = service.GetGroups(new MemberData()
@@ -156,7 +156,7 @@
 
         private void ExportGroups(IGroupsModel model, IMainPresenter presenter)
         {
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.ExportGroupsUrl = ApplicationResource.ActionGetGroupInfo;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             List<string> groupIdList = new List<string>();
@@ -259,7 +259,7 @@
 
         private List<Tuple<string, string, string, string>> GetSharedFolders(IGroupsModel model, IMainPresenter presenter)
         {
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.ListSharedFoldersUrl = ApplicationResource.ActionSharingListFolders;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             var sharedFolders = new List<Tuple<string, string, string, string>>();

@@ -7,6 +7,7 @@
     public interface ITeamFoldersView
         : IView
     {
+        event EventHandler DataChanged;
         event EventHandler CommandGetTeamFolders;
         event EventHandler CommandCreateTeamFolder;
         event EventHandler CommandSetFolderStatus;

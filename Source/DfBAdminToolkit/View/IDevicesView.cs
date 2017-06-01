@@ -22,6 +22,8 @@
 
         string OutputFileName { get; set; }
 
+        bool RemoteWipe { get; set; }
+
         List<DeviceListViewItemModel> DeviceList { get; set; }
 
         void RefreshAccessToken();

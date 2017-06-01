@@ -244,7 +244,7 @@
         private void buttonEx_TeamFoldersSetFolderSyncSetting_Click(object sender, EventArgs e)
         {
             InvokeDataChanged(sender, e);
-            if (CommandSetFolderStatus != null)
+            if (CommandSetFolderSyncSetting != null)
             {
                 CommandSetFolderSyncSetting(sender, e);
             }

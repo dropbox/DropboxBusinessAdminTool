@@ -16,6 +16,7 @@
         public readonly static string FAILED_TO_UNSUSPEND_MEMBER = "Bad request to the API, possibly due to no permissions on your app to unsuspend members.";
         public readonly static string FAILED_TO_RECOVER_MEMBER = "Bad request to the API, possibly due to no permissions on your app to recover members.";
         public readonly static string FAILED_TO_UPDATE_PROFILE = "Bad request to the API, possibly due to no permissions on your app to update profiles.";
+        public readonly static string FAILED_TO_DELETE_PAPER = "Bad request to the API, possibly due to no permissions on your app to delete Paper docs.";
         public readonly static string USER_NOT_FOUND = "No matching user found. The provided email does not exist on this team.";
         public readonly static string USER_NOT_IN_TEAM = "The user is not a member of this team.";
         public readonly static string EMAIL_RESERVED = "Email is already reserved for another user..";

@@ -74,7 +74,7 @@
 
         private void GetTeamFolders(ITeamFoldersModel model, IMainPresenter presenter)
         {
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.ListTeamFolderUrl = ApplicationResource.ActionListTeamFolder;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             string fileAccessToken = ApplicationResource.DefaultAccessToken;
@@ -266,7 +266,7 @@
 
         private List<Tuple<string, string, string>> GetSharedFolders(string memberId, ITeamFoldersModel model, IMainPresenter presenter)
         {
-            IMemberServices service = service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
+            IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.ListSharedFoldersUrl = ApplicationResource.ActionSharingListFolders;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             var sharedFolders = new List<Tuple<string, string, string>>();

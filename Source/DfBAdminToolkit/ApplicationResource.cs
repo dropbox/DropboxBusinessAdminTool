@@ -1,6 +1,5 @@
 ﻿namespace DfBAdminToolkit
 {
-
     using System;
     using System.Configuration;
     using System.Threading;
@@ -144,6 +143,31 @@
             get { return ConfigurationManager.AppSettings.Get("ActionGetInfo"); }
         }
 
+        public static string ActionGetActivity
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetActivity"); }
+        }
+
+        public static string ActionGetDevices
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetDevices"); }
+        }
+
+        public static string ActionGetStorage
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetStorage"); }
+        }
+
+        public static string ActionGetEvents
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetEvents"); }
+        }
+
+        public static string ActionGetEventsContinuation
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetEventsContinuation"); }
+        }
+
         public static string ActionSetProfile
         {
             get { return ConfigurationManager.AppSettings.Get("ActionSetProfile"); }
@@ -182,6 +206,56 @@
         public static string ActionUpdateMembersTeamFolder
         {
             get { return ConfigurationManager.AppSettings.Get("ActionUpdateMembersTeamFolder"); }
+        }
+
+        public static string ActionArchivePaperDocs
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionArchivePaperDocs"); }
+        }
+
+        public static string ActionPermanentlyDeletePaperDocs
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionPermanentlyDeletePaperDocs"); }
+        }
+
+        public static string ActionDownloadPaperDocs
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionDownloadPaperDocs"); }
+        }
+
+        public static string ActionListPaperDocs
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionListPaperDocs"); }
+        }
+
+        public static string ActionListContinuationPaperDocs
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionListContinuationPaperDocs"); }
+        }
+
+        public static string ActionAddUsersPaperDocs
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionAddUsersPaperDocs"); }
+        }
+
+        public static string ActionCreatePaperDocs
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionCreatePaperDocs"); }
+        }
+
+        public static string ActionGetPaperDocMetadata
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetPaperDocMetadata"); }
+        }
+
+        public static string ActionPaperDocFolderInfo
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionPaperDocFolderInfo"); }
+        }
+
+        public static string ActionGetCurrentAccount
+        {
+            get { return ConfigurationManager.AppSettings.Get("ActionGetCurrentAccount"); }
         }
 
         public static int SearchDefaultLimit

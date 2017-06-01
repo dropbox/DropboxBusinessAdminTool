@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace DfBAdminToolkit.Common.Services
 {
@@ -54,7 +55,15 @@ namespace DfBAdminToolkit.Common.Services
 
         string GetInfoUrl { get; set; }
 
+        string GetActivityUrl { get; set; }
+
+        string GetDevicesReportUrl { get; set; }
+
+        string GetStorageUrl { get; set; }
+
         string SetProfileUrl { get; set; }
+
+        string GetEventsUrl { get; set; }
 
         string ActivateTeamFolderUrl { get; set; }
 
@@ -67,6 +76,20 @@ namespace DfBAdminToolkit.Common.Services
         string ListTeamFolderUrl { get; set; }
 
         string UpdateMembersTeamFolderUrl { get; set; }
+
+        string ListPaperDocsUrl { get; set; }
+
+        string GetPaperMetadataUrl { get; set; }
+
+        string ArchivePaperDocUrl { get; set; }
+
+        string PermDeletePaperDocUrl { get; set; }
+
+        string DownloadPaperDocUrl { get; set; }
+
+        string PaperDocFolderInfoUrl { get; set; }
+
+        string GetCurrentAccountUrl{ get; set; }
 
         string UserAgentVersion { get; set; }
 
@@ -92,6 +115,12 @@ namespace DfBAdminToolkit.Common.Services
 
         IDataResponse GetInfo(string authToken);
 
+        IDataResponse GetActivity(string authToken);
+
+        IDataResponse GetDevicesReport(string authToken);
+
+        IDataResponse GetStorage(string authToken);
+
         IServiceResponse SetProfile(IMemberData data, string authToken);
 
         IDataResponse GetGroups(IMemberData data, string authToken);
@@ -114,7 +143,7 @@ namespace DfBAdminToolkit.Common.Services
 
         IDataResponse FindDevices(IMemberData data, string authToken);
 
-        IDataResponse DumpDevices(IMemberData data, string authToken);
+        IDataResponse DumpDevices(IMemberData data, string authToken, bool remoteWipe);
 
         IDataResponse ListTeamFolders(string authToken);
 
@@ -123,5 +152,21 @@ namespace DfBAdminToolkit.Common.Services
         IServiceResponse SetTeamFolderStatus(string teamFolderId, bool activeSetting, string authToken);
 
         IServiceResponse SetFolderSyncSetting(string teamFolderId, string syncSetting, string authToken);
+
+        IDataResponse GetEvents(IMemberData data, string authToken, DateTime startTime, DateTime finishTime);
+
+        IDataResponse ListPaperDocs(IMemberData data, string authToken);
+
+        IDataResponse GetPaperMetadata(string docId, string authToken, string memberId);
+
+        IDataResponse ArchivePaperDoc(string memberId, string authToken, string docId);
+
+        IDataResponse PermDeletePaperDoc(string memberId, string authToken, string docId);
+
+        IDataResponse DownloadPaperDoc(string memberId, string docId, string outputFolder, string fileName, string authToken);
+
+        IDataResponse GetPaperDocFolderInfo(string docId, string authToken, string memberId);
+
+        IDataResponse GetCurrentAccount(string authToken);
     }
 }

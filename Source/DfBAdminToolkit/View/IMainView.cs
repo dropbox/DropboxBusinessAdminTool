@@ -5,8 +5,6 @@
     public interface IMainView
         : IView
     {
-        event EventHandler CommandQuitApplication;
-
         void EnableLoadingSpinner(bool enable);
 
         void EnableView(bool enable);

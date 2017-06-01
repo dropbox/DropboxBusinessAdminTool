@@ -61,6 +61,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AquaGauge">
+      <HintPath>..\..\..\..\AquaGauge.dll</HintPath>
+    </Reference>
     <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\packages\CsvHelper.2.13.5.0\lib\net40-client\CsvHelper.dll</HintPath>
       <Private>True</Private>
@@ -91,6 +94,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -125,20 +129,29 @@
     <Compile Include="Model\ILegalModel.cs" />
     <Compile Include="Model\IMainModel.cs" />
     <Compile Include="Model\IModel.cs" />
+    <Compile Include="Model\IPaperModel.cs" />
     <Compile Include="Model\IProvisioningModel.cs" />
     <Compile Include="Model\ISettingsModel.cs" />
+    <Compile Include="Model\ITeamAuditingModel.cs" />
     <Compile Include="Model\ITeamFoldersModel.cs" />
+    <Compile Include="Model\ITeamHealthModel.cs" />
     <Compile Include="Model\ITextSearchModel.cs" />
     <Compile Include="Model\LegalModel.cs" />
     <Compile Include="Model\MainModel.cs" />
     <Compile Include="Model\MemberListViewItemModel.cs" />
+    <Compile Include="Model\PaperListViewItemModel.cs" />
+    <Compile Include="Model\PaperModel.cs" />
     <Compile Include="Model\ProvisioningModel.cs" />
     <Compile Include="Model\SettingsModel.cs" />
+    <Compile Include="Model\TeamAuditingListViewItemModel.cs" />
+    <Compile Include="Model\TeamAuditingModel.cs" />
     <Compile Include="Model\TeamFoldersHeaderRecord.cs" />
     <Compile Include="Model\TeamFoldersListViewItemModel.cs" />
     <Compile Include="Model\TeamFoldersMembersHeaderRecord.cs" />
     <Compile Include="Model\TeamFoldersModel.cs" />
     <Compile Include="Model\TeamFoldersPermsItemModel.cs" />
+    <Compile Include="Model\TeamHealthListViewItemModel.cs" />
+    <Compile Include="Model\TeamHealthModel.cs" />
     <Compile Include="Model\TeamListViewItemModel.cs" />
     <Compile Include="Model\TextSearchModel.cs" />
     <Compile Include="Presenter\DataMigrationPresenter.cs" />
@@ -150,18 +163,24 @@
     <Compile Include="Presenter\IDumpUserContentPresenter.cs" />
     <Compile Include="Presenter\IGroupsPresenter.cs" />
     <Compile Include="Presenter\ILegalPresenter.cs" />
+    <Compile Include="Presenter\IPaperPresenter.cs" />
     <Compile Include="Presenter\IProvisioningPresenter.cs" />
     <Compile Include="Presenter\ISettingsPresenter.cs" />
+    <Compile Include="Presenter\ITeamAuditingPresenter.cs" />
     <Compile Include="Presenter\ITeamFoldersPresenter.cs" />
+    <Compile Include="Presenter\ITeamHealthPresenter.cs" />
     <Compile Include="Presenter\ITextSearchPresenter.cs" />
     <Compile Include="Presenter\LegalPresenter.cs" />
     <Compile Include="Presenter\IMainPresenter.cs" />
     <Compile Include="Presenter\IPresenter.cs" />
     <Compile Include="Presenter\MainPresenter.cs" />
+    <Compile Include="Presenter\PaperPresenter.cs" />
     <Compile Include="Presenter\PresenterBase.cs" />
     <Compile Include="Presenter\ProvisioningPresenter.cs" />
     <Compile Include="Presenter\SettingsPresenter.cs" />
+    <Compile Include="Presenter\TeamAuditingPresenter.cs" />
     <Compile Include="Presenter\TeamFoldersPresenter.cs" />
+    <Compile Include="Presenter\TeamHealthPresenter.cs" />
     <Compile Include="Presenter\TextSearchPresenter.cs" />
     <Compile Include="Services\GitHubService.cs" />
     <Compile Include="Tooltips.cs" />
@@ -193,11 +212,20 @@
     <Compile Include="View\IDevicesView.cs" />
     <Compile Include="View\IDumpUserContentView.cs" />
     <Compile Include="View\IGroupsView.cs" />
+    <Compile Include="View\IPaperView.cs" />
     <Compile Include="View\IProvisioningView.cs" />
     <Compile Include="View\ISettingsView.cs" />
+    <Compile Include="View\ITeamAuditingView.cs" />
     <Compile Include="View\ITeamFoldersView.cs" />
+    <Compile Include="View\ITeamHealthView.cs" />
     <Compile Include="View\ITextSearchView.cs" />
     <Compile Include="View\Overlay\MemberInfoOverlay.cs" />
+    <Compile Include="View\PaperView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\PaperView.designer.cs">
+      <DependentUpon>PaperView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\ProvisioningView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -210,11 +238,23 @@
     <Compile Include="View\SettingsView.Designer.cs">
       <DependentUpon>SettingsView.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\TeamAuditingView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TeamAuditingView.designer.cs">
+      <DependentUpon>TeamAuditingView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\TeamFoldersView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\TeamFoldersView.designer.cs">
       <DependentUpon>TeamFoldersView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TeamHealthView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TeamHealthView.designer.cs">
+      <DependentUpon>TeamHealthView.cs</DependentUpon>
     </Compile>
     <Compile Include="View\TextSearchView.cs">
       <SubType>Form</SubType>
@@ -257,14 +297,23 @@
     <EmbeddedResource Include="View\GroupsView.resx">
       <DependentUpon>GroupsView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\PaperView.resx">
+      <DependentUpon>PaperView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\ProvisioningView.resx">
       <DependentUpon>ProvisioningView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SettingsView.resx">
       <DependentUpon>SettingsView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\TeamAuditingView.resx">
+      <DependentUpon>TeamAuditingView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\TeamFoldersView.resx">
       <DependentUpon>TeamFoldersView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TeamHealthView.resx">
+      <DependentUpon>TeamHealthView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\TextSearchView.resx">
       <DependentUpon>TextSearchView.cs</DependentUpon>
@@ -328,6 +377,7 @@
   <ItemGroup>
     <Content Include="Misc\dropbox.ico" />
     <Content Include="Misc\LICENSE.txt" />
+    <Content Include="Referenced Dlls\AGauge.dll" />
     <Content Include="Referenced Dlls\CustomTabControl.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -36,8 +36,8 @@
             this.menuStrip_Main = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.templatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel_MainGroup.SuspendLayout();
             this.statusStrip_Main.SuspendLayout();
             this.menuStrip_Main.SuspendLayout();
@@ -56,7 +56,7 @@
             this.tableLayoutPanel_MainGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanel_MainGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_MainGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel_MainGroup.Size = new System.Drawing.Size(858, 681);
+            this.tableLayoutPanel_MainGroup.Size = new System.Drawing.Size(934, 681);
             this.tableLayoutPanel_MainGroup.TabIndex = 3;
             // 
             // statusStrip_Main
@@ -67,7 +67,7 @@
             this.toolStripStatusLabel_Progress});
             this.statusStrip_Main.Location = new System.Drawing.Point(0, 654);
             this.statusStrip_Main.Name = "statusStrip_Main";
-            this.statusStrip_Main.Size = new System.Drawing.Size(858, 27);
+            this.statusStrip_Main.Size = new System.Drawing.Size(934, 27);
             this.statusStrip_Main.TabIndex = 3;
             this.statusStrip_Main.Text = "statusStrip_Main";
             // 
@@ -107,7 +107,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip_Main.Location = new System.Drawing.Point(0, 0);
             this.menuStrip_Main.Name = "menuStrip_Main";
-            this.menuStrip_Main.Size = new System.Drawing.Size(858, 26);
+            this.menuStrip_Main.Size = new System.Drawing.Size(934, 26);
             this.menuStrip_Main.TabIndex = 4;
             this.menuStrip_Main.Text = "menuStrip1";
             // 
@@ -125,26 +125,26 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.settingsToolStripMenuItem.Text = "Settings...";
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
             // 
             // templatesToolStripMenuItem
             // 
             this.templatesToolStripMenuItem.Name = "templatesToolStripMenuItem";
-            this.templatesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.templatesToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.templatesToolStripMenuItem.Text = "Templates...";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
             // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(858, 681);
+            this.ClientSize = new System.Drawing.Size(934, 681);
             this.Controls.Add(this.tableLayoutPanel_MainGroup);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
