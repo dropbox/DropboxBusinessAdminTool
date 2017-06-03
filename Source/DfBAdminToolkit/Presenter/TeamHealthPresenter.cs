@@ -71,10 +71,16 @@
             int adds = 0;
             int edits = 0;
             int deletes = 0;
-            int activeSharedFolders28Day = 0;
-            int activeUsers28Day = 0;
+            int activeSharedFolders7Day = 0;
+            int activeUsers7Day = 0;
             string devicesStartDate = string.Empty;
-            int activeDevices28Day = 0;
+            int windows = 0;
+            int macos = 0;
+            int linux = 0;
+            int ios = 0;
+            int android = 0;
+            int other = 0;
+            int total = 0;
             string storageStartDate = string.Empty;
             UInt64 totalStorage = 0;
             UInt64 sharedStorage = 0;
@@ -126,34 +132,34 @@
                     activityStartDate = jsonData["start_date"];
                     if (jsonData["adds"][0] != null)
                     {
-                        int addsCount = (jsonData["adds"].Count) - 1;
+                        int addsCount = (jsonData["adds"].Count) - 2;
                         adds = jsonData["adds"][addsCount];
                     }
                     if (jsonData["edits"][0] != null)
                     {
-                        int editsCount = (jsonData["edits"].Count) - 1;
+                        int editsCount = (jsonData["edits"].Count) - 2;
                         edits = jsonData["edits"][editsCount];
                     }
                     if (jsonData["deletes"][0] != null)
                     {
-                        int deletesCount = (jsonData["deletes"].Count) - 1;
+                        int deletesCount = (jsonData["deletes"].Count) - 2;
                         deletes = jsonData["deletes"][deletesCount];
                     }
                     if (jsonData["active_shared_folders_28_day"][0] != null)
                     {
-                        int activeSharedCount = (jsonData["active_shared_folders_28_day"].Count) - 1;
-                        activeSharedFolders28Day = jsonData["active_shared_folders_28_day"][activeSharedCount];
+                        int activeSharedCount = (jsonData["active_shared_folders_7_day"].Count) - 2;
+                        activeSharedFolders7Day = jsonData["active_shared_folders_7_day"][activeSharedCount];
                     }
-                    if (jsonData["active_users_28_day"][0] != null)
+                    if (jsonData["active_users_7_day"][0] != null)
                     {
-                        int activeUsers = (jsonData["active_users_28_day"].Count) - 1;
-                        activeUsers28Day = jsonData["active_users_28_day"][activeUsers];
+                        int activeUsers = (jsonData["active_users_7_day"].Count) - 2;
+                        activeUsers7Day = jsonData["active_users_7_day"][activeUsers];
                     }
                     model.Adds = adds.ToString();
                     model.Edits = edits.ToString();
                     model.Deletes = deletes.ToString();
-                    model.ActiveSharedFolders28Day = activeSharedFolders28Day.ToString();
-                    model.ActiveUsers28Day = activeUsers28Day.ToString();
+                    model.ActiveSharedFolders7Day = activeSharedFolders7Day.ToString();
+                    model.ActiveUsers7Day = activeUsers7Day.ToString();
                 }
             }
             if (responseDevices.StatusCode == HttpStatusCode.OK)
@@ -164,8 +170,51 @@
                     dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
 
                     devicesStartDate = jsonData["start_date"];
-                    //activeDevices28Day = jsonData["active_28_day"]; //breakdown for devices
-                    model.ActiveDevices28Day = activeDevices28Day.ToString();
+                    if (jsonData["active_7_day"] != null)
+                    {
+                        if (jsonData["active_7_day"]["windows"][0] != null)
+                        {
+                            int windowsUsers = (jsonData["active_7_day"]["windows"].Count) - 2;
+                            windows = jsonData["active_7_day"]["windows"][windowsUsers];
+                        }
+                        if (jsonData["active_7_day"]["macos"][0] != null)
+                        {
+                            int macosUsers = (jsonData["active_7_day"]["macos"].Count) - 2;
+                            macos = jsonData["active_7_day"]["macos"][macosUsers];
+                        }
+                        if (jsonData["active_7_day"]["linux"][0] != null)
+                        {
+                            int linuxUsers = (jsonData["active_7_day"]["linux"].Count) - 2;
+                            linux = jsonData["active_7_day"]["linux"][linuxUsers];
+                        }
+                        if (jsonData["active_7_day"]["ios"][0] != null)
+                        {
+                            int iosUsers = (jsonData["active_7_day"]["ios"].Count) - 2;
+                            ios = jsonData["active_7_day"]["ios"][iosUsers];
+                        }
+                        if (jsonData["active_7_day"]["android"][0] != null)
+                        {
+                            int androidUsers = (jsonData["active_7_day"]["android"].Count) - 2;
+                            android = jsonData["active_7_day"]["android"][androidUsers];
+                        }
+                        if (jsonData["active_7_day"]["other"][0] != null)
+                        {
+                            int otherUsers = (jsonData["active_7_day"]["other"].Count) - 2;
+                            other = jsonData["active_7_day"]["other"][otherUsers];
+                        }
+                        if (jsonData["active_7_day"]["total"][0] != null)
+                        {
+                            int totalUsers = (jsonData["active_7_day"]["total"].Count) - 2;
+                            total = jsonData["active_7_day"]["total"][totalUsers];
+                        }
+                    }
+                    model.windows = windows.ToString();
+                    model.macos = macos.ToString();
+                    model.linux = linux.ToString();
+                    model.ios = ios.ToString();
+                    model.android = android.ToString();
+                    model.other = other.ToString();
+                    model.total = total.ToString();
                 }
             }
             if (responseStorage.StatusCode == HttpStatusCode.OK)
@@ -178,28 +227,31 @@
                     storageStartDate = jsonData["start_date"];
                     if (jsonData["total_usage"][0] != null)
                     {
-                        int totalCount = (jsonData["total_usage"].Count) - 1;
+                        int totalCount = (jsonData["total_usage"].Count) - 2;
                         totalStorage = jsonData["total_usage"][totalCount];
+                        double totalStorageDec = FileUtil.FormatFileSizeTB(totalStorage);
+                        model.TotalUsage = totalStorageDec.ToString() + " TB";
                     }
                     if (jsonData["shared_usage"][0] != null)
                     {
-                        int sharedCount = (jsonData["shared_usage"].Count) - 1;
+                        int sharedCount = (jsonData["shared_usage"].Count) - 2;
                         sharedStorage = jsonData["shared_usage"][sharedCount];
+                        double sharedStorageDec = FileUtil.FormatFileSizeTB(sharedStorage);
+                        model.SharedUsage = sharedStorageDec.ToString() + " TB";
                     }
                     if (jsonData["unshared_usage"][0] != null)
                     {
-                        int unsharedCount = (jsonData["unshared_usage"].Count) - 1;
+                        int unsharedCount = (jsonData["unshared_usage"].Count) - 2;
                         unsharedStorage = jsonData["unshared_usage"][unsharedCount];
+                        double unsharedStorageDec = FileUtil.FormatFileSizeTB(unsharedStorage);
+                        model.UnsharedUsage = unsharedStorageDec.ToString() + " TB";
                     }
                     if (jsonData["shared_folders"][0] != null)
                     {
-                        int sharedFolderCount = (jsonData["shared_folders"].Count) - 1;
+                        int sharedFolderCount = (jsonData["shared_folders"].Count) - 2;
                         sharedFolders = jsonData["shared_folders"][sharedFolderCount];
-                    }
-                    model.TotalUsage = totalStorage.ToString();
-                    model.SharedUsage = sharedStorage.ToString();
-                    model.UnsharedUsage = unsharedStorage.ToString();
-                    model.SharedFolders = sharedFolders.ToString();
+                        model.SharedFolders = sharedFolders.ToString();
+                    }     
                 }
             }
             model.RefreshDateTime = DateTime.Now;

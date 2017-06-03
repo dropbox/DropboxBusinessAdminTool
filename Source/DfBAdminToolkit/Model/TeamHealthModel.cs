@@ -26,9 +26,9 @@
         public string SharedFolders { get; set; }
 
         //get_activity
-        public string ActiveSharedFolders28Day { get; set; }
+        public string ActiveSharedFolders7Day { get; set; }
 
-        public string ActiveUsers28Day { get; set; }
+        public string ActiveUsers7Day { get; set; }
 
         public string Adds { get; set; }
 
@@ -37,14 +37,26 @@
         public string Deletes { get; set; }
 
         //get_devices
-        public string ActiveDevices28Day { get; set; }
+        public string windows { get; set; }
+
+        public string macos { get; set; }
+
+        public string linux { get; set; }
+
+        public string ios { get; set; }
+
+        public string android { get; set; }
+
+        public string other { get; set; }
+
+        public string total { get; set; }
 
         public TeamHealthModel() {
             Initialize();
         }
 
         public void Initialize() {
-            AccessToken = ApplicationResource.DefaultProvisionToken;
+            AccessToken = ApplicationResource.DefaultAccessToken;
         }
 
         public void CleanUp() {
