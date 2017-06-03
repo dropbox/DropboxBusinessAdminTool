@@ -1540,11 +1540,22 @@
         public IDataResponse DownloadPaperDoc(string memberId, string docId, string outputFolder, string fileName, string authToken)
         {
             IDataResponse dataResponse = null;
+            //strip illegal characters from filename
+            Char[] invalidChars = Path.GetInvalidFileNameChars();
+            foreach (char a in fileName)
+            {
+                foreach (char c in invalidChars)
+                {
+                    if (a.CompareTo(c) == 0)
+                    {
+                        fileName = fileName.Replace(a.ToString(), "");
+                    }
+                }
+            }
             try
             {
                 if (!string.IsNullOrEmpty(DownloadPaperDocUrl))
                 {
-                    //string pathString = string.Concat(@"{""path"":""", newPath, @"""}");
                     string arg = @"{""doc_id"": """ + docId + @""",""export_format"": ""html""}";
                     string url = string.Format("{0}/{1}/", _baseUrl, _apiVersion);
                     RestClient client = new RestClient(url);
@@ -1557,7 +1568,6 @@
 
                     //download file by using raw bytes returned
                     byte[] jsonResponseDump = client.DownloadData(request);
-
                     string outputPath = Path.Combine(outputFolder, fileName + ".html");
                     File.WriteAllBytes(outputPath, jsonResponseDump);
                 }
