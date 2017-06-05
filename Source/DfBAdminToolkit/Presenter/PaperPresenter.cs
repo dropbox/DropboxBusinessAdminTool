@@ -46,7 +46,7 @@
                 view.CommandGetPaper += OnCommandGetPaper;
                 view.CommandDownloadPaper += OnCommandDownloadPaper;
                 view.CommandDeletePaper += OnCommandDeletePaper;
-                view.CommandExportPaper += OnCommandExportPaper;
+                view.CommandExportToCSV += OnCommandExportPaper;
                 IsViewEventsWired = true;
             }
         }
@@ -59,7 +59,7 @@
                 view.CommandGetPaper -= OnCommandGetPaper;
                 view.CommandDownloadPaper -= OnCommandDownloadPaper;
                 view.CommandDeletePaper -= OnCommandDeletePaper;
-                view.CommandExportPaper -= OnCommandExportPaper;
+                view.CommandExportToCSV -= OnCommandExportPaper;
                 IsViewEventsWired = false;
             }
         }
@@ -621,7 +621,6 @@
                 }
                 else
                 {
-                    //this.GetPaperDocs(model, presenter);
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate
@@ -641,17 +640,23 @@
                                     Delimiter = ",",
                                     Encoding = System.Text.Encoding.UTF8
                                 };
-                                config.RegisterClassMap(new TeamFoldersHeaderMap());
+                                config.RegisterClassMap(new PaperHeaderMap());
                                 int total = model.Paper.Count;
                                 using (CsvWriter writer = new CsvWriter(new StreamWriter(sPath), config))
                                 {
-                                    writer.WriteHeader<TeamFoldersHeaderRecord>();
+                                    writer.WriteHeader<PaperHeaderRecord>();
                                     int count = 0;
                                     foreach (var item in model.Paper)
                                     {
                                         writer.WriteField<string>(item.PaperName);
                                         writer.WriteField<string>(item.PaperId);
+                                        writer.WriteField<string>(item.FolderPath);
                                         writer.WriteField<string>(item.Status);
+                                        writer.WriteField<string>(item.Owner);
+                                        writer.WriteField<string>(item.CreatedDate.ToString());
+                                        writer.WriteField<string>(item.LastUpdatedDate.ToString());
+                                        writer.WriteField<string>(item.LastEditor);
+                                        writer.WriteField<string>(item.Revision.ToString());
                                         count++;
                                         if (SyncContext != null)
                                         {

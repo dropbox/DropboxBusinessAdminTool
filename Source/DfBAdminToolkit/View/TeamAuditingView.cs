@@ -2,7 +2,6 @@
 {
 	using BrightIdeasSoftware;
 	using Model;
-	using DfBAdminToolkit.Common.Utils;
 	using System;
 	using System.Collections.Generic;
 	using System.Drawing;
@@ -14,7 +13,9 @@
 	{
 		public event EventHandler DataChanged;
 		public event EventHandler CommandLoadTeamEvents;
-        public event EventHandler CommandLoadCSV;
+		public event EventHandler CommandLoadCSV;
+        public event EventHandler CommandExportToCSV;
+        public event EventHandler CommandFilterMembers;
 
         public SynchronizationContext SyncContext { get; set; }
 
@@ -26,11 +27,11 @@
 
 		public DateTime EndTime { get; set; }
 
-		public string TeamHealthInputFilePath { get; set; }
+		public string TeamAuditingInputFilePath { get; set; }
 
-        public string EventCategory { get; set; }
+		public string EventCategory { get; set; }
 
-        public enum OlvMembersIndex : int
+		public enum OlvMembersIndex : int
 		{
 			Timestamp,
 			ActorType,
@@ -43,7 +44,7 @@
 			Region,
 			Country,
 			Participants,
-            Assets
+			Assets
 		}
 
 		public TeamAuditingView()
@@ -53,7 +54,7 @@
 			InitializeOLVMembers();
 			WireComponentEvents();
 			this.objectListView_TeamAuditingMembers.RebuildColumns();
-        }
+		}
 
 		~TeamAuditingView()
 		{
@@ -65,7 +66,9 @@
 			if (!ComponentEventsWired)
 			{
 				this.buttonEx_TeamAuditingLoadTeamEvents.Click += buttonEx_TeamAuditingLoadTeamAuditing_Click;
-                this.buttonEx_TeamAuditingLoadFromCSV.Click += buttonEx_TeamAuditingLoadFromCSV_Click;
+				this.buttonEx_TeamAuditingLoadFromCSV.Click += buttonEx_TeamAuditingLoadFromCSV_Click;
+                this.buttonEx_TeamAuditingExportToCSV.Click += buttonEx_TeamAuditingExportToCSV_Click;
+                this.buttonEx_TeamAuditingFilterMembers.Click += buttonEx_TeamAuditingFilterMembers_Click;
                 this.objectListView_TeamAuditingMembers.ItemChecked += ObjectListView_TeamAuditingMembers_ItemChecked;
 				this.objectListView_TeamAuditingMembers.HeaderCheckBoxChanging += ObjectListView_TeamAuditingMembers_HeaderCheckBoxChanging;
 				ComponentEventsWired = true;
@@ -77,7 +80,9 @@
 			if (ComponentEventsWired)
 			{
 				this.buttonEx_TeamAuditingLoadTeamEvents.Click -= buttonEx_TeamAuditingLoadTeamAuditing_Click;
-                this.buttonEx_TeamAuditingLoadFromCSV.Click -= buttonEx_TeamAuditingLoadFromCSV_Click;
+				this.buttonEx_TeamAuditingLoadFromCSV.Click -= buttonEx_TeamAuditingLoadFromCSV_Click;
+                this.buttonEx_TeamAuditingExportToCSV.Click -= buttonEx_TeamAuditingExportToCSV_Click;
+                this.buttonEx_TeamAuditingFilterMembers.Click -= buttonEx_TeamAuditingFilterMembers_Click;
                 this.objectListView_TeamAuditingMembers.ItemChecked -= ObjectListView_TeamAuditingMembers_ItemChecked;
 				this.objectListView_TeamAuditingMembers.HeaderCheckBoxChanging -= ObjectListView_TeamAuditingMembers_HeaderCheckBoxChanging;
 				ComponentEventsWired = false;
@@ -91,21 +96,21 @@
 			TopLevel = false;
 			Dock = DockStyle.Fill;
 			this.comboBox_EventCategory.Text = "All Events";
-            EventCategory = comboBox_EventCategory.Text;
+			EventCategory = comboBox_EventCategory.Text;
 
-            // Initialize From picker to yesterday and set format
-            dateTimePickerFrom.Format = DateTimePickerFormat.Custom;
-            dateTimePickerFrom.CustomFormat = "MM-dd-yyyy  hh:mm:ss";
-            DateTime resultFrom = DateTime.Now.Subtract(TimeSpan.FromDays(1));
-            dateTimePickerFrom.Value = resultFrom;
-            StartTime = resultFrom;
-            //set To picker to now and set format. 
-            dateTimePickerTo.Format = DateTimePickerFormat.Custom;
-            dateTimePickerTo.CustomFormat = "MM-dd-yyyy  hh:mm:ss";
-            DateTime resultTo = DateTime.Now;
-            dateTimePickerTo.Value = resultTo;
-            EndTime = resultTo;    
-        }
+			// Initialize From picker to yesterday and set format
+			dateTimePickerFrom.Format = DateTimePickerFormat.Custom;
+			dateTimePickerFrom.CustomFormat = "MM-dd-yyyy  hh:mm:ss";
+			DateTime resultFrom = DateTime.Now.Subtract(TimeSpan.FromDays(1));
+			dateTimePickerFrom.Value = resultFrom;
+			StartTime = resultFrom;
+			//set To picker to now and set format. 
+			dateTimePickerTo.Format = DateTimePickerFormat.Custom;
+			dateTimePickerTo.CustomFormat = "MM-dd-yyyy  hh:mm:ss";
+			DateTime resultTo = DateTime.Now;
+			dateTimePickerTo.Value = resultTo;
+			EndTime = resultTo;    
+		}
 
 		private void InitializeOLVMembers()
 		{
@@ -178,12 +183,12 @@
 				{
 					return (model != null) ? model.Participants : string.Empty;
 				};
-            olv.GetColumn((int)OlvMembersIndex.Assets).AspectGetter
-                = delegate (TeamAuditingListViewItemModel model)
-                {
-                    return (model != null) ? model.Assets : string.Empty;
-                };
-        }
+			olv.GetColumn((int)OlvMembersIndex.Assets).AspectGetter
+				= delegate (TeamAuditingListViewItemModel model)
+				{
+					return (model != null) ? model.Assets : string.Empty;
+				};
+		}
 
 		public void ShowView()
 		{
@@ -211,6 +216,27 @@
 			}
 		}
 
+        public void RenderTeamAudingFilteredMemberList(List<MemberListViewItemModel> members, List<TeamAuditingListViewItemModel> TeamAuditing)
+        {
+            List<TeamAuditingListViewItemModel> newAudit = new List<TeamAuditingListViewItemModel>();
+            if (textBoxTeamAuditing.Text != "Select Member File...")
+            {
+                foreach (TeamAuditingListViewItemModel item in TeamAuditing)
+                {
+                    foreach (MemberListViewItemModel member in members)
+                        if (member.Email == item.Email)
+                        {
+                            newAudit.Add(item);         
+                        }
+                }
+                this.objectListView_TeamAuditingMembers.SetObjects(newAudit);
+                if (this.objectListView_TeamAuditingMembers.GetItemCount() == this.objectListView_TeamAuditingMembers.CheckedObjects.Count)
+                {
+                    this.objectListView_TeamAuditingMembers.CheckHeaderCheckBox(olvColumnTeamAuditing_Timestamp);
+                }
+            }
+        }
+
 		private void UncheckHeaderCheckbox(ObjectListView olv, OLVColumn col)
 		{
 			// unbind event temporarily and uncheck header box
@@ -232,12 +258,40 @@
 			}
 		}
 
-        private void buttonEx_TeamAuditingLoadFromCSV_Click(object sender, EventArgs e)
+		private void buttonEx_TeamAuditingLoadFromCSV_Click(object sender, EventArgs e)
+		{
+            OpenFileDialog inputFile = new OpenFileDialog();
+            inputFile.Title = "Please select a CSV file";
+            inputFile.Filter = "CSV File|*.csv";
+            DialogResult result = inputFile.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                textBoxTeamAuditing.Text = inputFile.FileName;
+                TeamAuditingInputFilePath = inputFile.FileName;
+                InvokeDataChanged(sender, e);
+                if (CommandLoadCSV != null)
+                {
+                    CommandLoadCSV(sender, e);
+                }
+            }
+		}
+
+        private void buttonEx_TeamAuditingExportToCSV_Click(object sender, EventArgs e)
         {
             InvokeDataChanged(sender, e);
-            if (CommandLoadCSV != null)
+            if (CommandExportToCSV != null)
             {
-                CommandLoadCSV(sender, e);
+                CommandExportToCSV(sender, e);
+            }
+        }
+
+        private void buttonEx_TeamAuditingFilterMembers_Click(object sender, EventArgs e)
+        {
+            InvokeDataChanged(sender, e);
+            if (CommandFilterMembers != null)
+            {
+                CommandFilterMembers(sender, e);
             }
         }
 
@@ -291,11 +345,11 @@
 			EndTime = dateTimePickerTo.Value;
 		}  
 
-        private void comboBox_EventCategory_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            EventCategory = comboBox_EventCategory.Text;
-        }
+		private void comboBox_EventCategory_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			EventCategory = comboBox_EventCategory.Text;
+		}
 
-        #endregion Events
-    }
+		#endregion Events
+	}
 }

@@ -23,7 +23,7 @@
 
         public int EventCount { get; set; }
 
-        List<MemberListViewItemModel> members = new List<MemberListViewItemModel>();
+        List<MemberListViewItemModel> members;
 
         protected override void Initialize()
         {
@@ -46,6 +46,8 @@
                 view.DataChanged += DataChanged;
                 view.CommandLoadTeamEvents += OnCommandLoadEvents;
                 view.CommandLoadCSV += OnCommandLoadCSV;
+                view.CommandExportToCSV += OnCommandExportEvents;
+                view.CommandFilterMembers += OnCommandFilterMembers;
                 IsViewEventsWired = true;
             }
         }
@@ -58,6 +60,8 @@
                 view.DataChanged -= DataChanged;
                 view.CommandLoadTeamEvents -= OnCommandLoadEvents;
                 view.CommandLoadCSV -= OnCommandLoadCSV;
+                view.CommandExportToCSV -= OnCommandExportEvents;
+                view.CommandFilterMembers -= OnCommandFilterMembers;
                 IsViewEventsWired = false;
             }
         }
@@ -520,11 +524,11 @@
             }
         }
 
-        public List<MemberListViewItemModel> LoadMemberInputFile(List<MemberListViewItemModel> members, ITeamAuditingModel model, IMainPresenter presenter)
+        public List<MemberListViewItemModel> LoadMemberInputFile(List<MemberListViewItemModel> members, ITeamAuditingView view, ITeamAuditingModel model, IMainPresenter presenter)
         {
             try
             {
-                FileInfo fInfo = new FileInfo(model.MemberInputFilePath);
+                FileInfo fInfo = new FileInfo(view.TeamAuditingInputFilePath);
                 if (fInfo.Exists)
                 {
                     // try load.
@@ -540,8 +544,7 @@
                             {
                                 MemberListViewItemModel lvItem = new MemberListViewItemModel()
                                 {
-                                    Email = reader.GetField<string>(0),
-                                    MemberId = reader.GetField<string>(1)
+                                    Email = reader.GetField<string>(0)
                                 };
                                 members.Add(lvItem);
                             }
@@ -560,7 +563,8 @@
             catch (Exception e)
             {
                 // error message.
-                SyncContext.Post(delegate {
+                SyncContext.Post(delegate 
+                {
                     presenter.ShowErrorMessage(e.Message, ErrorMessages.DLG_DEFAULT_TITLE);
                     presenter.UpdateProgressInfo("");
                     presenter.ActivateSpinner(false);
@@ -581,10 +585,11 @@
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
             if (SyncContext != null)
             {
-                SyncContext.Post(delegate {
+                SyncContext.Post(delegate 
+                {
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
-                    presenter.UpdateProgressInfo("Loading team folders input File...");
+                    presenter.UpdateProgressInfo("Gathering events...");
                 }, null);
             }
             Thread teameventsLoad = new Thread(() => {
@@ -594,7 +599,8 @@
                     this.GetEvents(model, view, presenter);
                     if (SyncContext != null)
                     {
-                        SyncContext.Post(delegate {
+                        SyncContext.Post(delegate 
+                        {
                             // update result and update view.
                             view.RenderTeamAuditingList(model.TeamAuditing);
                             presenter.UpdateProgressInfo("Events loaded [" + EventCount.ToString() + "]");
@@ -614,7 +620,8 @@
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
             if (SyncContext != null)
             {
-                SyncContext.Post(delegate {
+                SyncContext.Post(delegate 
+                {
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
                     presenter.UpdateProgressInfo("Loading members input file to list...");
@@ -623,12 +630,13 @@
             Thread groupsLoad = new Thread(() => {
                 if (!string.IsNullOrEmpty(model.AccessToken))
                 {
-                    members.Clear();
-                    members = this.LoadMemberInputFile(members, model, presenter);
+                    members = new List<MemberListViewItemModel>();
+                    members = this.LoadMemberInputFile(members, view, model, presenter);
                     if (SyncContext != null)
                     {
-                        SyncContext.Post(delegate {
-                            presenter.UpdateProgressInfo("Members CSV Loaded");
+                        SyncContext.Post(delegate 
+                        {
+                            presenter.UpdateProgressInfo("Members CSV file loaded. Press Filter to filter events.");
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
                         }, null);
@@ -638,12 +646,143 @@
             groupsLoad.Start();
         }
 
-        private void DataChanged(object sender, System.EventArgs e) {
+        private void OnCommandFilterMembers(object sender, EventArgs e)
+        {
+            ITeamAuditingView view = base._view as ITeamAuditingView;
+            ITeamAuditingModel model = base._model as ITeamAuditingModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate 
+                {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Filtering listview based on members...");
+                }, null);
+            }
+            Thread filtermembers = new Thread(() => {
+                if (!string.IsNullOrEmpty(model.AccessToken))
+                {
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate 
+                        {
+                            view.RenderTeamAudingFilteredMemberList(members, model.TeamAuditing);
+                            presenter.UpdateProgressInfo("Filtering complete.");
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                        }, null);
+                    }
+                }
+            });
+            filtermembers.Start();
+        }
+
+        private void DataChanged(object sender, System.EventArgs e)
+        {
             ITeamAuditingView view = base._view as ITeamAuditingView;
             ITeamAuditingModel model = base._model as ITeamAuditingModel;
             PresenterBase.SetModelPropertiesFromView<ITeamAuditingModel, ITeamAuditingView>(
                 ref model, view
             );
+        }
+
+        private void OnCommandExportEvents(object sender, System.EventArgs e)
+        {
+            ITeamAuditingView view = base._view as ITeamAuditingView;
+            ITeamAuditingModel model = base._model as ITeamAuditingModel;
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
+
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate 
+                {
+                    presenter.EnableControl(false);
+                    presenter.ActivateSpinner(true);
+                    presenter.UpdateProgressInfo("Processing...");
+                }, null);
+            }
+            Thread exporteventstocsv = new Thread(() => {
+                if (string.IsNullOrEmpty(model.AccessToken))
+                {
+                    SyncContext.Post(delegate 
+                    {
+                        presenter.EnableControl(true);
+                        presenter.ActivateSpinner(false);
+                        presenter.UpdateProgressInfo("");
+                    }, null);
+                }
+                else
+                {
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate
+                        {
+                            PresenterBase.SetViewPropertiesFromModel<ITeamAuditingView, ITeamAuditingModel>(
+                                ref view, model
+                            );
+                            string sPath = string.Empty;
+
+                            if (model.TeamAuditing.Count > 0)
+                            {
+                                //create CSV file in My Documents folder
+                                sPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\TeamAuditingEventsExport.csv";
+                                CsvConfiguration config = new CsvConfiguration()
+                                {
+                                    HasHeaderRecord = true,
+                                    Delimiter = ",",
+                                    Encoding = System.Text.Encoding.UTF8
+                                };
+                                config.RegisterClassMap(new TeamAuditingHeaderMap());
+                                int total = model.TeamAuditing.Count;
+                                using (CsvWriter writer = new CsvWriter(new StreamWriter(sPath), config))
+                                {
+                                    writer.WriteHeader<TeamAuditingHeaderRecord>();
+                                    int count = 0;
+                                    foreach (var item in model.TeamAuditing)
+                                    {
+                                        writer.WriteField<string>(item.Timestamp.ToString());
+                                        writer.WriteField<string>(item.ActorType);
+                                        writer.WriteField<string>(item.Email);
+                                        writer.WriteField<string>(item.Context);
+                                        writer.WriteField<string>(item.EventType);
+                                        writer.WriteField<string>(item.Origin);
+                                        writer.WriteField<string>(item.IpAddress);
+                                        writer.WriteField<string>(item.City);
+                                        writer.WriteField<string>(item.Region);
+                                        writer.WriteField<string>(item.Country);
+                                        writer.WriteField<string>(item.Participants);
+                                        writer.WriteField<string>(item.Assets);
+                                        count++;
+                                        if (SyncContext != null)
+                                        {
+                                            SyncContext.Post(delegate
+                                            {
+                                                presenter.UpdateProgressInfo(string.Format("Writing Record: {0}/{1}", (count), total));
+                                            }, null);
+                                        }
+                                        writer.NextRecord();
+                                    }
+                                }
+                                if (SyncContext != null)
+                                {
+                                    SyncContext.Post(delegate
+                                    {
+                                        presenter.UpdateProgressInfo("Completed. Exported file located at " + sPath);
+                                    }, null);
+                                }
+                            }
+                            if (model.TeamAuditing.Count == 0)
+                            {
+                                presenter.UpdateProgressInfo("No events were chosen to export.");
+                            }
+                            presenter.ActivateSpinner(false);
+                            presenter.EnableControl(true);
+                        }, null);
+                    }
+                }
+            });
+            exporteventstocsv.Start();
         }
 
         #endregion Events

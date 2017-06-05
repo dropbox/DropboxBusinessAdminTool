@@ -9,6 +9,8 @@
     {
         event EventHandler CommandLoadTeamEvents;
         event EventHandler CommandLoadCSV;
+        event EventHandler CommandExportToCSV;
+        event EventHandler CommandFilterMembers;
 
         string AccessToken { get; set; }
 
@@ -18,10 +20,12 @@
 
         void RefreshAccessToken();
 
-        string TeamHealthInputFilePath { get; set; }
+        string TeamAuditingInputFilePath { get; set; }
 
         string EventCategory { get; set; }
 
         void RenderTeamAuditingList(List<TeamAuditingListViewItemModel> TeamAuditing);
+
+        void RenderTeamAudingFilteredMemberList(List<MemberListViewItemModel> members, List<TeamAuditingListViewItemModel> TeamAuditing);
     }
 }

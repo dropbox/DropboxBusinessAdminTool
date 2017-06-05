@@ -11,7 +11,7 @@
         event EventHandler CommandGetPaper;
         event EventHandler CommandDownloadPaper;
         event EventHandler CommandDeletePaper;
-        event EventHandler CommandExportPaper;
+        event EventHandler CommandExportToCSV;
 
         string AccessToken { get; set; }
 
