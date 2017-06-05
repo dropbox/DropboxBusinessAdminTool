@@ -323,8 +323,8 @@
             this.tableLayoutPanel_PaperCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 17F));
             this.tableLayoutPanel_PaperCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
             this.tableLayoutPanel_PaperCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
-            this.tableLayoutPanel_PaperCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
-            this.tableLayoutPanel_PaperCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 102F));
+            this.tableLayoutPanel_PaperCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 138F));
+            this.tableLayoutPanel_PaperCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 74F));
             this.tableLayoutPanel_PaperCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 152F));
             this.tableLayoutPanel_PaperCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_PaperCommandGroup.Controls.Add(this.buttonEx_ExportToCSV, 8, 0);
@@ -426,7 +426,7 @@
             this.radioButton_Permanent.Location = new System.Drawing.Point(670, 19);
             this.radioButton_Permanent.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.radioButton_Permanent.Name = "radioButton_Permanent";
-            this.radioButton_Permanent.Size = new System.Drawing.Size(102, 17);
+            this.radioButton_Permanent.Size = new System.Drawing.Size(130, 17);
             this.radioButton_Permanent.TabIndex = 9;
             this.radioButton_Permanent.TabStop = true;
             this.radioButton_Permanent.Text = "Permanent";
