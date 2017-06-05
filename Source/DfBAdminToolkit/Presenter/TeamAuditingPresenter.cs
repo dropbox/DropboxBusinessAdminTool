@@ -123,7 +123,6 @@
                                 inCategories = true;
                             }
                         }
-
                         dynamic actorType = events["actor"][".tag"];
                         string actorTypeString = actorType.Value as string;
                         dynamic emailObj = null;
@@ -240,7 +239,6 @@
                                 }
                             }
                         }
-
                         //render to use
                         DateTime timestamp = DateTime.MinValue;
                         if (timestampObj != null)
@@ -339,7 +337,6 @@
                                     inCategories = true;
                                 }
                             }
-
                             dynamic actorType = events["actor"][".tag"];
                             string actorTypeString = actorType.Value as string;
                             dynamic emailObj = null;
@@ -562,11 +559,10 @@
             }
             catch (Exception e)
             {
-                // error message.
                 SyncContext.Post(delegate 
                 {
                     presenter.ShowErrorMessage(e.Message, ErrorMessages.DLG_DEFAULT_TITLE);
-                    presenter.UpdateProgressInfo("");
+                    presenter.UpdateProgressInfo("Error loading CSV file.");
                     presenter.ActivateSpinner(false);
                     presenter.EnableControl(true);
                 }, null);
