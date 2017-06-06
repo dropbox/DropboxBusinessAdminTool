@@ -85,8 +85,8 @@
             service.GetEventsUrl = ApplicationResource.ActionGetEvents;
             service.UserAgentVersion = ApplicationResource.UserAgent;
 
-            try
-            {
+            //try
+            //{
                 IDataResponse response = service.GetEvents(new MemberData()
                 {
                     SearchLimit = ApplicationResource.SearchDefaultLimit
@@ -132,7 +132,16 @@
 
                             if (actorTypeString == "user")
                             {
-                                emailObj = events["actor"]["user"]["email"];
+                                //non team member check first
+                                if (events["actor"]["user"][".tag"] != null)
+                                {
+                                    emailObj = "Non Team Member";
+                                }
+                                //team member
+                                if (events["actor"]["user"]["email"] != null)
+                                {
+                                    emailObj = events["actor"]["user"]["email"];
+                                }
                             }
                             if (actorTypeString == "admin")
                             {
@@ -155,23 +164,57 @@
                             dynamic contextObj = null;
                             string context = string.Empty;
 
-                            if (contextTypeString == "team_member" || contextTypeString == "non_team_member")
+                            if (contextTypeString == "team_member")
                             {
                                 contextObj = events["context"]["email"];
                                 context = contextObj.Value as string;
+                            }
+                            if (contextTypeString == "non_team_member")
+                            {
+                                contextObj = "Non-Team Member";
+                                context = contextObj;
                             }
                             if (contextTypeString == "team")
                             {
                                 contextObj = "Team";
                                 context = contextObj;
                             }
-                            dynamic eventTypeObj = events["event_type"][".tag"];
-                            dynamic originObj = events["origin"]["access_method"][".tag"];
-                            dynamic ipAddressObj = events["origin"]["geo_location"]["ip_address"];
-                            dynamic cityObj = events["origin"]["geo_location"]["city"];
-                            dynamic regionObj = events["origin"]["geo_location"]["region"];
-                            dynamic countryObj = events["origin"]["geo_location"]["country"];
+                            dynamic eventTypeObj = null;
+                            dynamic originObj = null;
+                            dynamic ipAddressObj = null;
+                            dynamic cityObj = null;
+                            dynamic regionObj = null;
+                            dynamic countryObj = null;
+                            string eventType = string.Empty;
+                            string origin = string.Empty;
+                            string ipAddress = string.Empty;
+                            string city = string.Empty;
+                            string region = string.Empty;
+                            string country = string.Empty;
+                            if (events["event_type"][".tag"] != null)
+                            {
+                                eventTypeObj = events["event_type"][".tag"];
+                                eventType = eventTypeObj.Value as string;
 
+                            }
+                            if (events["origin"] != null)
+                            {
+                                originObj = events["origin"]["access_method"][".tag"];
+                                //check for nulls
+                                if (events["origin"]["geo_location"] != null)
+                                {
+                                    ipAddressObj = events["origin"]["geo_location"]["ip_address"];
+                                    cityObj = events["origin"]["geo_location"]["city"];
+                                    regionObj = events["origin"]["geo_location"]["region"];
+                                    countryObj = events["origin"]["geo_location"]["country"];
+
+                                    origin = originObj.Value as string;
+                                    ipAddress = ipAddressObj.Value as string;
+                                    city = cityObj.Value as string;
+                                    region = regionObj.Value as string;
+                                    country = countryObj.Value as string;
+                                }
+                            }
                             string participants = string.Empty;
                             if (events["participants"] != null)
                             {
@@ -184,13 +227,35 @@
                                 {
                                     participantsCatObj = events["participants"][0][".tag"];
                                     participantsCategory = participantsCatObj.Value as string;
+                                    dynamic participantsTypeObj = null;
+                                    string participantsType = string.Empty;
 
                                     if (participantsCategory == "user")
                                     {
-                                        if (events["participants"][0]["user"]["email"] != null)
+                                        if (events["participants"][0]["user"][".tag"] != null)
                                         {
-                                            participantsObj = events["participants"][0]["user"]["email"];
-                                            participants = participantsObj.Value as string;
+                                            participantsTypeObj = events["participants"][0]["user"][".tag"];
+                                            participantsType = participantsTypeObj.Value as string;
+                                            //non team member
+                                            if (participantsType == "non_team_member")
+                                            {
+                                                if (events["participants"][0]["user"]["display_name"] != null)
+                                                {
+                                                    participantsObj = events["participants"][0]["user"]["display_name"];
+                                                    participants = participantsObj.Value as string;
+                                                }
+                                                if (events["participants"][0]["user"]["email"] != null)
+                                                {
+                                                    participantsObj = events["participants"][0]["user"]["email"];
+                                                    participants = participantsObj.Value as string;
+                                                }
+                                            }
+                                            //team member
+                                            if (events["participants"][0]["user"]["email"] != null)
+                                            {
+                                                participantsObj = events["participants"][0]["user"]["email"];
+                                                participants = participantsTypeObj.Value as string;
+                                            }
                                         }
                                     }
                                     if (participantsCategory == "group")
@@ -216,13 +281,16 @@
                                     assetsCatObj = events["assets"][0][".tag"];
                                     assetsCat = assetsCatObj.Value as string;
 
-                                    if (assetsCat == "file" || assetsCat == "folder")
+                                    if (assetsCat == "file")
                                     {
                                         if (events["assets"][0]["path"]["contextual"] != null)
                                         {
                                             assetsObj = events["assets"][0]["path"]["contextual"];
                                             assets = assetsObj.Value as string;
                                         }
+                                    }
+                                    if (assetsCat == "folder")
+                                    {
                                         if (events["assets"][0]["display_name"] != null)
                                         {
                                             assetsObj = events["assets"][0]["display_name"];
@@ -254,20 +322,14 @@
                                 timestamp = timestampObj;
                             }
                             string email = emailObj;
-                            string eventType = eventTypeObj.Value as string;
-                            string origin = originObj.Value as string;
-                            string ipAddress = ipAddressObj.Value as string;
-                            string city = cityObj.Value as string;
-                            string region = regionObj.Value as string;
 
-                            if (region != "Unknown")
+                            if (region != "Unknown" || region != "")
                             {
                                 region = FileUtil.ConvertStateToAbbreviation(region);
                             }
-                            string country = countryObj.Value as string;
 
-                            // update model based on category
-                            if (eventCategory == "All Events")
+                        // update model based on category
+                        if (eventCategory == "All Events")
                             {
                                 TeamAuditingListViewItemModel lvItem = new TeamAuditingListViewItemModel()
                                 {
@@ -330,217 +392,282 @@
                             {
                                 bool inCategories = false;
                                 dynamic events = jsonDataCont["events"][i];
-                                dynamic timestampObj = events["timestamp"];
+                            dynamic timestampObj = events["timestamp"];
 
-                                //go through event categories and compare to combobox filter
-                                int eventCategoryCount = events["event_categories"].Count;
-                                for (int i2 = 0; i2 < eventCategoryCount; i2++)
+                            //go through event categories and compare to combobox filter
+                            int eventCategoryCount = events["event_categories"].Count;
+                            for (int i2 = 0; i2 < eventCategoryCount; i2++)
+                            {
+                                dynamic eventCategories = events["event_categories"][i2];
+                                dynamic eventCategoryObj = eventCategories[".tag"];
+                                string eventCategoryReturn = eventCategoryObj.Value as string;
+
+                                if (eventCategoryReturn == eventCategory.ToLower())
                                 {
-                                    dynamic eventCategories = events["event_categories"][i2];
-                                    dynamic eventCategoryObj = eventCategories[".tag"];
-                                    string eventCategoryReturn = eventCategoryObj.Value as string;
-
-                                    if (eventCategoryReturn == eventCategory.ToLower())
-                                    {
-                                        inCategories = true;
-                                    }
+                                    inCategories = true;
                                 }
-                                dynamic actorType = events["actor"][".tag"];
-                                string actorTypeString = actorType.Value as string;
-                                dynamic emailObj = null;
+                            }
+                            dynamic actorType = events["actor"][".tag"];
+                            string actorTypeString = actorType.Value as string;
+                            dynamic emailObj = null;
 
-                                if (actorTypeString == "user")
+                            if (actorTypeString == "user")
+                            {
+                                //non team member check first
+                                if (events["actor"]["user"][".tag"] != null)
+                                {
+                                    emailObj = "Non Team Member";
+                                }
+                                //team member
+                                if (events["actor"]["user"]["email"] != null)
                                 {
                                     emailObj = events["actor"]["user"]["email"];
                                 }
-                                if (actorTypeString == "admin")
-                                {
-                                    emailObj = events["actor"]["app"]["display_name"];
-                                }
-                                if (actorTypeString == "app")
-                                {
-                                    emailObj = events["actor"]["app"]["display_name"];
-                                }
-                                if (actorTypeString == "reseller")
-                                {
-                                    emailObj = events["actor"]["reseller"]["reseller_name"];
-                                }
-                                if (actorTypeString == "Dropbox")
-                                {
-                                    emailObj = "Dropbox";
-                                }
-                                dynamic contextTypeObj = events["context"][".tag"];
-                                string contextTypeString = contextTypeObj.Value as string;
-                                dynamic contextObj = null;
-                                string context = string.Empty;
+                            }
+                            if (actorTypeString == "admin")
+                            {
+                                emailObj = events["actor"]["app"]["display_name"];
+                            }
+                            if (actorTypeString == "app")
+                            {
+                                emailObj = events["actor"]["app"]["display_name"];
+                            }
+                            if (actorTypeString == "reseller")
+                            {
+                                emailObj = events["actor"]["reseller"]["reseller_name"];
+                            }
+                            if (actorTypeString == "Dropbox")
+                            {
+                                emailObj = "Dropbox";
+                            }
+                            dynamic contextTypeObj = events["context"][".tag"];
+                            string contextTypeString = contextTypeObj.Value as string;
+                            dynamic contextObj = null;
+                            string context = string.Empty;
 
-                                if (contextTypeString == "team_member" || contextTypeString == "non_team_member")
-                                {
-                                    contextObj = events["context"]["email"];
-                                    context = contextObj.Value as string;
-                                }
-                                if (contextTypeString == "team")
-                                {
-                                    contextObj = "Team";
-                                    context = contextObj;
-                                }
-                                dynamic eventTypeObj = events["event_type"][".tag"];
-                                dynamic originObj = events["origin"]["access_method"][".tag"];
-                                dynamic ipAddressObj = events["origin"]["geo_location"]["ip_address"];
-                                dynamic cityObj = events["origin"]["geo_location"]["city"];
-                                dynamic regionObj = events["origin"]["geo_location"]["region"];
-                                dynamic countryObj = events["origin"]["geo_location"]["country"];
+                            if (contextTypeString == "team_member")
+                            {
+                                contextObj = events["context"]["email"];
+                                context = contextObj.Value as string;
+                            }
+                            if (contextTypeString == "non_team_member")
+                            {
+                                contextObj = "Non-Team Member";
+                                context = contextObj;
+                            }
+                            if (contextTypeString == "team")
+                            {
+                                contextObj = "Team";
+                                context = contextObj;
+                            }
+                            dynamic eventTypeObj = null;
+                            dynamic originObj = null;
+                            dynamic ipAddressObj = null;
+                            dynamic cityObj = null;
+                            dynamic regionObj = null;
+                            dynamic countryObj = null;
+                            string eventType = string.Empty;
+                            string origin = string.Empty;
+                            string ipAddress = string.Empty;
+                            string city = string.Empty;
+                            string region = string.Empty;
+                            string country = string.Empty;
+                            if (events["event_type"][".tag"] != null)
+                            {
+                                eventTypeObj = events["event_type"][".tag"];
+                                eventType = eventTypeObj.Value as string;
 
-                                string participants = string.Empty;
-                                if (events["participants"] != null)
+                            }
+                            if (events["origin"] != null)
+                            {
+                                originObj = events["origin"]["access_method"][".tag"];
+                                //check for nulls
+                                if (events["origin"]["geo_location"] != null)
                                 {
-                                    int participantsCount = events["participants"].Count;
-                                    dynamic participantsCatObj = null;
-                                    string participantsCategory = string.Empty;
-                                    dynamic participantsObj = null;
+                                    ipAddressObj = events["origin"]["geo_location"]["ip_address"];
+                                    cityObj = events["origin"]["geo_location"]["city"];
+                                    regionObj = events["origin"]["geo_location"]["region"];
+                                    countryObj = events["origin"]["geo_location"]["country"];
 
-                                    if (participantsCount > 0)
+                                    origin = originObj.Value as string;
+                                    ipAddress = ipAddressObj.Value as string;
+                                    city = cityObj.Value as string;
+                                    region = regionObj.Value as string;
+                                    country = countryObj.Value as string;
+                                }
+                            }
+                            string participants = string.Empty;
+                            if (events["participants"] != null)
+                            {
+                                int participantsCount = events["participants"].Count;
+                                dynamic participantsCatObj = null;
+                                string participantsCategory = string.Empty;
+                                dynamic participantsObj = null;
+
+                                if (participantsCount > 0)
+                                {
+                                    participantsCatObj = events["participants"][0][".tag"];
+                                    participantsCategory = participantsCatObj.Value as string;
+                                    dynamic participantsTypeObj = null;
+                                    string participantsType = string.Empty;
+
+                                    if (participantsCategory == "user")
                                     {
-                                        participantsCatObj = events["participants"][0][".tag"];
-                                        participantsCategory = participantsCatObj.Value as string;
-
-                                        if (participantsCategory == "user")
+                                        if (events["participants"][0]["user"][".tag"] != null)
                                         {
+                                            participantsTypeObj = events["participants"][0]["user"][".tag"];
+                                            participantsType = participantsTypeObj.Value as string;
+                                            //non team member
+                                            if (participantsType == "non_team_member")
+                                            {
+                                                if (events["participants"][0]["user"]["display_name"] != null)
+                                                {
+                                                    participantsObj = events["participants"][0]["user"]["display_name"];
+                                                    participants = participantsObj.Value as string;
+                                                }
+                                                if (events["participants"][0]["user"]["email"] != null)
+                                                {
+                                                    participantsObj = events["participants"][0]["user"]["email"];
+                                                    participants = participantsObj.Value as string;
+                                                }
+                                            }
+                                            //team member
                                             if (events["participants"][0]["user"]["email"] != null)
                                             {
                                                 participantsObj = events["participants"][0]["user"]["email"];
-                                                participants = participantsObj.Value as string;
-                                            }
-                                        }
-                                        if (participantsCategory == "group")
-                                        {
-                                            if (events["participants"][0]["display_name"] != null)
-                                            {
-                                                participantsObj = events["participants"][0]["display_name"];
-                                                participants = participantsObj.Value as string;
+                                                participants = participantsTypeObj.Value as string;
                                             }
                                         }
                                     }
-                                }
-                                string assets = string.Empty;
-                                if (events["assets"] != null)
-                                {
-                                    int assetsCount = events["assets"].Count;
-                                    dynamic assetsCatObj = null;
-                                    string assetsCat = string.Empty;
-                                    dynamic assetsObj = null;
-
-                                    if (assetsCount > 0)
+                                    if (participantsCategory == "group")
                                     {
-                                        assetsCatObj = events["assets"][0][".tag"];
-                                        assetsCat = assetsCatObj.Value as string;
+                                        if (events["participants"][0]["display_name"] != null)
+                                        {
+                                            participantsObj = events["participants"][0]["display_name"];
+                                            participants = participantsObj.Value as string;
+                                        }
+                                    }
+                                }
+                            }
+                            string assets = string.Empty;
+                            if (events["assets"] != null)
+                            {
+                                int assetsCount = events["assets"].Count;
+                                dynamic assetsCatObj = null;
+                                string assetsCat = string.Empty;
+                                dynamic assetsObj = null;
 
+                                if (assetsCount > 0)
+                                {
+                                    assetsCatObj = events["assets"][0][".tag"];
+                                    assetsCat = assetsCatObj.Value as string;
+
+                                    if (assetsCat == "file")
+                                    {
                                         if (events["assets"][0]["path"]["contextual"] != null)
                                         {
                                             assetsObj = events["assets"][0]["path"]["contextual"];
                                             assets = assetsObj.Value as string;
                                         }
+                                    }
+                                    if (assetsCat == "folder")
+                                    {
                                         if (events["assets"][0]["display_name"] != null)
                                         {
                                             assetsObj = events["assets"][0]["display_name"];
                                             assets = assetsObj.Value as string;
                                         }
-                                        if (assetsCat == "paper_document")
+                                    }
+                                    if (assetsCat == "paper_document")
+                                    {
+                                        if (events["assets"][0]["doc_title"] != null)
                                         {
-                                            if (events["assets"][0]["doc_title"] != null)
-                                            {
-                                                assetsObj = events["assets"][0]["doc_title"];
-                                                assets = assetsObj.Value as string;
-                                            }
+                                            assetsObj = events["assets"][0]["doc_title"];
+                                            assets = assetsObj.Value as string;
                                         }
-                                        if (assetsCat == "paper_folder")
+                                    }
+                                    if (assetsCat == "paper_folder")
+                                    {
+                                        if (events["assets"][0]["folder_name"] != null)
                                         {
-                                            if (events["assets"][0]["folder_name"] != null)
-                                            {
-                                                assetsObj = events["assets"][0]["folder_name"];
-                                                assets = assetsObj.Value as string;
-                                            }
+                                            assetsObj = events["assets"][0]["folder_name"];
+                                            assets = assetsObj.Value as string;
                                         }
                                     }
                                 }
-                                //render to use
-                                DateTime timestamp = DateTime.MinValue;
-                                if (timestampObj != null)
-                                {
-                                    timestamp = timestampObj;
-                                }
-                                string email = emailObj;
-                                string eventType = eventTypeObj.Value as string;
-                                string origin = originObj.Value as string;
-                                string ipAddress = ipAddressObj.Value as string;
-                                string city = cityObj.Value as string;
-                                string region = regionObj.Value as string;
-
-                                if (region != "Unknown")
-                                {
-                                    region = FileUtil.ConvertStateToAbbreviation(region);
-                                }
-                                string country = countryObj.Value as string;
-
-                                // update model based on category
-                                if (eventCategory == "All Events")
-                                {
-                                    TeamAuditingListViewItemModel lvItem = new TeamAuditingListViewItemModel()
-                                    {
-                                        Timestamp = timestamp,
-                                        ActorType = actorTypeString,
-                                        Email = email,
-                                        Context = context,
-                                        EventType = eventType,
-                                        Origin = origin,
-                                        IpAddress = ipAddress,
-                                        City = city,
-                                        Region = region,
-                                        Country = country,
-                                        Participants = participants,
-                                        Assets = assets,
-                                        IsChecked = true
-                                    };
-                                    model.TeamAuditing.Add(lvItem);
-                                    EventCount++;
-                                }
-                                if (eventCategory != "All Events" && inCategories)
-                                {
-                                    TeamAuditingListViewItemModel lvItem = new TeamAuditingListViewItemModel()
-                                    {
-                                        Timestamp = timestamp,
-                                        ActorType = actorTypeString,
-                                        Email = email,
-                                        Context = context,
-                                        EventType = eventType,
-                                        Origin = origin,
-                                        IpAddress = ipAddress,
-                                        City = city,
-                                        Region = region,
-                                        Country = country,
-                                        Participants = participants,
-                                        Assets = assets,
-                                        IsChecked = true
-                                    };
-                                    model.TeamAuditing.Add(lvItem);
-                                    EventCount++;
-                                }
                             }
+                            //render to use
+                            DateTime timestamp = DateTime.MinValue;
+                            if (timestampObj != null)
+                            {
+                                timestamp = timestampObj;
+                            }
+                            string email = emailObj;
+
+                            if (region != "Unknown" || region != "")
+                            {
+                                region = FileUtil.ConvertStateToAbbreviation(region);
+                            }
+
+                            // update model based on category
+                            if (eventCategory == "All Events")
+                            {
+                                TeamAuditingListViewItemModel lvItem = new TeamAuditingListViewItemModel()
+                                {
+                                    Timestamp = timestamp,
+                                    ActorType = actorTypeString,
+                                    Email = email,
+                                    Context = context,
+                                    EventType = eventType,
+                                    Origin = origin,
+                                    IpAddress = ipAddress,
+                                    City = city,
+                                    Region = region,
+                                    Country = country,
+                                    Participants = participants,
+                                    Assets = assets,
+                                    IsChecked = true
+                                };
+                                model.TeamAuditing.Add(lvItem);
+                                EventCount++;
+                            }
+                            if (eventCategory != "All Events" && inCategories)
+                            {
+                                TeamAuditingListViewItemModel lvItem = new TeamAuditingListViewItemModel()
+                                {
+                                    Timestamp = timestamp,
+                                    ActorType = actorTypeString,
+                                    Email = email,
+                                    Context = context,
+                                    EventType = eventType,
+                                    Origin = origin,
+                                    IpAddress = ipAddress,
+                                    City = city,
+                                    Region = region,
+                                    Country = country,
+                                    Participants = participants,
+                                    Assets = assets,
+                                    IsChecked = true
+                                };
+                                model.TeamAuditing.Add(lvItem);
+                                EventCount++;
+                            }
+                        }
                         }
                     }
                 }
-            }
-            catch (Exception)
-            {
-                // error message.
-                SyncContext.Post(delegate
-                {
-                    presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_GET_EVENTS, ErrorMessages.DLG_DEFAULT_TITLE);
-                    presenter.UpdateProgressInfo("");
-                    presenter.ActivateSpinner(false);
-                    presenter.EnableControl(true);
-                }, null);
-            }
+            //}
+            //catch (Exception)
+            //{
+            //    // error message.
+            //    SyncContext.Post(delegate
+            //    {
+            //        presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_GET_EVENTS, ErrorMessages.DLG_DEFAULT_TITLE);
+            //        presenter.UpdateProgressInfo("");
+            //        presenter.ActivateSpinner(false);
+            //        presenter.EnableControl(true);
+            //    }, null);
+            //}
         }
 
         public List<MemberListViewItemModel> LoadMemberInputFile(List<MemberListViewItemModel> members, ITeamAuditingView view, ITeamAuditingModel model, IMainPresenter presenter)

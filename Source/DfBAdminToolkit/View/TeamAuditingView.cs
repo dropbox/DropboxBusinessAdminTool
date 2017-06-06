@@ -14,10 +14,10 @@
 		public event EventHandler DataChanged;
 		public event EventHandler CommandLoadTeamEvents;
 		public event EventHandler CommandLoadCSV;
-        public event EventHandler CommandExportToCSV;
-        public event EventHandler CommandFilterMembers;
+		public event EventHandler CommandExportToCSV;
+		public event EventHandler CommandFilterMembers;
 
-        public SynchronizationContext SyncContext { get; set; }
+		public SynchronizationContext SyncContext { get; set; }
 
 		public bool ComponentEventsWired { get; set; }
 
@@ -67,9 +67,9 @@
 			{
 				this.buttonEx_TeamAuditingLoadTeamEvents.Click += buttonEx_TeamAuditingLoadTeamAuditing_Click;
 				this.buttonEx_TeamAuditingLoadFromCSV.Click += buttonEx_TeamAuditingLoadFromCSV_Click;
-                this.buttonEx_TeamAuditingExportToCSV.Click += buttonEx_TeamAuditingExportToCSV_Click;
-                this.buttonEx_TeamAuditingFilterMembers.Click += buttonEx_TeamAuditingFilterMembers_Click;
-                this.objectListView_TeamAuditingMembers.ItemChecked += ObjectListView_TeamAuditingMembers_ItemChecked;
+				this.buttonEx_TeamAuditingExportToCSV.Click += buttonEx_TeamAuditingExportToCSV_Click;
+				this.buttonEx_TeamAuditingFilterMembers.Click += buttonEx_TeamAuditingFilterMembers_Click;
+				this.objectListView_TeamAuditingMembers.ItemChecked += ObjectListView_TeamAuditingMembers_ItemChecked;
 				this.objectListView_TeamAuditingMembers.HeaderCheckBoxChanging += ObjectListView_TeamAuditingMembers_HeaderCheckBoxChanging;
 				ComponentEventsWired = true;
 			}
@@ -81,9 +81,9 @@
 			{
 				this.buttonEx_TeamAuditingLoadTeamEvents.Click -= buttonEx_TeamAuditingLoadTeamAuditing_Click;
 				this.buttonEx_TeamAuditingLoadFromCSV.Click -= buttonEx_TeamAuditingLoadFromCSV_Click;
-                this.buttonEx_TeamAuditingExportToCSV.Click -= buttonEx_TeamAuditingExportToCSV_Click;
-                this.buttonEx_TeamAuditingFilterMembers.Click -= buttonEx_TeamAuditingFilterMembers_Click;
-                this.objectListView_TeamAuditingMembers.ItemChecked -= ObjectListView_TeamAuditingMembers_ItemChecked;
+				this.buttonEx_TeamAuditingExportToCSV.Click -= buttonEx_TeamAuditingExportToCSV_Click;
+				this.buttonEx_TeamAuditingFilterMembers.Click -= buttonEx_TeamAuditingFilterMembers_Click;
+				this.objectListView_TeamAuditingMembers.ItemChecked -= ObjectListView_TeamAuditingMembers_ItemChecked;
 				this.objectListView_TeamAuditingMembers.HeaderCheckBoxChanging -= ObjectListView_TeamAuditingMembers_HeaderCheckBoxChanging;
 				ComponentEventsWired = false;
 			}
@@ -216,26 +216,26 @@
 			}
 		}
 
-        public void RenderTeamAudingFilteredMemberList(List<MemberListViewItemModel> members, List<TeamAuditingListViewItemModel> TeamAuditing)
-        {
-            List<TeamAuditingListViewItemModel> newAudit = new List<TeamAuditingListViewItemModel>();
-            if (textBoxTeamAuditing.Text != "Select Member File...")
-            {
-                foreach (TeamAuditingListViewItemModel item in TeamAuditing)
-                {
-                    foreach (MemberListViewItemModel member in members)
-                        if (member.Email == item.Email)
-                        {
-                            newAudit.Add(item);         
-                        }
-                }
-                this.objectListView_TeamAuditingMembers.SetObjects(newAudit);
-                if (this.objectListView_TeamAuditingMembers.GetItemCount() == this.objectListView_TeamAuditingMembers.CheckedObjects.Count)
-                {
-                    this.objectListView_TeamAuditingMembers.CheckHeaderCheckBox(olvColumnTeamAuditing_Timestamp);
-                }
-            }
-        }
+		public void RenderTeamAudingFilteredMemberList(List<MemberListViewItemModel> members, List<TeamAuditingListViewItemModel> TeamAuditing)
+		{
+			List<TeamAuditingListViewItemModel> newAudit = new List<TeamAuditingListViewItemModel>();
+			if (textBoxTeamAuditing.Text != "Select Member File...")
+			{
+				foreach (TeamAuditingListViewItemModel item in TeamAuditing)
+				{
+					foreach (MemberListViewItemModel member in members)
+						if (member.Email == item.Email)
+						{
+							newAudit.Add(item);         
+						}
+				}
+				this.objectListView_TeamAuditingMembers.SetObjects(newAudit);
+				if (this.objectListView_TeamAuditingMembers.GetItemCount() == this.objectListView_TeamAuditingMembers.CheckedObjects.Count)
+				{
+					this.objectListView_TeamAuditingMembers.CheckHeaderCheckBox(olvColumnTeamAuditing_Timestamp);
+				}
+			}
+		}
 
 		private void UncheckHeaderCheckbox(ObjectListView olv, OLVColumn col)
 		{
@@ -260,42 +260,42 @@
 
 		private void buttonEx_TeamAuditingLoadFromCSV_Click(object sender, EventArgs e)
 		{
-            OpenFileDialog inputFile = new OpenFileDialog();
-            inputFile.Title = "Please select a CSV file";
-            inputFile.Filter = "CSV File|*.csv";
-            DialogResult result = inputFile.ShowDialog();
+			OpenFileDialog inputFile = new OpenFileDialog();
+			inputFile.Title = "Please select a CSV file";
+			inputFile.Filter = "CSV File|*.csv";
+			DialogResult result = inputFile.ShowDialog();
 
-            if (result == DialogResult.OK)
-            {
-                textBoxTeamAuditing.Text = inputFile.FileName;
-                TeamAuditingInputFilePath = inputFile.FileName;
-                InvokeDataChanged(sender, e);
-                if (CommandLoadCSV != null)
-                {
-                    CommandLoadCSV(sender, e);
-                }
-            }
+			if (result == DialogResult.OK)
+			{
+				textBoxTeamAuditing.Text = inputFile.FileName;
+				TeamAuditingInputFilePath = inputFile.FileName;
+				InvokeDataChanged(sender, e);
+				if (CommandLoadCSV != null)
+				{
+					CommandLoadCSV(sender, e);
+				}
+			}
 		}
 
-        private void buttonEx_TeamAuditingExportToCSV_Click(object sender, EventArgs e)
-        {
-            InvokeDataChanged(sender, e);
-            if (CommandExportToCSV != null)
-            {
-                CommandExportToCSV(sender, e);
-            }
-        }
+		private void buttonEx_TeamAuditingExportToCSV_Click(object sender, EventArgs e)
+		{
+			InvokeDataChanged(sender, e);
+			if (CommandExportToCSV != null)
+			{
+				CommandExportToCSV(sender, e);
+			}
+		}
 
-        private void buttonEx_TeamAuditingFilterMembers_Click(object sender, EventArgs e)
-        {
-            InvokeDataChanged(sender, e);
-            if (CommandFilterMembers != null)
-            {
-                CommandFilterMembers(sender, e);
-            }
-        }
+		private void buttonEx_TeamAuditingFilterMembers_Click(object sender, EventArgs e)
+		{
+			InvokeDataChanged(sender, e);
+			if (CommandFilterMembers != null)
+			{
+				CommandFilterMembers(sender, e);
+			}
+		}
 
-        private void TextBox_TeamAuditingAccessToken_TextChanged(object sender, EventArgs e)
+		private void TextBox_TeamAuditingAccessToken_TextChanged(object sender, EventArgs e)
 		{
 			AccessToken = this.textBox_TeamAuditingAccessToken.Text;
 		}
