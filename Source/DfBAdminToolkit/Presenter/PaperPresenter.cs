@@ -13,12 +13,12 @@
     using System.Linq;
     using System.Net;
     using System.Threading;
+    using System.Threading.Tasks;
 
     public class PaperPresenter
         : PresenterBase, IPaperPresenter
     {
-
-        IList<PaperListViewItemModel> docIds;
+    
 
         public PaperPresenter(IPaperModel model, IPaperView view)
             : base(model, view)
@@ -75,95 +75,80 @@
 
         #region REST Service
 
-        private void GetPaperDocs(IPaperModel model, IMainPresenter presenter)
+        private IList<PaperListViewItemModel> GetPaperDocs(IPaperModel model, IMainPresenter presenter, TeamListViewItemModel memberitem)
         {
             IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.ListPaperDocsUrl = ApplicationResource.ActionListPaperDocs;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             string paperAccessToken = ApplicationResource.DefaultAccessToken;
-
-            docIds = new List<PaperListViewItemModel>();
-            IList<TeamListViewItemModel> members = SearchOwners(model, presenter);
             string memberId = string.Empty;
-            try
+            IList<PaperListViewItemModel> docIds = new List<PaperListViewItemModel>();
+            //foreach (var memberitem in members)
+            //{
+            if (!string.IsNullOrEmpty(memberitem.TeamId))
             {
-                foreach (var memberitem in members)
+                memberId = memberitem.TeamId;
+            }
+            IDataResponse response = service.ListPaperDocs(new MemberData()
+            {
+                MemberId = memberId
+            }, paperAccessToken);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                if (response.Data != null)
                 {
-                    if (!string.IsNullOrEmpty(memberitem.TeamId))
-                    {
-                        memberId = memberitem.TeamId;
-                    }
-                    IDataResponse response = service.ListPaperDocs(new MemberData()
-                    {
-                        MemberId = memberId
-                    }, paperAccessToken);
+                    string data = response.Data.ToString();
+                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
 
-                    if (response.StatusCode == HttpStatusCode.OK)
+                    int resultCount = jsonData["doc_ids"].Count;
+                    for (int i = 0; i < resultCount; i++)
                     {
-                        if (response.Data != null)
+                        dynamic paperDocId = jsonData["doc_ids"][i];
+
+                        // update model
+                        PaperListViewItemModel lvItem = new PaperListViewItemModel()
                         {
-                            string data = response.Data.ToString();
-                            dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+                            PaperId = paperDocId,
+                            MemberId = memberId,
+                            IsChecked = true
+                        };
+                        docIds.Add(lvItem);
+                    }
+                    //if the group count is above limit - default 1000 we need to grab the cursor and call continue
+                    string cursor = jsonData["cursor"]["value"];
+                    bool hasMore = jsonData["has_more"];
+                    while (hasMore)
+                    {
+                        service.ListPaperDocsUrl = ApplicationResource.ActionListContinuationPaperDocs;
+                        IDataResponse responseCont = service.ListPaperDocs(new MemberData()
+                        {
+                            Cursor = cursor
+                        }, paperAccessToken);
 
-                            int resultCount = jsonData["doc_ids"].Count;
-                            for (int i = 0; i < resultCount; i++)
+                        string dataCont = responseCont.Data.ToString();
+                        dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
+
+                        int resultContCount = jsonDataCont["doc_ids"].Count;
+                        for (int i = 0; i < resultContCount; i++)
+                        {
+                            dynamic paperDocId = jsonDataCont["doc_ids"][i];
+                            // update model
+                            PaperListViewItemModel lvItem = new PaperListViewItemModel()
                             {
-                                dynamic paperDocId = jsonData["doc_ids"][i];
-
-                                // update model
-                                PaperListViewItemModel lvItem = new PaperListViewItemModel()
-                                {
-                                    PaperId = paperDocId,
-                                    MemberId = memberId,
-                                    IsChecked = true
-                                };
-                                docIds.Add(lvItem);
-                            }
-                            //if the group count is above limit - default 1000 we need to grab the cursor and call continue
-                            string cursor = jsonData["cursor"]["value"];
-                            bool hasMore = jsonData["has_more"];
-                            while (hasMore)
-                            {
-                                service.ListPaperDocsUrl = ApplicationResource.ActionListContinuationPaperDocs;
-                                IDataResponse responseCont = service.ListPaperDocs(new MemberData()
-                                {
-                                    Cursor = cursor
-                                }, paperAccessToken);
-
-                                string dataCont = responseCont.Data.ToString();
-                                dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
-
-                                int resultContCount = jsonDataCont["doc_ids"].Count;
-                                for (int i = 0; i < resultContCount; i++)
-                                {
-                                    dynamic paperDocId = jsonDataCont["doc_ids"][i];
-                                    // update model
-                                    PaperListViewItemModel lvItem = new PaperListViewItemModel()
-                                    {
-                                        PaperId = paperDocId,
-                                        MemberId = memberId,
-                                        IsChecked = true
-                                    };
-                                    docIds.Add(lvItem);
-                                }
-                                hasMore = jsonDataCont["has_more"];
-                                cursor = jsonDataCont["cursor"]["value"];
-                            }
+                                PaperId = paperDocId,
+                                MemberId = memberId,
+                                IsChecked = true
+                            };
+                            docIds.Add(lvItem);
                         }
+                        hasMore = jsonDataCont["has_more"];
+                        cursor = jsonDataCont["cursor"]["value"];
                     }
                 }
             }
-            catch (Exception)
-            {
-                // error message.
-                SyncContext.Post(delegate
-                {
-                    presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_GET_PAPER, ErrorMessages.DLG_DEFAULT_TITLE);
-                    presenter.UpdateProgressInfo("");
-                    presenter.ActivateSpinner(false);
-                    presenter.EnableControl(true);
-                }, null);
-            }
+            return docIds;
+            //}
         }
 
         private void GetPaperMetadata(IPaperModel model, IMainPresenter presenter, string docId, string memberId)
@@ -180,6 +165,13 @@
 
             try
             {
+                if (SyncContext != null)
+                {
+                    SyncContext.Post(delegate
+                    {
+                        presenter.UpdateProgressInfo(string.Format("Retrieving Paper doc metadata for id: {0}", docId));
+                    }, null);
+                }
                 //get paper doc folder info to add to listview object
                 IDataResponse responseFolderInfo = serviceFolderInfo.GetPaperDocFolderInfo(docId, paperAccessToken, memberId);
                 if (responseFolderInfo.StatusCode == HttpStatusCode.OK)
@@ -491,9 +483,7 @@
         {
             IPaperView view = base._view as IPaperView;
             IPaperModel model = base._model as IPaperModel;
-            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
-            // clear existing data first
-            model.Paper.Clear();
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>(); 
 
             if (SyncContext != null) {
                 SyncContext.Post(delegate {
@@ -512,15 +502,41 @@
                     }, null);
                 }
                 else
-                {   
-                    //get Paper Ids
-                    this.GetPaperDocs(model, presenter);
+                {
+                    // clear existing data first
+                    model.Paper.Clear();
                     
-                    //get metadata from ids
-                    foreach (PaperListViewItemModel item in docIds)
+                    //get members first
+                    IList<TeamListViewItemModel> members = SearchOwners(model, presenter);
+                    //get Paper Ids
+                    Parallel.ForEach(members, (member) =>
                     {
-                        this.GetPaperMetadata(model, presenter, item.PaperId, item.MemberId);
+                        if (SyncContext != null)
+                        {
+                            SyncContext.Post(delegate
+                            {
+                                presenter.UpdateProgressInfo(string.Format("Retrieving member's Paper docs: {0}", member.Email));
+                            }, null);
+                        }
+                        IList<PaperListViewItemModel> docIds = new List<PaperListViewItemModel>();
+
+                        docIds =  this.GetPaperDocs(model, presenter, member);
+
+                        //get metadata from ids
+                        foreach (PaperListViewItemModel item in docIds)
+                        {
+                            this.GetPaperMetadata(model, presenter, item.PaperId, item.MemberId);
+                        }
+                    });
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate
+                        {
+                            presenter.UpdateProgressInfo(string.Format("Sorting Paper docs..."));
+                        }, null);
                     }
+                    // sort by email then by folder path
+                    model.Paper = model.Paper.OrderBy(s => s.Owner).ThenBy(s => s.LastUpdatedDate).ToList();
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate

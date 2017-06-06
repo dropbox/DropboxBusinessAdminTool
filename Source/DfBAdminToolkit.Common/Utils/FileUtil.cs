@@ -53,20 +53,20 @@ namespace DfBAdminToolkit.Common.Utils
             stateName = stateName.ToLower();
             if (string.IsNullOrEmpty(stateName))
             {
-                return null;
+                return string.Empty;
             }
             else if (stateName.Length == 2)
             {
                 if (abbrevToState.ContainsKey(stateName.ToUpper()))
                     return abbrevToState[stateName.ToUpper()];
                 else
-                    return null;
+                    return string.Empty;
             }
             else if (stateToAbbrev.ContainsKey(stateName.ToLower()))
             {
                 return stateToAbbrev[stateName.ToLower()];
             }
-            return null;
+            return string.Empty;
         }
 
         public static void EncryptAppSettings(string section)
