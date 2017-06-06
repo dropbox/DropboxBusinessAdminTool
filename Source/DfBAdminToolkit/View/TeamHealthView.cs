@@ -93,12 +93,14 @@
             aquaGaugeUsers.MaxValue = (float)Convert.ToDouble(model.LicensedUsers);
             aquaGaugeUsers.Value = (float)Convert.ToDouble(model.ProvisionedUsers);
             
-            //load pie chart with Devices info
+            //load 3D pie chart with Active Devices info
             chartPieDevices.Series.Clear();
             chartPieDevices.Palette = ChartColorPalette.Bright;
             chartPieDevices.BackColor = Color.Transparent;
             chartPieDevices.Titles.Add("Active Devices: " + model.total);
             chartPieDevices.ChartAreas[0].BackColor = Color.Transparent;
+            chartPieDevices.ChartAreas[0].Area3DStyle.Enable3D = true;
+            chartPieDevices.ChartAreas[0].Area3DStyle.WallWidth = 0;
             Series seriesDevices = new Series
             {
                 Name = "Devices",

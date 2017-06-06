@@ -319,20 +319,17 @@
             this.tableLayoutPanelGauge.ColumnCount = 3;
             this.tableLayoutPanelGauge.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelGauge.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelGauge.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 411F));
+            this.tableLayoutPanelGauge.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 450F));
             this.tableLayoutPanelGauge.Controls.Add(this.aquaGaugeUsers, 0, 0);
             this.tableLayoutPanelGauge.Controls.Add(this.chartPieDevices, 1, 0);
             this.tableLayoutPanelGauge.Controls.Add(this.tableLayoutPanelStats, 2, 0);
             this.tableLayoutPanelGauge.Location = new System.Drawing.Point(4, 125);
             this.tableLayoutPanelGauge.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tableLayoutPanelGauge.MinimumSize = new System.Drawing.Size(1250, 0);
             this.tableLayoutPanelGauge.Name = "tableLayoutPanelGauge";
             this.tableLayoutPanelGauge.RowCount = 1;
             this.tableLayoutPanelGauge.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelGauge.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 427F));
-            this.tableLayoutPanelGauge.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 427F));
-            this.tableLayoutPanelGauge.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 427F));
-            this.tableLayoutPanelGauge.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 427F));
-            this.tableLayoutPanelGauge.Size = new System.Drawing.Size(1062, 424);
+            this.tableLayoutPanelGauge.Size = new System.Drawing.Size(1250, 424);
             this.tableLayoutPanelGauge.TabIndex = 4;
             // 
             // aquaGaugeUsers
@@ -343,6 +340,7 @@
             this.aquaGaugeUsers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.aquaGaugeUsers.DialColor = System.Drawing.Color.Blue;
             this.aquaGaugeUsers.DialText = "Users";
+            this.aquaGaugeUsers.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aquaGaugeUsers.Glossiness = 11.36364F;
             this.aquaGaugeUsers.Location = new System.Drawing.Point(7, 9);
             this.aquaGaugeUsers.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
@@ -351,7 +349,7 @@
             this.aquaGaugeUsers.Name = "aquaGaugeUsers";
             this.aquaGaugeUsers.NoOfDivisions = 5;
             this.aquaGaugeUsers.RecommendedValue = 0F;
-            this.aquaGaugeUsers.Size = new System.Drawing.Size(311, 311);
+            this.aquaGaugeUsers.Size = new System.Drawing.Size(386, 386);
             this.aquaGaugeUsers.TabIndex = 0;
             this.aquaGaugeUsers.ThresholdPercent = 90F;
             this.aquaGaugeUsers.Value = 0F;
@@ -366,30 +364,35 @@
             this.chartPieDevices.BorderlineColor = System.Drawing.Color.Black;
             this.chartPieDevices.BorderSkin.BackColor = System.Drawing.Color.Transparent;
             this.chartPieDevices.BorderSkin.PageColor = System.Drawing.Color.Transparent;
+            chartArea2.Area3DStyle.Enable3D = true;
+            chartArea2.Area3DStyle.WallWidth = 0;
             chartArea2.BackColor = System.Drawing.Color.Transparent;
             chartArea2.Name = "ChartArea1";
             this.chartPieDevices.ChartAreas.Add(chartArea2);
             legend2.Name = "Legend1";
             legend2.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chartPieDevices.Legends.Add(legend2);
-            this.chartPieDevices.Location = new System.Drawing.Point(328, 4);
+            this.chartPieDevices.Location = new System.Drawing.Point(403, 4);
+            this.chartPieDevices.MinimumSize = new System.Drawing.Size(400, 0);
             this.chartPieDevices.Name = "chartPieDevices";
             this.chartPieDevices.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series2.LabelForeColor = System.Drawing.Color.White;
             series2.Legend = "Legend1";
             series2.Name = "pieDevices";
             this.chartPieDevices.Series.Add(series2);
-            this.chartPieDevices.Size = new System.Drawing.Size(317, 338);
+            this.chartPieDevices.Size = new System.Drawing.Size(400, 420);
             this.chartPieDevices.TabIndex = 1;
             this.chartPieDevices.Text = "Devices";
             // 
             // tableLayoutPanelStats
             // 
+            this.tableLayoutPanelStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanelStats.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanelStats.ColumnCount = 2;
-            this.tableLayoutPanelStats.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.45293F));
-            this.tableLayoutPanelStats.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.54707F));
+            this.tableLayoutPanelStats.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 72F));
+            this.tableLayoutPanelStats.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28F));
             this.tableLayoutPanelStats.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanelStats.Controls.Add(this.labelTotalUsage, 1, 0);
             this.tableLayoutPanelStats.Controls.Add(this.label3, 0, 1);
@@ -408,7 +411,8 @@
             this.tableLayoutPanelStats.Controls.Add(this.labelEdits, 1, 7);
             this.tableLayoutPanelStats.Controls.Add(this.label17, 0, 8);
             this.tableLayoutPanelStats.Controls.Add(this.labelDeletes, 1, 8);
-            this.tableLayoutPanelStats.Location = new System.Drawing.Point(652, 4);
+            this.tableLayoutPanelStats.Location = new System.Drawing.Point(802, 4);
+            this.tableLayoutPanelStats.MinimumSize = new System.Drawing.Size(450, 0);
             this.tableLayoutPanelStats.Name = "tableLayoutPanelStats";
             this.tableLayoutPanelStats.RowCount = 9;
             this.tableLayoutPanelStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
@@ -420,8 +424,7 @@
             this.tableLayoutPanelStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
             this.tableLayoutPanelStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
             this.tableLayoutPanelStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tableLayoutPanelStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelStats.Size = new System.Drawing.Size(404, 420);
+            this.tableLayoutPanelStats.Size = new System.Drawing.Size(450, 420);
             this.tableLayoutPanelStats.TabIndex = 2;
             this.tableLayoutPanelStats.Visible = false;
             // 
@@ -432,7 +435,7 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(4, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(212, 25);
+            this.label1.Size = new System.Drawing.Size(315, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "Total Usage";
             // 
@@ -441,9 +444,9 @@
             this.labelTotalUsage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTotalUsage.AutoSize = true;
             this.labelTotalUsage.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTotalUsage.Location = new System.Drawing.Point(223, 11);
+            this.labelTotalUsage.Location = new System.Drawing.Point(326, 11);
             this.labelTotalUsage.Name = "labelTotalUsage";
-            this.labelTotalUsage.Size = new System.Drawing.Size(177, 25);
+            this.labelTotalUsage.Size = new System.Drawing.Size(120, 25);
             this.labelTotalUsage.TabIndex = 1;
             // 
             // label3
@@ -453,7 +456,7 @@
             this.label3.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(4, 57);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(212, 25);
+            this.label3.Size = new System.Drawing.Size(315, 25);
             this.label3.TabIndex = 2;
             this.label3.Text = "Shared Usage";
             // 
@@ -462,9 +465,9 @@
             this.labelSharedUsage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSharedUsage.AutoSize = true;
             this.labelSharedUsage.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSharedUsage.Location = new System.Drawing.Point(223, 57);
+            this.labelSharedUsage.Location = new System.Drawing.Point(326, 57);
             this.labelSharedUsage.Name = "labelSharedUsage";
-            this.labelSharedUsage.Size = new System.Drawing.Size(177, 25);
+            this.labelSharedUsage.Size = new System.Drawing.Size(120, 25);
             this.labelSharedUsage.TabIndex = 3;
             // 
             // label5
@@ -474,7 +477,7 @@
             this.label5.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(4, 103);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(212, 25);
+            this.label5.Size = new System.Drawing.Size(315, 25);
             this.label5.TabIndex = 4;
             this.label5.Text = "Unshared Usage";
             // 
@@ -483,9 +486,9 @@
             this.labelUnsharedUsage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelUnsharedUsage.AutoSize = true;
             this.labelUnsharedUsage.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUnsharedUsage.Location = new System.Drawing.Point(223, 103);
+            this.labelUnsharedUsage.Location = new System.Drawing.Point(326, 103);
             this.labelUnsharedUsage.Name = "labelUnsharedUsage";
-            this.labelUnsharedUsage.Size = new System.Drawing.Size(177, 25);
+            this.labelUnsharedUsage.Size = new System.Drawing.Size(120, 25);
             this.labelUnsharedUsage.TabIndex = 5;
             // 
             // label7
@@ -495,7 +498,7 @@
             this.label7.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(4, 149);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(212, 25);
+            this.label7.Size = new System.Drawing.Size(315, 25);
             this.label7.TabIndex = 6;
             this.label7.Text = "Shared Folders";
             // 
@@ -504,9 +507,9 @@
             this.labelSharedFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSharedFolders.AutoSize = true;
             this.labelSharedFolders.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSharedFolders.Location = new System.Drawing.Point(223, 149);
+            this.labelSharedFolders.Location = new System.Drawing.Point(326, 149);
             this.labelSharedFolders.Name = "labelSharedFolders";
-            this.labelSharedFolders.Size = new System.Drawing.Size(177, 25);
+            this.labelSharedFolders.Size = new System.Drawing.Size(120, 25);
             this.labelSharedFolders.TabIndex = 7;
             // 
             // label9
@@ -516,7 +519,7 @@
             this.label9.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(4, 195);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(212, 25);
+            this.label9.Size = new System.Drawing.Size(315, 25);
             this.label9.TabIndex = 8;
             this.label9.Text = "Active Shared Folders";
             // 
@@ -525,9 +528,9 @@
             this.labelActiveShared.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelActiveShared.AutoSize = true;
             this.labelActiveShared.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelActiveShared.Location = new System.Drawing.Point(223, 195);
+            this.labelActiveShared.Location = new System.Drawing.Point(326, 195);
             this.labelActiveShared.Name = "labelActiveShared";
-            this.labelActiveShared.Size = new System.Drawing.Size(177, 25);
+            this.labelActiveShared.Size = new System.Drawing.Size(120, 25);
             this.labelActiveShared.TabIndex = 9;
             // 
             // label11
@@ -537,7 +540,7 @@
             this.label11.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(4, 241);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(212, 25);
+            this.label11.Size = new System.Drawing.Size(315, 25);
             this.label11.TabIndex = 10;
             this.label11.Text = "Active Users";
             // 
@@ -546,9 +549,9 @@
             this.labelActiveUsers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelActiveUsers.AutoSize = true;
             this.labelActiveUsers.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelActiveUsers.Location = new System.Drawing.Point(223, 241);
+            this.labelActiveUsers.Location = new System.Drawing.Point(326, 241);
             this.labelActiveUsers.Name = "labelActiveUsers";
-            this.labelActiveUsers.Size = new System.Drawing.Size(177, 25);
+            this.labelActiveUsers.Size = new System.Drawing.Size(120, 25);
             this.labelActiveUsers.TabIndex = 11;
             // 
             // label13
@@ -558,7 +561,7 @@
             this.label13.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.Location = new System.Drawing.Point(4, 287);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(212, 25);
+            this.label13.Size = new System.Drawing.Size(315, 25);
             this.label13.TabIndex = 12;
             this.label13.Text = "Adds";
             // 
@@ -567,9 +570,9 @@
             this.labelAdds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelAdds.AutoSize = true;
             this.labelAdds.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAdds.Location = new System.Drawing.Point(223, 287);
+            this.labelAdds.Location = new System.Drawing.Point(326, 287);
             this.labelAdds.Name = "labelAdds";
-            this.labelAdds.Size = new System.Drawing.Size(177, 25);
+            this.labelAdds.Size = new System.Drawing.Size(120, 25);
             this.labelAdds.TabIndex = 13;
             // 
             // label15
@@ -579,7 +582,7 @@
             this.label15.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.Location = new System.Drawing.Point(4, 333);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(212, 25);
+            this.label15.Size = new System.Drawing.Size(315, 25);
             this.label15.TabIndex = 14;
             this.label15.Text = "Edits";
             // 
@@ -588,9 +591,9 @@
             this.labelEdits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelEdits.AutoSize = true;
             this.labelEdits.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelEdits.Location = new System.Drawing.Point(223, 333);
+            this.labelEdits.Location = new System.Drawing.Point(326, 333);
             this.labelEdits.Name = "labelEdits";
-            this.labelEdits.Size = new System.Drawing.Size(177, 25);
+            this.labelEdits.Size = new System.Drawing.Size(120, 25);
             this.labelEdits.TabIndex = 15;
             // 
             // label17
@@ -600,7 +603,7 @@
             this.label17.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.Location = new System.Drawing.Point(4, 381);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(212, 25);
+            this.label17.Size = new System.Drawing.Size(315, 25);
             this.label17.TabIndex = 16;
             this.label17.Text = "Deletes";
             // 
@@ -609,9 +612,9 @@
             this.labelDeletes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelDeletes.AutoSize = true;
             this.labelDeletes.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDeletes.Location = new System.Drawing.Point(223, 381);
+            this.labelDeletes.Location = new System.Drawing.Point(326, 381);
             this.labelDeletes.Name = "labelDeletes";
-            this.labelDeletes.Size = new System.Drawing.Size(177, 25);
+            this.labelDeletes.Size = new System.Drawing.Size(120, 25);
             this.labelDeletes.TabIndex = 17;
             // 
             // TeamHealthView
