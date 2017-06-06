@@ -85,8 +85,8 @@
             service.GetEventsUrl = ApplicationResource.ActionGetEvents;
             service.UserAgentVersion = ApplicationResource.UserAgent;
 
-            //try
-            //{
+            try
+            {
                 IDataResponse response = service.GetEvents(new MemberData()
                 {
                     SearchLimit = ApplicationResource.SearchDefaultLimit
@@ -200,15 +200,14 @@
                             if (events["origin"] != null)
                             {
                                 originObj = events["origin"]["access_method"][".tag"];
+                                origin = originObj.Value as string;
                                 //check for nulls
                                 if (events["origin"]["geo_location"] != null)
                                 {
                                     ipAddressObj = events["origin"]["geo_location"]["ip_address"];
                                     cityObj = events["origin"]["geo_location"]["city"];
                                     regionObj = events["origin"]["geo_location"]["region"];
-                                    countryObj = events["origin"]["geo_location"]["country"];
-
-                                    origin = originObj.Value as string;
+                                    countryObj = events["origin"]["geo_location"]["country"];     
                                     ipAddress = ipAddressObj.Value as string;
                                     city = cityObj.Value as string;
                                     region = regionObj.Value as string;
@@ -254,7 +253,7 @@
                                             if (events["participants"][0]["user"]["email"] != null)
                                             {
                                                 participantsObj = events["participants"][0]["user"]["email"];
-                                                participants = participantsTypeObj.Value as string;
+                                                participants = participantsObj.Value as string;
                                             }
                                         }
                                     }
@@ -476,20 +475,18 @@
                             {
                                 eventTypeObj = events["event_type"][".tag"];
                                 eventType = eventTypeObj.Value as string;
-
                             }
                             if (events["origin"] != null)
                             {
                                 originObj = events["origin"]["access_method"][".tag"];
+                                origin = originObj.Value as string;
                                 //check for nulls
                                 if (events["origin"]["geo_location"] != null)
                                 {
                                     ipAddressObj = events["origin"]["geo_location"]["ip_address"];
                                     cityObj = events["origin"]["geo_location"]["city"];
                                     regionObj = events["origin"]["geo_location"]["region"];
-                                    countryObj = events["origin"]["geo_location"]["country"];
-
-                                    origin = originObj.Value as string;
+                                    countryObj = events["origin"]["geo_location"]["country"];    
                                     ipAddress = ipAddressObj.Value as string;
                                     city = cityObj.Value as string;
                                     region = regionObj.Value as string;
@@ -535,7 +532,7 @@
                                             if (events["participants"][0]["user"]["email"] != null)
                                             {
                                                 participantsObj = events["participants"][0]["user"]["email"];
-                                                participants = participantsTypeObj.Value as string;
+                                                participants = participantsObj.Value as string;
                                             }
                                         }
                                     }
@@ -608,7 +605,6 @@
                             {
                                 region = FileUtil.ConvertStateToAbbreviation(region);
                             }
-
                             // update model based on category
                             if (eventCategory == "All Events")
                             {
@@ -656,18 +652,18 @@
                         }
                     }
                 }
-            //}
-            //catch (Exception)
-            //{
-            //    // error message.
-            //    SyncContext.Post(delegate
-            //    {
-            //        presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_GET_EVENTS, ErrorMessages.DLG_DEFAULT_TITLE);
-            //        presenter.UpdateProgressInfo("");
-            //        presenter.ActivateSpinner(false);
-            //        presenter.EnableControl(true);
-            //    }, null);
-            //}
+            }
+            catch (Exception)
+            {
+                // error message.
+                SyncContext.Post(delegate
+                {
+                    presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_GET_EVENTS, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
+            }
         }
 
         public List<MemberListViewItemModel> LoadMemberInputFile(List<MemberListViewItemModel> members, ITeamAuditingView view, ITeamAuditingModel model, IMainPresenter presenter)
