@@ -24,6 +24,7 @@
         public int EventCount { get; set; }
 
         List<MemberListViewItemModel> members;
+        List<TeamAuditingListViewItemModel> newAudit;
 
         protected override void Initialize()
         {
@@ -868,7 +869,8 @@
                     {
                         SyncContext.Post(delegate 
                         {
-                            view.RenderTeamAudingFilteredMemberList(members, model.TeamAuditing);
+                            newAudit = new List<TeamAuditingListViewItemModel>();
+                            newAudit = view.RenderTeamAuditingFilteredMemberList(members, model.TeamAuditing, newAudit);
                             presenter.UpdateProgressInfo("Filtering complete.");
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
@@ -940,30 +942,61 @@
                                 {
                                     writer.WriteHeader<TeamAuditingHeaderRecord>();
                                     int count = 0;
-                                    foreach (var item in model.TeamAuditing)
+                                    if (view.TeamAuditingInputFilePath.Contains(".csv"))
                                     {
-                                        writer.WriteField<string>(item.Timestamp.ToString());
-                                        writer.WriteField<string>(item.ActorType);
-                                        writer.WriteField<string>(item.Email);
-                                        writer.WriteField<string>(item.Context);
-                                        writer.WriteField<string>(item.EventType);
-                                        writer.WriteField<string>(item.Origin);
-                                        writer.WriteField<string>(item.IpAddress);
-                                        writer.WriteField<string>(item.City);
-                                        writer.WriteField<string>(item.Region);
-                                        writer.WriteField<string>(item.Country);
-                                        writer.WriteField<string>(item.Participants);
-                                        writer.WriteField<string>(item.Assets);
-                                        count++;
-                                        if (SyncContext != null)
+                                        foreach (var item in newAudit)
                                         {
-                                            SyncContext.Post(delegate
+                                            writer.WriteField<string>(item.Timestamp.ToString());
+                                            writer.WriteField<string>(item.ActorType);
+                                            writer.WriteField<string>(item.Email);
+                                            writer.WriteField<string>(item.Context);
+                                            writer.WriteField<string>(item.EventType);
+                                            writer.WriteField<string>(item.Origin);
+                                            writer.WriteField<string>(item.IpAddress);
+                                            writer.WriteField<string>(item.City);
+                                            writer.WriteField<string>(item.Region);
+                                            writer.WriteField<string>(item.Country);
+                                            writer.WriteField<string>(item.Participants);
+                                            writer.WriteField<string>(item.Assets);
+                                            count++;
+                                            if (SyncContext != null)
                                             {
-                                                presenter.UpdateProgressInfo(string.Format("Writing Record: {0}/{1}", (count), total));
-                                            }, null);
+                                                SyncContext.Post(delegate
+                                                {
+                                                    presenter.UpdateProgressInfo(string.Format("Writing Record: {0}/{1}", (count), total));
+                                                }, null);
+                                            }
+                                            writer.NextRecord();
                                         }
-                                        writer.NextRecord();
                                     }
+                                    if (!view.TeamAuditingInputFilePath.Contains(".csv"))
+                                    {
+                                        foreach (var item in model.TeamAuditing)
+                                        {
+                                            writer.WriteField<string>(item.Timestamp.ToString());
+                                            writer.WriteField<string>(item.ActorType);
+                                            writer.WriteField<string>(item.Email);
+                                            writer.WriteField<string>(item.Context);
+                                            writer.WriteField<string>(item.EventType);
+                                            writer.WriteField<string>(item.Origin);
+                                            writer.WriteField<string>(item.IpAddress);
+                                            writer.WriteField<string>(item.City);
+                                            writer.WriteField<string>(item.Region);
+                                            writer.WriteField<string>(item.Country);
+                                            writer.WriteField<string>(item.Participants);
+                                            writer.WriteField<string>(item.Assets);
+                                            count++;
+                                            if (SyncContext != null)
+                                            {
+                                                SyncContext.Post(delegate
+                                                {
+                                                    presenter.UpdateProgressInfo(string.Format("Writing Record: {0}/{1}", (count), total));
+                                                }, null);
+                                            }
+                                            writer.NextRecord();
+                                        }
+                                    }
+                                    
                                 }
                                 if (SyncContext != null)
                                 {

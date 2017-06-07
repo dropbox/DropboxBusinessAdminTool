@@ -25,6 +25,7 @@
         {
             InitializeComponent();
             Initialize();
+            InitRoleTooltips();
             WireComponentEvents();
         }
 
@@ -61,6 +62,33 @@
             this.aquaGaugeUsers.Visible = false;
         }
 
+        private void InitRoleTooltips()
+        {
+            //create tooltips for the health stat items
+            ToolTip ttTotalUsage = new ToolTip();
+            ToolTip ttSharedUsage = new ToolTip();
+            ToolTip ttUnsharedUsage = new ToolTip();
+            ToolTip ttSharedFolders = new ToolTip();
+            ToolTip ttActiveSharedFolders = new ToolTip();
+            ToolTip ttActiveUsers = new ToolTip();
+            ToolTip ttAdds = new ToolTip();
+            ToolTip ttEdits = new ToolTip();
+            ToolTip ttDeletes = new ToolTip();
+            ToolTip ttActiveDevices = new ToolTip();
+            ToolTip ttUsers = new ToolTip();
+            ttTotalUsage.SetToolTip(this.labelTotalUsage, Tooltips.TOTAL_USAGE);
+            ttSharedUsage.SetToolTip(this.labelSharedUsage, Tooltips.SHARED_USAGE);
+            ttUnsharedUsage.SetToolTip(this.labelUnsharedUsage, Tooltips.UNSHARED_USAGE);
+            ttSharedFolders.SetToolTip(this.labelSharedFolders, Tooltips.SHARED_FOLDERS);
+            ttActiveUsers.SetToolTip(this.labelActiveUsers, Tooltips.ACTIVE_USERS);
+            ttActiveSharedFolders.SetToolTip(this.labelActiveShared, Tooltips.ACTIVE_SHARED_FOLDERS);
+            ttAdds.SetToolTip(this.labelAdds, Tooltips.FILE_ADDS);
+            ttEdits.SetToolTip(this.labelEdits, Tooltips.FILE_EDITS);
+            ttDeletes.SetToolTip(this.labelDeletes, Tooltips.FILE_DELETES);
+            ttActiveDevices.SetToolTip(this.chartPieDevices, Tooltips.ACTIVE_DEVICES);
+            ttUsers.SetToolTip(this.aquaGaugeUsers, Tooltips.USERS);
+        }
+
         public void ShowView()
         {
             this.Show();
@@ -83,8 +111,8 @@
             //populate view controls for everything in model
             labelRefreshDateTime.Text = "Last Refresh: " + model.RefreshDateTime.ToString();
             labelTeamName.Text = "Team: " + model.TeamName;
-            labelLicenses.Text = "Licenses: " + model.LicensedUsers;
-            labelProvisioned.Text = "Provisioned: " + model.ProvisionedUsers;
+            labelLicenses.Text = "Total Licenses: " + model.LicensedUsers;
+            labelProvisioned.Text = "Total Provisioned: " + model.ProvisionedUsers;
             tableLayoutPanelStats.Visible = true;
             
             //load users gauge with data
@@ -98,7 +126,7 @@
             chartPieDevices.Palette = ChartColorPalette.Bright;
             chartPieDevices.BackColor = Color.Transparent;
             chartPieDevices.Titles.Clear();
-            chartPieDevices.Titles.Add("Active Devices From Last 7 Days: " + model.total);
+            chartPieDevices.Titles.Add("Active Devices In Past Week: " + model.total);
             chartPieDevices.ChartAreas[0].BackColor = Color.Transparent;
             chartPieDevices.ChartAreas[0].Area3DStyle.Enable3D = true;
             chartPieDevices.ChartAreas[0].Area3DStyle.WallWidth = 0;
@@ -171,7 +199,6 @@
             labelEdits.Text = model.Edits;
             labelSharedFolders.Text = model.SharedFolders;
             labelSharedUsage.Text = model.SharedUsage;
-            labelTeamName.Text = model.TeamName;
             labelTotalUsage.Text = model.TotalUsage;
             labelUnsharedUsage.Text = model.UnsharedUsage;
         }

@@ -100,7 +100,7 @@
             // 
             this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnCount = 4;
             this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
+            this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 285F));
             this.tableLayoutPanel_TeamFoldersCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel_TeamFoldersCommandGroup.Controls.Add(this.tableLayoutPanel_TeamFoldersAccessToken, 3, 0);
@@ -164,8 +164,8 @@
             // tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup
             // 
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnCount = 4;
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 232F));
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
+            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 252F));
+            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 42F));
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 87F));
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Controls.Add(this.buttonEx_TeamAuditingFilterMembers, 2, 0);
@@ -177,7 +177,7 @@
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Name = "tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup";
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.RowCount = 1;
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Size = new System.Drawing.Size(281, 52);
+            this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.Size = new System.Drawing.Size(313, 52);
             this.tableLayoutPanel_TeamFoldersMemberRoleSelectionGroup.TabIndex = 2;
             // 
             // buttonEx_TeamAuditingFilterMembers
@@ -198,17 +198,17 @@
             this.textBoxTeamAuditing.Location = new System.Drawing.Point(4, 15);
             this.textBoxTeamAuditing.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBoxTeamAuditing.Name = "textBoxTeamAuditing";
-            this.textBoxTeamAuditing.Size = new System.Drawing.Size(224, 22);
+            this.textBoxTeamAuditing.Size = new System.Drawing.Size(244, 22);
             this.textBoxTeamAuditing.TabIndex = 8;
-            this.textBoxTeamAuditing.Text = "Select Member File...";
+            this.textBoxTeamAuditing.Text = "Upload Member(s) Filter File...";
             // 
             // buttonEx_TeamAuditingLoadFromCSV
             // 
             this.buttonEx_TeamAuditingLoadFromCSV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonEx_TeamAuditingLoadFromCSV.Location = new System.Drawing.Point(236, 6);
+            this.buttonEx_TeamAuditingLoadFromCSV.Location = new System.Drawing.Point(256, 6);
             this.buttonEx_TeamAuditingLoadFromCSV.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonEx_TeamAuditingLoadFromCSV.Name = "buttonEx_TeamAuditingLoadFromCSV";
-            this.buttonEx_TeamAuditingLoadFromCSV.Size = new System.Drawing.Size(54, 40);
+            this.buttonEx_TeamAuditingLoadFromCSV.Size = new System.Drawing.Size(34, 40);
             this.buttonEx_TeamAuditingLoadFromCSV.TabIndex = 9;
             this.buttonEx_TeamAuditingLoadFromCSV.Text = "...";
             this.buttonEx_TeamAuditingLoadFromCSV.UseVisualStyleBackColor = true;
@@ -339,9 +339,9 @@
             // 
             this.label_Categories.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label_Categories.AutoSize = true;
-            this.label_Categories.Location = new System.Drawing.Point(292, 18);
+            this.label_Categories.Location = new System.Drawing.Point(324, 18);
             this.label_Categories.Name = "label_Categories";
-            this.label_Categories.Size = new System.Drawing.Size(88, 13);
+            this.label_Categories.Size = new System.Drawing.Size(56, 13);
             this.label_Categories.TabIndex = 7;
             this.label_Categories.Text = "Category:";
             // 
@@ -349,10 +349,10 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(293, 74);
+            this.label1.Location = new System.Drawing.Point(325, 74);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(86, 13);
+            this.label1.Size = new System.Drawing.Size(54, 13);
             this.label1.TabIndex = 8;
             this.label1.Text = "From:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -516,7 +516,7 @@
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 198F));
+            this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Controls.Add(this.buttonEx_TeamAuditingExportToCSV, 9, 0);
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_TeamFoldersProvisionCommandGroup.Location = new System.Drawing.Point(4, 610);
@@ -548,12 +548,12 @@
             office2010Blue1.TextColor = System.Drawing.Color.White;
             this.buttonEx_TeamAuditingExportToCSV.ColorTable = office2010Blue1;
             this.buttonEx_TeamAuditingExportToCSV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_TeamAuditingExportToCSV.Location = new System.Drawing.Point(868, 5);
+            this.buttonEx_TeamAuditingExportToCSV.Location = new System.Drawing.Point(816, 5);
             this.buttonEx_TeamAuditingExportToCSV.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonEx_TeamAuditingExportToCSV.Name = "buttonEx_TeamAuditingExportToCSV";
-            this.buttonEx_TeamAuditingExportToCSV.Size = new System.Drawing.Size(190, 46);
+            this.buttonEx_TeamAuditingExportToCSV.Size = new System.Drawing.Size(242, 46);
             this.buttonEx_TeamAuditingExportToCSV.TabIndex = 12;
-            this.buttonEx_TeamAuditingExportToCSV.Text = "Export To CSV";
+            this.buttonEx_TeamAuditingExportToCSV.Text = "Export Selected Items TO CSV";
             this.buttonEx_TeamAuditingExportToCSV.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
             this.buttonEx_TeamAuditingExportToCSV.UseVisualStyleBackColor = true;
             // 

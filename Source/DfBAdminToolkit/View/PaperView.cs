@@ -115,6 +115,8 @@
 
             //set default for radio buttons
             this.radioButton_Archive.Checked = true;
+            this.radioButton_Archive.Enabled = false;
+            this.radioButton_Permanent.Enabled = false;
         }
 
         private void InitializeOLVMembers()
@@ -238,6 +240,8 @@
             }
             this.buttonEx_ExportToCSV.Enabled = true;
             this.buttonEx_PaperDelete.Enabled = true;
+            this.radioButton_Archive.Enabled = true;
+            this.radioButton_Permanent.Enabled = true;
         }
 
         private void buttonEx_PaperDelete_Click(object sender, EventArgs e)

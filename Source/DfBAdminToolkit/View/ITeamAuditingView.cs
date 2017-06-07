@@ -26,6 +26,6 @@
 
         void RenderTeamAuditingList(List<TeamAuditingListViewItemModel> TeamAuditing);
 
-        void RenderTeamAudingFilteredMemberList(List<MemberListViewItemModel> members, List<TeamAuditingListViewItemModel> TeamAuditing);
+        List<TeamAuditingListViewItemModel> RenderTeamAuditingFilteredMemberList(List<MemberListViewItemModel> members, List<TeamAuditingListViewItemModel> TeamAuditing, List<TeamAuditingListViewItemModel> newAudit);
     }
 }

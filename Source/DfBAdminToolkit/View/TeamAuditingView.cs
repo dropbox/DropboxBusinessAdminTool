@@ -31,7 +31,9 @@
 
 		public string EventCategory { get; set; }
 
-		public enum OlvMembersIndex : int
+        List<TeamAuditingListViewItemModel> newAudit;
+
+        public enum OlvMembersIndex : int
 		{
 			Timestamp,
 			ActorType,
@@ -109,7 +111,9 @@
 			dateTimePickerTo.CustomFormat = "MM-dd-yyyy  hh:mm:ss";
 			DateTime resultTo = DateTime.Now;
 			dateTimePickerTo.Value = resultTo;
-			EndTime = resultTo;    
+			EndTime = resultTo;
+
+            buttonEx_TeamAuditingExportToCSV.Enabled = false;
 		}
 
 		private void InitializeOLVMembers()
@@ -216,10 +220,9 @@
 			}
 		}
 
-		public void RenderTeamAudingFilteredMemberList(List<MemberListViewItemModel> members, List<TeamAuditingListViewItemModel> TeamAuditing)
+		public List<TeamAuditingListViewItemModel> RenderTeamAuditingFilteredMemberList(List<MemberListViewItemModel> members, List<TeamAuditingListViewItemModel> TeamAuditing, List<TeamAuditingListViewItemModel> newAudit)
 		{
-			List<TeamAuditingListViewItemModel> newAudit = new List<TeamAuditingListViewItemModel>();
-			if (textBoxTeamAuditing.Text != "Select Member File...")
+			if (textBoxTeamAuditing.Text != "Upload Member(s) Filter File...")
 			{
 				foreach (TeamAuditingListViewItemModel item in TeamAuditing)
 				{
@@ -235,6 +238,7 @@
 					this.objectListView_TeamAuditingMembers.CheckHeaderCheckBox(olvColumnTeamAuditing_Timestamp);
 				}
 			}
+            return newAudit;
 		}
 
 		private void UncheckHeaderCheckbox(ObjectListView olv, OLVColumn col)
@@ -256,6 +260,7 @@
 			{
 				CommandLoadTeamEvents(sender, e);
 			}
+            this.buttonEx_TeamAuditingExportToCSV.Enabled = true;
 		}
 
 		private void buttonEx_TeamAuditingLoadFromCSV_Click(object sender, EventArgs e)
