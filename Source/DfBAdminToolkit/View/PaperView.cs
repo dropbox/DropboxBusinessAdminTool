@@ -109,6 +109,9 @@
             Paper = new List<PaperListViewItemModel>();
             this.buttonEx_PaperLoadPaper.Enabled = true;
             this.buttonEx_PaperDownload.Enabled = false;
+            this.textBoxPaper.Enabled = false;
+            this.buttonEx_ExportToCSV.Enabled = false;
+            this.buttonEx_PaperDelete.Enabled = false;
 
             //set default for radio buttons
             this.radioButton_Archive.Checked = true;
@@ -233,6 +236,8 @@
             {
                 CommandGetPaper(sender, e);
             }
+            this.buttonEx_ExportToCSV.Enabled = true;
+            this.buttonEx_PaperDelete.Enabled = true;
         }
 
         private void buttonEx_PaperDelete_Click(object sender, EventArgs e)
@@ -265,6 +270,7 @@
                 textBoxPaper.Text = outputFolderDlg.SelectedPath;
                 OutputFolder = outputFolderDlg.SelectedPath;
                 this.EnableDownloadButton(true);
+                this.textBoxPaper.Enabled = true;
             }
         }
 

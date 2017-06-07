@@ -145,7 +145,7 @@
                         int deletesCount = (jsonData["deletes"].Count) - 2;
                         deletes = jsonData["deletes"][deletesCount];
                     }
-                    if (jsonData["active_shared_folders_28_day"][0] != null)
+                    if (jsonData["active_shared_folders_7_day"][0] != null)
                     {
                         int activeSharedCount = (jsonData["active_shared_folders_7_day"].Count) - 2;
                         activeSharedFolders7Day = jsonData["active_shared_folders_7_day"][activeSharedCount];

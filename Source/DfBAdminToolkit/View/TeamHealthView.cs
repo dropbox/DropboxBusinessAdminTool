@@ -97,7 +97,8 @@
             chartPieDevices.Series.Clear();
             chartPieDevices.Palette = ChartColorPalette.Bright;
             chartPieDevices.BackColor = Color.Transparent;
-            chartPieDevices.Titles.Add("Active Devices: " + model.total);
+            chartPieDevices.Titles.Clear();
+            chartPieDevices.Titles.Add("Active Devices From Last 7 Days: " + model.total);
             chartPieDevices.ChartAreas[0].BackColor = Color.Transparent;
             chartPieDevices.ChartAreas[0].Area3DStyle.Enable3D = true;
             chartPieDevices.ChartAreas[0].Area3DStyle.WallWidth = 0;
@@ -202,5 +203,6 @@
         }
 
         #endregion Events
+
     }
 }
