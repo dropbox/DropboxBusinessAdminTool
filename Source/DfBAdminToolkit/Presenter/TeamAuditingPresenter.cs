@@ -127,13 +127,13 @@
                         }
                         dynamic actorType = null;
                         string actorTypeString = string.Empty;
+                        dynamic emailObj = null;
+                        string email = string.Empty;
                         if (events["actor"][".tag"] != null)
                         {
                             actorType = events["actor"][".tag"];
                             actorTypeString = actorType.Value as string;
-                        }
-                        dynamic emailObj = null;
-                        string email = string.Empty;
+                        } 
                         if (actorTypeString == "user")
                         {
                             //non team member check first
@@ -151,18 +151,27 @@
                         }
                         if (actorTypeString == "admin")
                         {
-                            emailObj = events["actor"]["app"]["display_name"];
-                            email = emailObj;
+                            if (events["actor"]["admin"]["display_name"] != null)
+                            {
+                                emailObj = events["actor"]["admin"]["display_name"];
+                                email = emailObj;
+                            }      
                         }
                         if (actorTypeString == "app")
                         {
-                            emailObj = events["actor"]["app"]["display_name"];
-                            email = emailObj;
+                            if (events["actor"]["app"]["display_name"] != null)
+                            {
+                                emailObj = events["actor"]["app"]["display_name"];
+                                email = emailObj;
+                            }   
                         }
                         if (actorTypeString == "reseller")
                         {
-                            emailObj = events["actor"]["reseller"]["reseller_name"];
-                            email = emailObj;
+                            if (events["actor"]["reseller"]["reseller_name"] != null)
+                            {
+                                emailObj = events["actor"]["reseller"]["reseller_name"];
+                                email = emailObj;
+                            }   
                         }
                         if (actorTypeString == "dropbox")
                         {
@@ -180,8 +189,11 @@
                            
                             if (contextTypeString == "team_member")
                             {
-                                contextObj = events["context"]["email"];
-                                context = contextObj.Value as string;
+                                if (events["context"]["email"] != null)
+                                {
+                                    contextObj = events["context"]["email"];
+                                    context = contextObj.Value as string;
+                                }    
                             }
                             if (contextTypeString == "non_team_member")
                             {
@@ -443,13 +455,13 @@
                             }
                             dynamic actorType = null;
                             string actorTypeString = string.Empty;
+                            dynamic emailObj = null;
+                            string email = string.Empty;
                             if (events["actor"][".tag"] != null)
                             {
                                 actorType = events["actor"][".tag"];
                                 actorTypeString = actorType.Value as string;
                             }
-                            dynamic emailObj = null;
-                            string email = string.Empty;
                             if (actorTypeString == "user")
                             {
                                 //non team member check first
@@ -467,18 +479,27 @@
                             }
                             if (actorTypeString == "admin")
                             {
-                                emailObj = events["actor"]["app"]["display_name"];
-                                email = emailObj;
+                                if (events["actor"]["admin"]["display_name"] != null)
+                                {
+                                    emailObj = events["actor"]["admin"]["display_name"];
+                                    email = emailObj;
+                                }
                             }
                             if (actorTypeString == "app")
                             {
-                                emailObj = events["actor"]["app"]["display_name"];
-                                email = emailObj;
+                                if (events["actor"]["app"]["display_name"] != null)
+                                {
+                                    emailObj = events["actor"]["app"]["display_name"];
+                                    email = emailObj;
+                                }
                             }
                             if (actorTypeString == "reseller")
                             {
-                                emailObj = events["actor"]["reseller"]["reseller_name"];
-                                email = emailObj;
+                                if (events["actor"]["reseller"]["reseller_name"] != null)
+                                {
+                                    emailObj = events["actor"]["reseller"]["reseller_name"];
+                                    email = emailObj;
+                                }
                             }
                             if (actorTypeString == "dropbox")
                             {
@@ -493,11 +514,14 @@
                             {
                                 contextTypeObj = events["context"][".tag"];
                                 contextTypeString = contextTypeObj.Value as string;
-                                
+
                                 if (contextTypeString == "team_member")
                                 {
-                                    contextObj = events["context"]["email"];
-                                    context = contextObj.Value as string;
+                                    if (events["context"]["email"] != null)
+                                    {
+                                        contextObj = events["context"]["email"];
+                                        context = contextObj.Value as string;
+                                    }
                                 }
                                 if (contextTypeString == "non_team_member")
                                 {
@@ -671,8 +695,6 @@
                             {
                                 timestamp = timestampObj;
                             }
-
-
                             if (region != "Unknown" || region != "")
                             {
                                 region = FileUtil.ConvertStateToAbbreviation(region);
@@ -722,6 +744,8 @@
                                 EventCount++;
                             }
                         }
+                        hasMore = jsonDataCont["has_more"];
+                        cursor = jsonDataCont["cursor"];
                     }
                 }
             }
@@ -871,7 +895,7 @@
                         {
                             newAudit = new List<TeamAuditingListViewItemModel>();
                             newAudit = view.RenderTeamAuditingFilteredMemberList(members, model.TeamAuditing, newAudit);
-                            presenter.UpdateProgressInfo("Filtering complete.");
+                            presenter.UpdateProgressInfo("Filtering complete. Events loaded [" + newAudit.Count + "]");
                             presenter.ActivateSpinner(false);
                             presenter.EnableControl(true);
                         }, null);
