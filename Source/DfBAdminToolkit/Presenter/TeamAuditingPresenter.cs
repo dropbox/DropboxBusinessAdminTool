@@ -467,7 +467,7 @@
                             }
                             if (actorTypeString == "admin")
                             {
-                                emailObj = events["actor"]["app"]["display_name"];
+                                emailObj = events["actor"]["admin"]["display_name"];
                                 email = emailObj;
                             }
                             if (actorTypeString == "app")
