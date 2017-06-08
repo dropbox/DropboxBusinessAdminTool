@@ -1,6 +1,6 @@
 ![Dropbox Business Admin Toolkit](https://dl.dropboxusercontent.com/u/354544978/MKTG-DEMO/static/dropbox_s.png)
 
-## Release 6.0
+## Release 6.0.1
 
 ## Features
 
