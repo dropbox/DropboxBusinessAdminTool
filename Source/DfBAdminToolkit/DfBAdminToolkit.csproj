@@ -139,10 +139,12 @@
     <Compile Include="Model\LegalModel.cs" />
     <Compile Include="Model\MainModel.cs" />
     <Compile Include="Model\MemberListViewItemModel.cs" />
+    <Compile Include="Model\PaperHeaderRecord.cs" />
     <Compile Include="Model\PaperListViewItemModel.cs" />
     <Compile Include="Model\PaperModel.cs" />
     <Compile Include="Model\ProvisioningModel.cs" />
     <Compile Include="Model\SettingsModel.cs" />
+    <Compile Include="Model\TeamAuditingHeaderMap.cs" />
     <Compile Include="Model\TeamAuditingListViewItemModel.cs" />
     <Compile Include="Model\TeamAuditingModel.cs" />
     <Compile Include="Model\TeamFoldersHeaderRecord.cs" />

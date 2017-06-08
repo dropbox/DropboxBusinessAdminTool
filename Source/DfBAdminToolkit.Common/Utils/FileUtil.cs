@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
@@ -35,25 +36,37 @@ namespace DfBAdminToolkit.Common.Utils
             return newsize;
         }
 
+        public static double FormatFileSizeTB(UInt64 size)
+        {
+            //returns in TB to 2 decimal places as a double
+            ulong limits = 1099511627776;
+            double newsize = 0;
+
+            newsize = (double)size / limits;
+            newsize = Math.Round(newsize, 2);
+
+            return newsize;
+        }
+
         public static string ConvertStateToAbbreviation(string stateName)
         {
             stateName = stateName.ToLower();
             if (string.IsNullOrEmpty(stateName))
             {
-                return null;
+                return string.Empty;
             }
             else if (stateName.Length == 2)
             {
                 if (abbrevToState.ContainsKey(stateName.ToUpper()))
                     return abbrevToState[stateName.ToUpper()];
                 else
-                    return null;
+                    return string.Empty;
             }
             else if (stateToAbbrev.ContainsKey(stateName.ToLower()))
             {
                 return stateToAbbrev[stateName.ToLower()];
             }
-            return null;
+            return string.Empty;
         }
 
         public static void EncryptAppSettings(string section)

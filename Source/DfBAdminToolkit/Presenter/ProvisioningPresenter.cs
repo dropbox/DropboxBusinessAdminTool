@@ -73,40 +73,53 @@
         protected override void CleanUp() {
         }
 
-        public bool LoadInputFile(IProvisioningModel model, IMainPresenter presenter) {
+        public bool LoadInputFile(IProvisioningModel model, IMainPresenter presenter)
+        {
             bool loaded = true;
-            try {
+            try
+            {
                 FileInfo fInfo = new FileInfo(model.InputFilePath);
                 if (fInfo.Exists) {
                     // try load.
                     model.Members.Clear();
-                    CsvConfiguration config = new CsvConfiguration() {
+                    CsvConfiguration config = new CsvConfiguration()
+                    {
                         HasHeaderRecord = false
                     };
-                    using (CsvReader reader = new CsvReader(new StreamReader(fInfo.FullName), config)) {
-                        while (reader.Read()) {
-                            try {
-                                MemberListViewItemModel lvItem = new MemberListViewItemModel() {
+                    using (CsvReader reader = new CsvReader(new StreamReader(fInfo.FullName), config))
+                    {
+                        while (reader.Read())
+                        {
+                            try
+                            {
+                                MemberListViewItemModel lvItem = new MemberListViewItemModel()
+                                {
                                     Email = reader.GetField<string>(0),
                                     FirstName = reader.GetField<string>(1),
                                     LastName = reader.GetField<string>(2),
                                     IsChecked = true
                                 };
                                 model.Members.Add(lvItem);
-                            } catch {
+                            }
+                            catch
+                            {
                                 throw new InvalidDataException(ErrorMessages.INVALID_CSV_DATA);
                             }
                         }
-                        if (model.Members.Any()) {
+                        if (model.Members.Any())
+                        {
                             loaded = true;
                         }
                     }
                 } else {
                     throw new InvalidDataException(ErrorMessages.MISSING_CSV_FILE);
                 }
-            } catch (Exception) {
+            }
+            catch (Exception)
+            {
                 // error message.
-                SyncContext.Post(delegate {
+                SyncContext.Post(delegate 
+                {
                     presenter.ShowErrorMessage(ErrorMessages.INVALID_CSV_DATA, ErrorMessages.DLG_DEFAULT_TITLE);
                     presenter.UpdateProgressInfo("");
                     presenter.ActivateSpinner(false);
@@ -174,7 +187,8 @@
             return loaded;
         }
 
-        public void UpdateSettings() {
+        public void UpdateSettings()
+        {
             OnDataChanged(this, new EventArgs());
         }
 

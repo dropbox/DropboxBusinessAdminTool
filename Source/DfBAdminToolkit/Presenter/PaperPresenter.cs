@@ -13,12 +13,12 @@
     using System.Linq;
     using System.Net;
     using System.Threading;
+    using System.Threading.Tasks;
 
     public class PaperPresenter
         : PresenterBase, IPaperPresenter
     {
-
-        IList<PaperListViewItemModel> docIds;
+    
 
         public PaperPresenter(IPaperModel model, IPaperView view)
             : base(model, view)
@@ -46,7 +46,7 @@
                 view.CommandGetPaper += OnCommandGetPaper;
                 view.CommandDownloadPaper += OnCommandDownloadPaper;
                 view.CommandDeletePaper += OnCommandDeletePaper;
-                view.CommandExportPaper += OnCommandExportPaper;
+                view.CommandExportToCSV += OnCommandExportPaper;
                 IsViewEventsWired = true;
             }
         }
@@ -59,7 +59,7 @@
                 view.CommandGetPaper -= OnCommandGetPaper;
                 view.CommandDownloadPaper -= OnCommandDownloadPaper;
                 view.CommandDeletePaper -= OnCommandDeletePaper;
-                view.CommandExportPaper -= OnCommandExportPaper;
+                view.CommandExportToCSV -= OnCommandExportPaper;
                 IsViewEventsWired = false;
             }
         }
@@ -68,46 +68,71 @@
         {
         }
 
-        public void UpdateSettings() {
+        public void UpdateSettings()
+        {
             OnDataChanged(this, new EventArgs());
         }
 
         #region REST Service
 
-        private void GetPaperDocs(IPaperModel model, IMainPresenter presenter)
+        private IList<PaperListViewItemModel> GetPaperDocs(IPaperModel model, IMainPresenter presenter, TeamListViewItemModel memberitem)
         {
             IMemberServices service = new MemberServices(ApplicationResource.BaseUrl, ApplicationResource.ApiVersion);
             service.ListPaperDocsUrl = ApplicationResource.ActionListPaperDocs;
             service.UserAgentVersion = ApplicationResource.UserAgent;
             string paperAccessToken = ApplicationResource.DefaultAccessToken;
-            docIds = new List<PaperListViewItemModel>();
-
-            IList<TeamListViewItemModel> members = SearchOwners(model, presenter);
             string memberId = string.Empty;
-            
-            foreach (var memberitem in members)
+            IList<PaperListViewItemModel> docIds = new List<PaperListViewItemModel>();
+            //foreach (var memberitem in members)
+            //{
+            if (!string.IsNullOrEmpty(memberitem.TeamId))
             {
-                if (!string.IsNullOrEmpty(memberitem.TeamId))
-                {
-                    memberId = memberitem.TeamId;
-                }
-                IDataResponse response = service.ListPaperDocs(new MemberData()
-                {
-                    MemberId = memberId
-                }, paperAccessToken);
+                memberId = memberitem.TeamId;
+            }
+            IDataResponse response = service.ListPaperDocs(new MemberData()
+            {
+                MemberId = memberId
+            }, paperAccessToken);
 
-                if (response.StatusCode == HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                if (response.Data != null)
                 {
-                    if (response.Data != null)
+                    string data = response.Data.ToString();
+                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+
+                    int resultCount = jsonData["doc_ids"].Count;
+                    for (int i = 0; i < resultCount; i++)
                     {
-                        string data = response.Data.ToString();
-                        dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+                        dynamic paperDocId = jsonData["doc_ids"][i];
 
-                        int resultCount = jsonData["doc_ids"].Count;
-                        for (int i = 0; i < resultCount; i++)
+                        // update model
+                        PaperListViewItemModel lvItem = new PaperListViewItemModel()
                         {
-                            dynamic paperDocId = jsonData["doc_ids"][i];
+                            PaperId = paperDocId,
+                            MemberId = memberId,
+                            IsChecked = true
+                        };
+                        docIds.Add(lvItem);
+                    }
+                    //if the group count is above limit - default 1000 we need to grab the cursor and call continue
+                    string cursor = jsonData["cursor"]["value"];
+                    bool hasMore = jsonData["has_more"];
+                    while (hasMore)
+                    {
+                        service.ListPaperDocsUrl = ApplicationResource.ActionListContinuationPaperDocs;
+                        IDataResponse responseCont = service.ListPaperDocs(new MemberData()
+                        {
+                            Cursor = cursor
+                        }, paperAccessToken);
 
+                        string dataCont = responseCont.Data.ToString();
+                        dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
+
+                        int resultContCount = jsonDataCont["doc_ids"].Count;
+                        for (int i = 0; i < resultContCount; i++)
+                        {
+                            dynamic paperDocId = jsonDataCont["doc_ids"][i];
                             // update model
                             PaperListViewItemModel lvItem = new PaperListViewItemModel()
                             {
@@ -117,39 +142,13 @@
                             };
                             docIds.Add(lvItem);
                         }
-                        //if the group count is above limit - default 1000 we need to grab the cursor and call continue
-                        string cursor = jsonData["cursor"]["value"];
-                        bool hasMore = jsonData["has_more"];
-                        while (hasMore)
-                        {
-                            service.ListPaperDocsUrl = ApplicationResource.ActionListContinuationPaperDocs;
-                            IDataResponse responseCont = service.ListPaperDocs(new MemberData()
-                            {
-                                Cursor = cursor
-                            }, paperAccessToken);
-
-                            string dataCont = responseCont.Data.ToString();
-                            dynamic jsonDataCont = JsonConvert.DeserializeObject<dynamic>(dataCont);
-
-                            int resultContCount = jsonDataCont["doc_ids"].Count;
-                            for (int i = 0; i < resultContCount; i++)
-                            {
-                                dynamic paperDocId = jsonDataCont["doc_ids"][i];
-                                // update model
-                                PaperListViewItemModel lvItem = new PaperListViewItemModel()
-                                {
-                                    PaperId = paperDocId,
-                                    MemberId = memberId,
-                                    IsChecked = true
-                                };
-                                docIds.Add(lvItem);
-                            }
-                            hasMore = jsonDataCont["has_more"];
-                            cursor = jsonDataCont["cursor"]["value"];
-                        }
+                        hasMore = jsonDataCont["has_more"];
+                        cursor = jsonDataCont["cursor"]["value"];
                     }
                 }
-            }   
+            }
+            return docIds;
+            //}
         }
 
         private void GetPaperMetadata(IPaperModel model, IMainPresenter presenter, string docId, string memberId)
@@ -164,86 +163,106 @@
             serviceFolderInfo.UserAgentVersion = ApplicationResource.UserAgent;
             string folderPath = @"/";
 
-            //get paper doc folder info to add to listview object
-            IDataResponse responseFolderInfo = serviceFolderInfo.GetPaperDocFolderInfo(docId, paperAccessToken, memberId);
-
-            if (responseFolderInfo.StatusCode == HttpStatusCode.OK)
+            try
             {
-                if (responseFolderInfo.Data != null)
+                if (SyncContext != null)
                 {
-                    string data = responseFolderInfo.Data.ToString();
-                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
-                    int resultCount = 0;
-
-                    if (data != "{}")
+                    SyncContext.Post(delegate
                     {
-                        resultCount = jsonData["folders"].Count;
-                        for (int i = 0; i < resultCount; i++)
+                        presenter.UpdateProgressInfo(string.Format("Retrieving Paper doc metadata for id: {0}", docId));
+                    }, null);
+                }
+                //get paper doc folder info to add to listview object
+                IDataResponse responseFolderInfo = serviceFolderInfo.GetPaperDocFolderInfo(docId, paperAccessToken, memberId);
+                if (responseFolderInfo.StatusCode == HttpStatusCode.OK)
+                {
+                    if (responseFolderInfo.Data != null)
+                    {
+                        string data = responseFolderInfo.Data.ToString();
+                        dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+                        int resultCount = 0;
+
+                        if (data != "{}")
                         {
-                            dynamic folders = jsonData["folders"][i];
-                            dynamic folderPathobj = folders["name"];
-                            string folderPathNext = folderPathobj.Value as string;
-                            folderPath = folderPath + folderPathNext + "/";
+                            resultCount = jsonData["folders"].Count;
+                            for (int i = 0; i < resultCount; i++)
+                            {
+                                dynamic folders = jsonData["folders"][i];
+                                dynamic folderPathobj = folders["name"];
+                                string folderPathNext = folderPathobj.Value as string;
+                                folderPath = folderPath + folderPathNext + "/";
+                            }
                         }
-                    }   
+                    }
+                }
+                //now get remainder of metadata
+                IDataResponse response = service.GetPaperMetadata(docId, paperAccessToken, memberId);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    if (response.Data != null)
+                    {
+                        string data = response.Data.ToString();
+                        dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
+
+                        dynamic paperDocIdobj = jsonData["doc_id"];
+                        dynamic ownerobj = jsonData["owner"];
+                        dynamic paperNameobj = jsonData["title"];
+                        dynamic createdDateobj = jsonData["created_date"];
+                        dynamic statusobj = jsonData["status"][".tag"];
+                        dynamic revisionobj = jsonData["revision"];
+                        dynamic lastUpdatedDateobj = jsonData["last_updated_date"];
+                        dynamic lastEditorobj = jsonData["last_editor"];
+
+                        string paperDocId = paperDocIdobj.Value as string;
+                        string owner = ownerobj.Value as string;
+                        string paperName = paperNameobj.Value as string;
+                        DateTime createdDate = DateTime.MinValue;
+                        if (createdDateobj != null)
+                        {
+                            createdDate = createdDateobj;
+                        }
+                        string status = statusobj.Value as string;
+                        UInt64 revision = 0;
+                        if (revisionobj != null)
+                        {
+                            revision = revisionobj;
+                        }
+                        DateTime lastUpdatedDate = DateTime.MinValue;
+                        if (lastUpdatedDateobj != null)
+                        {
+                            lastUpdatedDate = lastUpdatedDateobj;
+                        }
+                        string lastEditor = lastEditorobj.Value as string;
+
+                        // update model
+                        PaperListViewItemModel lvItem = new PaperListViewItemModel()
+                        {
+                            PaperId = paperDocId,
+                            Owner = owner,
+                            PaperName = paperName,
+                            FolderPath = folderPath,
+                            CreatedDate = createdDate,
+                            Status = status,
+                            Revision = revision,
+                            LastUpdatedDate = lastUpdatedDate,
+                            LastEditor = lastEditor,
+                            MemberId = memberId,
+                            IsChecked = true
+                        };
+                        model.Paper.Add(lvItem);
+                    }
                 }
             }
-            //now get remainder of metadata
-            IDataResponse response = service.GetPaperMetadata(docId, paperAccessToken, memberId);
-            if (response.StatusCode == HttpStatusCode.OK)
+            catch (Exception)
             {
-                if (response.Data != null)
+                // error message.
+                SyncContext.Post(delegate
                 {
-                    string data = response.Data.ToString();
-                    dynamic jsonData = JsonConvert.DeserializeObject<dynamic>(data);
-
-                    dynamic paperDocIdobj = jsonData["doc_id"];
-                    dynamic ownerobj = jsonData["owner"];
-                    dynamic paperNameobj = jsonData["title"];
-                    dynamic createdDateobj = jsonData["created_date"];
-                    dynamic statusobj = jsonData["status"][".tag"];
-                    dynamic revisionobj = jsonData["revision"];
-                    dynamic lastUpdatedDateobj = jsonData["last_updated_date"];
-                    dynamic lastEditorobj = jsonData["last_editor"];
-                    
-                    string paperDocId = paperDocIdobj.Value as string;
-                    string owner = ownerobj.Value as string;
-                    string paperName = paperNameobj.Value as string;
-                    DateTime createdDate = DateTime.MinValue;
-                    if (createdDateobj != null)
-                    {
-                        createdDate = createdDateobj;
-                    }
-                    string status = statusobj.Value as string;
-                    UInt64 revision = 0;
-                    if (revisionobj != null)
-                    {
-                        revision = revisionobj;
-                    }
-                    DateTime lastUpdatedDate = DateTime.MinValue;
-                    if (lastUpdatedDateobj != null)
-                    {
-                        lastUpdatedDate = lastUpdatedDateobj;
-                    }
-                    string lastEditor = lastEditorobj.Value as string;
-
-                    // update model
-                    PaperListViewItemModel lvItem = new PaperListViewItemModel()
-                    {
-                        PaperId = paperDocId,
-                        Owner = owner,
-                        PaperName = paperName,
-                        FolderPath = folderPath,
-                        CreatedDate = createdDate,
-                        Status = status,
-                        Revision = revision,
-                        LastUpdatedDate = lastUpdatedDate,
-                        LastEditor = lastEditor,
-                        MemberId = memberId,
-                        IsChecked = true
-                    };
-                    model.Paper.Add(lvItem);
-                }
+                    presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_GET_PAPER_METADATA, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
             }
         }
 
@@ -262,46 +281,60 @@
             servicePerm.UserAgentVersion = ApplicationResource.UserAgent;
             IServiceResponse responsePerm = null;
 
-            foreach (PaperListViewItemModel item in model.Paper)
+            try
             {
-                if (view.ArchiveSetting && item.IsChecked)
+                foreach (PaperListViewItemModel item in model.Paper)
                 {
-                    response = service.ArchivePaperDoc(item.MemberId, fileAccessToken, item.PaperId);
-
-                    if (response.StatusCode == HttpStatusCode.OK)
+                    if (view.ArchiveSetting && item.IsChecked)
                     {
-                        if (SyncContext != null)
+                        response = service.ArchivePaperDoc(item.MemberId, fileAccessToken, item.PaperId);
+
+                        if (response.StatusCode == HttpStatusCode.OK)
                         {
-                            SyncContext.Post(delegate
+                            if (SyncContext != null)
                             {
-                                presenter.UpdateProgressInfo(string.Format("Archived Paper doc [" + item.PaperName + "]"));
-                            }, null);
+                                SyncContext.Post(delegate
+                                {
+                                    presenter.UpdateProgressInfo(string.Format("Archived Paper doc [" + item.PaperName + "]"));
+                                }, null);
+                            }
+                        }
+                        else
+                        {
+                            errorMessage = ErrorMessages.FAILED_TO_DELETE_PAPER;
                         }
                     }
-                    else
+                    if (view.PermanentSetting && item.IsChecked)
                     {
-                        errorMessage = ErrorMessages.FAILED_TO_DELETE_PAPER;
-                    }
-                }
-                if (view.PermanentSetting && item.IsChecked)
-                {
-                    responsePerm = servicePerm.PermDeletePaperDoc(item.MemberId, fileAccessToken, item.PaperId);
+                        responsePerm = servicePerm.PermDeletePaperDoc(item.MemberId, fileAccessToken, item.PaperId);
 
-                    if (responsePerm.StatusCode == HttpStatusCode.OK)
-                    {
-                        if (SyncContext != null)
+                        if (responsePerm.StatusCode == HttpStatusCode.OK)
                         {
-                            SyncContext.Post(delegate
+                            if (SyncContext != null)
                             {
-                                presenter.UpdateProgressInfo(string.Format("Permanently deleted Paper doc [" + item.PaperName + "]"));
-                            }, null);
+                                SyncContext.Post(delegate
+                                {
+                                    presenter.UpdateProgressInfo(string.Format("Permanently deleted Paper doc [" + item.PaperName + "]"));
+                                }, null);
+                            }
+                        }
+                        else
+                        {
+                            errorMessage = ErrorMessages.FAILED_TO_DELETE_PAPER;
                         }
                     }
-                    else
-                    {
-                        errorMessage = ErrorMessages.FAILED_TO_DELETE_PAPER;
-                    }
                 }
+            }
+            catch (Exception)
+            {
+                // error message.
+                SyncContext.Post(delegate
+                {
+                    presenter.ShowErrorMessage(ErrorMessages.FAILED_TO_DELETE_PAPER, ErrorMessages.DLG_DEFAULT_TITLE);
+                    presenter.UpdateProgressInfo("");
+                    presenter.ActivateSpinner(false);
+                    presenter.EnableControl(true);
+                }, null);
             }
             return errorMessage;
         }
@@ -450,9 +483,7 @@
         {
             IPaperView view = base._view as IPaperView;
             IPaperModel model = base._model as IPaperModel;
-            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
-            // clear existing data first
-            model.Paper.Clear();
+            IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>(); 
 
             if (SyncContext != null) {
                 SyncContext.Post(delegate {
@@ -471,15 +502,41 @@
                     }, null);
                 }
                 else
-                {   
-                    //get Paper Ids
-                    this.GetPaperDocs(model, presenter);
+                {
+                    // clear existing data first
+                    model.Paper.Clear();
                     
-                    //get metadata from ids
-                    foreach (PaperListViewItemModel item in docIds)
+                    //get members first
+                    IList<TeamListViewItemModel> members = SearchOwners(model, presenter);
+                    //get Paper Ids
+                    Parallel.ForEach(members, (member) =>
                     {
-                        this.GetPaperMetadata(model, presenter, item.PaperId, item.MemberId);
+                        if (SyncContext != null)
+                        {
+                            SyncContext.Post(delegate
+                            {
+                                presenter.UpdateProgressInfo(string.Format("Retrieving member's Paper docs: {0}", member.Email));
+                            }, null);
+                        }
+                        IList<PaperListViewItemModel> docIds = new List<PaperListViewItemModel>();
+
+                        docIds =  this.GetPaperDocs(model, presenter, member);
+
+                        //get metadata from ids
+                        foreach (PaperListViewItemModel item in docIds)
+                        {
+                            this.GetPaperMetadata(model, presenter, item.PaperId, item.MemberId);
+                        }
+                    });
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate
+                        {
+                            presenter.UpdateProgressInfo(string.Format("Sorting Paper docs..."));
+                        }, null);
                     }
+                    // sort by email then by folder path
+                    model.Paper = model.Paper.OrderBy(s => s.Owner).ThenBy(s => s.LastUpdatedDate).ToList();
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate
@@ -621,7 +678,6 @@
                 }
                 else
                 {
-                    //this.GetPaperDocs(model, presenter);
                     if (SyncContext != null)
                     {
                         SyncContext.Post(delegate
@@ -641,17 +697,23 @@
                                     Delimiter = ",",
                                     Encoding = System.Text.Encoding.UTF8
                                 };
-                                config.RegisterClassMap(new TeamFoldersHeaderMap());
+                                config.RegisterClassMap(new PaperHeaderMap());
                                 int total = model.Paper.Count;
                                 using (CsvWriter writer = new CsvWriter(new StreamWriter(sPath), config))
                                 {
-                                    writer.WriteHeader<TeamFoldersHeaderRecord>();
+                                    writer.WriteHeader<PaperHeaderRecord>();
                                     int count = 0;
                                     foreach (var item in model.Paper)
                                     {
                                         writer.WriteField<string>(item.PaperName);
                                         writer.WriteField<string>(item.PaperId);
+                                        writer.WriteField<string>(item.FolderPath);
                                         writer.WriteField<string>(item.Status);
+                                        writer.WriteField<string>(item.Owner);
+                                        writer.WriteField<string>(item.CreatedDate.ToString());
+                                        writer.WriteField<string>(item.LastUpdatedDate.ToString());
+                                        writer.WriteField<string>(item.LastEditor);
+                                        writer.WriteField<string>(item.Revision.ToString());
                                         count++;
                                         if (SyncContext != null)
                                         {

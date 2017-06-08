@@ -15,8 +15,7 @@
         public readonly static string FAILED_TO_SUSPEND_MEMBER = "Bad request to the API, possibly due to no permissions on your app to suspend members.";
         public readonly static string FAILED_TO_UNSUSPEND_MEMBER = "Bad request to the API, possibly due to no permissions on your app to unsuspend members.";
         public readonly static string FAILED_TO_RECOVER_MEMBER = "Bad request to the API, possibly due to no permissions on your app to recover members.";
-        public readonly static string FAILED_TO_UPDATE_PROFILE = "Bad request to the API, possibly due to no permissions on your app to update profiles.";
-        public readonly static string FAILED_TO_DELETE_PAPER = "Bad request to the API, possibly due to no permissions on your app to delete Paper docs.";
+        public readonly static string FAILED_TO_UPDATE_PROFILE = "Bad request to the API, possibly due to no permissions on your app to update profiles.";  
         public readonly static string USER_NOT_FOUND = "No matching user found. The provided email does not exist on this team.";
         public readonly static string USER_NOT_IN_TEAM = "The user is not a member of this team.";
         public readonly static string EMAIL_RESERVED = "Email is already reserved for another user..";
@@ -48,5 +47,9 @@
         public readonly static string FAILED_TO_UPDATE_TEAM_FOLDER_STATUS = "Bad request to the API, possibly due to no permissions on your app to update team folder status.";
         public readonly static string EXCEL_MISSING = "Excel is not properly installed on your machine.";
         public readonly static string BAD_CONFIG = "Detected an old or incorrect config file. Click OK to correct this and relaunch the Admin Toolkit (You will to have to replace your security tokens on relaunch).";
+        public readonly static string FAILED_TO_GET_PAPER = "Bad request to the API, possibly due to no permissions on your app to get Paper docs.";
+        public readonly static string FAILED_TO_GET_PAPER_METADATA = "Bad request to the API, possibly due to no permissions on your app to get Paper doc metadata.";
+        public readonly static string FAILED_TO_DELETE_PAPER = "Bad request to the API, possibly due to no permissions on your app to delete Paper docs.";
+        public readonly static string FAILED_TO_GET_EVENTS = "Bad request to the API, possibly due to no permissions on your app to get team events.";
     }
 }

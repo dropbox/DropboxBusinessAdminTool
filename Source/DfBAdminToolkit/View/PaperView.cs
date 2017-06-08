@@ -14,7 +14,7 @@
         public event EventHandler CommandGetPaper;
         public event EventHandler CommandDeletePaper;
         public event EventHandler CommandDownloadPaper;
-        public event EventHandler CommandExportPaper;
+        public event EventHandler CommandExportToCSV;
 
         public SynchronizationContext SyncContext { get; set; }
 
@@ -72,6 +72,7 @@
                 this.buttonEx_PaperDownload.Click += buttonEx_PaperDownload_Click;
                 this.buttonEx_PaperDelete.Click += buttonEx_PaperDelete_Click;
                 this.buttonEx_PaperDownloadFolder.Click += buttonEx_PaperDownloadFolder_Click;
+                this.buttonEx_ExportToCSV.Click += buttonEx_ExportToCSV_Click;
                 this.radioButton_Archive.CheckedChanged += radioButton_Archive_CheckedChanged;
                 this.radioButton_Permanent.CheckedChanged += radioButton_Permanent_CheckedChanged;
                 this.textBoxPaper.TextChanged += TextBox_textBoxPaper_TextChanged;
@@ -108,9 +109,14 @@
             Paper = new List<PaperListViewItemModel>();
             this.buttonEx_PaperLoadPaper.Enabled = true;
             this.buttonEx_PaperDownload.Enabled = false;
+            this.textBoxPaper.Enabled = false;
+            this.buttonEx_ExportToCSV.Enabled = false;
+            this.buttonEx_PaperDelete.Enabled = false;
 
             //set default for radio buttons
             this.radioButton_Archive.Checked = true;
+            this.radioButton_Archive.Enabled = false;
+            this.radioButton_Permanent.Enabled = false;
         }
 
         private void InitializeOLVMembers()
@@ -232,6 +238,10 @@
             {
                 CommandGetPaper(sender, e);
             }
+            this.buttonEx_ExportToCSV.Enabled = true;
+            this.buttonEx_PaperDelete.Enabled = true;
+            this.radioButton_Archive.Enabled = true;
+            this.radioButton_Permanent.Enabled = true;
         }
 
         private void buttonEx_PaperDelete_Click(object sender, EventArgs e)
@@ -264,6 +274,16 @@
                 textBoxPaper.Text = outputFolderDlg.SelectedPath;
                 OutputFolder = outputFolderDlg.SelectedPath;
                 this.EnableDownloadButton(true);
+                this.textBoxPaper.Enabled = true;
+            }
+        }
+
+        private void buttonEx_ExportToCSV_Click(object sender, EventArgs e)
+        {
+            InvokeDataChanged(sender, e);
+            if (CommandExportToCSV != null)
+            {
+                CommandExportToCSV(sender, e);
             }
         }
 

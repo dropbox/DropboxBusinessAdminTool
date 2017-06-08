@@ -1,6 +1,6 @@
 ![Dropbox Business Admin Toolkit](https://dl.dropboxusercontent.com/u/354544978/MKTG-DEMO/static/dropbox_s.png)
 
-## Release 5.2.1
+## Release 6.0
 
 ## Features
 
@@ -21,6 +21,9 @@
 - [x] Export list of Devices on your Dropbox team 
 - [x] Report on all files in your Dropbox team
 - [x] Export full team member list with status
+- [x] Export team's Paper docs to CSV, as well as bulk download all Paper docs.
+- [x] Get teams auditing events, based on timestamp range as well as member filtering on the list.
+- [x] Get important team data (reporting data) in Team Health tab.
 - [x] Manage multiple Dropbox accounts using the Admin Toolkit from a single UI
 
 ## Requirements

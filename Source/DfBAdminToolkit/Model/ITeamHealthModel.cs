@@ -23,9 +23,9 @@
 
         string SharedFolders { get; set; }
 
-        string ActiveSharedFolders28Day { get; set; }
+        string ActiveSharedFolders7Day { get; set; }
 
-        string ActiveUsers28Day { get; set; }
+        string ActiveUsers7Day { get; set; }
 
         string Adds { get; set; }
 
@@ -33,6 +33,18 @@
 
         string Deletes { get; set; }
 
-        string ActiveDevices28Day { get; set; }
+        string windows { get; set; }
+
+        string macos { get; set; }
+
+        string linux { get; set; }
+
+        string ios { get; set; }
+
+        string android { get; set; }
+
+        string other { get; set; }
+
+        string total { get; set; }
     }
 }
