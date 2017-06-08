@@ -695,8 +695,6 @@
                             {
                                 timestamp = timestampObj;
                             }
-
-
                             if (region != "Unknown" || region != "")
                             {
                                 region = FileUtil.ConvertStateToAbbreviation(region);
@@ -746,6 +744,8 @@
                                 EventCount++;
                             }
                         }
+                        hasMore = jsonDataCont["has_more"];
+                        cursor = jsonDataCont["cursor"];
                     }
                 }
             }
