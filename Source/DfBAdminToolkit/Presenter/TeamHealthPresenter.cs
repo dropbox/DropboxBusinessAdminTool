@@ -2,15 +2,10 @@
 
     using Common.Services;
     using Common.Utils;
-    using CsvHelper;
-    using CsvHelper.Configuration;
     using Model;
     using View;
     using Newtonsoft.Json;
     using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
     using System.Net;
     using System.Threading;
 
@@ -132,78 +127,128 @@
                     activityStartDate = jsonData["start_date"];
                     if (jsonData["adds"][0] != null)
                     {
-                        int availableData = 1;
-                        bool complete = false;
-                        while (!complete)
+                        try
                         {
-                            if (((jsonData["adds"].Count) - availableData) != null)
+                            int availableData = 1;
+                            bool complete = false;
+                            while (!complete)
                             {
-                                int addsCount = (jsonData["adds"].Count) - availableData;
-                                adds = jsonData["adds"][addsCount];
-                                complete = true;
+                                if (((jsonData["adds"].Count) - availableData) != null)
+                                {
+                                    int addsCount = (jsonData["adds"].Count) - availableData;
+                                    if (jsonData["adds"][addsCount] != null)
+                                    {
+                                        adds = jsonData["adds"][addsCount];
+                                        complete = true;
+                                    }
+                                }
+                                availableData++;
                             }
-                            availableData++;
-                        }     
+                        }
+                        catch
+                        {
+                            adds = 0;
+                        }    
                     }
                     if (jsonData["edits"][0] != null)
                     {
-                        int availableData = 1;
-                        bool complete = false;
-                        while (!complete)
-                        {
-                            if (((jsonData["edits"].Count) - availableData) != null)
+                        try
+                        { 
+                            int availableData = 1;
+                            bool complete = false;
+                            while (!complete)
                             {
-                                int editsCount = (jsonData["edits"].Count) - availableData;
-                                edits = jsonData["edits"][editsCount];
-                                complete = true;
+                                if (((jsonData["edits"].Count) - availableData) != null)
+                                {
+                                    int editsCount = (jsonData["edits"].Count) - availableData;
+                                    if (jsonData["edits"][editsCount] != null)
+                                    {
+                                        edits = jsonData["edits"][editsCount];
+                                    }     
+                                    complete = true;
+                                }
+                                availableData++;
                             }
-                            availableData++;
-                        }   
+                        }
+                        catch
+                        {
+                            edits = 0;
+                        }
                     }
                     if (jsonData["deletes"][0] != null)
                     {
-                        int availableData = 1;
-                        bool complete = false;
-                        while (!complete)
+                        try
                         {
-                            if (((jsonData["deletes"].Count) - availableData) != null)
+                            int availableData = 1;
+                            bool complete = false;
+                            while (!complete)
                             {
-                                int deletesCount = (jsonData["deletes"].Count) - availableData;
-                                deletes = jsonData["deletes"][deletesCount];
-                                complete = true;
+                                if (((jsonData["deletes"].Count) - availableData) != null)
+                                {
+                                    int deletesCount = (jsonData["deletes"].Count) - availableData;
+                                    if (jsonData["deletes"][deletesCount] != null)
+                                    {
+                                        deletes = jsonData["deletes"][deletesCount];
+                                    }
+                                    complete = true;
+                                }
+                                availableData++;
                             }
-                            availableData++;
-                        }    
+                        }
+                        catch
+                        {
+                            deletes = 0;
+                        }
                     }
                     if (jsonData["active_shared_folders_7_day"][0] != null)
                     {
-                        int availableData = 1;
-                        bool complete = false;
-                        while (!complete)
+                        try
                         {
-                            if (((jsonData["active_shared_folders_7_day"].Count) - availableData) != null)
+                            int availableData = 1;
+                            bool complete = false;
+                            while (!complete)
                             {
-                                int activeSharedCount = (jsonData["active_shared_folders_7_day"].Count) - availableData;
-                                activeSharedFolders7Day = jsonData["active_shared_folders_7_day"][activeSharedCount];
-                                complete = true;
+                                if (((jsonData["active_shared_folders_7_day"].Count) - availableData) != null)
+                                {
+                                    int activeSharedCount = (jsonData["active_shared_folders_7_day"].Count) - availableData;
+                                    if (jsonData["active_shared_folders_7_day"][activeSharedCount] != null)
+                                    {
+                                        activeSharedFolders7Day = jsonData["active_shared_folders_7_day"][activeSharedCount];
+                                    }
+                                    complete = true;
+                                }
+                                availableData++;
                             }
-                            availableData++;
-                        }                    
+                        }
+                        catch
+                        {
+                            activeSharedFolders7Day = 0;
+                        }
                     }
                     if (jsonData["active_users_7_day"][0] != null)
                     {
-                        int availableData = 1;
-                        bool complete = false;
-                        while (!complete)
+                        try
                         {
-                            if (((jsonData["active_users_7_day"].Count) - availableData) != null)
+                            int availableData = 1;
+                            bool complete = false;
+                            while (!complete)
                             {
-                                int activeUsers = (jsonData["active_users_7_day"].Count) - availableData;
-                                activeUsers7Day = jsonData["active_users_7_day"][activeUsers];
-                                complete = true;
+                                if (((jsonData["active_users_7_day"].Count) - availableData) != null)
+                                {
+                                    int activeUsers = (jsonData["active_users_7_day"].Count) - availableData;
+                                    if (jsonData["active_users_7_day"][activeUsers] != null)
+                                    {
+                                        activeUsers7Day = jsonData["active_users_7_day"][activeUsers];
+                                    }
+                                    complete = true;
+                                }
+                                availableData++;
                             }
-                            availableData++;
-                        }      
+                        }
+                        catch
+                        {
+                            activeUsers7Day = 0;
+                        }
                     }
                     model.Adds = adds.ToString();
                     model.Edits = edits.ToString();
@@ -224,108 +269,178 @@
                     {   
                         if (jsonData["active_7_day"]["windows"][0] != null)
                         {
-                            int availableData = 1;
-                            bool complete = false;
-                            while (!complete)
+                            try
                             {
-                                if (((jsonData["active_7_day"]["windows"].Count) - availableData) != null)
+                                int availableData = 1;
+                                bool complete = false;
+                                while (!complete)
                                 {
-                                    int windowsUsers = (jsonData["active_7_day"]["windows"].Count) - availableData;
-                                    windows = jsonData["active_7_day"]["windows"][windowsUsers];
-                                    complete = true;
+                                    if (((jsonData["active_7_day"]["windows"].Count) - availableData) != null)
+                                    {
+                                        int windowsUsers = (jsonData["active_7_day"]["windows"].Count) - availableData;
+                                        if (jsonData["active_7_day"]["windows"][windowsUsers] != null)
+                                        {
+                                            windows = jsonData["active_7_day"]["windows"][windowsUsers];
+                                        }
+                                        complete = true;
+                                    }
+                                    availableData++;
                                 }
-                                availableData++;
+                            }
+                            catch
+                            {
+                                windows = 0;
                             }
                         }
                         if (jsonData["active_7_day"]["macos"][0] != null)
                         {
-                            int availableData = 1;
-                            bool complete = false;
-                            while (!complete)
+                            try
                             {
-                                if (((jsonData["active_7_day"]["macos"].Count) - availableData) != null)
+                                int availableData = 1;
+                                bool complete = false;
+                                while (!complete)
                                 {
-                                    int macosUsers = (jsonData["active_7_day"]["macos"].Count) - availableData;
-                                    macos = jsonData["active_7_day"]["macos"][macosUsers];
-                                    complete = true;
+                                    if (((jsonData["active_7_day"]["macos"].Count) - availableData) != null)
+                                    {
+                                        int macosUsers = (jsonData["active_7_day"]["macos"].Count) - availableData;
+                                        if (jsonData["active_7_day"]["macos"][macosUsers] != null)
+                                        {
+                                            macos = jsonData["active_7_day"]["macos"][macosUsers];
+                                        }
+                                        complete = true;
+                                    }
+                                    availableData++;
                                 }
-                                availableData++;
-                            }   
+                            }
+                            catch
+                            {
+                                macos = 0;
+                            }
                         }
                         if (jsonData["active_7_day"]["linux"][0] != null)
                         {
-                            int availableData = 1;
-                            bool complete = false;
-                            while (!complete)
+                            try
                             {
-                                if (((jsonData["active_7_day"]["linux"].Count) - availableData) != null)
+                                int availableData = 1;
+                                bool complete = false;
+                                while (!complete)
                                 {
-                                    int linuxUsers = (jsonData["active_7_day"]["linux"].Count) - availableData;
-                                    linux = jsonData["active_7_day"]["linux"][linuxUsers];
-                                    complete = true;
+                                    if (((jsonData["active_7_day"]["linux"].Count) - availableData) != null)
+                                    {
+                                        int linuxUsers = (jsonData["active_7_day"]["linux"].Count) - availableData;
+                                        if (jsonData["active_7_day"]["linux"][linuxUsers] != null)
+                                        {
+                                            linux = jsonData["active_7_day"]["linux"][linuxUsers];
+                                        }
+                                        complete = true;
+                                    }
+                                    availableData++;
                                 }
-                                availableData++;
-                            }        
+                            }
+                            catch
+                            {
+                                linux = 0;
+                            }
                         }
                         if (jsonData["active_7_day"]["ios"][0] != null)
                         {
-                            int availableData = 1;
-                            bool complete = false;
-                            while (!complete)
+                            try
                             {
-                                if (((jsonData["active_7_day"]["ios"].Count) - availableData) != null)
+                                int availableData = 1;
+                                bool complete = false;
+                                while (!complete)
                                 {
-                                    int iosUsers = (jsonData["active_7_day"]["ios"].Count) - availableData;
-                                    ios = jsonData["active_7_day"]["ios"][iosUsers];
-                                    complete = true;
+                                    if (((jsonData["active_7_day"]["ios"].Count) - availableData) != null)
+                                    {
+                                        int iosUsers = (jsonData["active_7_day"]["ios"].Count) - availableData;
+                                        if (jsonData["active_7_day"]["ios"][iosUsers] != null)
+                                        {
+                                            ios = jsonData["active_7_day"]["ios"][iosUsers];
+                                        }
+                                        complete = true;
+                                    }
+                                    availableData++;
                                 }
-                                availableData++;
-                            }      
+                            }
+                            catch
+                            {
+                                ios = 0;
+                            }
                         }
                         if (jsonData["active_7_day"]["android"][0] != null)
                         {
-                            int availableData = 1;
-                            bool complete = false;
-                            while (!complete)
+                            try
                             {
-                                if (((jsonData["active_7_day"]["android"].Count) - availableData) != null)
+                                int availableData = 1;
+                                bool complete = false;
+                                while (!complete)
                                 {
-                                    int androidUsers = (jsonData["active_7_day"]["android"].Count) - availableData;
-                                    android = jsonData["active_7_day"]["android"][androidUsers];
-                                    complete = true;
+                                    if (((jsonData["active_7_day"]["android"].Count) - availableData) != null)
+                                    {
+                                        int androidUsers = (jsonData["active_7_day"]["android"].Count) - availableData;
+                                        if (jsonData["active_7_day"]["android"][androidUsers] != null)
+                                        {
+                                            android = jsonData["active_7_day"]["android"][androidUsers];
+                                        }
+                                        complete = true;
+                                    }
+                                    availableData++;
                                 }
-                                availableData++;
-                            }                           
+                            }
+                            catch
+                            {
+                                android = 0;
+                            }
                         }
                         if (jsonData["active_7_day"]["other"][0] != null)
                         {
-                            int availableData = 1;
-                            bool complete = false;
-                            while (!complete)
+                            try
                             {
-                                if (((jsonData["active_7_day"]["other"].Count) - availableData) != null)
+                                int availableData = 1;
+                                bool complete = false;
+                                while (!complete)
                                 {
-                                    int otherUsers = (jsonData["active_7_day"]["other"].Count) - availableData;
-                                    other = jsonData["active_7_day"]["other"][otherUsers];
-                                    complete = true;
+                                    if (((jsonData["active_7_day"]["other"].Count) - availableData) != null)
+                                    {
+                                        int otherUsers = (jsonData["active_7_day"]["other"].Count) - availableData;
+                                        if (jsonData["active_7_day"]["other"][otherUsers] != null)
+                                        {
+                                            other = jsonData["active_7_day"]["other"][otherUsers];
+                                        }
+                                        complete = true;
+                                    }
+                                    availableData++;
                                 }
-                                availableData++;
-                            }     
+                            }
+                            catch
+                            {
+                                other = 0;
+                            }
                         }
                         if (jsonData["active_7_day"]["total"][0] != null)
                         {
-                            int availableData = 1;
-                            bool complete = false;
-                            while (!complete)
+                            try
                             {
-                                if (((jsonData["active_7_day"]["total"].Count) - availableData) != null)
+                                int availableData = 1;
+                                bool complete = false;
+                                while (!complete)
                                 {
-                                    int totalUsers = (jsonData["active_7_day"]["total"].Count) - availableData;
-                                    total = jsonData["active_7_day"]["total"][totalUsers];
-                                    complete = true;
+                                    if (((jsonData["active_7_day"]["total"].Count) - availableData) != null)
+                                    {
+                                        int totalUsers = (jsonData["active_7_day"]["total"].Count) - availableData;
+                                        if (jsonData["active_7_day"]["total"][totalUsers] != null)
+                                        {
+                                            total = jsonData["active_7_day"]["total"][totalUsers];
+                                        }
+                                        complete = true;
+                                    }
+                                    availableData++;
                                 }
-                                availableData++;
-                            }   
+                            }
+                            catch
+                            {
+                                total = 0;
+                            }
                         }
                     }
                     model.windows = windows.ToString();
@@ -354,10 +469,13 @@
                             if (((jsonData["total_usage"].Count) - availableData) != null)
                             {
                                 int totalCount = (jsonData["total_usage"].Count) - availableData;
-                                totalStorage = jsonData["total_usage"][totalCount];
-                                double totalStorageDec = FileUtil.FormatFileSizeTB(totalStorage);
-                                model.TotalUsage = totalStorageDec.ToString() + " TB";
-                                complete = true;
+                                if (jsonData["total_usage"][totalCount] != null)
+                                {
+                                    totalStorage = jsonData["total_usage"][totalCount];
+                                    double totalStorageDec = FileUtil.FormatFileSizeTB(totalStorage);
+                                    model.TotalUsage = totalStorageDec.ToString() + " TB";
+                                    complete = true;
+                                }  
                             }
                             availableData++;
                         }             
@@ -371,10 +489,13 @@
                             if (((jsonData["shared_usage"].Count) - availableData) != null)
                             {
                                 int sharedCount = (jsonData["shared_usage"].Count) - availableData;
-                                sharedStorage = jsonData["shared_usage"][sharedCount];
-                                double sharedStorageDec = FileUtil.FormatFileSizeTB(sharedStorage);
-                                model.SharedUsage = sharedStorageDec.ToString() + " TB";
-                                complete = true;
+                                if (jsonData["shared_usage"][sharedCount] != null)
+                                {
+                                    sharedStorage = jsonData["shared_usage"][sharedCount];
+                                    double sharedStorageDec = FileUtil.FormatFileSizeTB(sharedStorage);
+                                    model.SharedUsage = sharedStorageDec.ToString() + " TB";
+                                    complete = true;
+                                }  
                             }
                             availableData++;
                         } 
@@ -388,10 +509,13 @@
                             if (((jsonData["unshared_usage"].Count) - availableData) != null)
                             {
                                 int unsharedCount = (jsonData["unshared_usage"].Count) - availableData;
-                                unsharedStorage = jsonData["unshared_usage"][unsharedCount];
-                                double unsharedStorageDec = FileUtil.FormatFileSizeTB(unsharedStorage);
-                                model.UnsharedUsage = unsharedStorageDec.ToString() + " TB";
-                                complete = true;
+                                if (jsonData["unshared_usage"][unsharedCount] != null)
+                                {
+                                    unsharedStorage = jsonData["unshared_usage"][unsharedCount];
+                                    double unsharedStorageDec = FileUtil.FormatFileSizeTB(unsharedStorage);
+                                    model.UnsharedUsage = unsharedStorageDec.ToString() + " TB";
+                                    complete = true;
+                                } 
                             }
                             availableData++;
                         }       
@@ -405,9 +529,12 @@
                             if (((jsonData["shared_usage"].Count) - availableData) != null)
                             {
                                 int sharedFolderCount = (jsonData["shared_folders"].Count) - availableData;
-                                sharedFolders = jsonData["shared_folders"][sharedFolderCount];
-                                model.SharedFolders = sharedFolders.ToString();
-                                complete = true;
+                                if (jsonData["shared_folders"][sharedFolderCount] != null)
+                                {
+                                    sharedFolders = jsonData["shared_folders"][sharedFolderCount];
+                                    model.SharedFolders = sharedFolders.ToString();
+                                    complete = true;
+                                }  
                             }
                             availableData++;
                         }            

@@ -329,7 +329,7 @@
             "Team_Policies",
             "Team_Profile",
             "TFA"});
-            this.comboBox_EventCategory.Location = new System.Drawing.Point(386, 14);
+            this.comboBox_EventCategory.Location = new System.Drawing.Point(386, 11);
             this.comboBox_EventCategory.Name = "comboBox_EventCategory";
             this.comboBox_EventCategory.Size = new System.Drawing.Size(279, 21);
             this.comboBox_EventCategory.TabIndex = 6;
