@@ -112,6 +112,7 @@
 			DateTime resultTo = DateTime.Now;
 			dateTimePickerTo.Value = resultTo;
 			EndTime = resultTo;
+            TeamAuditingInputFilePath = textBoxTeamAuditing.Text;
 
             buttonEx_TeamAuditingExportToCSV.Enabled = false;
 		}
