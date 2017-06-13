@@ -18,13 +18,15 @@
 - [x] Bulk recover users, in case of accidental deletion*
 - [x] Report (and search) on Device usage associated Dropbox
 - [x] Take actions on Devices attached to your Dropbox team (remote wipe)
-- [x] Export list of Devices on your Dropbox team 
+- [x] Export list of Devices on your Dropbox team
 - [x] Report on all files in your Dropbox team
 - [x] Export full team member list with status
 - [x] Export team's Paper docs to CSV, as well as bulk download all Paper docs.
 - [x] Get teams auditing events, based on timestamp range as well as member filtering on the list.
 - [x] Get important team data (reporting data) in Team Health tab.
 - [x] Manage multiple Dropbox accounts using the Admin Toolkit from a single UI
+* if user was not downgraded, does not have basic account with same email address
+** downgraded user will retain ownership 
 
 ## Requirements
 
@@ -32,7 +34,7 @@
 
 ## Notes
 
-The Admin toolkit is a showcase of the Dropbox Business and Dropbox Core API's. It should be seen as an example of what is possible rather than an end to end solution (frankly it only scratches the surface of API capabilities). If you are a Dropbox Business or Enterprise customer please talk to your Dropbox representative about ideas for custom solutions for your Dropbox team. The custom solution development team are able to assist with advisory or full solution work to help you leverage Dropbox as a platform in your business. 
+The Admin toolkit is a showcase of the Dropbox Business and Dropbox Core API's. It should be seen as an example of what is possible rather than an end to end solution (frankly it only scratches the surface of API capabilities). If you are a Dropbox Business or Enterprise customer please talk to your Dropbox representative about ideas for custom solutions for your Dropbox team. The custom solution development team are able to assist with advisory or full solution work to help you leverage Dropbox as a platform in your business.
 
 ## Licensing
 
@@ -65,10 +67,28 @@ Team Folder Creation, Edit and Audit
 
 ![Team Folder Creation, Edit and Audit](https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1493295041794_file.png)
 
+Paper Auditing And Archival
+
+![Paper Auditing And Archival](
+https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1497378197545_image.png)
+
 Device Management:
 
 ![Device Management](https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1488487975121_file.png)
 
+Team Activity Audit:
+
+![Team Activity Audit](
+https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1497378271472_image.png)
+
+Team Health:
+
+![Team Health](
+https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1497378302276_image.png)
+
 Team Content Audit:
 
 ![Team Content Audit](https://d2mxuefqeaa7sj.cloudfront.net/s_A25C88AADBCF918F6A263368073984F44004516623541D6C3D542F12DB5943E2_1488487998622_file.png)
+
+
+
