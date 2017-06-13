@@ -25,6 +25,8 @@
 - [x] Get teams auditing events, based on timestamp range as well as member filtering on the list.
 - [x] Get important team data (reporting data) in Team Health tab.
 - [x] Manage multiple Dropbox accounts using the Admin Toolkit from a single UI
+* if user was not downgraded, does not have basic account with same email address
+** downgraded user will retain ownership 
 
 ## Requirements
 
