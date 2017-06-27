@@ -5,6 +5,7 @@ namespace DfBAdminToolkit.Model
     public class DevicesHeaderRecord
     {
         public string Created { get; set; }
+        public string Updated { get; set; }
         public string Email { get; set; }
         public string TeamId { get; set; }
         public string DeviceName { get; set; }
@@ -18,6 +19,7 @@ namespace DfBAdminToolkit.Model
         public DevicesHeaderMap()
         {
             Map(m => m.Created).Name("Created");
+            Map(m => m.Updated).Name("Updated");
             Map(m => m.Email).Name("Email");
             Map(m => m.TeamId).Name("TeamId");
             Map(m => m.DeviceName).Name("DeviceName");

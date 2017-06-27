@@ -45,6 +45,7 @@
             this.olvColumnContent_IpAddress = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnContent_ClientType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnContent_Created = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnContent_Updated = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnContent_TeamId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnContent_SessionId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tableLayoutPanel_DevicesSplitContainer = new System.Windows.Forms.TableLayoutPanel();
@@ -72,11 +73,10 @@
             this.tableLayoutPanel_DevicesMain.Controls.Add(this.tableLayoutPanel_MemberListGroup, 0, 0);
             this.tableLayoutPanel_DevicesMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_DevicesMain.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel_DevicesMain.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tableLayoutPanel_DevicesMain.Name = "tableLayoutPanel_DevicesMain";
             this.tableLayoutPanel_DevicesMain.RowCount = 1;
             this.tableLayoutPanel_DevicesMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_DevicesMain.Size = new System.Drawing.Size(722, 703);
+            this.tableLayoutPanel_DevicesMain.Size = new System.Drawing.Size(481, 457);
             this.tableLayoutPanel_DevicesMain.TabIndex = 0;
             // 
             // tableLayoutPanel_MemberListGroup
@@ -89,33 +89,32 @@
             this.tableLayoutPanel_MemberListGroup.Controls.Add(this.textBox_DeviceListAccessToken, 0, 0);
             this.tableLayoutPanel_MemberListGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel_MemberListGroup.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tableLayoutPanel_MemberListGroup.Location = new System.Drawing.Point(4, 5);
-            this.tableLayoutPanel_MemberListGroup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tableLayoutPanel_MemberListGroup.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel_MemberListGroup.Name = "tableLayoutPanel_MemberListGroup";
             this.tableLayoutPanel_MemberListGroup.RowCount = 4;
-            this.tableLayoutPanel_MemberListGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 9F));
-            this.tableLayoutPanel_MemberListGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
+            this.tableLayoutPanel_MemberListGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 6F));
+            this.tableLayoutPanel_MemberListGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel_MemberListGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_MemberListGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 58F));
-            this.tableLayoutPanel_MemberListGroup.Size = new System.Drawing.Size(714, 693);
+            this.tableLayoutPanel_MemberListGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
+            this.tableLayoutPanel_MemberListGroup.Size = new System.Drawing.Size(475, 451);
             this.tableLayoutPanel_MemberListGroup.TabIndex = 0;
             // 
             // tableLayoutPanel_DevicesFileCommandGroup
             // 
             this.tableLayoutPanel_DevicesFileCommandGroup.ColumnCount = 3;
-            this.tableLayoutPanel_DevicesFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 135F));
+            this.tableLayoutPanel_DevicesFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tableLayoutPanel_DevicesFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_DevicesFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel_DevicesFileCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel_DevicesFileCommandGroup.Controls.Add(this.buttonEx_ExportDevices, 2, 0);
             this.tableLayoutPanel_DevicesFileCommandGroup.Controls.Add(this.label_DevicesOutputDir, 0, 0);
             this.tableLayoutPanel_DevicesFileCommandGroup.Controls.Add(this.tableLayoutPanel_DevicesFileSelection, 1, 0);
             this.tableLayoutPanel_DevicesFileCommandGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_DevicesFileCommandGroup.Location = new System.Drawing.Point(2, 637);
-            this.tableLayoutPanel_DevicesFileCommandGroup.Margin = new System.Windows.Forms.Padding(2);
+            this.tableLayoutPanel_DevicesFileCommandGroup.Location = new System.Drawing.Point(1, 414);
+            this.tableLayoutPanel_DevicesFileCommandGroup.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel_DevicesFileCommandGroup.Name = "tableLayoutPanel_DevicesFileCommandGroup";
             this.tableLayoutPanel_DevicesFileCommandGroup.RowCount = 1;
             this.tableLayoutPanel_DevicesFileCommandGroup.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_DevicesFileCommandGroup.Size = new System.Drawing.Size(710, 54);
+            this.tableLayoutPanel_DevicesFileCommandGroup.Size = new System.Drawing.Size(473, 36);
             this.tableLayoutPanel_DevicesFileCommandGroup.TabIndex = 2;
             // 
             // buttonEx_ExportDevices
@@ -139,10 +138,9 @@
             office2010Blue1.TextColor = System.Drawing.Color.White;
             this.buttonEx_ExportDevices.ColorTable = office2010Blue1;
             this.buttonEx_ExportDevices.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_ExportDevices.Location = new System.Drawing.Point(564, 5);
-            this.buttonEx_ExportDevices.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonEx_ExportDevices.Location = new System.Drawing.Point(376, 3);
             this.buttonEx_ExportDevices.Name = "buttonEx_ExportDevices";
-            this.buttonEx_ExportDevices.Size = new System.Drawing.Size(142, 44);
+            this.buttonEx_ExportDevices.Size = new System.Drawing.Size(94, 30);
             this.buttonEx_ExportDevices.TabIndex = 5;
             this.buttonEx_ExportDevices.Text = "Export To CSV";
             this.buttonEx_ExportDevices.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
@@ -152,10 +150,9 @@
             // 
             this.label_DevicesOutputDir.AutoSize = true;
             this.label_DevicesOutputDir.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_DevicesOutputDir.Location = new System.Drawing.Point(4, 0);
-            this.label_DevicesOutputDir.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label_DevicesOutputDir.Location = new System.Drawing.Point(3, 0);
             this.label_DevicesOutputDir.Name = "label_DevicesOutputDir";
-            this.label_DevicesOutputDir.Size = new System.Drawing.Size(127, 54);
+            this.label_DevicesOutputDir.Size = new System.Drawing.Size(84, 36);
             this.label_DevicesOutputDir.TabIndex = 0;
             this.label_DevicesOutputDir.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -163,16 +160,16 @@
             // 
             this.tableLayoutPanel_DevicesFileSelection.ColumnCount = 2;
             this.tableLayoutPanel_DevicesFileSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_DevicesFileSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tableLayoutPanel_DevicesFileSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel_DevicesFileSelection.Controls.Add(this.buttonEx_DevicesSelectFolder, 0, 0);
             this.tableLayoutPanel_DevicesFileSelection.Controls.Add(this.textBox_DevicesOutputPath, 0, 0);
             this.tableLayoutPanel_DevicesFileSelection.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_DevicesFileSelection.Location = new System.Drawing.Point(137, 2);
-            this.tableLayoutPanel_DevicesFileSelection.Margin = new System.Windows.Forms.Padding(2);
+            this.tableLayoutPanel_DevicesFileSelection.Location = new System.Drawing.Point(91, 1);
+            this.tableLayoutPanel_DevicesFileSelection.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel_DevicesFileSelection.Name = "tableLayoutPanel_DevicesFileSelection";
             this.tableLayoutPanel_DevicesFileSelection.RowCount = 1;
             this.tableLayoutPanel_DevicesFileSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_DevicesFileSelection.Size = new System.Drawing.Size(421, 50);
+            this.tableLayoutPanel_DevicesFileSelection.Size = new System.Drawing.Size(281, 34);
             this.tableLayoutPanel_DevicesFileSelection.TabIndex = 1;
             // 
             // buttonEx_DevicesSelectFolder
@@ -196,10 +193,10 @@
             office2010White1.TextColor = System.Drawing.Color.Black;
             this.buttonEx_DevicesSelectFolder.ColorTable = office2010White1;
             this.buttonEx_DevicesSelectFolder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonEx_DevicesSelectFolder.Location = new System.Drawing.Point(335, 3);
-            this.buttonEx_DevicesSelectFolder.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.buttonEx_DevicesSelectFolder.Location = new System.Drawing.Point(224, 2);
+            this.buttonEx_DevicesSelectFolder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonEx_DevicesSelectFolder.Name = "buttonEx_DevicesSelectFolder";
-            this.buttonEx_DevicesSelectFolder.Size = new System.Drawing.Size(82, 44);
+            this.buttonEx_DevicesSelectFolder.Size = new System.Drawing.Size(54, 30);
             this.buttonEx_DevicesSelectFolder.TabIndex = 3;
             this.buttonEx_DevicesSelectFolder.Text = "Select";
             this.buttonEx_DevicesSelectFolder.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
@@ -209,11 +206,11 @@
             // 
             this.textBox_DevicesOutputPath.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_DevicesOutputPath.FileFilter = null;
-            this.textBox_DevicesOutputPath.Location = new System.Drawing.Point(4, 8);
-            this.textBox_DevicesOutputPath.Margin = new System.Windows.Forms.Padding(4, 8, 4, 5);
+            this.textBox_DevicesOutputPath.Location = new System.Drawing.Point(3, 5);
+            this.textBox_DevicesOutputPath.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.textBox_DevicesOutputPath.Name = "textBox_DevicesOutputPath";
             this.textBox_DevicesOutputPath.ReadOnly = true;
-            this.textBox_DevicesOutputPath.Size = new System.Drawing.Size(323, 22);
+            this.textBox_DevicesOutputPath.Size = new System.Drawing.Size(215, 22);
             this.textBox_DevicesOutputPath.TabIndex = 2;
             // 
             // objectListView_DeviceList
@@ -223,6 +220,7 @@
             this.objectListView_DeviceList.AllColumns.Add(this.olvColumnContent_IpAddress);
             this.objectListView_DeviceList.AllColumns.Add(this.olvColumnContent_ClientType);
             this.objectListView_DeviceList.AllColumns.Add(this.olvColumnContent_Created);
+            this.objectListView_DeviceList.AllColumns.Add(this.olvColumnContent_Updated);
             this.objectListView_DeviceList.AllColumns.Add(this.olvColumnContent_TeamId);
             this.objectListView_DeviceList.AllColumns.Add(this.olvColumnContent_SessionId);
             this.objectListView_DeviceList.CellEditUseWholeCell = false;
@@ -234,6 +232,7 @@
             this.olvColumnContent_IpAddress,
             this.olvColumnContent_ClientType,
             this.olvColumnContent_Created,
+            this.olvColumnContent_Updated,
             this.olvColumnContent_TeamId,
             this.olvColumnContent_SessionId});
             this.objectListView_DeviceList.Cursor = System.Windows.Forms.Cursors.Default;
@@ -243,14 +242,14 @@
             this.objectListView_DeviceList.HideSelection = false;
             this.objectListView_DeviceList.HighlightBackgroundColor = System.Drawing.Color.Empty;
             this.objectListView_DeviceList.HighlightForegroundColor = System.Drawing.Color.Empty;
-            this.objectListView_DeviceList.Location = new System.Drawing.Point(4, 77);
-            this.objectListView_DeviceList.Margin = new System.Windows.Forms.Padding(4, 14, 4, 5);
+            this.objectListView_DeviceList.Location = new System.Drawing.Point(3, 50);
+            this.objectListView_DeviceList.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
             this.objectListView_DeviceList.Name = "objectListView_DeviceList";
             this.objectListView_DeviceList.ShowFilterMenuOnRightClick = false;
             this.objectListView_DeviceList.ShowGroups = false;
             this.objectListView_DeviceList.ShowImagesOnSubItems = true;
             this.objectListView_DeviceList.ShowItemCountOnGroups = true;
-            this.objectListView_DeviceList.Size = new System.Drawing.Size(706, 553);
+            this.objectListView_DeviceList.Size = new System.Drawing.Size(469, 360);
             this.objectListView_DeviceList.SortGroupItemsByPrimaryColumn = false;
             this.objectListView_DeviceList.TabIndex = 0;
             this.objectListView_DeviceList.UseCellFormatEvents = true;
@@ -295,6 +294,12 @@
             this.olvColumnContent_Created.Text = "Created";
             this.olvColumnContent_Created.Width = 130;
             // 
+            // olvColumnContent_Updated
+            // 
+            this.olvColumnContent_Updated.AspectName = "Updated";
+            this.olvColumnContent_Updated.Text = "Updated";
+            this.olvColumnContent_Updated.Width = 130;
+            // 
             // olvColumnContent_TeamId
             // 
             this.olvColumnContent_TeamId.AspectName = "TeamId";
@@ -329,13 +334,12 @@
             this.tableLayoutPanel_DevicesSplitContainer.Controls.Add(this.comboFilterCriteria, 3, 1);
             this.tableLayoutPanel_DevicesSplitContainer.Controls.Add(this.checkBoxRemoteWipe, 2, 1);
             this.tableLayoutPanel_DevicesSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_DevicesSplitContainer.Location = new System.Drawing.Point(4, 14);
-            this.tableLayoutPanel_DevicesSplitContainer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tableLayoutPanel_DevicesSplitContainer.Location = new System.Drawing.Point(3, 9);
             this.tableLayoutPanel_DevicesSplitContainer.Name = "tableLayoutPanel_DevicesSplitContainer";
             this.tableLayoutPanel_DevicesSplitContainer.RowCount = 2;
-            this.tableLayoutPanel_DevicesSplitContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 6F));
+            this.tableLayoutPanel_DevicesSplitContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 4F));
             this.tableLayoutPanel_DevicesSplitContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_DevicesSplitContainer.Size = new System.Drawing.Size(706, 44);
+            this.tableLayoutPanel_DevicesSplitContainer.Size = new System.Drawing.Size(469, 29);
             this.tableLayoutPanel_DevicesSplitContainer.TabIndex = 3;
             // 
             // buttonEx_DevicesDump
@@ -343,10 +347,9 @@
             this.buttonEx_DevicesDump.ColorTable = office2010Blue1;
             this.buttonEx_DevicesDump.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonEx_DevicesDump.Enabled = false;
-            this.buttonEx_DevicesDump.Location = new System.Drawing.Point(176, 11);
-            this.buttonEx_DevicesDump.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonEx_DevicesDump.Location = new System.Drawing.Point(118, 7);
             this.buttonEx_DevicesDump.Name = "buttonEx_DevicesDump";
-            this.buttonEx_DevicesDump.Size = new System.Drawing.Size(200, 28);
+            this.buttonEx_DevicesDump.Size = new System.Drawing.Size(133, 19);
             this.buttonEx_DevicesDump.TabIndex = 8;
             this.buttonEx_DevicesDump.Text = "Remove Device(s)";
             this.buttonEx_DevicesDump.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
@@ -356,10 +359,9 @@
             // 
             this.buttonLoadDevices.ColorTable = office2010Blue1;
             this.buttonLoadDevices.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonLoadDevices.Location = new System.Drawing.Point(4, 11);
-            this.buttonLoadDevices.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonLoadDevices.Location = new System.Drawing.Point(3, 7);
             this.buttonLoadDevices.Name = "buttonLoadDevices";
-            this.buttonLoadDevices.Size = new System.Drawing.Size(164, 28);
+            this.buttonLoadDevices.Size = new System.Drawing.Size(109, 19);
             this.buttonLoadDevices.TabIndex = 5;
             this.buttonLoadDevices.Text = "Search Device(s)";
             this.buttonLoadDevices.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
@@ -368,17 +370,15 @@
             // textBoxDeviceFilter
             // 
             this.textBoxDeviceFilter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxDeviceFilter.Location = new System.Drawing.Point(402, 11);
-            this.textBoxDeviceFilter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxDeviceFilter.Location = new System.Drawing.Point(235, 7);
             this.textBoxDeviceFilter.Name = "textBoxDeviceFilter";
-            this.textBoxDeviceFilter.Size = new System.Drawing.Size(7, 22);
+            this.textBoxDeviceFilter.Size = new System.Drawing.Size(1, 22);
             this.textBoxDeviceFilter.TabIndex = 1;
             // 
             // radioIpAddress
             // 
             this.radioIpAddress.AutoSize = true;
-            this.radioIpAddress.Location = new System.Drawing.Point(417, 11);
-            this.radioIpAddress.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.radioIpAddress.Location = new System.Drawing.Point(217, 7);
             this.radioIpAddress.Name = "radioIpAddress";
             this.radioIpAddress.Size = new System.Drawing.Size(78, 17);
             this.radioIpAddress.TabIndex = 2;
@@ -389,8 +389,7 @@
             // radioDeviceFilter
             // 
             this.radioDeviceFilter.AutoSize = true;
-            this.radioDeviceFilter.Location = new System.Drawing.Point(503, 11);
-            this.radioDeviceFilter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.radioDeviceFilter.Location = new System.Drawing.Point(301, 7);
             this.radioDeviceFilter.Name = "radioDeviceFilter";
             this.radioDeviceFilter.Size = new System.Drawing.Size(90, 17);
             this.radioDeviceFilter.TabIndex = 3;
@@ -402,10 +401,9 @@
             // 
             this.buttonDeviceFilterList.ColorTable = office2010Blue1;
             this.buttonDeviceFilterList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonDeviceFilterList.Location = new System.Drawing.Point(601, 11);
-            this.buttonDeviceFilterList.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonDeviceFilterList.Location = new System.Drawing.Point(397, 7);
             this.buttonDeviceFilterList.Name = "buttonDeviceFilterList";
-            this.buttonDeviceFilterList.Size = new System.Drawing.Size(101, 28);
+            this.buttonDeviceFilterList.Size = new System.Drawing.Size(69, 19);
             this.buttonDeviceFilterList.TabIndex = 4;
             this.buttonDeviceFilterList.Text = "Filter";
             this.buttonDeviceFilterList.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_Blue;
@@ -422,39 +420,39 @@
             "NOT CONTAINS",
             "BEGINS WITH",
             "ENDS WITH"});
-            this.comboFilterCriteria.Location = new System.Drawing.Point(392, 11);
-            this.comboFilterCriteria.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.comboFilterCriteria.Location = new System.Drawing.Point(247, 7);
             this.comboFilterCriteria.Name = "comboFilterCriteria";
-            this.comboFilterCriteria.Size = new System.Drawing.Size(2, 21);
+            this.comboFilterCriteria.Size = new System.Drawing.Size(1, 21);
             this.comboFilterCriteria.TabIndex = 9;
             // 
             // checkBoxRemoteWipe
             // 
             this.checkBoxRemoteWipe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBoxRemoteWipe.AutoSize = true;
-            this.checkBoxRemoteWipe.Location = new System.Drawing.Point(383, 16);
+            this.checkBoxRemoteWipe.Location = new System.Drawing.Point(256, 8);
+            this.checkBoxRemoteWipe.Margin = new System.Windows.Forms.Padding(2);
             this.checkBoxRemoteWipe.Name = "checkBoxRemoteWipe";
-            this.checkBoxRemoteWipe.Size = new System.Drawing.Size(2, 17);
+            this.checkBoxRemoteWipe.Size = new System.Drawing.Size(1, 17);
             this.checkBoxRemoteWipe.TabIndex = 10;
             this.checkBoxRemoteWipe.Text = "Remote Wipe";
             this.checkBoxRemoteWipe.UseVisualStyleBackColor = true;
             // 
             // textBox_DeviceListAccessToken
             // 
-            this.textBox_DeviceListAccessToken.Location = new System.Drawing.Point(3, 3);
+            this.textBox_DeviceListAccessToken.Location = new System.Drawing.Point(2, 2);
+            this.textBox_DeviceListAccessToken.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_DeviceListAccessToken.Name = "textBox_DeviceListAccessToken";
-            this.textBox_DeviceListAccessToken.Size = new System.Drawing.Size(100, 22);
+            this.textBox_DeviceListAccessToken.Size = new System.Drawing.Size(68, 22);
             this.textBox_DeviceListAccessToken.TabIndex = 4;
             this.textBox_DeviceListAccessToken.Visible = false;
             // 
             // DevicesView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(722, 703);
+            this.ClientSize = new System.Drawing.Size(481, 457);
             this.Controls.Add(this.tableLayoutPanel_DevicesMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "DevicesView";
             this.Text = "DevicesView";
             this.tableLayoutPanel_DevicesMain.ResumeLayout(false);
@@ -499,5 +497,6 @@
         private Common.Component.TextBoxEx textBox_DevicesOutputPath;
         private Common.Component.ButtonEx buttonEx_DevicesSelectFolder;
         private System.Windows.Forms.CheckBox checkBoxRemoteWipe;
+        private BrightIdeasSoftware.OLVColumn olvColumnContent_Updated;
     }
 }

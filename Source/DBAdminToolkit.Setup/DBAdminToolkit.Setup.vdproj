@@ -1064,7 +1064,7 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Dropbox Business Admin Toolkit"
-        "ProductCode" = "8:{452CE1DA-DC98-4462-BF82-F383FD02A240}"
+        "ProductCode" = "8:{E22549AB-4ECB-49BE-A356-480138F16AB1}"
         "PackageCode" = "8:{183770FB-1641-40A8-96FF-677380BCB4FD}"
         "UpgradeCode" = "8:{F6F4214B-C1CB-4F20-B1B3-35E1B7262F93}"
         "AspNetVersion" = "8:4.0.30319.0"
@@ -1072,7 +1072,7 @@
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:6.0.2"
+        "ProductVersion" = "8:6.1.0"
         "Manufacturer" = "8:Dropbox Enterprise Services"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
