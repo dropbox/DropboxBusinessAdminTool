@@ -116,6 +116,7 @@
             //set default for radio buttons
             this.radioButtonSync.Checked = true;
             this.radioButton_Active.Checked = true;
+            ActiveSetting = true;
         }
 
         private void InitializeOLVMembers()
