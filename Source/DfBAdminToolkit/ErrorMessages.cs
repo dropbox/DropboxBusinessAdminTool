@@ -26,7 +26,7 @@
         public readonly static string MISSING_OUTPUT_FOLDER = "Please select output directory first.";
         public readonly static string MISSING_FILES = "Please list file(s) first. You can do this by right-click and choose [ List file(s) ] option.";
         public readonly static string CONFIRM_DELETE = "Are you sure you want to remove this list of members from your Dropbox Business account?";
-        public readonly static string CONFIRM_ARCHIVE_TEAM_FOLDERS = "**WARNING** Are you sure you want to archive the checked team folders? It will remove all folder and file member permissions and cannot be reinstated by using the Activate feature. For more information see https://www.dropbox.com/help/business/team-folder-manager/";
+        public readonly static string CONFIRM_ARCHIVE_TEAM_FOLDERS = "**WARNING** Are you sure you want to archive the selected Team Folders? Archiving selected team folders removes all members from the team folder and places the team folder in the archive tab. Archiving team Folders will remove all folder and file member permissions and permissions cannot be reinstated by the Activate feature. For more information see: https://www.dropbox.com/help/business/team-folder-manager";
         public readonly static string CONFIRM_DELETE_KEEP_ACCOUNT = "Are you sure you would like these users to keep their accounts active? Their accounts will be downgraded to Dropbox Basic and you will no longer have ownership of account data.";
         public readonly static string CONFIRM_SUSPEND = "Are you sure you want to suspend this list of members from your Dropbox Business account?";
         public readonly static string CONFIRM_UNSUSPEND = "Are you sure you want to unsuspend this list of members from your Dropbox Business account?";
