@@ -1,5 +1,5 @@
-﻿namespace DfBAdminToolkit.Presenter {
-
+﻿namespace DfBAdminToolkit.Presenter
+{
     using CsvHelper;
     using CsvHelper.Configuration;
     using Common.Services;
@@ -19,10 +19,12 @@
         public string[] ContextMenuItemText { get; set; }
 
         public DevicesPresenter(IDevicesModel model, IDevicesView view)
-            : base(model, view) {
+            : base(model, view)
+        {
         }
 
-        protected override void Initialize() {
+        protected override void Initialize()
+        {
             // read data from model
             IDevicesView view = base._view as IDevicesView;
             IDevicesModel model = base._model as IDevicesModel;
@@ -34,8 +36,10 @@
             }, null);
         }
 
-        protected override void WireViewEvents() {
-            if (!IsViewEventsWired) {
+        protected override void WireViewEvents()
+        {
+            if (!IsViewEventsWired)
+            {
                 IDevicesView view = base._view as IDevicesView;
                 view.DataChanged += OnDataChanged;
                 view.CommandGetDevices += OnCommandGetDevices;
@@ -45,8 +49,10 @@
             }
         }
 
-        protected override void UnWireViewEvents() {
-            if (IsViewEventsWired) {
+        protected override void UnWireViewEvents()
+        {
+            if (IsViewEventsWired)
+            {
                 IDevicesView view = base._view as IDevicesView;
                 view.DataChanged -= OnDataChanged;
                 view.CommandGetDevices -= OnCommandGetDevices;
@@ -56,18 +62,22 @@
             }
         }
 
-        protected override void CleanUp() {
+        protected override void CleanUp()
+        {
         }
 
-        public void UpdateSettings() {
+        public void UpdateSettings()
+        {
             OnDataChanged(this, new EventArgs());
         }
 
         #region REST Services
 
         private void DumpDevices(IDevicesModel model, IDevicesView view, IMainPresenter presenter) {
-            if (SyncContext != null) {
-                SyncContext.Post(delegate {
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate 
+                {
                     presenter.UpdateProgressInfo("Preparing Device Removal...");
                 }, null);
             }
@@ -78,11 +88,14 @@
             service.DumpDevicesUrl = ApplicationResource.ActionDumpDevices;
             service.UserAgentVersion = ApplicationResource.UserAgent;
 
-            foreach (DeviceListViewItemModel lvItem in model.DeviceList) {
+            foreach (DeviceListViewItemModel lvItem in model.DeviceList)
+            {
                 if (lvItem.IsChecked && !string.IsNullOrEmpty(lvItem.SessionId)) {
                     // notify progress
-                    if (SyncContext != null) {
-                        SyncContext.Post(delegate {
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate 
+                        {
                             presenter.UpdateProgressInfo(string.Format("Removing device: {0}/{1}", ++counter, total));
                         }, null);
                     }
@@ -186,7 +199,8 @@
                 if (model.FilterCriteria == "ENDS WITH") {
                     FilterCriteriaEndsWith = true;
                 }
-                IDataResponse response = service.FindDevices(new MemberData() {
+                IDataResponse response = service.FindDevices(new MemberData()
+                {
                     //no cursor needed on first hit
                 }, model.UserAccessToken);
 
@@ -205,6 +219,7 @@
                             for (int i = 0; i < resultCount; i++)
                             {
                                 DateTime created = new DateTime();
+                                DateTime updated = new DateTime();
                                 string teamId = string.Empty;
                                 string deviceName = string.Empty;
                                 string ipAddress = string.Empty;
@@ -226,6 +241,7 @@
                                         dynamic sessionIdObj = jsonDevicesData["devices"][i]["web_sessions"][i2]["session_id"];
                                         clientType = "Web";
                                         dynamic createdObj = jsonDevicesData["devices"][i]["web_sessions"][i2]["created"];
+                                        dynamic updatedObj = jsonDevicesData["devices"][i]["web_sessions"][i2]["updated"];
                                         if (idObj != null)
                                         {
                                             teamId = idObj.Value as string;
@@ -246,6 +262,10 @@
                                         {
                                             created = jsonDevicesData["devices"][i]["web_sessions"][i2]["created"];
                                         }
+                                        if (updatedObj != null)
+                                        {
+                                            updated = jsonDevicesData["devices"][i]["web_sessions"][i2]["updated"];
+                                        }
                                         foreach (string[] lvitem in members)
                                         {
                                             if (teamId == lvitem[0])
@@ -257,6 +277,7 @@
                                         DeviceListViewItemModel lvItem = new DeviceListViewItemModel()
                                         {
                                             Created = created,
+                                            Updated = updated,
                                             TeamId = teamId,
                                             DeviceName = deviceName,
                                             IpAddress = ipAddress,
@@ -326,6 +347,7 @@
                                         dynamic sessionIdObj = jsonDevicesData["devices"][i]["desktop_clients"][i3]["session_id"];
                                         clientType = "Desktop";
                                         dynamic createdObj = jsonDevicesData["devices"][i]["desktop_clients"][i3]["created"];
+                                        dynamic updatedObj = jsonDevicesData["devices"][i]["desktop_clients"][i3]["updated"];
                                         if (idObj != null)
                                         {
                                             teamId = idObj.Value as string;
@@ -346,6 +368,10 @@
                                         {
                                             created = jsonDevicesData["devices"][i]["desktop_clients"][i3]["created"];
                                         }
+                                        if (updatedObj != null)
+                                        {
+                                            updated = jsonDevicesData["devices"][i]["desktop_clients"][i3]["updated"];
+                                        }
                                         foreach (string[] lvitem in members)
                                         {
                                             if (teamId == lvitem[0])
@@ -357,6 +383,7 @@
                                         DeviceListViewItemModel lvItem = new DeviceListViewItemModel()
                                         {
                                             Created = created,
+                                            Updated = updated,
                                             TeamId = teamId,
                                             DeviceName = deviceName,
                                             IpAddress = ipAddress,
@@ -427,6 +454,7 @@
                                         dynamic sessionIdObj = jsonDevicesData["devices"][i]["mobile_clients"][i4]["session_id"];
                                         clientType = "Mobile";
                                         dynamic createdObj = jsonDevicesData["devices"][i]["mobile_clients"][i4]["created"];
+                                        dynamic updatedObj = jsonDevicesData["devices"][i]["mobile_clients"][i4]["updated"];
                                         if (idObj != null)
                                         {
                                             teamId = idObj.Value as string;
@@ -447,6 +475,10 @@
                                         {
                                             created = jsonDevicesData["devices"][i]["mobile_clients"][i4]["created"];
                                         }
+                                        if (updatedObj != null)
+                                        {
+                                            updated = jsonDevicesData["devices"][i]["mobile_clients"][i4]["updated"];
+                                        }
                                         foreach (string[] lvitem in members)
                                         {
                                             if (teamId == lvitem[0])
@@ -458,6 +490,7 @@
                                         DeviceListViewItemModel lvItem = new DeviceListViewItemModel()
                                         {
                                             Created = created,
+                                            Updated = updated,
                                             TeamId = teamId,
                                             DeviceName = deviceName,
                                             IpAddress = ipAddress,
@@ -541,6 +574,7 @@
                                     for (int i = 0; i < resultCountCont; i++)
                                     {
                                         DateTime created = new DateTime();
+                                        DateTime updated = new DateTime();
                                         string teamId = string.Empty;
                                         string deviceName = string.Empty;
                                         string ipAddress = string.Empty;
@@ -562,6 +596,7 @@
                                                 dynamic sessionIdObj = jsonDevicesDataCont["devices"][i]["web_sessions"][i2]["session_id"];
                                                 clientType = "Web";
                                                 dynamic createdObj = jsonDevicesDataCont["devices"][i]["web_sessions"][i2]["created"];
+                                                dynamic updatedObj = jsonDevicesDataCont["devices"][i]["web_sessions"][i2]["updated"];
                                                 if (idObj != null)
                                                 {
                                                     teamId = idObj.Value as string;
@@ -582,6 +617,10 @@
                                                 {
                                                     created = jsonDevicesDataCont["devices"][i]["web_sessions"][i2]["created"];
                                                 }
+                                                if (updatedObj != null)
+                                                {
+                                                    updated = jsonDevicesDataCont["devices"][i]["web_sessions"][i2]["updated"];
+                                                }
                                                 foreach (string[] lvitem in members)
                                                 {
                                                     if (teamId == lvitem[0])
@@ -593,6 +632,7 @@
                                                 DeviceListViewItemModel lvItem = new DeviceListViewItemModel()
                                                 {
                                                     Created = created,
+                                                    Updated = updated,
                                                     TeamId = teamId,
                                                     DeviceName = deviceName,
                                                     IpAddress = ipAddress,
@@ -663,6 +703,7 @@
                                                 dynamic sessionIdObj = jsonDevicesDataCont["devices"][i]["desktop_clients"][i3]["session_id"];
                                                 clientType = "Desktop";
                                                 dynamic createdObj = jsonDevicesDataCont["devices"][i]["desktop_clients"][i3]["created"];
+                                                dynamic updatedObj = jsonDevicesDataCont["devices"][i]["desktop_clients"][i3]["updated"];
                                                 if (idObj != null)
                                                 {
                                                     teamId = idObj.Value as string;
@@ -683,6 +724,10 @@
                                                 {
                                                     created = jsonDevicesDataCont["devices"][i]["desktop_clients"][i3]["created"];
                                                 }
+                                                if (updatedObj != null)
+                                                {
+                                                    updated = jsonDevicesDataCont["devices"][i]["desktop_clients"][i3]["updated"];
+                                                }
                                                 foreach (string[] lvitem in members)
                                                 {
                                                     if (teamId == lvitem[0])
@@ -694,6 +739,7 @@
                                                 DeviceListViewItemModel lvItem = new DeviceListViewItemModel()
                                                 {
                                                     Created = created,
+                                                    Updated = updated,
                                                     TeamId = teamId,
                                                     DeviceName = deviceName,
                                                     IpAddress = ipAddress,
@@ -763,6 +809,7 @@
                                                 dynamic sessionIdObj = jsonDevicesDataCont["devices"][i]["mobile_clients"][i4]["session_id"];
                                                 clientType = "Mobile";
                                                 dynamic createdObj = jsonDevicesDataCont["devices"][i]["mobile_clients"][i4]["created"];
+                                                dynamic updatedObj = jsonDevicesDataCont["devices"][i]["mobile_clients"][i4]["updated"];
                                                 if (idObj != null)
                                                 {
                                                     teamId = idObj.Value as string;
@@ -783,6 +830,10 @@
                                                 {
                                                     created = jsonDevicesDataCont["devices"][i]["mobile_clients"][i4]["created"];
                                                 }
+                                                if (updatedObj != null)
+                                                {
+                                                    updated = jsonDevicesDataCont["devices"][i]["mobile_clients"][i4]["updated"];
+                                                }
                                                 foreach (string[] lvitem in members)
                                                 {
                                                     if (teamId == lvitem[0])
@@ -794,6 +845,7 @@
                                                 DeviceListViewItemModel lvItem = new DeviceListViewItemModel()
                                                 {
                                                     Created = created,
+                                                    Updated = updated,
                                                     TeamId = teamId,
                                                     DeviceName = deviceName,
                                                     IpAddress = ipAddress,
@@ -869,7 +921,8 @@
 
         #region Events
 
-        private void OnDataChanged(object sender, EventArgs e) {
+        private void OnDataChanged(object sender, EventArgs e)
+        {
             IDevicesView view = base._view as IDevicesView;
             IDevicesModel model = base._model as IDevicesModel;
             PresenterBase.SetModelPropertiesFromView<IDevicesModel, IDevicesView>(
@@ -877,37 +930,48 @@
             );
         }
 
-        private void OnCommandGetDevices(object sender, EventArgs e) {
+        private void OnCommandGetDevices(object sender, EventArgs e)
+        {
             IDevicesView view = base._view as IDevicesView;
             IDevicesModel model = base._model as IDevicesModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
 
-            if (SyncContext != null) {
-                SyncContext.Post(delegate {
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate 
+                {
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
                     presenter.UpdateProgressInfo("Gathering device list...");
                 }, null);
             }
-            Thread getDevices = new Thread(() => {
-                if (string.IsNullOrEmpty(model.UserAccessToken)) {
-                    SyncContext.Post(delegate {
+            Thread getDevices = new Thread(() => 
+            {
+                if (string.IsNullOrEmpty(model.UserAccessToken))
+                {
+                    SyncContext.Post(delegate 
+                    {
                         presenter.ShowErrorMessage(ErrorMessages.INVALID_TOKEN, ErrorMessages.DLG_DEFAULT_TITLE);
                         presenter.UpdateProgressInfo("");
                         presenter.ActivateSpinner(false);
                         presenter.EnableControl(true);
                     }, null);
-                } else {
+                }
+                else
+                {
                     // perform search
                     GetDevices(model, presenter);
-                    if (SyncContext != null) {
-                        SyncContext.Post(delegate {
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate 
+                        {
                             // update result and update view.
                             PresenterBase.SetViewPropertiesFromModel<IDevicesView, IDevicesModel>(
                                 ref view, model
                             );
                             view.RenderDeviceSearchResult();
-                            if (model.DeviceList.Count > 0) {
+                            if (model.DeviceList.Count > 0)
+                            {
                                 view.EnableDeviceButton(true);
                             }
                             presenter.UpdateProgressInfo("Completed");
@@ -920,37 +984,48 @@
             getDevices.Start();
         }
 
-        private void OnCommandDumpDevices(object sender, EventArgs e) {
+        private void OnCommandDumpDevices(object sender, EventArgs e)
+        {
             IDevicesView view = base._view as IDevicesView;
             IDevicesModel model = base._model as IDevicesModel;
             IMainPresenter presenter = SimpleResolver.Instance.Get<IMainPresenter>();
 
-            if (SyncContext != null) {
-                SyncContext.Post(delegate {
+            if (SyncContext != null)
+            {
+                SyncContext.Post(delegate 
+                {
                     presenter.EnableControl(false);
                     presenter.ActivateSpinner(true);
                     presenter.UpdateProgressInfo("Processing...");
                 }, null);
             }
-            Thread dumpDevices = new Thread(() => {
-                if (string.IsNullOrEmpty(model.UserAccessToken)) {
-                    SyncContext.Post(delegate {
+            Thread dumpDevices = new Thread(() => 
+            {
+                if (string.IsNullOrEmpty(model.UserAccessToken))
+                {
+                    SyncContext.Post(delegate 
+                    {
                         presenter.ShowErrorMessage(ErrorMessages.INVALID_TOKEN, ErrorMessages.DLG_DEFAULT_TITLE);
                         presenter.UpdateProgressInfo("");
                         presenter.ActivateSpinner(false);
                         presenter.EnableControl(true);
                     }, null);
-                } else {
+                }
+                else
+                {
                     // dump devices selected
                     this.DumpDevices(model, view, presenter);
-                    if (SyncContext != null) {
-                        SyncContext.Post(delegate {
+                    if (SyncContext != null)
+                    {
+                        SyncContext.Post(delegate 
+                        {
                             // update result and update view.
                             PresenterBase.SetViewPropertiesFromModel<IDevicesView, IDevicesModel>(
                                 ref view, model
                             );
                             view.RenderDeviceSearchResult();
-                            if (model.DeviceList.Count > 0) {
+                            if (model.DeviceList.Count > 0)
+                            {
                                 view.EnableDeviceButton(true);
                             }
                             presenter.UpdateProgressInfo("Completed");
@@ -976,7 +1051,8 @@
             {
                 if (SyncContext != null)
                 {
-                    SyncContext.Post(delegate {
+                    SyncContext.Post(delegate 
+                    {
                         presenter.EnableControl(false);
                         presenter.ActivateSpinner(true);
                         presenter.UpdateProgressInfo("Preparing Report...");
@@ -986,7 +1062,8 @@
                 FileInfo fileInfo = new FileInfo(model.OutputFileName);
                 if (Directory.Exists(fileInfo.DirectoryName))
                 {
-                    Thread writeReport = new Thread(() => {
+                    Thread writeReport = new Thread(() => 
+                    {
                         CsvConfiguration config = new CsvConfiguration()
                         {
                             HasHeaderRecord = true,
@@ -1002,6 +1079,7 @@
                             {
                                 DeviceListViewItemModel lvItem = model.DeviceList[i];
                                 writer.WriteField<string>(!string.IsNullOrEmpty(lvItem.Created.ToString()) ? lvItem.Created.ToString() : "");
+                                writer.WriteField<string>(!string.IsNullOrEmpty(lvItem.Updated.ToString()) ? lvItem.Updated.ToString() : "");
                                 writer.WriteField<string>(!string.IsNullOrEmpty(lvItem.Email) ? lvItem.Email : "");
                                 writer.WriteField<string>(!string.IsNullOrEmpty(lvItem.TeamId) ? lvItem.TeamId : "");
                                 writer.WriteField<string>(!string.IsNullOrEmpty(lvItem.DeviceName) ? lvItem.DeviceName : "");
@@ -1022,7 +1100,8 @@
 
                         if (SyncContext != null)
                         {
-                            SyncContext.Post(delegate {
+                            SyncContext.Post(delegate 
+                            {
                                 presenter.EnableControl(true);
                                 presenter.ActivateSpinner(false);
                                 presenter.UpdateProgressInfo("Completed");
@@ -1040,7 +1119,8 @@
             {
                 if (SyncContext != null)
                 {
-                    SyncContext.Post(delegate {
+                    SyncContext.Post(delegate 
+                    {
                         presenter.EnableControl(true);
                         presenter.ActivateSpinner(false);
                         presenter.UpdateProgressInfo("Completed with exception: " + ex.Message);

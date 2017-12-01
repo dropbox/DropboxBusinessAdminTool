@@ -46,6 +46,7 @@
             IpAddress,
             ClientType,
             Created,
+            Updated,
             SessionId   
         }
 
@@ -130,7 +131,6 @@
             this.objectListView_DeviceList.HeaderToolTip.IsBalloon = false;
             this.objectListView_DeviceList.HotItemStyle.BackColor = Color.AliceBlue;
             this.objectListView_DeviceList.HotItemStyle.ForeColor = Color.MediumBlue;
-            //this.objectListView_Members.HotItemStyle.Overlay = new MemberInfoOverlay();
 
             TypedObjectListView<DeviceListViewItemModel> olv = new TypedObjectListView<DeviceListViewItemModel>(
                 this.objectListView_DeviceList
@@ -139,6 +139,11 @@
             olv.GetColumn((int)OlvDeviceIndex.Created).AspectGetter
                 = delegate (DeviceListViewItemModel model) {
                     return (model != null) ? model.Created : System.DateTime.MinValue;
+                };
+
+            olv.GetColumn((int)OlvDeviceIndex.Updated).AspectGetter
+                = delegate (DeviceListViewItemModel model) {
+                    return (model != null) ? model.Updated : System.DateTime.MinValue;
                 };
 
             olv.GetColumn((int)OlvDeviceIndex.Email).AspectGetter

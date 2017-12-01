@@ -112,19 +112,15 @@
                         dynamic events = jsonData["events"][i];
                         dynamic timestampObj = events["timestamp"];
 
-                        //go through event categories and compare to combobox filter
-                        int eventCategoryCount = events["event_categories"].Count;
-                        for (int i2 = 0; i2 < eventCategoryCount; i2++)
-                        {
-                            dynamic eventCategories = events["event_categories"][i2];
-                            dynamic eventCategoryObj = eventCategories[".tag"];
-                            string eventCategoryReturn = eventCategoryObj.Value as string;
+                        dynamic eventCategories = events["event_category"];
+                        dynamic eventCategoryObj = eventCategories[".tag"];
+                        string eventCategoryReturn = eventCategoryObj.Value as string;
 
-                            if (eventCategoryReturn == eventCategory.ToLower())
-                            {
-                                inCategories = true;
-                            }
+                        if (eventCategoryReturn == eventCategory.ToLower())
+                        {
+                            inCategories = true;
                         }
+
                         dynamic actorType = null;
                         string actorTypeString = string.Empty;
                         dynamic emailObj = null;

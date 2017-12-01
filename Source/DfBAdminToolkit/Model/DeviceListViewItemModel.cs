@@ -5,6 +5,7 @@
     public class DeviceListViewItemModel
         : INotifyPropertyChanged, IModel {
         private System.DateTime _created;
+        private System.DateTime _updated;
         private string _email;
         private string _teamId;
         private string _deviceName;
@@ -18,6 +19,16 @@
             set {
                 _created = value;
                 OnPropertyChanged("Created");
+            }
+        }
+
+        public System.DateTime Updated
+        {
+            get { return _updated; }
+            set
+            {
+                _updated = value;
+                OnPropertyChanged("Updated");
             }
         }
 

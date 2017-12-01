@@ -1,5 +1,5 @@
-﻿namespace DfBAdminToolkit.Presenter {
-
+﻿namespace DfBAdminToolkit.Presenter
+{
     using Common.Services;
     using Common.Utils;
     using CsvHelper;
@@ -23,7 +23,8 @@
 
         int groupCount = 0;
 
-        protected override void Initialize() {
+        protected override void Initialize()
+        {
             IGroupsView view = base._view as IGroupsView;
             IGroupsModel model = base._model as IGroupsModel;
             PresenterBase.SetViewPropertiesFromModel<IGroupsView, IGroupsModel>(
@@ -35,8 +36,10 @@
             }, null);
         }
 
-        protected override void WireViewEvents() {
-            if (!IsViewEventsWired) {
+        protected override void WireViewEvents()
+        {
+            if (!IsViewEventsWired)
+            {
                 IGroupsView view = base._view as IGroupsView;
                 view.DataChanged += OnDataChanged;
                 view.CommandGetGroups += OnCommandGetGroups;
@@ -51,8 +54,10 @@
             }
         }
 
-        protected override void UnWireViewEvents() {
-            if (IsViewEventsWired) {
+        protected override void UnWireViewEvents()
+        {
+            if (IsViewEventsWired)
+            {
                 IGroupsView view = base._view as IGroupsView;
                 view.DataChanged -= OnDataChanged;
                 view.CommandGetGroups -= OnCommandGetGroups;
@@ -67,10 +72,12 @@
             }
         }
 
-        protected override void CleanUp() {
+        protected override void CleanUp()
+        {
         }
 
-        public void UpdateSettings() {
+        public void UpdateSettings()
+        {
             OnDataChanged(this, new EventArgs());
         }
 

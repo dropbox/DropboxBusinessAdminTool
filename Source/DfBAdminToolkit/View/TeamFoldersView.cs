@@ -116,6 +116,7 @@
             //set default for radio buttons
             this.radioButtonSync.Checked = true;
             this.radioButton_Active.Checked = true;
+            ActiveSetting = true;
         }
 
         private void InitializeOLVMembers()
@@ -234,10 +235,29 @@
 
         private void buttonEx_TeamFoldersSetFolderStatus_Click(object sender, EventArgs e)
         {
-            InvokeDataChanged(sender, e);
-            if (CommandSetFolderStatus != null)
+            if (radioButton_Archived.Checked == true)
             {
-                CommandSetFolderStatus(sender, e);
+                DialogResult d = MessageBoxUtil.ShowConfirm(this, ErrorMessages.CONFIRM_ARCHIVE_TEAM_FOLDERS);
+                if (d == DialogResult.Yes)
+                {
+                    InvokeDataChanged(sender, e);
+                    if (CommandSetFolderStatus != null)
+                    {
+                        CommandSetFolderStatus(sender, e);
+                    }
+                }
+                else if (d == DialogResult.No)
+                {
+                    //do nothing
+                }
+            }
+            else
+            {
+                InvokeDataChanged(sender, e);
+                if (CommandSetFolderStatus != null)
+                {
+                    CommandSetFolderStatus(sender, e);
+                }
             }
         }
 
