@@ -97,6 +97,7 @@
                                     Email = reader.GetField<string>(0),
                                     FirstName = reader.GetField<string>(1),
                                     LastName = reader.GetField<string>(2),
+                                    PersistentId = reader.GetField<string>(3),
                                     IsChecked = true
                                 };
                                 model.Members.Add(lvItem);
@@ -154,6 +155,7 @@
                                     Email = reader.GetField<string>(0),
                                     NewEmail = reader.GetField<string>(1),
                                     NewExternalId = reader.GetField<string>(2),
+                                    PersistentId = reader.GetField<string>(3),
                                     IsChecked = true
                                 };
                                 model.Members.Add(lvItem);
@@ -211,8 +213,8 @@
                         LastName = item.LastName,
                         SendWelcomeEmail = model.SendWelcomeEmail,
                         ProvisionStatus = item.ProvisionStatus,
-                        RoleName = model.SelectedRole
-                        
+                        RoleName = model.SelectedRole,
+                        PersistentId = item.PersistentId
                     }, model.AccessToken);
 
                     if (response.StatusCode == HttpStatusCode.OK)

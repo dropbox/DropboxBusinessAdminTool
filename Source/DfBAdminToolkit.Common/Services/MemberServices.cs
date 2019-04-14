@@ -134,6 +134,7 @@
                                     new JProperty("member_email", data.Email.Trim()),
                                     new JProperty("member_given_name", data.FirstName.Trim()),
                                     new JProperty("member_surname", data.LastName.Trim()),
+                                    new JProperty("member_persistent_id", data.PersistentId.Trim()),
                                     new JProperty("send_welcome_email", data.SendWelcomeEmail),
                                     new JProperty("role",
                                         new JObject(

@@ -10,6 +10,7 @@
         private string _path;
         private string _firstName;
         private string _lastName;
+        private string _persistentId;
         private string _status;
         private string _role;
         private decimal _usage;
@@ -56,6 +57,15 @@
             set {
                 _lastName = value;
                 OnPropertyChanged("LastName");
+            }
+        }
+
+        public string PersistentId {
+            get { return _persistentId; }
+            set
+            {
+                _persistentId = value;
+                OnPropertyChanged("PersistentId");
             }
         }
 
