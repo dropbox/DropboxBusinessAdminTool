@@ -134,7 +134,6 @@
                                     new JProperty("member_email", data.Email.Trim()),
                                     new JProperty("member_given_name", data.FirstName.Trim()),
                                     new JProperty("member_surname", data.LastName.Trim()),
-                                    new JProperty("member_persistent_id", data.PersistentId.Trim()),
                                     new JProperty("send_welcome_email", data.SendWelcomeEmail),
                                     new JProperty("role",
                                         new JObject(
@@ -146,6 +145,10 @@
                         ),
                         new JProperty("force_async", false)
                     );
+                    if (data.PersistentId != null) {
+                        JObject prov = (JObject)(jsonProv["new_members"] as JArray).First;
+                        prov.Add(new JProperty("member_persistent_id", data.PersistentId.Trim()));
+                    }
                     request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;

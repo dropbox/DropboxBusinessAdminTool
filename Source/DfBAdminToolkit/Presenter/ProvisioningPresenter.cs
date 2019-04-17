@@ -97,9 +97,12 @@
                                     Email = reader.GetField<string>(0),
                                     FirstName = reader.GetField<string>(1),
                                     LastName = reader.GetField<string>(2),
-                                    PersistentId = reader.GetField<string>(3),
                                     IsChecked = true
                                 };
+                                string persistent_id;
+                                if (reader.TryGetField<string>(3, out persistent_id)) {
+                                    lvItem.PersistentId = persistent_id;
+                                }
                                 model.Members.Add(lvItem);
                             }
                             catch
@@ -155,9 +158,13 @@
                                     Email = reader.GetField<string>(0),
                                     NewEmail = reader.GetField<string>(1),
                                     NewExternalId = reader.GetField<string>(2),
-                                    PersistentId = reader.GetField<string>(3),
                                     IsChecked = true
                                 };
+                                string persistent_id;
+                                if (reader.TryGetField<string>(3, out persistent_id))
+                                {
+                                    lvItem.PersistentId = persistent_id;
+                                }
                                 model.Members.Add(lvItem);
                             }
                             catch
@@ -206,16 +213,19 @@
             {
                 foreach (MemberListViewItemModel item in model.Members.Where(m => m.IsChecked).ToList())
                 {
-                    IServiceResponse response = service.AddMember(new MemberData()
+                    MemberData memberData = new MemberData()
                     {
                         Email = item.Email,
                         FirstName = item.FirstName,
                         LastName = item.LastName,
                         SendWelcomeEmail = model.SendWelcomeEmail,
                         ProvisionStatus = item.ProvisionStatus,
-                        RoleName = model.SelectedRole,
-                        PersistentId = item.PersistentId
-                    }, model.AccessToken);
+                        RoleName = model.SelectedRole
+                    };
+                    if (item.PersistentId != null) {
+                        memberData.PersistentId = item.PersistentId;
+                    };
+                    IServiceResponse response = service.AddMember(memberData, model.AccessToken);
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
