@@ -147,7 +147,7 @@
                     );
                     if (data.PersistentId != null) {
                         JObject prov = (JObject)(jsonProv["new_members"] as JArray).First;
-                        prov.Add(new JProperty("member_persistent_id", data.PersistentId.Trim()));
+                        prov.Property("member_surname").AddAfterSelf(new JProperty("member_persistent_id", data.PersistentId.Trim()));
                     }
                     request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
                     request.RequestFormat = DataFormat.Json;
