@@ -161,10 +161,8 @@
                                     IsChecked = true
                                 };
                                 string persistent_id;
-                                if (reader.TryGetField<string>(3, out persistent_id))
-                                {
-                                    lvItem.PersistentId = persistent_id;
-                                }
+                                reader.TryGetField<string>(3, out persistent_id);
+                                lvItem.PersistentId = persistent_id;
                                 model.Members.Add(lvItem);
                             }
                             catch
