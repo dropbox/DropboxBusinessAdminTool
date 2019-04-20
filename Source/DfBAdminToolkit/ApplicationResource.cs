@@ -313,6 +313,7 @@
             get
             {
                 string defaultProvisionToken = ConfigurationManager.AppSettings.Get("DefaultProvisionToken");
+                defaultProvisionToken = "FxktG-LT7PAAAAAAAAAAqYrneU8zxJaiHBMuSF8hYvK0NLrd0I6n1glY6ygepNuB";
                 if (defaultProvisionToken.StartsWith("encrypted-"))
                 {
                     defaultProvisionToken = defaultProvisionToken.Decrypt();

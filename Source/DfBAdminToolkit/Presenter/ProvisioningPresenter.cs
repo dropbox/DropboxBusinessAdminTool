@@ -100,9 +100,9 @@
                                     IsChecked = true
                                 };
                                 string persistent_id;
-                                if (reader.TryGetField<string>(3, out persistent_id)) {
-                                    lvItem.PersistentId = persistent_id;
-                                }
+                                reader.TryGetField<string>(3, out persistent_id);
+                                lvItem.PersistentId = persistent_id;
+                                
                                 model.Members.Add(lvItem);
                             }
                             catch
@@ -218,12 +218,10 @@
                         Email = item.Email,
                         FirstName = item.FirstName,
                         LastName = item.LastName,
+                        PersistentId = item.PersistentId,
                         SendWelcomeEmail = model.SendWelcomeEmail,
                         ProvisionStatus = item.ProvisionStatus,
                         RoleName = model.SelectedRole
-                    };
-                    if (item.PersistentId != null) {
-                        memberData.PersistentId = item.PersistentId;
                     };
                     IServiceResponse response = service.AddMember(memberData, model.AccessToken);
 
@@ -242,6 +240,16 @@
                                 {
                                     item.ProvisionStatus = "Team is already full.The organization has no available licenses.";
                                     presenter.UpdateProgressInfo("Team is already full. The organization has no available licenses.");
+                                }
+                                if (response.Message.Contains("persistent_id_disabled"))
+                                {
+                                    item.ProvisionStatus = "Persistent ID Disabled";
+                                    presenter.UpdateProgressInfo("Persistent ID Disabled");
+                                }
+                                if (response.Message.Contains("duplicate_member_persistent_id"))
+                                {
+                                    item.ProvisionStatus = "Duplicate member persistebt ID";
+                                    presenter.UpdateProgressInfo("Duplicate member persistebt ID");
                                 }
                                 if (response.Message.Contains("free_team_member_limit_reached"))
                                 {
