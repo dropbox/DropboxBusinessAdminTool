@@ -145,7 +145,7 @@
                         ),
                         new JProperty("force_async", false)
                     );
-                    if (data.PersistentId != null) {
+                    if (!String.IsNullOrEmpty(data.PersistentId)) {
                         JObject prov = (JObject)(jsonProv["new_members"] as JArray).First;
                         prov.Add(new JProperty("member_persistent_id", data.PersistentId.Trim()));
                     }
