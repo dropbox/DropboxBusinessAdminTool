@@ -246,8 +246,8 @@
                                 }
                                 if (response.Message.Contains("duplicate_member_persistent_id"))
                                 {
-                                    item.ProvisionStatus = "Duplicate member persistebt ID";
-                                    presenter.UpdateProgressInfo("Duplicate member persistebt ID");
+                                    item.ProvisionStatus = "Duplicate member persistent ID";
+                                    presenter.UpdateProgressInfo("Duplicate member persistent ID");
                                 }
                                 if (response.Message.Contains("free_team_member_limit_reached"))
                                 {
