@@ -145,6 +145,10 @@
                         ),
                         new JProperty("force_async", false)
                     );
+                    if (!String.IsNullOrEmpty(data.PersistentId)) {
+                        JObject prov = (JObject)(jsonProv["new_members"] as JArray).First;
+                        prov.Add(new JProperty("member_persistent_id", data.PersistentId.Trim()));
+                    }
                     request.AddParameter("application/json", jsonProv, ParameterType.RequestBody);
                     request.RequestFormat = DataFormat.Json;
                     client.UserAgent = UserAgentVersion;

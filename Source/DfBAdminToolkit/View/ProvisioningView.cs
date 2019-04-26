@@ -79,7 +79,9 @@
             this.olvColumnProvisioning_Usage.IsVisible = false;
             olvColumnProvisioning_NewEmail.IsVisible = false;
             olvColumnProvisioning_NewExternalId.IsVisible = false;
+            olvColumnProvisionin_PersistentId.IsVisible = false;
             olvColumnProvisioning_Status.IsVisible = false;
+
             this.objectListView_ProvisioningMembers.RebuildColumns();
         }
 
@@ -522,6 +524,7 @@
             olvColumnProvisioning_NewEmail.IsVisible = false;
             olvColumnProvisioning_NewExternalId.IsVisible = false;
             olvColumnProvisioning_Status.IsVisible = true;
+            olvColumnProvisionin_PersistentId.IsVisible = true;
             this.objectListView_ProvisioningMembers.RebuildColumns();
 
             if (CommandLoadInputFile != null)
@@ -540,6 +543,7 @@
             olvColumnProvisioning_NewEmail.IsVisible = true;
             olvColumnProvisioning_NewExternalId.IsVisible = true;
             olvColumnProvisioning_Status.IsVisible = true;
+            olvColumnProvisionin_PersistentId.IsVisible = true;
             this.objectListView_ProvisioningMembers.RebuildColumns();
             if (CommandLoadUpdateInputFile != null)
             {
