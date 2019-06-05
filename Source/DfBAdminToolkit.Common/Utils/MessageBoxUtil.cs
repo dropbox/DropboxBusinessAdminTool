@@ -17,6 +17,19 @@
             );
         }
 
+        public static void ShowWarning(
+            IWin32Window owner,
+            string msg)
+        {
+            MessageBoxEx.Show(
+                owner,
+                msg,
+                "Warning",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning
+            );
+        }
+
         public static DialogResult ShowConfirm(
             IWin32Window owner,
             string msg) {
