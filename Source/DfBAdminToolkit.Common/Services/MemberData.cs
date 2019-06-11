@@ -11,6 +11,8 @@
 
         public string LastName { get; set; }
 
+        public string PersistentId { get; set; }
+
         public bool SendWelcomeEmail { get; set; }
 
         public string MemberId { get; set; }

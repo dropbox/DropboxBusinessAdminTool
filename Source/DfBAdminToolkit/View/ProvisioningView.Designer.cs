@@ -59,6 +59,7 @@
             this.olvColumnProvisioning_Usage = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_JoinedOn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_NewEmail = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnProvisionin_PersistentId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_NewExternalId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProvisioning_Status = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -377,6 +378,7 @@
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_Usage);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_JoinedOn);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_NewEmail);
+            this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisionin_PersistentId);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_NewExternalId);
             this.objectListView_ProvisioningMembers.AllColumns.Add(this.olvColumnProvisioning_Status);
             this.objectListView_ProvisioningMembers.CellEditUseWholeCell = false;
@@ -390,6 +392,7 @@
             this.olvColumnProvisioning_Usage,
             this.olvColumnProvisioning_JoinedOn,
             this.olvColumnProvisioning_NewEmail,
+            this.olvColumnProvisionin_PersistentId,
             this.olvColumnProvisioning_NewExternalId,
             this.olvColumnProvisioning_Status});
             this.objectListView_ProvisioningMembers.Cursor = System.Windows.Forms.Cursors.Default;
@@ -461,6 +464,12 @@
             this.olvColumnProvisioning_NewEmail.AspectName = "NewEmail";
             this.olvColumnProvisioning_NewEmail.Text = "New Email";
             this.olvColumnProvisioning_NewEmail.Width = 120;
+            // 
+            // olvColumnProvisionin_PersistentId
+            // 
+            this.olvColumnProvisionin_PersistentId.AspectName = "PersistentId";
+            this.olvColumnProvisionin_PersistentId.Text = "Persistent Id";
+            this.olvColumnProvisionin_PersistentId.Width = 120;
             // 
             // olvColumnProvisioning_NewExternalId
             // 
@@ -746,6 +755,7 @@
         private ButtonEx buttonEx_ProvisioningSuspend;
         private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_NewEmail;
         private BrightIdeasSoftware.OLVColumn olvColumnProvisioning_NewExternalId;
+        private BrightIdeasSoftware.OLVColumn olvColumnProvisionin_PersistentId;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.RadioButton radioBulkProvisioning;
         private System.Windows.Forms.RadioButton radioBulkSuspend;

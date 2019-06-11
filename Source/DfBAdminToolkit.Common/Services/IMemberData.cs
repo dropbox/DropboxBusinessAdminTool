@@ -10,6 +10,8 @@
 
         string LastName { get; set; }
 
+        string PersistentId { get; set; }
+
         bool SendWelcomeEmail { get; set; }
 
         string MemberId { get; set; }
