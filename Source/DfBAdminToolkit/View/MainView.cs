@@ -95,7 +95,7 @@
             string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             this.Text = "Dropbox Business Admin Toolkit v" + version;
             // warn user that they may harm their dropbox account
-            ShowWarningMessage("This toolkit could harm your dropbox account, please understand what you are doing");
+            ShowWarningMessage(WarningMessages.WARN_USER_WHEN_OPENING_TOOLKIT);
             //token not configured yet
             bool checkToken = FileUtil.TokenCheck();
             if (!checkToken)

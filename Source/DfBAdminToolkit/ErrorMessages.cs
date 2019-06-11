@@ -53,4 +53,9 @@
         public readonly static string FAILED_TO_DELETE_PAPER = "Bad request to the API, possibly due to no permissions on your app to delete Paper docs.";
         public readonly static string FAILED_TO_GET_EVENTS = "Bad request to the API, possibly due to no permissions on your app to get team events.";
     }
+
+    public static class WarningMessages
+    {
+        public readonly static string WARN_USER_WHEN_OPENING_TOOLKIT = "This toolkit could harm your personal account or team account, please understand the risk before using it.";
+    }
 }
