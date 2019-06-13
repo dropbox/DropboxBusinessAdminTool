@@ -56,6 +56,6 @@
 
     public static class WarningMessages
     {
-        public readonly static string WARN_USER_WHEN_OPENING_TOOLKIT = "This toolkit could harm your personal account or team account, please understand the risk before using it.";
+        public readonly static string WARN_USER_WHEN_OPENING_TOOLKIT = "The Dropbox Administrator's Toolkit is provided on an as is basis and is not supported by Dropbox. Use of the Toolkit can result in loss of data or unintended access to data. Dropbox may not be able to undo problems caused by use of the Dropbox Administrators Toolkit. Use of this tool is at your own risk.";
     }
 }
