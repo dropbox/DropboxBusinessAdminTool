@@ -94,6 +94,8 @@
             //get build version and update title bar for basic version
             string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             this.Text = "Dropbox Business Admin Toolkit v" + version;
+            // warn user that they may harm their dropbox account
+            ShowWarningMessage(WarningMessages.WARN_USER_WHEN_OPENING_TOOLKIT);
             //token not configured yet
             bool checkToken = FileUtil.TokenCheck();
             if (!checkToken)
@@ -480,6 +482,11 @@
 
         public void ShowInfoMessage(string message) {
             MessageBoxUtil.ShowInfo(this, message);
+        }
+
+        public void ShowWarningMessage(string message)
+        {
+            MessageBoxUtil.ShowWarning(this, message);
         }
 
         #endregion Message box
