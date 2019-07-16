@@ -118,13 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="txtLegalText.Text" xml:space="preserve">
-    <value>DROPBOX SOFTWARE LICENSE TERMS
+    <value>The compiled version of the Dropbox Administrator's Toolkit (the "Toolkit") is provided under the Apache License 2.0. A copy of the Apache License 2.0 is available with the other Dropbox business scripts and utilities at: https://github.com/dropbox/DropboxBusinessScripts/blob/master/LICENSE. 
 
-The Dropbox Business Admin toolkit is offered 'as is' with no official Dropbox support. 
+The source code for the Toolkit is hosted at https://github.com/dropbox/DropboxBusinessAdminTool
 
-This compiled version of the tool is covered by the apache licence. The source code of the software is hosted at https://github.com/dropbox/DropboxBusinessScripts.
-
-A copy of the apache licence is available  with the other Dropbox business scripts and utilities  at: https://github.com/dropbox/DropboxBusinessScripts/blob/master/LICENSE.</value>
+The Toolkit is not supported by Dropbox or any Dropbox support team. You are responsible for ensuring you have adequate technical knowledge to use the Toolkit. Use of the Toolkit can result in loss of data or unintended access to data. Dropbox may not be able to undo changes made to your Dropbox Business account or files using the Toolkit. THE TOOLKIT IS PROVIDED "AS-IS"—USE AT YOUR OWN RISK. DROPBOX MAKES NO WARRANTY OF ANY KIND, WHETHER EXPRESS, IMPLIED, STATUTORY OR OTHERWISE. TO THE FULLEST EXTENT PERMITTED BY LAW, DROPBOX WILL HAVE NO LIABILITY OR OBLIGATIONS ARISING OUT OF OR IN CONNECTION WITH THE TOOLKIT.</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
