@@ -40,7 +40,7 @@
             this.textBox_PaperAccessToken = new DfBAdminToolkit.Common.Component.TextBoxEx(this.components);
             this.tableLayoutPanel_PaperLoadGroup = new System.Windows.Forms.TableLayoutPanel();
             this.buttonEx_PaperLoadPaper = new DfBAdminToolkit.Common.Component.ButtonEx();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.legacyWarningLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.legacyWarningLabel = new System.Windows.Forms.Label();
             this.legacyWarningLink = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel_PaperMembersGroup = new System.Windows.Forms.TableLayoutPanel();
@@ -66,7 +66,7 @@
             this.tableLayoutPanelPaperCommandGroup.SuspendLayout();
             this.tableLayoutPanel_PaperAccessToken.SuspendLayout();
             this.tableLayoutPanel_PaperLoadGroup.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
+            this.legacyWarningLayoutPanel.SuspendLayout();
             this.tableLayoutPanel_PaperMembersGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView_PaperMembers)).BeginInit();
             this.tableLayoutPanel_PaperCommandGroup.SuspendLayout();
@@ -100,7 +100,7 @@
             this.tableLayoutPanelPaperCommandGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelPaperCommandGroup.Controls.Add(this.tableLayoutPanel_PaperAccessToken, 2, 0);
             this.tableLayoutPanelPaperCommandGroup.Controls.Add(this.tableLayoutPanel_PaperLoadGroup, 2, 1);
-            this.tableLayoutPanelPaperCommandGroup.Controls.Add(this.flowLayoutPanel1, 0, 0);
+            this.tableLayoutPanelPaperCommandGroup.Controls.Add(this.legacyWarningLayoutPanel, 0, 0);
             this.tableLayoutPanelPaperCommandGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelPaperCommandGroup.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanelPaperCommandGroup.Name = "tableLayoutPanelPaperCommandGroup";
@@ -193,18 +193,18 @@
             this.buttonEx_PaperLoadPaper.Theme = DfBAdminToolkit.Common.Component.Theme.MSOffice2010_White;
             this.buttonEx_PaperLoadPaper.UseVisualStyleBackColor = true;
             // 
-            // flowLayoutPanel1
+            // legacyWarningLayoutPanel
             // 
-            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.legacyWarningLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel1.Controls.Add(this.legacyWarningLabel);
-            this.flowLayoutPanel1.Controls.Add(this.legacyWarningLink);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.tableLayoutPanelPaperCommandGroup.SetRowSpan(this.flowLayoutPanel1, 2);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(493, 58);
-            this.flowLayoutPanel1.TabIndex = 4;
+            this.legacyWarningLayoutPanel.Controls.Add(this.legacyWarningLabel);
+            this.legacyWarningLayoutPanel.Controls.Add(this.legacyWarningLink);
+            this.legacyWarningLayoutPanel.Location = new System.Drawing.Point(3, 3);
+            this.legacyWarningLayoutPanel.Name = "legacyWarningLayoutPanel";
+            this.tableLayoutPanelPaperCommandGroup.SetRowSpan(this.legacyWarningLayoutPanel, 2);
+            this.legacyWarningLayoutPanel.Size = new System.Drawing.Size(493, 58);
+            this.legacyWarningLayoutPanel.TabIndex = 4;
             // 
             // legacyWarningLabel
             // 
@@ -487,8 +487,8 @@
             this.tableLayoutPanel_PaperAccessToken.ResumeLayout(false);
             this.tableLayoutPanel_PaperAccessToken.PerformLayout();
             this.tableLayoutPanel_PaperLoadGroup.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
+            this.legacyWarningLayoutPanel.ResumeLayout(false);
+            this.legacyWarningLayoutPanel.PerformLayout();
             this.tableLayoutPanel_PaperMembersGroup.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectListView_PaperMembers)).EndInit();
             this.tableLayoutPanel_PaperCommandGroup.ResumeLayout(false);
@@ -525,7 +525,7 @@
         private System.Windows.Forms.TextBox textBoxPaper;
         private BrightIdeasSoftware.OLVColumn olvColumnPaper_FolderPath;
         private ButtonEx buttonEx_ExportToCSV;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel legacyWarningLayoutPanel;
         private System.Windows.Forms.Label legacyWarningLabel;
         private System.Windows.Forms.LinkLabel legacyWarningLink;
     }
