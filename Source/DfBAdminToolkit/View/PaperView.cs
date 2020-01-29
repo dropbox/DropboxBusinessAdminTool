@@ -374,5 +374,10 @@
         }
 
         #endregion Events
+
+        private void legacyWarningLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.dropbox.com/lp/developers/reference/paper-migration-guide");
+        }
     }
 }

@@ -185,7 +185,7 @@
             _tabPages.Add(new TabPage()
             {
                 Name = "tabPage_Paper",
-                Text = "Paper",
+                Text = "Legacy Paper",
                 Dock = DockStyle.Fill,
                 Padding = new Padding(5, 3, 5, 3),
                 UseVisualStyleBackColor = true
