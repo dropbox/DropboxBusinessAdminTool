@@ -204,8 +204,9 @@
                             dynamic joinedOn = string.Empty;
                             dynamic accessType = string.Empty;
                             
-                            //You can only get member profile info from user managed groups
-                            if (groupType == "user_managed")
+                            // System_managed groups may not list all members
+                            // Check to see if the object has a nonzero/null member list
+                            if ((groupInfo["members"]?.Count ?? 0) != 0)
                             {
                                 int memberCount = groupInfo["members"].Count;
                                 for (int m = 0; m < memberCount; m++)
@@ -235,8 +236,7 @@
                                     model.GroupInfo.Add(lvItem1);
                                 }
                             }
-                            //if user managed group has no members we output 1 line for exported CSV so we can see group ID etc if needed
-                            if (groupType == "user_managed" && groupInfo["members"].Count == 0)
+                            else
                             {
                                 // update model
                                 GroupInfoItemModel lvItem2 = new GroupInfoItemModel()
@@ -246,17 +246,6 @@
                                     GroupType = groupType
                                 };
                                 model.GroupInfo.Add(lvItem2);
-                            }
-                            if (groupType != "user_managed")
-                            {
-                                // update model
-                                GroupInfoItemModel lvItem = new GroupInfoItemModel()
-                                {
-                                    GroupName = groupName,
-                                    GroupId = groupId,
-                                    GroupType = groupType
-                                };
-                                model.GroupInfo.Add(lvItem);
                             }
                         }
                     }
